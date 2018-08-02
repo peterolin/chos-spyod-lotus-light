@@ -16,7 +16,7 @@ This first rough draft of an eBook is an independent unauthorized and unoffial e
 - One prayer and/or some page(s) was lost in the edit. Need to investigae what is lost, and add it back in.
 - There are still some unnecessary page-breaks
 
-## Improvements
+## Planned Improvements
 - More easy jump links for more of the common practices at Gomdes worldwide and Ka-Nying monastery
 - Add a section of common prayers that are not in the chos-spyod, but often used
 - This has only been tested on iBooks on MacOs and on iPhone.
@@ -24,6 +24,8 @@ This first rough draft of an eBook is an independent unauthorized and unoffial e
 - Adjust (or remove) color schemes
 - Other changes after feedback from users.
 - Add an English language (Latin characters) table of contents for quick access/reading for beginners of Tibetan language.
+
+Please let me know of any issues by emailing me at peter.olin@gmail.com
 
 
 
