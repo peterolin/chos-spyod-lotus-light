@@ -3,7 +3,7 @@
 
 Ka-Nying chos-spyod with convenient navigation. Work in progress.
 
-This first rough draft of an eBook is an independent unauthorized and unoffial edit of an eBook version of the Ka-Nying Shedrub Ling chos-spyod that I found somewhere on the Internet. To improve its usability I have done the following visible changes to the original.
+This first rough draft of an eBook is an independent unauthorized and unofficial edit of an eBook version of the Ka-Nying Shedrub Ling _chos spyod_ that I found somewhere on the Internet. To improve its usability the following visible changes to the original have been done.
 - Revised the table of contents to use the same titles and page numbers as the printed text (the "New chos-spoyd")
 - Added sub headings to the Leu Dunma in the table of contents.
 - Added some page numbers in the running text.
