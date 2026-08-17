@@ -1,0 +1,5 @@
+# Build output — the EPUB is generated from src/, never committed.
+build/
+
+# macOS
+.DS_Store
