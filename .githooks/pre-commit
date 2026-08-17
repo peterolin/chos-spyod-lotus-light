@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Guard: the EPUB under calibre/ is a FROZEN historical baseline.
+#
+# Since the src/ split, the book is edited as text in src/ and built with
+# tools/pack.sh. A modified calibre/*.epub in a commit almost always means
+# someone opened the book in the Calibre EDITOR again — which produces an
+# unreviewable binary diff and silently diverges from src/.
+set -euo pipefail
+
+changed="$(git diff --cached --name-only --diff-filter=ACMR -- 'calibre/*.epub' || true)"
+
+if [ -n "$changed" ]; then
+  cat >&2 <<'MSG'
+
+  ✋ BLOCKED — you are committing a change to the frozen Calibre EPUB:
+
+MSG
+  echo "$changed" | sed 's/^/       /' >&2
+  cat >&2 <<'MSG'
+
+  Do not edit the book in the Calibre editor any more.
+  The source of truth is src/ — plain files, edited in VSCode.
+
+      edit      src/…                 (VSCode, with Claude)
+      check     python3 tools/check.py
+      preview   tools/preview.sh      (Calibre VIEWER only)
+      build     tools/pack.sh         -> build/ (not committed)
+
+  If you really did mean to change the frozen baseline:
+      git commit --no-verify
+
+MSG
+  exit 1
+fi

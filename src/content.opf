@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" xmlns:epub="http://www.idpf.org/2007/ops" unique-identifier="uuid_id" version="2.0">
+  <metadata xmlns:calibre="http://calibre.kovidgoyal.net/2009/metadata" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <!-- Must have metadata: 
+    title
+    ID
+    Language
+    Modified-Date
+    -->
+    <dc:title>ཆོས་སྤྱོད། (chos spyod)</dc:title>
+    <dc:identifier id="uuid_id" opf:scheme="uuid">
+    ade42954-c052-4349-9891-9ee5cc357e40
+    </dc:identifier>
+    <dc:language>bo</dc:language>
+    <meta property="dcterms:modified">
+    2023-09-23T11:05:00:00Z
+    </meta>
+    <dc:creator opf:role="aut" opf:file-as="Ka-Nying Shedrup Ling/PO">Peter Olin</dc:creator>
+    <dc:contributor opf:role="bkp">calibre (3.7.0) [https://calibre-ebook.com]</dc:contributor>
+    <dc:date>0101-01-01T00:00:00+00:00</dc:date>
+    <dc:subject>Ritual</dc:subject>
+    <dc:identifier opf:scheme="calibre">e5eb13dc-41ca-420d-8892-1fd68232c699</dc:identifier>
+    <meta name="calibre:title_sort" content="Chos spyod ཆོས་སྤྱོད་"/>
+    <meta name="calibre:timestamp" content="2017-09-28T15:24:43+00:00"/>
+    <meta name="cover" content="cover"/>
+    <meta name="calibre:author_link_map" content="{&quot;Ka-Nying Shedrup Ling/PO&quot;: &quot;&quot;}"/>
+  </metadata>
+  <manifest>
+    <item href="toc1.htm" id="id1" media-type="application/xhtml+xml"/>
+    <item href="titlepage.xhtml" id="titlepage1" media-type="application/xhtml+xml"/>
+    <item href="OPS/titlepage.htm" id="titlepage" media-type="application/xhtml+xml"/>
+    <item href="OPS/p1_4_27_30_34_39_48.htm" id="n1" media-type="application/xhtml+xml"/>
+    <item href="OPS/p88_91_104_115.htm" id="n14" media-type="application/xhtml+xml"/>
+    <item href="OPS/p133_135_137_148_154_161_170_175_177_179.htm" id="n20" media-type="application/xhtml+xml"/>
+    <item href="OPS/p219_220_247.htm" id="n30" media-type="application/xhtml+xml"/>
+    <item href="OPS/p257_leu_bdun_ma.htm" id="n35" media-type="application/xhtml+xml"/>
+    <item href="OPS/p319_328_330_bar_chad_lam_sel.htm" id="n38" media-type="application/xhtml+xml"/>
+    <item href="OPS/p334_thugs_sgrub_brgyud_debs.htm" id="n41" media-type="application/xhtml+xml"/>
+    <item href="OPS/p362.htm" id="n45" media-type="application/xhtml+xml"/>
+    <item href="OPS/p378_.htm" id="n46" media-type="application/xhtml+xml"/>
+    <item href="OPS/p418_.htm" id="n50" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_53.htm" id="n52" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_56.htm" id="n55" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_58.htm" id="n57" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_59.htm" id="n58" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_60_468.htm" id="n59" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_64.htm" id="n63" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_66.htm" id="n65" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_67.htm" id="n66" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_68.htm" id="n67" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_71.htm" id="n70" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_72.htm" id="n71" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_73.htm" id="n72" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_74.htm" id="n73" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_75.htm" id="n74" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_76.htm" id="n75" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_77.htm" id="n76" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_78.htm" id="n77" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_79.htm" id="n78" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_80.htm" id="n79" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_81.htm" id="n80" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_82.htm" id="n81" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_83.htm" id="n82" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_84.htm" id="n83" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_85.htm" id="n84" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_86.htm" id="n85" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_87.htm" id="n86" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_88.htm" id="n87" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_89.htm" id="n88" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_90.htm" id="n89" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_91.htm" id="n90" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_92.htm" id="n91" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_93.htm" id="n92" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_95.htm" id="n94" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_101.htm" id="n100" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_102.htm" id="n101" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_103.htm" id="n102" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_104.htm" id="n103" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_105.htm" id="n104" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_106.htm" id="n105" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_107.htm" id="n106" media-type="application/xhtml+xml"/>
+    <item href="OPS/c_extra.htm" id="id" media-type="application/xhtml+xml"/>
+    <item href="c_fastjump.htm" id="id2" media-type="application/xhtml+xml"/>
+    <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
+    <item id="font_embed" href="fonts.css" media-type="text/css"/>
+    <item href="page_styles.css" id="page_css" media-type="text/css"/>
+    <item href="stylesheet.css" id="css" media-type="text/css"/>
+    <item href="cover.jpeg" id="cover" media-type="image/jpeg"/>
+    <item id="id5" href="pn.htm" media-type="application/xhtml+xml"/>
+    <item id="id9" href="repeats.htm" media-type="application/xhtml+xml"/>
+    <item id="id10" href="chosspyod_qr.png" media-type="image/png"/>
+    <item id="id11" href="key.xhtml" media-type="application/xhtml+xml"/>
+    <item id="font1" href="fonts/Courier-New.ttf" media-type="application/x-font-truetype"/>
+    <item id="id3" href="acknowledgements.htm" media-type="application/xhtml+xml"/>
+    <item id="id4" href="fonts/Monlam_Uni_OuChan2.ttf" media-type="application/x-font-truetype"/>
+    <item id="id6" href="OPS/p60_61_62_64_70_77_84.htm" media-type="application/xhtml+xml"/>
+    <item id="id7" href="Buddha.jpeg" media-type="image/jpeg"/>
+    <item id="id8" href="Padmasambhava.jpeg" media-type="image/jpeg"/>
+    <item id="id12" href="Vajrasattva.jpeg" media-type="image/jpeg"/>
+    <item id="id13" href="page1.jpeg" media-type="image/jpeg"/>
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="titlepage1"/>
+    <itemref idref="titlepage"/>
+    <itemref idref="id3"/>
+    <itemref idref="id11"/>
+    <itemref idref="id1"/>
+    <itemref idref="n1"/>
+    <itemref idref="id6"/>
+    <itemref idref="n14"/>
+    <itemref idref="n20"/>
+    <itemref idref="n30"/>
+    <itemref idref="n35"/>
+    <itemref idref="n38"/>
+    <itemref idref="n41"/>
+    <itemref idref="n45"/>
+    <itemref idref="n46"/>
+    <itemref idref="n50"/>
+    <itemref idref="n52"/>
+    <itemref idref="n55"/>
+    <itemref idref="n57"/>
+    <itemref idref="n58"/>
+    <itemref idref="n59"/>
+    <itemref idref="n63"/>
+    <itemref idref="n65"/>
+    <itemref idref="n66"/>
+    <itemref idref="n67"/>
+    <itemref idref="n70"/>
+    <itemref idref="n71"/>
+    <itemref idref="n72"/>
+    <itemref idref="n73"/>
+    <itemref idref="n74"/>
+    <itemref idref="n75"/>
+    <itemref idref="n76"/>
+    <itemref idref="n77"/>
+    <itemref idref="n78"/>
+    <itemref idref="n79"/>
+    <itemref idref="n80"/>
+    <itemref idref="n81"/>
+    <itemref idref="n82"/>
+    <itemref idref="n83"/>
+    <itemref idref="n84"/>
+    <itemref idref="n85"/>
+    <itemref idref="n86"/>
+    <itemref idref="n87"/>
+    <itemref idref="n88"/>
+    <itemref idref="n89"/>
+    <itemref idref="n90"/>
+    <itemref idref="n91"/>
+    <itemref idref="n92"/>
+    <itemref idref="n94"/>
+    <itemref idref="n100"/>
+    <itemref idref="n101"/>
+    <itemref idref="n102"/>
+    <itemref idref="n103"/>
+    <itemref idref="n104"/>
+    <itemref idref="n105"/>
+    <itemref idref="n106"/>
+    <itemref idref="id"/>
+    <itemref idref="id2"/>
+    <itemref idref="id5"/>
+    <itemref idref="id9"/>
+  </spine>
+  <nav epub:type="toc"> <ol> <li><a href="OPS/p1_4_27_30_34_39_48.htm">C2</a> <ol> <li><a href="OPS/p1_4_27_30_34_39_48.htm#page27">C3</a></li> </ol> </li> <li><a href="OPS/p1_4_27_30_34_39_48.htm#page34">C5</a></li> </ol></nav>
+  <guide>
+    <reference href="toc1.htm#calibre_generated_inline_toc" title="Table of Contents" type="toc"/>
+    <reference href="titlepage.xhtml" title="Cover" type="cover"/>
+    
+    <reference href="OPS/p1_4_27_30_34_39_48.htm" title="C2"/>
+    <reference href="OPS/p1_4_27_30_34_39_48.htm#page27" title="C3"/>
+    <reference href="OPS/p1_4_27_30_34_39_48.htm#page34" title="C5">
+    
+    
+  </reference>
+    <reference type="text" title="Text" href="OPS/p1_4_27_30_34_39_48.htm"/>
+    <reference type="title-page" title="Title page" href="titlepage.xhtml"/>
+    <reference type="acknowledgements" title="Acknowledgements" href="acknowledgements.htm"/>
+</guide></package>

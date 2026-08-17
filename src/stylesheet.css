@@ -1,0 +1,526 @@
+/** Don't use Calibres Beautify all files. It will damage the formatting of the special characters inserted in the files. */
+.invisiblec {
+  display: display;
+  /** TODO Set to "display", "inline" or "none" depening on editing or publishing.*/
+  font-family: Courier New, sans-serif;
+  color: red;
+}
+.invisible {
+  display: none;
+  /* TODO Set to "none" or "display" */
+}
+.invisibleRepeat {
+  display: display;
+  /* TODO Set to "none" or "display" */
+}
+
+
+:root {
+  --button-color: rgb(50, 50, 200, 0.1);
+  --button-hover-color: rgb(50, 50, 200, 0.4);
+  --button-border-color: rgb(50, 50, 50, 0.3);
+  --page-number-color: rgb(50, 50, 50, 0.1);
+  
+  --tib-yigchung-color: #107896;
+  --tib-yigchungh-color: #107896;
+  --tib-color: black; 
+
+    --chapter-header-background: rgb(100,100,100,0.2);
+  --anchor-color: rgb(200, 50, 50, 0.2);
+  --repeat-next-color: rgb(150,75,35,0.1);
+
+}
+
+
+.calibreBody {
+  display: block;
+  font-size: 1.5em;
+  line-height: 1.5em;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0 5pt;
+  page-break-after: avoid;
+
+}
+/** (Invisible) entry markers for TOC **/
+.tocpage1, .tocpage2 {
+  background: var(--chapter-header-background);
+  margin: 0;
+  text-align: center;
+  line-height: 1.5;
+  font-size: 100%;
+  text-decoration: none;
+  display: wrap;
+  padding-left: 0;
+}
+
+/** Normal letters*/
+.tibnormal {
+  color: var(--tib-color);
+  font-size: 1em;
+  line-height: 1.5em;
+  font-family: Monlam Uni OuChan2, serif;
+}
+/** Yig-chung small letters*/
+.tibyigchung {
+  font-family: Monlam Uni OuChan2, serif;
+  color: var(--tib-yigchung-color);
+  font-size: 0.8em;
+  line-height: 1.5em;
+}
+.tibyigchungH {
+  font-family: Monlam Uni OuChan2, serif;
+  color: var(--tib-yigchungh-color);
+  font-size: 1.5em;
+  line-height: 1.8em;
+  margin: 0 1em 0 0;
+}
+.tibnormalRepeat3 {
+  color: var(--repeat-next-color);
+  font-size: 1em;
+  line-height: 1.3em;
+}
+.tibnormalRepeat3:before {
+  display: inline-block;
+  font-size: 0.5em;
+  margin-right: 0.4em;
+  margin-left: 0.4em;
+  content: "➡️";
+}
+.tibnormalRepeat3:after {
+  padding: 0.5em 0.5em 0.4em 0.5em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 0.5em;
+  margin-bottom: 0.6em;
+  margin-top: 0.6em;
+  margin-left: 0.6em;
+  margin-right: 0.6em;
+  content: "🔁3️⃣";
+}
+/** Paragraph **/
+.prayerpara {
+  background: yellow;
+  display: inline;
+  page-break-after: avoid;
+
+}
+
+/** TODO remove/replace Small page numbers corresponding to pecha page numbers **/
+.pageno {
+  color: #707C80;
+  background-color: red;
+  font-size: 0.5em;
+  margin: 0.5em;
+  font-weight: normal;
+  display: none;
+  /** inline or none */
+}
+
+/* Links & targets have most attributes in common*/
+.jumpTODO, .jumpRepeat, .jumpRepeat3, .jumpUp, .jumpDown, .jump {
+  background: var(--button-color);
+  padding: 0.3em 0.5em 0.2em 0.5em;
+  text-align: center;
+  text-decoration: none;
+  display: inline;
+  border-width: 0px;
+  border-radius: 0.5em;
+  font-size: 80%;
+  line-height: 80%;
+  margin-right: 0.2em;
+  margin-left: 0.2em;
+}
+/** Targets have some special attributes: 
+- no border. 
+- reddish color **/
+.inlineAnchor, .repeatAnchor, .inlineAnchorReturn {
+  background: var(--anchor-color);
+  padding: 0.8em 0.5em 0.4em 0.5em;
+  border-radius: 0.5em;
+  display: inline-block;
+  font-size: 50%;
+  line-height: 80%;
+  margin-bottom: 0.6em;
+  margin-right: 0.6em;
+  margin-left: 0.6em;
+  border: none 4px;
+  cursor: normal;
+}
+
+.jumpRepeat, .jumpRepeat3 {
+  padding: 0.8em 0.4em 0.4em 0.5em;
+  border-radius: 0.5em;
+  display: inline-block;
+  font-size: 50%;
+  line-height: 80%;
+  margin-bottom: 0.6em;
+  margin-right: 0.6em;
+  margin-left: 0.6em;
+  cursor: pointer;
+
+}
+
+
+.jumpTODO:hover, .jumpRepeat:hover, .jumpRepeat3:hover, .jumpUp:hover, .jumpDown:hover, .jump:hover {  
+  background: var(--button-hover-color);
+  }
+  
+.jumpTODO:before {
+  content: "TODO "; }
+  
+.left, .right  {
+  background: var(--button-color);
+  border-color: var(--button-border-color); 
+  padding: 0.7em 0.5em 0.4em 0.5em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 0.5em;
+  border-width: 0px;
+  border-style: solid;
+  font-size: 70%;
+  line-height: 70%;
+  cursor: pointer;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  margin-right: 0em;
+  margin-left: 0em;
+}
+
+.ppnp {
+  background: var(--button-color);
+  border-color: var(--button-border-color);
+
+  padding: 0.5em 0.5em 0.4em 0.5em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 0.5em;
+  border-width: 0px;
+  border-style: solid;
+  font-size: 80%;
+  line-height: 70%;
+  cursor: pointer;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  margin-right: 0em;
+  margin-left: 0em;
+}
+
+
+/** Prayer bigger page number **/
+.navigation-h2 {
+  float: center;
+  padding: 0.2em 0.2em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 0.5em;
+  font-size: 100%;
+  cursor: pointer;
+  width: 1.8em;
+}
+
+.left {
+  float: left;
+}
+.right {
+  display:inline;
+  float: right;
+}
+
+
+/** In-line actual physical page marker 
+ipnpx - convenient page break between words, avoids breaking up sentences mid-word. **/
+a.ipnpx {
+  background: var(--page-number-color);
+  padding: 0.1em 0.2em 0.1em 0.2em;
+  text-align: center;
+  border-radius: 0.3em;
+  border-style: solid;
+  border-width: 0px;
+  font-size: 0.7em;
+  cursor: pointer;
+  margin-bottom: 0;
+  margin-left: 0.1em;
+  margin-right: 0.1em;
+}
+a.ipnptodo{
+  background: red;
+  padding: 0.5em 0.5em 0.5em 0.5em;
+  text-align: center;
+  cursor: pointer;
+  width: 1.8em;
+  margin-bottom: 0;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+
+.ipnpx:hover, .ppnp:hover, .left:hover, .right:hover {
+  background: var(--button-hover-color);
+  }
+
+.inlineAnchor:after {
+  content:"↳";
+}
+.inlineAnchorReturn:after {
+  content: "↳";
+  }
+.repeatAnchor:after {
+  content: "➡️";
+}
+/** Navigation links **/
+.jumpUp:before {
+  content: "← ";
+}
+.jumpDown:after {
+  content: " →";
+}
+.jumpRepeat3:after {
+  font-size: 0.5em;
+  content: "🔄3️⃣";
+}
+.jumpRepeat:after {
+  font-size: 0.5em;
+  content: "⟲";
+}
+.repeatFirstOcc {
+  color: black;
+  text-decoration: none;
+  text-decoration-color: orange;
+  text-decoration-style: aolis;
+  text-decoration-thickness: 1px;
+}
+.repeatNextOcc {
+  padding: 0.2em 0.3em 0em 0;
+  border-radius: 0.2em;
+  background: var(--repeat-next-color);
+  text-decoration: none;
+  display: inline;
+  font-size: 100%;
+  line-height: 100%;
+}
+
+.repeatWrap:before, .repeatWrap3:before {
+  padding: 0em 0.1em 0em 0.1em;
+  background: var(--anchor-color);
+  border-radius: 0.2em;
+  vertical-align: center;
+  margin-left: 0.5em;
+  margin-right: 0.1em;
+  content: "￫";
+}
+.repeatEnd:before, .repeatEnd3:before {
+  padding: 0em 0.1em 0em 0.1em;
+  background: var(--anchor-color);
+  border-radius: 0.2em;
+  vertical-align: center;
+  margin-left: 0.5em;
+  margin-right: 0.1em;
+}
+
+.repeatWrap:after, .repeatWrap3:after, .repeatEnd:after, .repeatEnd3:after {
+  background: var(--anchor-color);
+  border-radius: 0.2em;
+  padding: 0 0.2em 0 0.2em;
+  margin-left: 0.1em;
+  margin-right: 0.5em;
+  content: "⥀";
+}
+.repeatWrap3:after {
+  content: "⥀";
+}
+/** Formatting for the Table of Contents file toc1.xhtml **/
+ul {
+  padding-left: 0.3em;
+  margin-left: 0;
+}
+li {
+  padding-left: 0;
+  margin-left: 0;
+  margin-right: 1.4em;
+  line-height: 1.6em;
+}
+a {
+  display: inline;
+  color: #131516;
+  text-decoration: none;
+}
+ul .level2 {
+  font-size: 0.8em;
+  color: blue;
+}
+/** For translated TOC*/
+ul .toctib1 {
+  color: blue;
+  font-size: 0.7em;
+  line-height: 1.7em;
+  line-break: auto;
+}
+ul .toctib2 {
+  color: red;
+  font-size: 0.7em;
+  line-height: 1.7em;
+  line-break: auto;
+}
+/** TOC in English */
+.tocen {
+  color: black;
+  font-size: 1em;
+  line-height: 1.7em;
+}
+
+  
+
+.left:before {
+  content: "←";
+  }
+
+.right:after {
+  content: "→";
+  }    
+
+
+.center {
+  display: inline;
+  float: center;
+}
+.center:before {
+  content: "(";
+  }
+.center:after {
+  content: ")";
+  }
+.unit {
+  page-break-inside: avoid;
+}
+
+.wrap {
+  background: var(--chapter-header-background);
+  text-align: center;
+  padding: 0em 0.5em 0.2em 0.5em;
+}
+div#pagenumberlist {
+  margin: 2em;
+}
+a.pagenumber {
+  background-color: #efefef;
+  border: none;
+  color: black;
+  padding: 0.3em 0.4em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 0.7em;
+  font-size: 0.8em;
+  cursor: pointer;
+  width: 2.2em;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+div.pn {
+  margin-top: -1.8em;
+}
+div.pnh {
+  margin-top: -2.3em;
+  margin-bottom: 0.4em;
+}
+div.pagenumber {
+  text-align: center;
+}
+a.pnp {
+  background-color: #efefef;
+/**  border: none;*/
+  color: #444;
+  padding: 0.3em 0.3em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 0.8em;
+  font-size: 0.9em;
+  cursor: pointer;
+  width: 1.8em;
+  margin-bottom: 0.8em;
+  margin-left: 0.5em;
+}
+.prevlink {
+  float: left;
+}
+.nextlink {
+  float: right;
+}
+table, th, td {
+  border: 1px solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  table-layout: fixed;
+}
+th {
+  background-color: #04AA6D;
+  color: white;
+}
+.lh {
+  color: red;
+  text-decoration: underline;
+  cursor: alias;
+}
+.lh:after {
+  content: "[Lotsawa House]";
+}
+.st {
+  color: red;
+  text-decoration: underline;
+  cursor: alias;
+}
+.st:after {
+  content: "[Samye Translations]";
+}
+
+
+.imagebox {
+  padding: 0.1em 0.1em 0.1em 0.1em;
+  margin: auto 0;
+  display: inline-block;
+  float: right;
+  clear: right;
+  border-width: 0.1em;
+  border-style: none;
+  border-color: black;
+  justify-content: center;
+  align-items: center;
+  page-break-inside: avoid;
+  text-align: center;
+  }
+.imageframe {
+  padding: 0.5em 0.5em 0.5em 0.5em;
+  margin: auto 3px;
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  display: block;
+  text-align: center;
+
+  }
+  
+.image {
+  padding: 0.2em 0.2em 0.2em 0.2em;
+  width: 3cm;
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  display: inline-block;
+  text-align: center;
+  }
+  
+.caption {
+  width: 3.5cm;
+  font-family: Monlam Uni OuChan2, serif;
+  color: black;
+  font-size: 0.5em;
+  line-height: 0.9em;
+  display: block;
+  text-align: center;
+}

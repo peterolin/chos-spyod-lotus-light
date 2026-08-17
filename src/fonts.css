@@ -1,0 +1,16 @@
+
+@font-face {
+  src: url(fonts/Courier-New.ttf);
+  font-family: "Courier New", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url(fonts/Monlam_Uni_OuChan2.ttf);
+  font-family: "Monlam Uni OuChan2", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  }
