@@ -3,6 +3,10 @@
 
 Ka-Nying chos-spyod with convenient navigation. Work in progress.
 
+> **Editing this book?** Read [WORKFLOW.md](WORKFLOW.md) first.
+> The book is no longer edited in Calibre. The source is `src/` (plain
+> files, edited in VSCode); the `.epub` is built with `tools/pack.sh`.
+
 This first rough draft of an eBook is an independent unauthorized and unofficial edit of an eBook version of the Ka-Nying Shedrub Ling _chos spyod_ that I found somewhere on the Internet. To improve its usability the following visible changes to the original have been done.
 - Revised the table of contents to use the same titles and page numbers as the printed text (the "New chos-spoyd")
 - Added sub headings to the Leu Dunma in the table of contents.
@@ -13,7 +17,23 @@ This first rough draft of an eBook is an independent unauthorized and unofficial
 - Joined HTML-pages to have less page-breaks and semi-blank pages.
 
 ## Known issues
-- One prayer and/or some page(s) was lost in the edit. Need to investigae what is lost, and add it back in.
+
+`python3 tools/check.py` currently reports **55 structural errors**. The most
+significant, in order:
+
+- **The lost pages are located.** `toc.ncx` has 7 entries pointing at
+  `OPS/c_2_p1_28.htm` (anchors `#pp4`–`#pp10`) — a file that no longer exists
+  in the book. This is almost certainly the "one prayer and/or some page(s)
+  lost in the edit" noted below; it covers the pages 1–28 range.
+- ~30 dead placeholder anchors: links to `#todo` / `#todo_next` that were never
+  given targets, across `p88_91_104_115`, `p133_…_179`, `p418_` and others.
+- Broken navigation with real targets missing: `#page91`, `#page226`,
+  `#page219b`, `#leu0`, `#toc_1`, `#toc_3`, `#gsang_thig_start`, `#219a`,
+  `#254`, `#top_2` — reachable from `toc1.htm` and `toc.ncx`, so these are
+  visible dead ends for readers.
+- `#??` placeholder links and a duplicate `id="page62"` in
+  `p60_61_62_64_70_77_84.htm` (from the in-progress lineage-prayer section).
+- A malformed link `href="blama_dorje_sempa"` (missing `.htm` and anchor).
 - There are still some unnecessary page-breaks
 
 ## Planned Improvements
