@@ -18,22 +18,47 @@ This first rough draft of an eBook is an independent unauthorized and unofficial
 
 ## Known issues
 
-`python3 tools/check.py` currently reports **55 structural errors**. The most
-significant, in order:
+`python3 tools/check.py` reports **11 structural errors**, down from 55. The
+39 broken *anchors* are fixed; what remains is missing *content*, which needs
+the source text rather than a code change.
+
+### Missing content (11 errors)
 
 - **The lost pages are located.** `toc.ncx` has 7 entries pointing at
   `OPS/c_2_p1_28.htm` (anchors `#pp4`–`#pp10`) — a file that no longer exists
-  in the book. This is almost certainly the "one prayer and/or some page(s)
-  lost in the edit" noted below; it covers the pages 1–28 range.
-- ~30 dead placeholder anchors: links to `#todo` / `#todo_next` that were never
-  given targets, across `p88_91_104_115`, `p133_…_179`, `p418_` and others.
-- Broken navigation with real targets missing: `#page91`, `#page226`,
-  `#page219b`, `#leu0`, `#toc_1`, `#toc_3`, `#gsang_thig_start`, `#219a`,
-  `#254`, `#top_2` — reachable from `toc1.htm` and `toc.ncx`, so these are
-  visible dead ends for readers.
-- `#??` placeholder links and a duplicate `id="page62"` in
-  `p60_61_62_64_70_77_84.htm` (from the in-progress lineage-prayer section).
-- A malformed link `href="blama_dorje_sempa"` (missing `.htm` and anchor).
+  in the book. This is the "one prayer and/or some page(s) lost in the edit";
+  it covers the pages 1–28 range. Recovering it needs the original EPUB this
+  edition was derived from.
+- **ཁྲུས་ཆོག་ཟླ་བའི་བདུད་རྩི། (p. 226) is not in this edition.** A next-arrow in
+  `p219_220_247.htm` points at it; the practice appears nowhere in the book.
+- **The lineage-prayer section is unfinished** (in `p60_61_62_64_70_77_84.htm`):
+  a `?? == Lineage prayers == ??` placeholder heading with two `#??` links, and
+  a duplicate `id="page62"`. Both `page62` sections need distinct ids before
+  anything can link to them reliably.
+
+### Page numbering: TOC vs text
+
+Four places where the table of contents and the text itself disagree. The
+links now land on the correct prayer; the *displayed* number still follows the
+printed book. Worth deciding which should win:
+
+| Practice | TOC says | Text marks |
+| --- | --- | --- |
+| གསང་ཐིག་རྡོར་སེམས། | 91 | 92 |
+| ཟབ་ཏིག་སྒྲོལ་ཆོག | 104 | 102 |
+| གཟུངས་སྔགས་སྣ་ཚོགས། | 219 | 220 |
+| གསོལ་འདེབས་ལེའུ་བདུན་མ་ | 260 | 257 |
+
+Also: `leu6` (ལེའུ་དྲུག་པ།) has `<span class="pageno">6</span>` — a typo. It sits
+between `leu5` (293) and `leu7` (313).
+
+### Other
+
+- `pn.htm` is 97% dead: lines 61–661 are one HTML comment wrapping a page-number
+  index that points at pre-merge filenames (`OPS/c_22.htm`) which no longer
+  exist. Either revive it or delete it.
+- The 142 section (ལྷ་རྣམས་མཉེས་བྱེད་བསང་མཆོད་) sits between 135 and 137 in
+  `p133_…_179.htm`, out of page order.
 - There are still some unnecessary page-breaks
 
 ## Planned Improvements
