@@ -18,23 +18,39 @@ This first rough draft of an eBook is an independent unauthorized and unofficial
 
 ## Known issues
 
-`python3 tools/check.py` reports **11 structural errors**, down from 55. The
-39 broken *anchors* are fixed; what remains is missing *content*, which needs
-the source text rather than a code change.
+`python3 tools/check.py` reports **no structural errors**, down from 55.
 
-### Missing content (11 errors)
+### Nothing was lost in the edit
 
-- **The lost pages are located.** `toc.ncx` has 7 entries pointing at
-  `OPS/c_2_p1_28.htm` (anchors `#pp4`–`#pp10`) — a file that no longer exists
-  in the book. This is the "one prayer and/or some page(s) lost in the edit";
-  it covers the pages 1–28 range. Recovering it needs the original EPUB this
-  edition was derived from.
-- **ཁྲུས་ཆོག་ཟླ་བའི་བདུད་རྩི། (p. 226) is not in this edition.** A next-arrow in
-  `p219_220_247.htm` points at it; the practice appears nowhere in the book.
-- **The lineage-prayer section is unfinished** (in `p60_61_62_64_70_77_84.htm`):
-  a `?? == Lineage prayers == ??` placeholder heading with two `#??` links, and
-  a duplicate `id="page62"`. Both `page62` sections need distinct ids before
-  anything can link to them reliably.
+Two of the three "missing content" items turned out to be misdiagnosed — the
+text was in the book the whole time, only unreachable:
+
+- **The "lost pages 1–28" were never lost.** The 7 `toc.ncx` page-list entries
+  pointed at `OPS/c_2_p1_28.htm`, the *pre-merge* filename. Anchors `#pp4`–
+  `#pp10` all live in `OPS/p1_4_27_30_34_39_48.htm`; repointing the page-list
+  fixed all 7 errors. (Confirmed against the frozen baseline EPUB, which has
+  no `c_2_p1_28.htm` either.)
+- **ཁྲུས་ཆོག་ཟླ་བའི་བདུད་རྩི། (p. 226) is in the book** — in
+  `p219_220_247.htm`, right where it belongs between 220 and 247. It simply had
+  no heading and no `id`, so the next-arrow pointing at `#page226` had nothing
+  to land on. It now has both.
+- **The lineage-prayer section** (in `p60_61_62_64_70_77_84.htm`) is wired up:
+  distinct `id="page63"`, prev/next pointing at 62 and 64. It sits between
+  printed 62 and 64 and the TOC skips 63, so 63 is its page number — worth a
+  glance against the printed book. **Its heading is still the placeholder**
+  `?? == Lineage prayers == ??` and needs the real Tibetan title.
+
+### Unfilled navigation (no errors, but the arrows go nowhere useful)
+
+- **117 prev/next arrows in 53 files** still point at `../pn.htm#todo`, and 5
+  more at a hidden `id="TODO"` sink in `p1_4_27_30_34_39_48.htm`. Because those
+  targets exist, `check.py` cannot see them — they pass QA and dead-end for the
+  reader. Fillable mechanically from spine + document order, the way the first
+  28 were.
+- **49 `XXXTODOXXX` markers** in `repeatNextOcc` spans — abbreviated repeated
+  lines whose continuation text is missing. These need the printed book.
+- Two headings still read `TODO phys page ???` (`c_95.htm`, `c_106.htm`), and
+  one `ppnp` reads `TODO phys page` (`p133_…_179.htm`).
 
 ### Page numbering: TOC vs text
 
@@ -49,8 +65,8 @@ printed book. Worth deciding which should win:
 | གཟུངས་སྔགས་སྣ་ཚོགས། | 219 | 220 |
 | གསོལ་འདེབས་ལེའུ་བདུན་མ་ | 260 | 257 |
 
-Also: `leu6` (ལེའུ་དྲུག་པ།) has `<span class="pageno">6</span>` — a typo. It sits
-between `leu5` (293) and `leu7` (313).
+Fixed: `leu6` (ལེའུ་དྲུག་པ།) had `<span class="pageno">6</span>` and `ppnp` `---`;
+both now read 300, the number the table of contents gives it.
 
 ### Other
 
