@@ -32,10 +32,12 @@
  *    both are RELATED reds rather than two unrelated accents:
  *      accent  the prayer titles (pecha red, མཚལ), the ↳ jump targets, and
  *              the key page's editing aid.
- *      repeat  abbreviated repeated text and its ⥀ ￫ markers — the same hue
- *              family held weaker, so it is legible liturgy that is plainly
- *              not the original chos-spyod text.
- *    Neither is ever a background. At 703 occurrences a tint behind the
+ *      repeat  the ༼ ༽ brackets that delimit a repeat, and the numeral for
+ *              its count — the MARKS only. The repeated Tibetan itself keeps
+ *              the reader's ink: colouring whole verses and torma mantras was
+ *              too much, and it is the brackets, not the words, that are the
+ *              editor's addition.
+ *    Neither hue is ever a background. At 703 occurrences a tint behind the
  *    repeated text read as highlighter pen through half the book.
  *
  * Alpha is written rgba(), never rgb() with a 4th argument: the latter is
@@ -365,34 +367,73 @@ a.ipnpx {
   content: "↳";
   }
 .repeatAnchor:after {
-  content: "➡️";
+  content: "\0F3D";              /* ༽ — in the font, unlike the old ➡️ emoji */
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
 }
-/** Navigation links **/
+/** Navigation links.
+
+    The space beside the arrow is a NON-BREAKING space (\00A0). With an
+    ordinary space the arrow wrapped to the next line on its own, leaving the
+    page number stranded at the end of the line above — "…88" then "→".
+    Written as an escape rather than a literal so it cannot be mistaken for a
+    plain space by a later edit. **/
 .jumpUp:before {
-  content: "← ";
+  content: "\2190\00A0";        /* ← + NBSP */
 }
 .jumpDown:after {
-  content: " →";
+  content: "\00A0\2192";        /* NBSP + → */
 }
+/** The repeat-jump glyphs were 🔄3️⃣ and ⟲ — colour emoji and a maths arrow,
+    neither of them in Monlam, so both arrived from a fallback font. Tibetan
+    marks instead, in the repeat colour. **/
 .jumpRepeat3:after {
-  font-size: 0.5em;
-  content: "🔄3️⃣";
+  content: "\00A0\0F3D\0F23";   /* NBSP ༽༣ */
+  color: var(--repeat);
+  -webkit-text-fill-color: var(--repeat);
 }
 .jumpRepeat:after {
-  font-size: 0.5em;
-  content: "⟲";
+  content: "\00A0\0F3D";         /* NBSP ༽ */
+  color: var(--repeat);
+  -webkit-text-fill-color: var(--repeat);
 }
-/** First occurrence of an abbreviated line. Inherits the theme's text
-    colour; the repeat markers around it carry the signal. **/
+/** REPEAT MARKING
+ *
+ * The MARKS are red; the Tibetan is not. Colouring the repeated text itself
+ * was too much — these are long passages, not glyph-sized tokens: torma
+ * mantras and whole verse repeats. So the words keep the reader's own ink and
+ * only the delimiters carry the signal, which also keeps this honest, since
+ * the delimiters are the editor's addition and the words are not.
+ *
+ * The delimiters are ang khang brackets, ༼ and ༽, with a Tibetan numeral for
+ * a count. Every one of those glyphs is in Monlam Uni OuChan2. The marks they
+ * replace — ￫ ⥀ ⟲ ➡️ 🔄3️⃣ — are in NONE of it, so each was drawn by whatever
+ * fallback font the device happened to pick, in a foreign weight and a
+ * foreign hand. That, more than the shapes themselves, is what made them
+ * look wrong inside the text.
+ *
+ * They also now say different things: ⥀ was emitted for both "repeat" and
+ * "repeat three times", so the count was not signalled at all.
+ *
+ * Nothing is inserted into the source Tibetan — every mark is generated in
+ * CSS, so the text on disk stays exactly the printed text. **/
 .repeatFirstOcc {
   text-decoration: none;
 }
-/** Repeated text, abbreviated. Marked by COLOUR, not by a filled chip: at
-    703 occurrences a background reads as highlighter pen through half the
-    book. **/
-.repeatNextOcc {
+/** The expansion of a line the printed book abbreviates. The source already
+    carries the printed ༴ before it; the brackets mark where the editor's
+    expansion begins and ends. **/
+.repeatNextOcc:before {
+  content: "\0F3C";
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
+}
+.repeatNextOcc:after {
+  content: "\0F3D";
+  color: var(--repeat);
+  -webkit-text-fill-color: var(--repeat);
+}
+.repeatNextOcc {
   padding: 0;
   text-decoration: none;
   display: inline;
@@ -400,34 +441,33 @@ a.ipnpx {
   line-height: 100%;
 }
 
-.repeatWrap:before, .repeatWrap3:before {
-  padding: 0;
-  color: var(--repeat);
-  -webkit-text-fill-color: var(--repeat);
-  vertical-align: center;
-  margin-left: 0.4em;
-  margin-right: 0.1em;
-  content: "￫";
-}
+/** Repeat this span as a unit. **/
+.repeatWrap:before, .repeatWrap3:before,
 .repeatEnd:before, .repeatEnd3:before {
+  content: "\0F3C";              /* ༼ */
+  color: var(--repeat);
+  -webkit-text-fill-color: var(--repeat);
   padding: 0;
+  margin-left: 0.2em;
+  margin-right: 0.05em;
+}
+.repeatWrap:after, .repeatEnd:after {
+  content: "\0F3D";              /* ༽ */
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
-  vertical-align: center;
-  margin-left: 0.4em;
-  margin-right: 0.1em;
+  padding: 0;
+  margin-left: 0.05em;
+  margin-right: 0.2em;
 }
-
-.repeatWrap:after, .repeatWrap3:after, .repeatEnd:after, .repeatEnd3:after {
+/** …three times. The numeral is the whole point of the variant, and the old
+    marker did not carry it. **/
+.repeatWrap3:after, .repeatEnd3:after {
+  content: "\0F3D\0F23";         /* ༽༣ */
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
-  padding: 0 0.1em;
-  margin-left: 0.1em;
-  margin-right: 0.4em;
-  content: "⥀";
-}
-.repeatWrap3:after {
-  content: "⥀";
+  padding: 0;
+  margin-left: 0.05em;
+  margin-right: 0.2em;
 }
 /** Formatting for the Table of Contents file toc1.xhtml **/
 ul {
