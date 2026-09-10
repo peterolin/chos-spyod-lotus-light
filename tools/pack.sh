@@ -4,13 +4,20 @@
 # src/ is the source of truth. This script is the ONLY way an .epub
 # should come into existence in this repo.
 #
-# VERSION STAMPING — why this exists:
+# VERSION AND YEAR:
+# The title pages carry {{VERSION}} and {{YEAR}} placeholders, filled in here.
+# VERSION is 1.0.<n>, where n is a build counter kept in .buildnum at the repo
+# root — git-ignored, so building never dirties the tree — and incremented on
+# every build. YEAR is the year at build time, so a book built next January
+# stops claiming 2023.
+#
+# CACHE STAMPING — why this exists:
 # Apple Books keys its library on the OPF unique identifier. Re-importing a
 # file whose identifier it has seen before shows the CACHED book, so CSS and
 # markup changes appear not to have happened. Every build therefore stamps
 # the output with:
 #
-#   version     <utc timestamp>+<content hash>   always increases
+#   version     1.0.<n>+<content hash>           always increases
 #   identifier  <base uuid>-b<content hash>      changes iff src/ changed
 #
 # Deriving the identifier from a hash of src/ (rather than bumping it every
@@ -48,7 +55,18 @@ HASH="$(cd "$SRC" && find . -type f ! -name '.DS_Store' -print0 \
         | xargs -0 shasum -a 256 \
         | shasum -a 256 | cut -c1-8)"
 BUILD="$(date -u +%Y%m%d.%H%M%S)"
-VERSION="${BUILD}+${HASH}"
+
+# Monotonic build counter. Kept OUTSIDE build/, so wiping build output does
+# not reset the version the book displays.
+COUNTER="$REPO/.buildnum"
+N=0
+[ -f "$COUNTER" ] && N="$(tr -cd '0-9' < "$COUNTER")"
+N=$(( ${N:-0} + 1 ))
+printf '%s\n' "$N" > "$COUNTER"
+
+VERSION="1.0.${N}"
+YEAR="$(date +%Y)"
+STAMP="${VERSION}+${HASH}"
 
 # Stage a copy so the stamp never touches src/.
 STAGE="$(mktemp -d)"
@@ -57,7 +75,23 @@ trap 'rm -rf "$STAGE"' EXIT
 cp -R "$SRC"/. "$STAGE"/
 find "$STAGE" -name '.DS_Store' -delete
 
-STAMP_TITLE="$STAMP_TITLE" VERSION="$VERSION" HASH="$HASH" \
+# Fill the {{VERSION}} / {{YEAR}} placeholders in the staged title pages.
+python3 - "$STAGE" "$VERSION" "$YEAR" <<'FILL'
+import pathlib, sys
+stage, version, year = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]
+hits = 0
+for f in sorted(list(stage.rglob("*.htm")) + list(stage.rglob("*.xhtml"))):
+    t = f.read_text(encoding="utf-8")
+    if "{{VERSION}}" not in t and "{{YEAR}}" not in t:
+        continue
+    f.write_text(t.replace("{{VERSION}}", version).replace("{{YEAR}}", year),
+                 encoding="utf-8")
+    hits += 1
+if hits == 0:
+    sys.exit("error: no {{VERSION}}/{{YEAR}} placeholder found to fill")
+FILL
+
+STAMP_TITLE="$STAMP_TITLE" VERSION="$STAMP" BUILD="$BUILD" HASH="$HASH" \
 python3 - "$STAGE/content.opf" <<'PY'
 import os, re, sys
 
@@ -90,11 +124,11 @@ opf = ident.sub(lambda _m: f"{_m.group(1)}{base}-b{hash8}{_m.group(3)}", opf, co
 
 # 2. dcterms:modified must be ISO 8601 UTC. The value carried in src is
 #    '2023-09-23T11:05:00:00Z' — malformed, an extra :00 — so it is replaced
-#    rather than corrected in place.
-stamped = re.sub(r'\+\S+$', '', version)  # keep the timestamp half
+#    rather than corrected in place. Built from BUILD (a UTC timestamp), NOT
+#    from the display version, which is now 1.0.<n> and carries no date.
+b = os.environ["BUILD"]          # YYYYMMDD.HHMMSS
 now = "%s-%s-%sT%s:%s:%sZ" % (
-    stamped[0:4], stamped[4:6], stamped[6:8],
-    stamped[9:11], stamped[11:13], stamped[13:15],
+    b[0:4], b[4:6], b[6:8], b[9:11], b[11:13], b[13:15],
 )
 modified = re.compile(r'(<meta\b[^>]*\bproperty="dcterms:modified"[^>]*>)(.*?)(</meta>)', re.S)
 if modified.search(opf):
@@ -136,12 +170,13 @@ zip -q -X -r -9 -D "$OUT" . \
   -x '.DS_Store' -x '*/.DS_Store' \
   -x '.git*' -x '*/.git*'
 
-printf '%s\n' "$VERSION" > "$REPO/build/version.txt"
+printf '%s\n' "$STAMP" > "$REPO/build/version.txt"
 
 echo "built  $OUT"
 echo "size   $(du -h "$OUT" | cut -f1)"
 echo "files  $(unzip -l "$OUT" | tail -1 | awk '{print $2}')"
-echo "build  $VERSION"
+echo "build  $STAMP"
+echo "shown  $VERSION $YEAR   (on both title pages)"
 
 # Sanity: first entry must be an uncompressed mimetype.
 first="$(unzip -l "$OUT" | sed -n '4p' | awk '{print $NF}')"

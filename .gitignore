@@ -7,3 +7,6 @@ build/
 # Python bytecode from tools/
 __pycache__/
 *.pyc
+
+# Build counter — per-machine, must not dirty the tree
+.buildnum
