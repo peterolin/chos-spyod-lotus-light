@@ -1,36 +1,65 @@
 /** Don't use Calibres Beautify all files. It will damage the formatting of the special characters inserted in the files. */
+
+/**
+ * COLOUR SYSTEM
+ *
+ * Three rules keep this working in every reader theme (white / sepia / gray /
+ * night), not just two:
+ *
+ * 1. Body text is never given a colour. The reader's theme owns it. Setting
+ *    `color: black` here fought all four themes and broke the dark one.
+ * 2. Chrome (nav bars, page chips, heading bands) is tinted with NEUTRAL
+ *    ALPHA greys. rgba(128,128,128,…) reads as a soft panel over a light or a
+ *    dark background alike, so it needs no dark-mode variant and keeps
+ *    working even where prefers-color-scheme is ignored.
+ * 3. Only three hues carry meaning, and only those need a light/dark pair:
+ *      instruction  yig chung — the interlinear instruction layer.
+ *                   Pecha red (མཚལ), the traditional colour for exactly this.
+ *      repeat       the repeat/abbreviation machinery (⥀ ￫ markers).
+ *      link         links out of the book (Lotsawa House, Samye).
+ *
+ * Alpha is written rgba(), never rgb() with a 4th argument: the latter is
+ * CSS Color 4 and is dropped wholesale by older EPUB engines.
+ */
+:root {
+  /* Chrome — theme-agnostic, no dark variant needed */
+  --ui-tint:        rgba(128, 128, 128, 0.13);
+  --ui-tint-strong: rgba(128, 128, 128, 0.28);
+  --ui-border:      rgba(128, 128, 128, 0.35);
+
+  /* The three meaningful hues */
+  --instruction:      #9C3B2E;   /* 6.8:1 on white */
+  --instruction-tint: rgba(156, 59, 46, 0.10);
+  --repeat:           #7D5115;   /* 6.9:1 on white, 4.8:1 on the gray theme */
+  --repeat-tint:      rgba(125, 81, 21, 0.12);
+  --link:             #1F5C74;   /* 7.4:1 on white */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --instruction:      #E9A79A; /* 8.5:1 on #1C1C1E */
+    --instruction-tint: rgba(233, 167, 154, 0.14);
+    --repeat:           #D9B27C;
+    --repeat-tint:      rgba(217, 178, 124, 0.16);
+    --link:             #7FC3DC;
+  }
+}
+
+/** Editing aids. Shown on the key page, hidden in the running text. **/
 .invisiblec {
-  display: display;
-  /** TODO Set to "display", "inline" or "none" depening on editing or publishing.*/
+  display: inline;
+  /** TODO Set to "inline" or "none" depending on editing or publishing.*/
   font-family: Courier New, sans-serif;
-  color: red;
+  color: var(--instruction);
 }
 .invisible {
   display: none;
-  /* TODO Set to "none" or "display" */
+  /* TODO Set to "none" or "inline" */
 }
 .invisibleRepeat {
-  display: display;
-  /* TODO Set to "none" or "display" */
+  display: inline;
+  /* TODO Set to "none" or "inline" */
 }
-
-
-:root {
-  --button-color: rgb(50, 50, 200, 0.1);
-  --button-hover-color: rgb(50, 50, 200, 0.4);
-  --button-border-color: rgb(50, 50, 50, 0.3);
-  --page-number-color: rgb(50, 50, 50, 0.1);
-  
-  --tib-yigchung-color: #107896;
-  --tib-yigchungh-color: #107896;
-  --tib-color: black; 
-
-    --chapter-header-background: rgb(100,100,100,0.2);
-  --anchor-color: rgb(200, 50, 50, 0.2);
-  --repeat-next-color: rgb(150,75,35,0.1);
-
-}
-
 
 .calibreBody {
   display: block;
@@ -44,73 +73,43 @@
 }
 /** (Invisible) entry markers for TOC **/
 .tocpage1, .tocpage2 {
-  background: var(--chapter-header-background);
+  background: var(--ui-tint);
   margin: 0;
   text-align: center;
   line-height: 1.5;
   font-size: 100%;
   text-decoration: none;
-  display: wrap;
+  display: block;
   padding-left: 0;
 }
 
-/** Normal letters*/
+/** Normal letters. No colour: the reader's theme owns body text. */
 .tibnormal {
-  color: var(--tib-color);
   font-size: 1em;
   line-height: 1.5em;
   font-family: Monlam Uni OuChan2, serif;
 }
-/** Yig-chung small letters*/
+/** Yig-chung small letters — the instruction layer */
 .tibyigchung {
   font-family: Monlam Uni OuChan2, serif;
-  color: var(--tib-yigchung-color);
+  color: var(--instruction);
   font-size: 0.8em;
   line-height: 1.5em;
 }
 .tibyigchungH {
   font-family: Monlam Uni OuChan2, serif;
-  color: var(--tib-yigchungh-color);
+  color: var(--instruction);
   font-size: 1.5em;
   line-height: 1.8em;
   margin: 0 1em 0 0;
 }
-.tibnormalRepeat3 {
-  color: var(--repeat-next-color);
-  font-size: 1em;
-  line-height: 1.3em;
-}
-.tibnormalRepeat3:before {
-  display: inline-block;
-  font-size: 0.5em;
-  margin-right: 0.4em;
-  margin-left: 0.4em;
-  content: "➡️";
-}
-.tibnormalRepeat3:after {
-  padding: 0.5em 0.5em 0.4em 0.5em;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  border-radius: 0.5em;
-  margin-bottom: 0.6em;
-  margin-top: 0.6em;
-  margin-left: 0.6em;
-  margin-right: 0.6em;
-  content: "🔁3️⃣";
-}
-/** Paragraph **/
-.prayerpara {
-  background: yellow;
-  display: inline;
-  page-break-after: avoid;
 
-}
-
-/** TODO remove/replace Small page numbers corresponding to pecha page numbers **/
+/** Small page numbers corresponding to pecha page numbers.
+    Hidden by default; styled so that switching it on is not a shock. **/
 .pageno {
-  color: #707C80;
-  background-color: red;
+  background: var(--ui-tint);
+  border-radius: 0.3em;
+  padding: 0 0.2em;
   font-size: 0.5em;
   margin: 0.5em;
   font-weight: normal;
@@ -120,7 +119,7 @@
 
 /* Links & targets have most attributes in common*/
 .jumpTODO, .jumpRepeat, .jumpRepeat3, .jumpUp, .jumpDown, .jump {
-  background: var(--button-color);
+  background: var(--ui-tint);
   padding: 0.3em 0.5em 0.2em 0.5em;
   text-align: center;
   text-decoration: none;
@@ -132,11 +131,10 @@
   margin-right: 0.2em;
   margin-left: 0.2em;
 }
-/** Targets have some special attributes: 
-- no border. 
-- reddish color **/
+/** Jump targets: like the buttons, but a shade more present, and not
+    interactive. **/
 .inlineAnchor, .repeatAnchor, .inlineAnchorReturn {
-  background: var(--anchor-color);
+  background: var(--ui-tint-strong);
   padding: 0.8em 0.5em 0.4em 0.5em;
   border-radius: 0.5em;
   display: inline-block;
@@ -145,8 +143,8 @@
   margin-bottom: 0.6em;
   margin-right: 0.6em;
   margin-left: 0.6em;
-  border: none 4px;
-  cursor: normal;
+  border: none;
+  cursor: default;
 }
 
 .jumpRepeat, .jumpRepeat3 {
@@ -163,16 +161,16 @@
 }
 
 
-.jumpTODO:hover, .jumpRepeat:hover, .jumpRepeat3:hover, .jumpUp:hover, .jumpDown:hover, .jump:hover {  
-  background: var(--button-hover-color);
+.jumpTODO:hover, .jumpRepeat:hover, .jumpRepeat3:hover, .jumpUp:hover, .jumpDown:hover, .jump:hover {
+  background: var(--ui-tint-strong);
   }
-  
+
 .jumpTODO:before {
   content: "TODO "; }
-  
+
 .left, .right  {
-  background: var(--button-color);
-  border-color: var(--button-border-color); 
+  background: var(--ui-tint);
+  border-color: var(--ui-border);
   padding: 0.7em 0.5em 0.4em 0.5em;
   text-align: center;
   text-decoration: none;
@@ -190,8 +188,8 @@
 }
 
 .ppnp {
-  background: var(--button-color);
-  border-color: var(--button-border-color);
+  background: var(--ui-tint);
+  border-color: var(--ui-border);
 
   padding: 0.5em 0.5em 0.4em 0.5em;
   text-align: center;
@@ -212,7 +210,6 @@
 
 /** Prayer bigger page number **/
 .navigation-h2 {
-  float: center;
   padding: 0.2em 0.2em;
   text-align: center;
   text-decoration: none;
@@ -232,10 +229,10 @@
 }
 
 
-/** In-line actual physical page marker 
+/** In-line actual physical page marker
 ipnpx - convenient page break between words, avoids breaking up sentences mid-word. **/
 a.ipnpx {
-  background: var(--page-number-color);
+  background: var(--ui-tint);
   padding: 0.1em 0.2em 0.1em 0.2em;
   text-align: center;
   border-radius: 0.3em;
@@ -247,20 +244,9 @@ a.ipnpx {
   margin-left: 0.1em;
   margin-right: 0.1em;
 }
-a.ipnptodo{
-  background: red;
-  padding: 0.5em 0.5em 0.5em 0.5em;
-  text-align: center;
-  cursor: pointer;
-  width: 1.8em;
-  margin-bottom: 0;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-}
-
 
 .ipnpx:hover, .ppnp:hover, .left:hover, .right:hover {
-  background: var(--button-hover-color);
+  background: var(--ui-tint-strong);
   }
 
 .inlineAnchor:after {
@@ -287,17 +273,15 @@ a.ipnptodo{
   font-size: 0.5em;
   content: "⟲";
 }
+/** First occurrence of an abbreviated line. Inherits the theme's text
+    colour; the repeat markers around it carry the signal. **/
 .repeatFirstOcc {
-  color: black;
   text-decoration: none;
-  text-decoration-color: orange;
-  text-decoration-style: aolis;
-  text-decoration-thickness: 1px;
 }
 .repeatNextOcc {
   padding: 0.2em 0.3em 0em 0;
   border-radius: 0.2em;
-  background: var(--repeat-next-color);
+  background: var(--repeat-tint);
   text-decoration: none;
   display: inline;
   font-size: 100%;
@@ -306,7 +290,8 @@ a.ipnptodo{
 
 .repeatWrap:before, .repeatWrap3:before {
   padding: 0em 0.1em 0em 0.1em;
-  background: var(--anchor-color);
+  background: var(--repeat-tint);
+  color: var(--repeat);
   border-radius: 0.2em;
   vertical-align: center;
   margin-left: 0.5em;
@@ -315,7 +300,8 @@ a.ipnptodo{
 }
 .repeatEnd:before, .repeatEnd3:before {
   padding: 0em 0.1em 0em 0.1em;
-  background: var(--anchor-color);
+  background: var(--repeat-tint);
+  color: var(--repeat);
   border-radius: 0.2em;
   vertical-align: center;
   margin-left: 0.5em;
@@ -323,7 +309,8 @@ a.ipnptodo{
 }
 
 .repeatWrap:after, .repeatWrap3:after, .repeatEnd:after, .repeatEnd3:after {
-  background: var(--anchor-color);
+  background: var(--repeat-tint);
+  color: var(--repeat);
   border-radius: 0.2em;
   padding: 0 0.2em 0 0.2em;
   margin-left: 0.1em;
@@ -344,36 +331,25 @@ li {
   margin-right: 1.4em;
   line-height: 1.6em;
 }
+/** TOC entries are titles, not links: they inherit the theme's text colour
+    rather than shouting in link blue. **/
 a {
   display: inline;
-  color: #131516;
   text-decoration: none;
-}
-ul .level2 {
-  font-size: 0.8em;
-  color: blue;
 }
 /** For translated TOC*/
 ul .toctib1 {
-  color: blue;
+  color: var(--instruction);
   font-size: 0.7em;
   line-height: 1.7em;
   line-break: auto;
 }
 ul .toctib2 {
-  color: red;
+  color: var(--link);
   font-size: 0.7em;
   line-height: 1.7em;
   line-break: auto;
 }
-/** TOC in English */
-.tocen {
-  color: black;
-  font-size: 1em;
-  line-height: 1.7em;
-}
-
-  
 
 .left:before {
   content: "←";
@@ -381,12 +357,11 @@ ul .toctib2 {
 
 .right:after {
   content: "→";
-  }    
+  }
 
 
 .center {
   display: inline;
-  float: center;
 }
 .center:before {
   content: "(";
@@ -399,27 +374,12 @@ ul .toctib2 {
 }
 
 .wrap {
-  background: var(--chapter-header-background);
+  background: var(--ui-tint);
   text-align: center;
   padding: 0em 0.5em 0.2em 0.5em;
 }
 div#pagenumberlist {
   margin: 2em;
-}
-a.pagenumber {
-  background-color: #efefef;
-  border: none;
-  color: black;
-  padding: 0.3em 0.4em;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  border-radius: 0.7em;
-  font-size: 0.8em;
-  cursor: pointer;
-  width: 2.2em;
-  margin-top: 0.3em;
-  margin-bottom: 0.3em;
 }
 div.pn {
   margin-top: -1.8em;
@@ -431,21 +391,6 @@ div.pnh {
 div.pagenumber {
   text-align: center;
 }
-a.pnp {
-  background-color: #efefef;
-/**  border: none;*/
-  color: #444;
-  padding: 0.3em 0.3em;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  border-radius: 0.8em;
-  font-size: 0.9em;
-  cursor: pointer;
-  width: 1.8em;
-  margin-bottom: 0.8em;
-  margin-left: 0.5em;
-}
 .prevlink {
   float: left;
 }
@@ -453,27 +398,22 @@ a.pnp {
   float: right;
 }
 table, th, td {
-  border: 1px solid;
+  border: 1px solid var(--ui-border);
   border-collapse: collapse;
   padding: 0.5em;
   table-layout: fixed;
 }
 th {
-  background-color: #04AA6D;
-  color: white;
+  background: var(--ui-tint-strong);
 }
-.lh {
-  color: red;
+/** Links out of the book **/
+.lh, .st {
+  color: var(--link);
   text-decoration: underline;
   cursor: alias;
 }
 .lh:after {
   content: "[Lotsawa House]";
-}
-.st {
-  color: red;
-  text-decoration: underline;
-  cursor: alias;
 }
 .st:after {
   content: "[Samye Translations]";
@@ -488,7 +428,7 @@ th {
   clear: right;
   border-width: 0.1em;
   border-style: none;
-  border-color: black;
+  border-color: var(--ui-border);
   justify-content: center;
   align-items: center;
   page-break-inside: avoid;
@@ -498,27 +438,26 @@ th {
   padding: 0.5em 0.5em 0.5em 0.5em;
   margin: auto 3px;
   border-style: solid;
-  border-color: black;
+  border-color: var(--ui-border);
   border-width: 3px;
   display: block;
   text-align: center;
 
   }
-  
+
 .image {
   padding: 0.2em 0.2em 0.2em 0.2em;
   width: 3cm;
   border-style: solid;
-  border-color: black;
+  border-color: var(--ui-border);
   border-width: 3px;
   display: inline-block;
   text-align: center;
   }
-  
+
 .caption {
   width: 3.5cm;
   font-family: Monlam Uni OuChan2, serif;
-  color: black;
   font-size: 0.5em;
   line-height: 0.9em;
   display: block;
