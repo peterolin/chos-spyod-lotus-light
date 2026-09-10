@@ -122,16 +122,37 @@
   margin: 0 1em 0 0;
 }
 
-/** Small page numbers corresponding to pecha page numbers.
-    Hidden by default; plain text if switched on, no chip. **/
+/** The printed-book page number.
+    It belongs to the prayer, not to the navigation: one number, on the title
+    line, quiet. The arrows are left to mean one thing — step to the next
+    PRAYER — instead of looking like a pager stepping pages.
+
+    The adjacent-sibling rule does the separating: the span that follows a
+    title shows (111 of them), while the 30 that stand alone mid-text stay
+    hidden with the rest of the page-marker clutter. **/
 .pageno {
-  opacity: var(--secondary-strength);
+  display: none;
   padding: 0 0.2em;
   font-size: 0.5em;
   margin: 0.5em;
   font-weight: normal;
+}
+h1 + .pageno, h2 + .pageno, h3 + .pageno,
+h4 + .pageno, h5 + .pageno, h6 + .pageno {
+  display: inline;
+  opacity: var(--secondary-strength);
+}
+/** Sections whose printed page is not yet known carry '???' in the source as
+    a standing TODO. Keep that visible to the editor, never to the reader.
+    Two classes (0-2-0) outrank the h + .pageno rule above (0-1-1). **/
+.pageno.pageno-unknown {
   display: none;
-  /** inline or none */
+}
+
+/** The page number that used to sit between the arrows. Retired in favour of
+    the title line above; markup left in place. **/
+.ppnp {
+  display: none;
 }
 
 /** Jump links inside the text. Quiet: the ← and → glyphs plus a hairline
@@ -186,17 +207,6 @@
   cursor: pointer;
 }
 
-.ppnp {
-  opacity: var(--secondary-strength);
-  padding: 0.2em 0.3em;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 80%;
-  line-height: 1.2;
-  cursor: pointer;
-}
-
 .left {
   float: left;
 }
@@ -232,9 +242,9 @@ a.ipnpx {
 }
 
 /** Hover brings the arrows up to full strength rather than filling them in.
-    .ipnpx is deliberately absent: it is hidden, so it must not reappear as a
-    sliver on hover. **/
-.ppnp:hover, .left:hover, .right:hover,
+    .ipnpx and .ppnp are deliberately absent: both are hidden, so neither must
+    reappear on hover. **/
+.left:hover, .right:hover,
 .jumpUp:hover, .jumpDown:hover, .jump:hover,
 .jumpRepeat:hover, .jumpRepeat3:hover, .jumpTODO:hover {
   opacity: 1;
