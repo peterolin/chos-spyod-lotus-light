@@ -36,6 +36,39 @@ commit    git add src/ && git commit    real, readable, line-level diffs
 `build/` is generated output and is git-ignored. Never edit anything in it;
 it is overwritten on every build.
 
+## Why a rebuilt book can look unchanged
+
+Apple Books keys its library on the EPUB's **unique identifier**. Import a
+file whose identifier it has already seen and it shows you the *cached* book —
+so your CSS edit appears not to have happened. This cost one debugging session
+already.
+
+`tools/pack.sh` therefore stamps every build:
+
+| stamp | value | behaviour |
+| --- | --- | --- |
+| version | `<utc timestamp>+<hash>` | always increases |
+| identifier | `<base uuid>-b<hash>` | changes **iff** `src/` changed |
+
+The hash covers every filename and byte in `src/`, so it is content-derived,
+not random: change a file and the identifier moves, so Books imports it fresh;
+rebuild unchanged content and it stays put, so the library does not fill with
+duplicate copies of an identical book. Revert an edit and the previous
+identifier comes back.
+
+`src/` is never touched — the stamp is applied to a staged copy, so `git
+status` stays clean across builds. The build string is also written to
+`build/version.txt` and into the OPF as `<meta name="build">`.
+
+```bash
+tools/pack.sh                 # stamped build
+tools/pack.sh --stamp-title   # also append the build to the visible title,
+                              # so several builds are told apart in a library
+```
+
+If Books still shows a stale copy, delete the book from the library and
+re-add it; the identifier only helps on a fresh import.
+
 ## Layout
 
 ```
