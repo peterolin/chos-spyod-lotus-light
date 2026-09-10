@@ -8,10 +8,13 @@
  *
  * 1. Body text is never given a colour. The reader's theme owns it. Setting
  *    `color: black` here fought all four themes and broke the dark one.
- * 2. Chrome (nav bars, page chips, heading bands) is tinted with NEUTRAL
- *    ALPHA greys. rgba(128,128,128,…) reads as a soft panel over a light or a
- *    dark background alike, so it needs no dark-mode variant and keeps
- *    working even where prefers-color-scheme is ignored.
+ * 2. Nothing in the running text is filled in. Prev/next arrows, jump links
+ *    and jump targets used to sit on reversed panels, which made ordinary
+ *    text look like tappable buttons; they are now glyphs at
+ *    --secondary-strength, and the nav block is a single hairline. What
+ *    little chrome remains is a NEUTRAL ALPHA grey: rgba(128,128,128,…)
+ *    reads the same over a light or a dark ground, so it needs no dark-mode
+ *    variant and keeps working even where prefers-color-scheme is ignored.
  * 3. Yig chung is not a colour at all. It is the same ink as the body text,
  *    held at --secondary-strength via `opacity`. That is what makes it read
  *    as "the same letters, one degree quieter" in every theme: it composites
@@ -29,10 +32,10 @@
  * CSS Color 4 and is dropped wholesale by older EPUB engines.
  */
 :root {
-  /* Chrome — theme-agnostic, no dark variant needed */
-  --ui-tint:        rgba(128, 128, 128, 0.13);
-  --ui-tint-strong: rgba(128, 128, 128, 0.28);
-  --ui-border:      rgba(128, 128, 128, 0.35);
+  /* Chrome — theme-agnostic, no dark variant needed. Only two are left:
+     stripping the button look removed every other fill in the book. */
+  --ui-tint:   rgba(128, 128, 128, 0.13);
+  --ui-border: rgba(128, 128, 128, 0.35);
 
   /* Secondary text: the theme's own ink, one degree quieter.
      0.75 measures 5.9:1 (gray) to 8.2:1 (night) — comfortable everywhere.
@@ -83,9 +86,10 @@
   page-break-after: avoid;
 
 }
-/** (Invisible) entry markers for TOC **/
+/** Prayer titles. Pecha red, and nothing else: no band, no reversed
+    background. The colour alone is enough to find them when thumbing. **/
 .tocpage1, .tocpage2 {
-  background: var(--ui-tint);
+  color: var(--accent);
   margin: 0;
   text-align: center;
   line-height: 1.5;
@@ -119,10 +123,9 @@
 }
 
 /** Small page numbers corresponding to pecha page numbers.
-    Hidden by default; styled so that switching it on is not a shock. **/
+    Hidden by default; plain text if switched on, no chip. **/
 .pageno {
-  background: var(--ui-tint);
-  border-radius: 0.3em;
+  opacity: var(--secondary-strength);
   padding: 0 0.2em;
   font-size: 0.5em;
   margin: 0.5em;
@@ -131,107 +134,67 @@
   /** inline or none */
 }
 
-/* Links & targets have most attributes in common*/
+/** Jump links inside the text. Quiet: the ← and → glyphs plus a hairline
+    underline carry it. No fill, no radius — nothing that reads as a button. **/
 .jumpTODO, .jumpRepeat, .jumpRepeat3, .jumpUp, .jumpDown, .jump {
-  background: var(--ui-tint);
-  padding: 0.3em 0.5em 0.2em 0.5em;
-  text-align: center;
-  text-decoration: none;
+  opacity: var(--secondary-strength);
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-color: var(--ui-border);
+  text-decoration-thickness: 1px;
   display: inline;
-  border-width: 0px;
-  border-radius: 0.5em;
   font-size: 80%;
   line-height: 80%;
   margin-right: 0.2em;
   margin-left: 0.2em;
 }
-/** Jump targets: like the buttons, but a shade more present, and not
-    interactive. **/
+/** Jump targets: the ↳ glyph alone marks the spot. Not interactive, so it
+    must not look it. **/
 .inlineAnchor, .repeatAnchor, .inlineAnchorReturn {
-  background: var(--ui-tint-strong);
-  padding: 0.8em 0.5em 0.4em 0.5em;
-  border-radius: 0.5em;
-  display: inline-block;
-  font-size: 50%;
-  line-height: 80%;
-  margin-bottom: 0.6em;
-  margin-right: 0.6em;
-  margin-left: 0.6em;
+  opacity: var(--secondary-strength);
+  padding: 0;
+  display: inline;
+  font-size: 70%;
+  margin-right: 0.3em;
+  margin-left: 0.3em;
   border: none;
   cursor: default;
 }
 
 .jumpRepeat, .jumpRepeat3 {
-  padding: 0.8em 0.4em 0.4em 0.5em;
-  border-radius: 0.5em;
-  display: inline-block;
-  font-size: 50%;
-  line-height: 80%;
-  margin-bottom: 0.6em;
-  margin-right: 0.6em;
-  margin-left: 0.6em;
+  padding: 0;
+  display: inline;
+  font-size: 70%;
+  margin-right: 0.3em;
+  margin-left: 0.3em;
   cursor: pointer;
-
 }
-
-
-.jumpTODO:hover, .jumpRepeat:hover, .jumpRepeat3:hover, .jumpUp:hover, .jumpDown:hover, .jump:hover {
-  background: var(--ui-tint-strong);
-  }
 
 .jumpTODO:before {
   content: "TODO "; }
 
+/** Prev/next arrows and the page number between them: the whole nav block is
+    a hairline and three quiet glyphs. **/
 .left, .right  {
-  background: var(--ui-tint);
-  border-color: var(--ui-border);
-  padding: 0.7em 0.5em 0.4em 0.5em;
+  opacity: var(--secondary-strength);
+  padding: 0.2em 0.3em;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  border-radius: 0.5em;
-  border-width: 0px;
-  border-style: solid;
-  font-size: 70%;
-  line-height: 70%;
+  font-size: 85%;
+  line-height: 1.2;
   cursor: pointer;
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-  margin-right: 0em;
-  margin-left: 0em;
 }
 
 .ppnp {
-  background: var(--ui-tint);
-  border-color: var(--ui-border);
-
-  padding: 0.5em 0.5em 0.4em 0.5em;
+  opacity: var(--secondary-strength);
+  padding: 0.2em 0.3em;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  border-radius: 0.5em;
-  border-width: 0px;
-  border-style: solid;
   font-size: 80%;
-  line-height: 70%;
+  line-height: 1.2;
   cursor: pointer;
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-  margin-right: 0em;
-  margin-left: 0em;
-}
-
-
-/** Prayer bigger page number **/
-.navigation-h2 {
-  padding: 0.2em 0.2em;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  border-radius: 0.5em;
-  font-size: 100%;
-  cursor: pointer;
-  width: 1.8em;
 }
 
 .left {
@@ -268,10 +231,13 @@ a.ipnpx {
   cursor: pointer;
 }
 
-/** .ipnpx is deliberately absent here: it is hidden, so it must not
-    reappear as a sliver on hover. **/
-.ppnp:hover, .left:hover, .right:hover {
-  background: var(--ui-tint-strong);
+/** Hover brings the arrows up to full strength rather than filling them in.
+    .ipnpx is deliberately absent: it is hidden, so it must not reappear as a
+    sliver on hover. **/
+.ppnp:hover, .left:hover, .right:hover,
+.jumpUp:hover, .jumpDown:hover, .jump:hover,
+.jumpRepeat:hover, .jumpRepeat3:hover, .jumpTODO:hover {
+  opacity: 1;
   }
 
 .inlineAnchor:after {
@@ -398,10 +364,15 @@ ul .toctib2 {
   page-break-inside: avoid;
 }
 
+/** The nav block. A hairline under the arrows instead of a filled bar —
+    same function, a fraction of the weight. overflow contains the floated
+    arrows, which previously escaped the div. **/
 .wrap {
-  background: var(--ui-tint);
+  border-bottom: 1px solid var(--ui-border);
   text-align: center;
-  padding: 0em 0.5em 0.2em 0.5em;
+  padding: 0em 0.2em 0.2em 0.2em;
+  margin-bottom: 0.6em;
+  overflow: hidden;
 }
 div#pagenumberlist {
   margin: 2em;
@@ -428,8 +399,10 @@ table, th, td {
   padding: 0.5em;
   table-layout: fixed;
 }
+/** The one place a fill still earns its keep: the key page's table header,
+    where it reads as a table, not a button. **/
 th {
-  background: var(--ui-tint-strong);
+  background: var(--ui-tint);
 }
 /** Links out of the book **/
 .lh, .st {
