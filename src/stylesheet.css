@@ -188,7 +188,8 @@
 .pageno {
   display: none;
   padding: 0 0.2em;
-  font-size: 0.5em;
+  /** 0.4em, down from 0.5em — it was competing with the text around it. **/
+  font-size: 0.4em;
   margin: 0.5em;
   font-weight: normal;
 }
