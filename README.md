@@ -40,17 +40,34 @@ text was in the book the whole time, only unreachable:
   glance against the printed book. **Its heading is still the placeholder**
   `?? == Lineage prayers == ??` and needs the real Tibetan title.
 
-### Unfilled navigation (no errors, but the arrows go nowhere useful)
+### Navigation is now complete
 
-- **117 prev/next arrows in 53 files** still point at `../pn.htm#todo`, and 5
-  more at a hidden `id="TODO"` sink in `p1_4_27_30_34_39_48.htm`. Because those
-  targets exist, `check.py` cannot see them — they pass QA and dead-end for the
-  reader. Fillable mechanically from spine + document order, the way the first
-  28 were.
+Every prev/next arrow in the book points at a real neighbouring practice.
+`tools/nav.py` derives them from the headings in spine order (see
+[WORKFLOW.md](WORKFLOW.md)); it filled the remaining **123 placeholders**
+across 40 files, so there are no `../pn.htm#todo` dead ends left.
+
+Fixed along the way, each found by deriving the chain rather than reading it:
+
+- `p133_…_179.htm` had `<h class="tocpage1" id="top">` — **`<h>` is not an
+  HTML element**, so the 142 section was not a heading at all. Now `<h1>` with
+  `id="page142"`, matching every other section.
+- `page346` (ཕྲིན་ལས་སྙིང་པོ།) displayed page **340**, though its own id says 346
+  and it sits between 344 and 350. Now 346 — worth a glance at the printed book.
+- Two tooltips repeated the page number (`ཇ་མཆོད། 175 175`, `བདུད་བཞི་ལས་རྒྱལ། 742 742`).
+
+Still open, and deliberately left for the editor:
+
+- **29 tooltips disagree with their heading** — `python3 tools/nav.py` lists
+  them. Several are Tibetan orthography differences where the *heading* looks
+  like the wrong spelling (`མཆོག་གླིངརྣམ` missing a tsheg, `རྒྱུན་ཀྱི` for `རྒྱུན་གྱི`,
+  `མཙན་བརྗོད`, `ཁ་བའི་ལྗོང`), so the fix belongs in the heading, not the tooltip.
 - **49 `XXXTODOXXX` markers** in `repeatNextOcc` spans — abbreviated repeated
   lines whose continuation text is missing. These need the printed book.
 - Two headings still read `TODO phys page ???` (`c_95.htm`, `c_106.htm`), and
   one `ppnp` reads `TODO phys page` (`p133_…_179.htm`).
+- The lineage-prayer section (`page63`) is still outside the arrow chain,
+  because its heading is a placeholder. Give it a title and re-run `nav.py`.
 
 ### Page numbering: TOC vs text
 

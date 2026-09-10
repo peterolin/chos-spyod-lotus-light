@@ -26,6 +26,7 @@ The source of truth is **`src/`** — the unpacked EPUB, 75 plain files.
 
 ```
 edit      src/…                        in VSCode, alongside Claude
+nav       python3 tools/nav.py         derive prev/next arrows (report only)
 check     python3 tools/check.py       structural QA (links, anchors, manifest)
 preview   tools/preview.sh             builds, then opens the Calibre viewer
 build     tools/pack.sh                -> build/Ka-Nying-Chos-spyod.epub
@@ -68,6 +69,37 @@ to — navigation that points at nothing:
 6. Media referenced by nobody
 
 Run it before every commit. Exit code is non-zero if there are errors.
+
+**`check.py` has one blind spot worth knowing:** it verifies that a link's
+target *exists*, not that it is *meaningful*. A placeholder pointing at
+`../pn.htm#todo` resolves, so it passes QA while dead-ending for the reader.
+`tools/nav.py` is what catches that class.
+
+## tools/nav.py
+
+Prev/next arrows are not worth typing: the `tocpage1`/`tocpage2` headings,
+walked in spine order, already *are* the reading order of the book. `nav.py`
+derives each arrow from that order.
+
+```bash
+python3 tools/nav.py           # report only — the default
+python3 tools/nav.py --write   # apply
+```
+
+It is deliberately conservative, and the split matters:
+
+- **It fills** arrows still holding a placeholder (`../pn.htm#todo`, `#TODO`,
+  `title="todoprev"`, `#??`), and fixes tooltips that repeat the page number
+  twice (`ཇ་མཆོད། 175 175`). Both are mechanically certain.
+- **It only reports** anything needing judgement: an arrow whose target
+  disagrees with document order, and tooltips whose wording or spelling
+  differs from their heading. Many of those differences are Tibetan
+  orthography (`མཆོག་གླིངརྣམ` vs `མཆོག་གླིང་རྣམ`, `རྒྱུན་ཀྱི` vs `རྒྱུན་གྱི`) and in
+  several the *heading* is the wrong one — so rewriting tooltips from headings
+  would spread typos, not fix them. That call is the editor's.
+
+Re-running after `--write` reports nothing to do, so it is safe in a loop.
+Add a section anywhere and re-run to wire it into the chain.
 
 ## Importing an EPUB (rare)
 
