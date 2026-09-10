@@ -460,15 +460,17 @@ a.ipnpx {
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
   padding: 0;
+  /** Tight against the text it opens, air on the outside. **/
   margin-left: 0.2em;
-  margin-right: 0.05em;
+  margin-right: 0;
 }
 .repeatWrap:after, .repeatEnd:after {
   content: "\0F3D";              /* ༽ */
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
   padding: 0;
-  margin-left: 0.05em;
+  /** Tight against the text it closes, air on the outside. **/
+  margin-left: 0;
   margin-right: 0.2em;
 }
 /** …three times. The numeral is the whole point of the variant, and the old
@@ -478,7 +480,8 @@ a.ipnpx {
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
   padding: 0;
-  margin-left: 0.05em;
+  /** Tight against the text it closes, air on the outside. **/
+  margin-left: 0;
   margin-right: 0.2em;
 }
 /** Formatting for the Table of Contents file toc1.xhtml **/
