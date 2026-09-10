@@ -86,17 +86,44 @@
   page-break-after: avoid;
 
 }
-/** Prayer titles. Pecha red, and nothing else: no band, no reversed
-    background. The colour alone is enough to find them when thumbing. **/
+/** Prayer titles: a DIVIDER, not a banner.
+
+    Most prayers do not start at the top of a page, and in a reflowable EPUB
+    they never reliably will — font size, window size and scrolling mode all
+    move where pages fall. So the header carries its own separation and reads
+    the same wherever it lands.
+
+    Proximity does the work: air ABOVE separates this prayer from the last one,
+    tightness BELOW groups the title with its own nav and text. The hairline
+    sits above the title for the same reason — below the nav it merely
+    underlines the nav instead of dividing two prayers. **/
 .tocpage1, .tocpage2 {
   color: var(--accent);
-  margin: 0;
+  margin: 2.2em 0 0.15em 0;
+  padding-top: 0.9em;
+  border-top: 1px solid var(--ui-border);
   text-align: center;
   line-height: 1.5;
   font-size: 100%;
   text-decoration: none;
   display: block;
   padding-left: 0;
+  /** Never leave a title stranded at the foot of a page, split from the
+      prayer it names. **/
+  page-break-after: avoid;
+  break-after: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+/** A divider needs something above it to divide from. 46 of the 53 documents
+    open with a prayer title, where the rule and the air would be dividing the
+    title from nothing. (:first-child ignores whitespace text nodes, so this
+    matches the title even though it sits on its own line after <body>.) **/
+.calibreBody > .tocpage1:first-child,
+.calibreBody > .tocpage2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 
 /** Normal letters. No colour: the reader's theme owns body text. */
@@ -382,15 +409,22 @@ ul .toctib2 {
   page-break-inside: avoid;
 }
 
-/** The nav block. A hairline under the arrows instead of a filled bar —
-    same function, a fraction of the weight. overflow contains the floated
-    arrows, which previously escaped the div. **/
+/** The nav block. No rule of its own — the divider above the title does that
+    job now. overflow contains the floated arrows, which previously escaped
+    the div. **/
 .wrap {
-  border-bottom: 1px solid var(--ui-border);
   text-align: center;
   padding: 0em 0.2em 0.2em 0.2em;
   margin-bottom: 0.6em;
   overflow: hidden;
+  /** Keep the arrows with their title, and the whole header with the text it
+      introduces. **/
+  page-break-before: avoid;
+  break-before: avoid;
+  page-break-after: avoid;
+  break-after: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 div#pagenumberlist {
   margin: 2em;
