@@ -40,9 +40,6 @@ HEADING = re.compile(
     re.S,
 )
 
-# One nav block, captured so the left/right anchors can be edited in place.
-WRAP = re.compile(r'<div class="wrap"[^>]*>.*?</div>', re.S)
-
 # A left/right arrow inside a nav block.
 ARROW = re.compile(r'<a\s+class="(left|right)"\s+([^>]*?)(/?)>')
 
@@ -171,16 +168,21 @@ def main():
             continue
         out, cursor, changed = [], 0, False
 
-        for wrap in WRAP.finditer(text):
-            # The section this nav block belongs to: nearest heading above it.
+        # Iterate the ARROWS, not their container. 104 of the 105 nav blocks
+        # were dissolved when the arrows moved inside their headings (so a
+        # reader can no longer break the header apart and strand them); one
+        # still stands on its own mid-text. Finding arrows directly handles
+        # both, since an arrow inside a heading still sits at or after that
+        # heading's start.
+        for arrow in ARROW.finditer(text):
             owner = None
             for sec in found:
-                if sec["start"] <= wrap.start():
+                if sec["start"] <= arrow.start():
                     owner = sec
                 else:
                     break
             if owner is None:
-                notes.append(f"{rel}: nav block at offset {wrap.start()} "
+                notes.append(f"{rel}: arrow at offset {arrow.start()} "
                              f"precedes every heading — skipped")
                 unfillable += 1
                 continue
@@ -250,10 +252,9 @@ def main():
                 changed = True
                 return f'<a class="{side}" {attrs.strip()}{slash}>'
 
-            new_wrap = ARROW.sub(fix, wrap.group(0))
-            out.append(text[cursor:wrap.start()])
-            out.append(new_wrap)
-            cursor = wrap.end()
+            out.append(text[cursor:arrow.start()])
+            out.append(fix(arrow))
+            cursor = arrow.end()
 
         if changed and args.write:
             out.append(text[cursor:])

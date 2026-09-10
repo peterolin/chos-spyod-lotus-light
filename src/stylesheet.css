@@ -114,14 +114,17 @@
       anywhere that ignores it, since `color` above stays the fallback. **/
   -webkit-text-fill-color: var(--accent);
   margin: 2.2em 0 0.15em 0;
-  padding-top: 0.9em;
   border-top: 1px solid var(--ui-border);
   text-align: center;
   line-height: 1.5;
   font-size: 100%;
   text-decoration: none;
   display: block;
-  padding-left: 0;
+  /** The arrows live INSIDE this heading and are pinned to its edges, so the
+      gutters are reserved on every line — a title that wraps to two or three
+      lines still clears them. **/
+  position: relative;
+  padding: 0.9em 2.4em 0 2.4em;
   /** Never leave a title stranded at the foot of a page, split from the
       prayer it names. **/
   page-break-after: avoid;
@@ -268,8 +271,17 @@ h4 + .pageno, h5 + .pageno, h6 + .pageno {
 .jumpTODO:before {
   content: "TODO "; }
 
-/** Prev/next arrows and the page number between them: the whole nav block is
-    a hairline and three quiet glyphs. **/
+/** Prev/next arrows: two quiet glyphs, flush to the edges of the title.
+
+    They used to sit in their own <div class="wrap"> after the title, which
+    made the header three separate block siblings — and page-break-inside can
+    only protect WITHIN an element, so a reader was free to break between
+    them and strand the arrows on their own page. They now live inside the
+    heading itself: one box, so there is nothing left to break.
+
+    Pinned rather than floated, because a float only pushes the lines it
+    overlaps; the heading's side padding reserves the gutters on every line,
+    so a title wrapping to two or three lines still clears them. **/
 .left, .right  {
   opacity: var(--secondary-strength);
   padding: 0.2em 0.3em;
@@ -280,14 +292,23 @@ h4 + .pageno, h5 + .pageno, h6 + .pageno {
   line-height: 1.2;
   cursor: pointer;
 }
+.tocpage1 > .left, .tocpage2 > .left,
+.tocpage1 > .right, .tocpage2 > .right {
+  position: absolute;
+  /** Vertically centred on the heading, so a multi-line title keeps the
+      arrows beside its middle rather than pinned to its first line. **/
+  top: 50%;
+  margin-top: -0.1em;
+}
+.tocpage1 > .left, .tocpage2 > .left { left: 0; }
+.tocpage1 > .right, .tocpage2 > .right { right: 0; }
 
-.left {
-  float: left;
-}
-.right {
-  display:inline;
-  float: right;
-}
+/** Floats are for the one nav block still standing on its own, mid-text in
+    p88_91_104_115.htm, where there is no heading to pin the arrows to. The
+    other 104 are pinned inside their titles above, and `float` is ignored on
+    a positioned element anyway. **/
+.wrap > .left  { float: left; }
+.wrap > .right { float: right; }
 
 
 /** In-line actual physical page marker
