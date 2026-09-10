@@ -94,6 +94,36 @@ both now read 300, the number the table of contents gives it.
   `p133_…_179.htm`, out of page order.
 - There are still some unnecessary page-breaks
 
+## TODO: persistent prev/next navigation
+
+**Want:** jump/skip to the previous or next prayer from anywhere, without the
+current header — its reversed background reads as too intrusive, and 16 of the
+120 sections have no nav block at all.
+
+**Can an element be pinned in the same place on every page?** In a reflowable
+EPUB, no — not reliably. `position: fixed` is the only mechanism that would do
+it, and reflowable readers either ignore it or let it break pagination; Apple
+Books is among them. A fixed-layout EPUB could, but that is the wrong format
+for a Tibetan text that has to reflow for font size. So a floating always-there
+button is not on the table, and it would cost real screen space if it were.
+
+What is available instead, in rough order of value:
+
+1. **The reader's own TOC button is already always in the same place.** Making
+   `toc.ncx` granular enough that every prayer is one tap away gets most of the
+   wanted behaviour for no screen space at all. Worth auditing coverage.
+2. **The page-list already works** — Apple Books' "go to page" reaches it. This
+   is why the hidden `ipnpx` anchors must stay anchorable.
+3. **`epub:type` landmarks** give readers named jump points they surface in
+   their own UI.
+4. **Make the in-text nav quiet enough to appear everywhere.** This is the real
+   fix for the intrusiveness: drop the reversed background for a hairline rule
+   and the arrows alone, then let `tools/nav.py` generate a block for all 120
+   sections instead of 104. Same function, a fraction of the weight.
+
+Next step: strip the nav block down to arrows on a hairline, look at it in the
+Calibre viewer and Apple Books, then have `nav.py` fill in the 16 missing ones.
+
 ## Planned Improvements
 - More easy jump links for more of the common practices at Gomdes worldwide and Ka-Nying monastery
 - Add a section of common prayers that are not in the chos-spyod, but often used

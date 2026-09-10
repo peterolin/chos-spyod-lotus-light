@@ -12,11 +12,18 @@
  *    ALPHA greys. rgba(128,128,128,…) reads as a soft panel over a light or a
  *    dark background alike, so it needs no dark-mode variant and keeps
  *    working even where prefers-color-scheme is ignored.
- * 3. Only three hues carry meaning, and only those need a light/dark pair:
- *      instruction  yig chung — the interlinear instruction layer.
- *                   Pecha red (མཚལ), the traditional colour for exactly this.
- *      repeat       the repeat/abbreviation machinery (⥀ ￫ markers).
- *      link         links out of the book (Lotsawa House, Samye).
+ * 3. Yig chung is not a colour at all. It is the same ink as the body text,
+ *    held at --secondary-strength via `opacity`. That is what makes it read
+ *    as "the same letters, one degree quieter" in every theme: it composites
+ *    the reader's own ink against the reader's own ground, so it cannot go
+ *    wrong the way a fixed hue does. A colour here would also compete with
+ *    the links.
+ *
+ * 4. Only two hues carry meaning, and only those need a light/dark pair:
+ *      repeat  the repeat/abbreviation machinery (⥀ ￫ markers).
+ *      link    links out of the book (Lotsawa House, Samye).
+ *    --accent (pecha red, མཚལ) is held in reserve for a role yet to be
+ *    chosen; only the editing aid on key.xhtml uses it today.
  *
  * Alpha is written rgba(), never rgb() with a 4th argument: the latter is
  * CSS Color 4 and is dropped wholesale by older EPUB engines.
@@ -27,21 +34,26 @@
   --ui-tint-strong: rgba(128, 128, 128, 0.28);
   --ui-border:      rgba(128, 128, 128, 0.35);
 
-  /* The three meaningful hues */
-  --instruction:      #9C3B2E;   /* 6.8:1 on white */
-  --instruction-tint: rgba(156, 59, 46, 0.10);
-  --repeat:           #7D5115;   /* 6.9:1 on white, 4.8:1 on the gray theme */
-  --repeat-tint:      rgba(125, 81, 21, 0.12);
-  --link:             #1F5C74;   /* 7.4:1 on white */
+  /* Secondary text: the theme's own ink, one degree quieter.
+     0.75 measures 5.9:1 (gray) to 8.2:1 (night) — comfortable everywhere.
+     Turn it down for a fainter yig chung, up for a bolder one. */
+  --secondary-strength: 0.75;
+
+  /* The hues that carry meaning */
+  --repeat:      #7D5115;   /* 6.9:1 on white, 4.8:1 on the gray theme */
+  --repeat-tint: rgba(125, 81, 21, 0.12);
+  --link:        #1F5C74;   /* 7.4:1 on white */
+
+  /* Reserved — pecha red, awaiting a role */
+  --accent:      #9C3B2E;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --instruction:      #E9A79A; /* 8.5:1 on #1C1C1E */
-    --instruction-tint: rgba(233, 167, 154, 0.14);
-    --repeat:           #D9B27C;
-    --repeat-tint:      rgba(217, 178, 124, 0.16);
-    --link:             #7FC3DC;
+    --repeat:      #D9B27C;
+    --repeat-tint: rgba(217, 178, 124, 0.16);
+    --link:        #7FC3DC;
+    --accent:      #E9A79A;
   }
 }
 
@@ -50,7 +62,7 @@
   display: inline;
   /** TODO Set to "inline" or "none" depending on editing or publishing.*/
   font-family: Courier New, sans-serif;
-  color: var(--instruction);
+  color: var(--accent);
 }
 .invisible {
   display: none;
@@ -89,16 +101,18 @@
   line-height: 1.5em;
   font-family: Monlam Uni OuChan2, serif;
 }
-/** Yig-chung small letters — the instruction layer */
+/** Yig-chung small letters — the instruction layer.
+    Same ink as the body, one degree quieter. No colour of its own, so it
+    stays right in every reader theme. */
 .tibyigchung {
   font-family: Monlam Uni OuChan2, serif;
-  color: var(--instruction);
+  opacity: var(--secondary-strength);
   font-size: 0.8em;
   line-height: 1.5em;
 }
 .tibyigchungH {
   font-family: Monlam Uni OuChan2, serif;
-  color: var(--instruction);
+  opacity: var(--secondary-strength);
   font-size: 1.5em;
   line-height: 1.8em;
   margin: 0 1em 0 0;
@@ -230,22 +244,33 @@
 
 
 /** In-line actual physical page marker
-ipnpx - convenient page break between words, avoids breaking up sentences mid-word. **/
+ipnpx - convenient page break between words, avoids breaking up sentences mid-word.
+
+HIDDEN FOR NOW. Keeping them accurate would mean walking every page of the
+printed text, and re-walking it for every future printed edition, so they earn
+less than they cost. The markup is untouched — only the presentation is off.
+
+NOTE: hidden with font-size, NOT display:none. All 65 of these anchors carry an
+id="ppNNN", and 7 of them are the live targets of the page-list in toc.ncx
+(#pp4-#pp10). A display:none element cannot be reliably scrolled to, so hiding
+them that way would silently break exactly that navigation. font-size:0 keeps a
+zero-width box in the flow, so the anchors stay reachable.
+
+To bring them back: restore font-size: 0.7em and the background/padding below. **/
 a.ipnpx {
-  background: var(--ui-tint);
-  padding: 0.1em 0.2em 0.1em 0.2em;
+  font-size: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  border-width: 0px;
   text-align: center;
   border-radius: 0.3em;
-  border-style: solid;
-  border-width: 0px;
-  font-size: 0.7em;
   cursor: pointer;
-  margin-bottom: 0;
-  margin-left: 0.1em;
-  margin-right: 0.1em;
 }
 
-.ipnpx:hover, .ppnp:hover, .left:hover, .right:hover {
+/** .ipnpx is deliberately absent here: it is hidden, so it must not
+    reappear as a sliver on hover. **/
+.ppnp:hover, .left:hover, .right:hover {
   background: var(--ui-tint-strong);
   }
 
@@ -339,7 +364,7 @@ a {
 }
 /** For translated TOC*/
 ul .toctib1 {
-  color: var(--instruction);
+  opacity: var(--secondary-strength);
   font-size: 0.7em;
   line-height: 1.7em;
   line-break: auto;
