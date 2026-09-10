@@ -28,10 +28,15 @@
  *    underlined either: Tibetan writes vowel signs and subjoined letters
  *    below the baseline, and a rule through them is unreadable.
  *
- * 5. That leaves two hues of our own, each needing a light/dark pair:
- *      accent  the prayer titles (pecha red, མཚལ) and the key page's
- *              editing aid.
- *      repeat  the repeat/abbreviation machinery (⥀ ￫ markers).
+ * 5. That leaves two hues of our own, each needing a light/dark pair, and
+ *    both are RELATED reds rather than two unrelated accents:
+ *      accent  the prayer titles (pecha red, མཚལ), the ↳ jump targets, and
+ *              the key page's editing aid.
+ *      repeat  abbreviated repeated text and its ⥀ ￫ markers — the same hue
+ *              family held weaker, so it is legible liturgy that is plainly
+ *              not the original chos-spyod text.
+ *    Neither is ever a background. At 703 occurrences a tint behind the
+ *    repeated text read as highlighter pen through half the book.
  *
  * Alpha is written rgba(), never rgb() with a 4th argument: the latter is
  * CSS Color 4 and is dropped wholesale by older EPUB engines.
@@ -48,16 +53,18 @@
   --secondary-strength: 0.85;
 
   /* The hues that carry meaning */
-  --accent:      #9C3B2E;   /* prayer titles. 6.8:1 on white */
-  --repeat:      #7D5115;   /* 6.9:1 on white, 4.8:1 on the gray theme */
-  --repeat-tint: rgba(125, 81, 21, 0.12);
+  --accent:      #9C3B2E;   /* prayer titles + jump targets. 6.8:1 on white */
+  /* Repeated/abbreviated text. A weaker relative of the accent, not a second
+     accent: saturation 0.34 against the accent's 0.54, and 5.8:1 on white
+     against its 6.8:1. Readable — this is liturgy, not decoration — while
+     plainly not the original chos-spyod text. */
+  --repeat:      #96524A;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --accent:      #E9A79A;
-    --repeat:      #D9B27C;
-    --repeat-tint: rgba(217, 178, 124, 0.16);
+    --repeat:      #CE9A90;   /* 7.0:1 on night, against the accent's 8.5 */
   }
 }
 
@@ -345,10 +352,13 @@ a.ipnpx {
 .repeatFirstOcc {
   text-decoration: none;
 }
+/** Repeated text, abbreviated. Marked by COLOUR, not by a filled chip: at
+    703 occurrences a background reads as highlighter pen through half the
+    book. **/
 .repeatNextOcc {
-  padding: 0.2em 0.3em 0em 0;
-  border-radius: 0.2em;
-  background: var(--repeat-tint);
+  color: var(--repeat);
+  -webkit-text-fill-color: var(--repeat);
+  padding: 0;
   text-decoration: none;
   display: inline;
   font-size: 100%;
@@ -356,32 +366,29 @@ a.ipnpx {
 }
 
 .repeatWrap:before, .repeatWrap3:before {
-  padding: 0em 0.1em 0em 0.1em;
-  background: var(--repeat-tint);
+  padding: 0;
   color: var(--repeat);
-  border-radius: 0.2em;
+  -webkit-text-fill-color: var(--repeat);
   vertical-align: center;
-  margin-left: 0.5em;
+  margin-left: 0.4em;
   margin-right: 0.1em;
   content: "￫";
 }
 .repeatEnd:before, .repeatEnd3:before {
-  padding: 0em 0.1em 0em 0.1em;
-  background: var(--repeat-tint);
+  padding: 0;
   color: var(--repeat);
-  border-radius: 0.2em;
+  -webkit-text-fill-color: var(--repeat);
   vertical-align: center;
-  margin-left: 0.5em;
+  margin-left: 0.4em;
   margin-right: 0.1em;
 }
 
 .repeatWrap:after, .repeatWrap3:after, .repeatEnd:after, .repeatEnd3:after {
-  background: var(--repeat-tint);
   color: var(--repeat);
-  border-radius: 0.2em;
-  padding: 0 0.2em 0 0.2em;
+  -webkit-text-fill-color: var(--repeat);
+  padding: 0 0.1em;
   margin-left: 0.1em;
-  margin-right: 0.5em;
+  margin-right: 0.4em;
   content: "⥀";
 }
 .repeatWrap3:after {
