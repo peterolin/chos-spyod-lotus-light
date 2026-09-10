@@ -22,11 +22,16 @@
  *    wrong the way a fixed hue does. A colour here would also compete with
  *    the links.
  *
- * 4. Only two hues carry meaning, and only those need a light/dark pair:
+ * 4. Links are not coloured by us at all. `color: revert` hands them back to
+ *    the reading system, whose link colour is theme-aware by construction and
+ *    so cannot break in a theme we did not anticipate. They are not
+ *    underlined either: Tibetan writes vowel signs and subjoined letters
+ *    below the baseline, and a rule through them is unreadable.
+ *
+ * 5. That leaves two hues of our own, each needing a light/dark pair:
+ *      accent  the prayer titles (pecha red, མཚལ) and the key page's
+ *              editing aid.
  *      repeat  the repeat/abbreviation machinery (⥀ ￫ markers).
- *      link    links out of the book (Lotsawa House, Samye).
- *    --accent (pecha red, མཚལ) is held in reserve for a role yet to be
- *    chosen; only the editing aid on key.xhtml uses it today.
  *
  * Alpha is written rgba(), never rgb() with a 4th argument: the latter is
  * CSS Color 4 and is dropped wholesale by older EPUB engines.
@@ -43,20 +48,16 @@
   --secondary-strength: 0.85;
 
   /* The hues that carry meaning */
+  --accent:      #9C3B2E;   /* prayer titles. 6.8:1 on white */
   --repeat:      #7D5115;   /* 6.9:1 on white, 4.8:1 on the gray theme */
   --repeat-tint: rgba(125, 81, 21, 0.12);
-  --link:        #1F5C74;   /* 7.4:1 on white */
-
-  /* Reserved — pecha red, awaiting a role */
-  --accent:      #9C3B2E;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --accent:      #E9A79A;
     --repeat:      #D9B27C;
     --repeat-tint: rgba(217, 178, 124, 0.16);
-    --link:        #7FC3DC;
-    --accent:      #E9A79A;
   }
 }
 
@@ -198,24 +199,46 @@ h4 + .pageno, h5 + .pageno, h6 + .pageno {
   display: none;
 }
 
-/** Jump links inside the text. Quiet: the ← and → glyphs plus a hairline
-    underline carry it. No fill, no radius — nothing that reads as a button. **/
-.jumpTODO, .jumpRepeat, .jumpRepeat3, .jumpUp, .jumpDown, .jump {
-  opacity: var(--secondary-strength);
+/** Jump links inside the text.
+
+    NO UNDERLINE: Tibetan carries vowel signs and subjoined letters below the
+    baseline, and a rule drawn through them is unreadable — worse than any
+    colour.
+
+    Colour is handed back to the reading system with `revert`, which undoes the
+    a{color:inherit} above and restores the reader's own link colour. That
+    colour is theme-aware by construction — Books picks one that works in
+    white, sepia, gray and night alike — so it cannot break in a theme we did
+    not anticipate, which no single hue of ours can promise. (No one colour
+    can: clearing 4.5:1 on white needs luminance <= 0.183 and on the night
+    ground >= 0.228.) Where `revert` is unsupported the declaration is dropped
+    and links stay quiet ink — a safe failure. **/
+.jumpTODO, .jumpTodO, .jumpRepeat, .jumpRepeat3, .jumpUp, .jumpDown,
+.jump, .easyjump {
+  color: revert;
   padding: 0;
-  text-decoration: underline;
-  text-decoration-color: var(--ui-border);
-  text-decoration-thickness: 1px;
+  text-decoration: none;
   display: inline;
   font-size: 80%;
   line-height: 80%;
   margin-right: 0.2em;
   margin-left: 0.2em;
 }
-/** Jump targets: the ↳ glyph alone marks the spot. Not interactive, so it
-    must not look it. **/
+/** Jump TARGETS — the ↳ glyph marking a place you jump TO.
+
+    In pecha red, and at full strength rather than --secondary-strength: this
+    is the one mark the eye should find immediately on landing on a new page.
+    Red also keeps it from being read as a link now that links wear the
+    reading system's blue — different hue for a different role, and red is
+    traditionally the colour of the editorial layer in a pecha, which is
+    exactly what these marks are.
+
+    Not interactive, so no underline, no fill, no pointer. **/
 .inlineAnchor, .repeatAnchor, .inlineAnchorReturn {
-  opacity: var(--secondary-strength);
+  color: var(--accent);
+  /** As on the titles: Books' Night theme repaints author `color`, and
+      -webkit-text-fill-color is what survives it. **/
+  -webkit-text-fill-color: var(--accent);
   padding: 0;
   display: inline;
   font-size: 70%;
@@ -223,6 +246,7 @@ h4 + .pageno, h5 + .pageno, h6 + .pageno {
   margin-left: 0.3em;
   border: none;
   cursor: default;
+  text-decoration: none;
 }
 
 .jumpRepeat, .jumpRepeat3 {
@@ -285,11 +309,10 @@ a.ipnpx {
 }
 
 /** Hover brings the arrows up to full strength rather than filling them in.
-    .ipnpx and .ppnp are deliberately absent: both are hidden, so neither must
-    reappear on hover. **/
-.left:hover, .right:hover,
-.jumpUp:hover, .jumpDown:hover, .jump:hover,
-.jumpRepeat:hover, .jumpRepeat3:hover, .jumpTODO:hover {
+    Only the arrows: the jump links carry the reader's own link colour at full
+    strength now, and .ipnpx and .ppnp are hidden, so neither must reappear on
+    hover. **/
+.left:hover, .right:hover {
   opacity: 1;
   }
 
@@ -397,7 +420,7 @@ ul .toctib1 {
   line-break: auto;
 }
 ul .toctib2 {
-  color: var(--link);
+  opacity: var(--secondary-strength);
   font-size: 0.7em;
   line-height: 1.7em;
   line-break: auto;
@@ -472,10 +495,10 @@ table, th, td {
 th {
   background: var(--ui-tint);
 }
-/** Links out of the book **/
+/** Links out of the book. Same reasoning as the jump links: the reading
+    system's own link colour, no underline through the Tibetan. **/
 .lh, .st {
-  color: var(--link);
-  text-decoration: underline;
+  color: revert;
   cursor: alias;
 }
 .lh:after {
