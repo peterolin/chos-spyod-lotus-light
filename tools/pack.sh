@@ -43,16 +43,16 @@
 #
 #   tools/pack.sh                 release build — stable identifier
 #   tools/pack.sh --dev           dev build — identifier busted per content
-#   tools/pack.sh --stamp-title   also append the build to the visible title
+#   tools/pack.sh --plain-title    leave the title without the version
 set -euo pipefail
 
-STAMP_TITLE=0
+PLAIN_TITLE=0
 DEV=0
 for arg in "$@"; do
   case "$arg" in
-    --stamp-title) STAMP_TITLE=1 ;;
+    --plain-title) PLAIN_TITLE=1 ;;
     --dev) DEV=1 ;;
-    *) echo "usage: pack.sh [--dev] [--stamp-title]" >&2; exit 2 ;;
+    *) echo "usage: pack.sh [--dev] [--plain-title]" >&2; exit 2 ;;
   esac
 done
 
@@ -125,7 +125,8 @@ if hits == 0:
     sys.exit("error: no {{VERSION}}/{{YEAR}}/{{BUILD}} placeholder found to fill")
 FILL
 
-STAMP_TITLE="$STAMP_TITLE" DEV="$DEV" STAMP="$STAMP" VERSION="$VERSION" \
+PLAIN_TITLE="$PLAIN_TITLE" DEV="$DEV" STAMP="$STAMP" VERSION="$VERSION" \
+BUILDNO="$N" \
 BUILD="$BUILD" HASH="$HASH" \
 python3 - "$STAGE/content.opf" <<'PY'
 import os, re, sys
@@ -135,7 +136,8 @@ stamp = os.environ["STAMP"]            # version+build+hash, for the metadata
 version = os.environ["VERSION"]        # the reader-facing version
 hash8 = os.environ["HASH"]
 dev = os.environ["DEV"] == "1"
-stamp_title = os.environ["STAMP_TITLE"] == "1"
+plain_title = os.environ["PLAIN_TITLE"] == "1"
+buildno = os.environ["BUILDNO"]
 opf = open(path, encoding="utf-8").read()
 
 # Targeted regex edits, not an XML round-trip: re-serialising this OPF would
@@ -193,14 +195,24 @@ date = re.compile(r'(<dc:date\b[^>]*>)(.*?)(</dc:date>)', re.S)
 if date.search(opf):
     opf = date.sub(lambda _m: f"{_m.group(1)}{day}{_m.group(3)}", opf, count=1)
 
-# 5. Optional: put the build in the title, so a library listing tells builds
-#    apart at a glance.
-if stamp_title:
-    opf = re.sub(r'(<dc:title>)(.*?)(</dc:title>)',
-                 lambda _m: "%s%s [%s]%s" % (
-                     _m.group(1), re.sub(r'\s*\[[\d.+a-f]+\]$', '', _m.group(2)),
-                     stamp, _m.group(3)),
-                 opf, count=1, flags=re.S)
+# 5. The version goes in dc:title, because that is the ONLY place a library
+#    listing looks: Apple Books reads the title and author out of the
+#    metadata and discards the filename on import. A version in the filename
+#    alone is invisible on the shelf.
+#
+#    A dev build carries the build number too, so repeated imports are
+#    distinguishable — the whole point of the exercise.
+if not plain_title:
+    suffix = f"{version}+{buildno}" if dev else version
+
+    def retitle(m):
+        # Strip any version this or an older scheme appended, so repeated
+        # builds cannot accumulate suffixes.
+        base = re.sub(r'\s*\[[\d.+a-f]+\]$', '', m.group(2))          # old [1.0.3+abc]
+        base = re.sub(r'\s+\d+(?:\.\d+)*(?:\+\d+)?\s*$', '', base)     # 1.1 / 1.1+20
+        return f"{m.group(1)}{base} {suffix}{m.group(3)}"
+
+    opf = re.sub(r'(<dc:title>)(.*?)(</dc:title>)', retitle, opf, count=1, flags=re.S)
 
 open(path, "w", encoding="utf-8").write(opf)
 PY
@@ -239,6 +251,9 @@ echo "size   $(du -h "$OUT" | cut -f1)"
 echo "files  $(unzip -l "$OUT" | tail -1 | awk '{print $2}')"
 echo "build  $STAMP"
 echo "shown  $VERSION $YEAR   (title pages) · build $N (key page)"
+if [ "$PLAIN_TITLE" = "0" ]; then
+  echo "title  version appended to dc:title, so Books shows it on the shelf"
+fi
 if [ "$DEV" = "1" ]; then
   echo "mode   DEV — identifier busted to defeat the Books cache. Do not ship."
 else

@@ -63,7 +63,7 @@ status` stays clean across builds. The build string is also written to
 ```bash
 tools/pack.sh                 # release build — stable identifier
 tools/pack.sh --dev           # dev build — identifier busted per content
-tools/pack.sh --stamp-title   # also append the build to the visible title
+tools/pack.sh --plain-title   # leave the version off the title
 ```
 
 The version is in the filename as well as on both title pages:
@@ -75,6 +75,18 @@ The version is in the filename as well as on both title pages:
 
 `build/Ka-Nying-Chos-spyod.epub` stays as a symlink to the newest build, so
 `preview.sh` and anything else using the old fixed name keeps working.
+
+**The filename is invisible in a library.** Apple Books reads `dc:title` and
+`dc:creator` out of the metadata and discards the filename on import, so the
+version is appended to the title as well:
+
+| | `dc:title` |
+| --- | --- |
+| release | `ཆོས་སྤྱོད། (chos spyod) 1.1` |
+| dev | `ཆོས་སྤྱོད། (chos spyod) 1.1+22` |
+
+`--plain-title` leaves it off. `src/content.opf` keeps the clean title either
+way — like every other stamp, this is applied to the staged copy.
 
 **Ship the release build, never a `--dev` one.** `--dev` deliberately mutates
 the identifier to force Apple Books past its cache; to a standards-compliant
