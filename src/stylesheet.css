@@ -334,8 +334,16 @@ li {
 }
 /** TOC entries are titles, not links: they inherit the theme's text colour
     rather than shouting in link blue. **/
+/** color:inherit is load-bearing. An <a> does NOT inherit the theme's text
+    colour the way body text does — a reading system paints it with its own
+    LINK colour, which in Apple Books is a loud system blue. Leaving colour
+    unset here turned every arrow, page number, jump link and TOC entry blue.
+    "Let the reader's theme own it" is right for text and wrong for anchors:
+    they have to be told. Genuine outbound links opt back out below (.lh/.st,
+    --link). **/
 a {
   display: inline;
+  color: inherit;
   text-decoration: none;
 }
 /** For translated TOC*/
