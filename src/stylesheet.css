@@ -38,9 +38,9 @@
   --ui-border: rgba(128, 128, 128, 0.35);
 
   /* Secondary text: the theme's own ink, one degree quieter.
-     0.75 measures 5.9:1 (gray) to 8.2:1 (night) — comfortable everywhere.
+     0.85 measures 7.9:1 (gray) to 11.0:1 (white) — comfortable everywhere.
      Turn it down for a fainter yig chung, up for a bolder one. */
-  --secondary-strength: 0.75;
+  --secondary-strength: 0.85;
 
   /* The hues that carry meaning */
   --repeat:      #7D5115;   /* 6.9:1 on white, 4.8:1 on the gray theme */
@@ -99,6 +99,12 @@
     underlines the nav instead of dividing two prayers. **/
 .tocpage1, .tocpage2 {
   color: var(--accent);
+  /** Apple Books' Night theme overrides author `color` on text and repaints
+      it white — the red survives in the White/Sepia themes but not there.
+      -webkit-text-fill-color is what actually paints the glyphs in WebKit and
+      takes precedence over `color`, so it carries the red through. Harmless
+      anywhere that ignores it, since `color` above stays the fallback. **/
+  -webkit-text-fill-color: var(--accent);
   margin: 2.2em 0 0.15em 0;
   padding-top: 0.9em;
   border-top: 1px solid var(--ui-border);
@@ -141,11 +147,14 @@
   font-size: 0.8em;
   line-height: 1.5em;
 }
+/** The in-line title line (༄༅། །…བཞུགས་སོ།།). It used to be set at 1.5em to
+    act as the prayer's heading; the red centred title does that job now, so
+    it goes back to ordinary yig chung size and stops competing with it. **/
 .tibyigchungH {
   font-family: Monlam Uni OuChan2, serif;
   opacity: var(--secondary-strength);
-  font-size: 1.5em;
-  line-height: 1.8em;
+  font-size: 0.8em;
+  line-height: 1.5em;
   margin: 0 1em 0 0;
 }
 
@@ -164,10 +173,17 @@
   margin: 0.5em;
   font-weight: normal;
 }
+/** The span sits AFTER the </h1>, and the title is a block, so it can never
+    share the title's line — left to itself it started a new line and took the
+    body's left alignment, landing adrift above the arrows. Centre it and pull
+    it tight under the title so the two read as one unit. **/
 h1 + .pageno, h2 + .pageno, h3 + .pageno,
 h4 + .pageno, h5 + .pageno, h6 + .pageno {
-  display: inline;
+  display: block;
+  text-align: center;
   opacity: var(--secondary-strength);
+  margin: 0 0 0.1em 0;
+  line-height: 1;
 }
 /** Sections whose printed page is not yet known carry '???' in the source as
     a standing TODO. Keep that visible to the editor, never to the reader.
