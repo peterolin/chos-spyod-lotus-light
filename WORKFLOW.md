@@ -22,14 +22,14 @@ accidental Calibre session can't quietly enter the history.
 
 ## The actual loop
 
-The source of truth is **`src/`** — the unpacked EPUB, 75 plain files.
+The source of truth is **`src/`** — the unpacked EPUB, 76 plain files.
 
 ```
 edit      src/…                        in VSCode, alongside Claude
 nav       python3 tools/nav.py         derive prev/next arrows (report only)
 check     python3 tools/check.py       structural QA (links, anchors, manifest)
 preview   tools/preview.sh             builds, then opens the Calibre viewer
-build     tools/pack.sh                -> build/Ka-Nying-Chos-spyod.epub
+build     tools/pack.sh                -> build/Ka-Nying-Chos-spyod-<version>.epub
 commit    git add src/ && git commit    real, readable, line-level diffs
 ```
 
@@ -47,7 +47,7 @@ already.
 
 | stamp | value | behaviour |
 | --- | --- | --- |
-| version | `<utc timestamp>+<hash>` | always increases |
+| version | `<VERSION>+<build no.>+<hash>` | build no. always increases |
 | identifier | `<base uuid>-b<hash>` | changes **iff** `src/` changed |
 
 The hash covers every filename and byte in `src/`, so it is content-derived,
