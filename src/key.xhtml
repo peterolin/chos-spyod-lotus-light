@@ -7,28 +7,6 @@
   <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
   <link type="text/css" rel="stylesheet" href="fonts.css"/>
 
-  <!-- ============================================================
-       TEMPORARY COLOUR PROBE — delete this <style> and the matching
-       block at the end of <body> once the Night-theme question is
-       settled. It exists to find out, in one look, which technique (if
-       any) makes an author colour survive Apple Books' Night theme.
-       ============================================================ -->
-  <style type="text/css">
-    .probe { font-family: "Monlam Uni OuChan2", serif; font-size: 1.1em; }
-    .probe td { padding: 0.3em 0.6em; }
-    .probe .n { font-family: "Courier New", monospace; font-size: 0.7em; }
-
-    /* 7 and 8 test whether the dark media query FIRES AT ALL.
-       7 changes a non-colour property, which Books has no reason to
-       override — if 7 is italic in Night, the query works and the
-       problem is purely colour. 8 sets a colour only inside the query. */
-    .probe7 { font-style: normal; }
-    .probe8 { color: #9C3B2E; }
-    @media (prefers-color-scheme: dark) {
-      .probe7 { font-style: italic; }
-      .probe8 { color: #00A000; }
-    }
-  </style>
 </head>
 
 <body>
@@ -204,44 +182,6 @@ This prayer book is used in a variety of contexts, and the main aim is to provid
   </table>
       <p>Prayer headings with page reference matching those in the Table of Contents of the printed text have been added.</p>
 
-      <!-- ============================================================
-           TEMPORARY COLOUR PROBE — delete this block and the <style> in
-           <head> once the Night-theme question is settled.
-           ============================================================ -->
-      <h2>Colour probe (temporary)</h2>
-      <p>Read this page in the <b>Night</b> theme and report which numbered
-      rows are red, and whether row 7 is italic.</p>
-      <table class="probe">
-        <tbody>
-          <tr><td class="n">1</td>
-              <td><span style="color:#9C3B2E">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span></td>
-              <td class="n">color</td></tr>
-          <tr><td class="n">2</td>
-              <td><span style="color:#9C3B2E !important">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span></td>
-              <td class="n">color !important</td></tr>
-          <tr><td class="n">3</td>
-              <td><span style="-webkit-text-fill-color:#9C3B2E">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span></td>
-              <td class="n">-webkit-text-fill-color</td></tr>
-          <tr><td class="n">4</td>
-              <td><span style="-webkit-text-fill-color:#9C3B2E !important">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span></td>
-              <td class="n">-webkit-text-fill-color !important</td></tr>
-          <tr><td class="n">5</td>
-              <td><span style="color:#9C3B2E !important;-webkit-text-fill-color:#9C3B2E !important">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span></td>
-              <td class="n">both, both !important</td></tr>
-          <tr><td class="n">6</td>
-              <td><span style="background-image:linear-gradient(#9C3B2E,#9C3B2E);-webkit-background-clip:text;background-clip:text;color:transparent">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span></td>
-              <td class="n">gradient clipped to text</td></tr>
-          <tr><td class="n">7</td>
-              <td><span class="probe7">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ། — italic?</span></td>
-              <td class="n">does the dark media query fire at all</td></tr>
-          <tr><td class="n">8</td>
-              <td><span class="probe8">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span></td>
-              <td class="n">green only inside the dark query</td></tr>
-          <tr><td class="n">9</td>
-              <td><span style="color:#9C3B2E;font-weight:bold">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span></td>
-              <td class="n">color on bold text</td></tr>
-        </tbody>
-      </table>
 
       <!-- Colophon. {{VERSION}}, {{BUILD}} and {{YEAR}} are filled in by
            tools/pack.sh. Quote the build when reporting a problem. -->

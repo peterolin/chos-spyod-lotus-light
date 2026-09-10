@@ -46,6 +46,28 @@
  *
  * Alpha is written rgba(), never rgb() with a 4th argument: the latter is
  * CSS Color 4 and is dropped wholesale by older EPUB engines.
+ *
+ * ---------------------------------------------------------------------------
+ * PLATFORM NOTE — Apple Books' Night theme, measured with a probe in the book
+ * rather than guessed:
+ *
+ *   @media (prefers-color-scheme: dark) DOES fire, so the dark tokens below
+ *   are live and correct.
+ *
+ *   Night REPAINTS ELEMENT TEXT and nothing stops it. Tried and defeated:
+ *   color, color !important, -webkit-text-fill-color, that !important, both
+ *   together, a gradient clipped to the text, and a colour declared only
+ *   inside the dark query. All nine came out white.
+ *
+ *   Night LEAVES GENERATED CONTENT ALONE. :before/:after keep their author
+ *   colour — which is why the ༼ ༽ braces stay red in Night while a prayer
+ *   title goes white.
+ *
+ * So: never let a signal depend on TEXT colour alone. Anything that must
+ * survive Night belongs in generated content, or in a border, or in
+ * something other than hue — size, weight, spacing, a rule. Text colour is a
+ * bonus for the three light themes, not a mechanism.
+ * ---------------------------------------------------------------------------
  */
 :root {
   /* Chrome — theme-agnostic, no dark variant needed. Only two are left:
@@ -60,6 +82,10 @@
 
   /* The hues that carry meaning */
   --accent:      #9C3B2E;   /* prayer titles + jump targets. 6.8:1 on white */
+  /* The prayer-title divider. A border, not text, so it survives Books'
+     Night theme when the title's own red does not — in Night this rule is
+     the only red left marking a title. */
+  --accent-rule: rgba(156, 59, 46, 0.55);
   /* Repeated/abbreviated text. A weaker relative of the accent, not a second
      accent: saturation 0.34 against the accent's 0.54, and 5.8:1 on white
      against its 6.8:1. Readable — this is liturgy, not decoration — while
@@ -70,6 +96,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --accent:      #E9A79A;
+    --accent-rule: rgba(233, 167, 154, 0.55);
     --repeat:      #CE9A90;   /* 7.0:1 on night, against the accent's 8.5 */
   }
 }
@@ -121,14 +148,15 @@
     underlines the nav instead of dividing two prayers. **/
 .tocpage1, .tocpage2 {
   color: var(--accent);
-  /** Apple Books' Night theme overrides author `color` on text and repaints
-      it white — the red survives in the White/Sepia themes but not there.
-      -webkit-text-fill-color is what actually paints the glyphs in WebKit and
-      takes precedence over `color`, so it carries the red through. Harmless
-      anywhere that ignores it, since `color` above stays the fallback. **/
+  /** The red reaches the White, Sepia and Gray themes. It does NOT reach
+      Night: Books repaints element text there and nothing overrides that —
+      see the PLATFORM NOTE at the top. -webkit-text-fill-color is kept
+      because it costs nothing and may carry the colour in other engines,
+      but it does not work here. What DOES mark the title in Night is the
+      divider rule below, which is a border rather than text. **/
   -webkit-text-fill-color: var(--accent);
   margin: 2.2em 0 0.15em 0;
-  border-top: 1px solid var(--ui-border);
+  border-top: 1px solid var(--accent-rule);
   text-align: center;
   line-height: 1.5;
   font-size: 100%;

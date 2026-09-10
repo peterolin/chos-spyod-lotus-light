@@ -96,6 +96,28 @@ reader that makes each build a separate publication rather than an update.
 If Books still shows a stale copy, delete the book from the library and
 re-add it; the identifier only helps on a fresh import.
 
+## Apple Books' Night theme repaints text colour
+
+Measured with a probe built into the book, not guessed:
+
+| | |
+| --- | --- |
+| `@media (prefers-color-scheme: dark)` | **fires** — the dark palette is live |
+| element text colour | **repainted white**, unstoppably |
+| generated content (`:before`/`:after`) | **keeps its author colour** |
+
+Nine techniques were tried on element text and all nine came out white:
+`color`, `color !important`, `-webkit-text-fill-color` and its `!important`,
+both together, a gradient clipped to the text, and a colour declared only
+inside the dark query.
+
+**So no signal may depend on text colour alone.** Anything that must survive
+Night belongs in generated content, in a border, or in something that is not
+hue at all — size, weight, spacing, a rule. That is why the `༼ ༽` repeat
+braces stay red in Night while a prayer title does not, and why the title's
+divider rule carries `--accent-rule`: a border survives, so in Night the rule
+is the only red still marking a title.
+
 ## Layout
 
 ```
