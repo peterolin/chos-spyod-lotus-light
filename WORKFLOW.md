@@ -61,10 +61,25 @@ status` stays clean across builds. The build string is also written to
 `build/version.txt` and into the OPF as `<meta name="build">`.
 
 ```bash
-tools/pack.sh                 # stamped build
-tools/pack.sh --stamp-title   # also append the build to the visible title,
-                              # so several builds are told apart in a library
+tools/pack.sh                 # release build — stable identifier
+tools/pack.sh --dev           # dev build — identifier busted per content
+tools/pack.sh --stamp-title   # also append the build to the visible title
 ```
+
+The version is in the filename as well as on both title pages:
+
+| | file |
+| --- | --- |
+| release | `build/Ka-Nying-Chos-spyod-1.1.epub` |
+| dev | `build/Ka-Nying-Chos-spyod-1.1+15-dev.epub` — 3 newest kept |
+
+`build/Ka-Nying-Chos-spyod.epub` stays as a symlink to the newest build, so
+`preview.sh` and anything else using the old fixed name keeps working.
+
+**Ship the release build, never a `--dev` one.** `--dev` deliberately mutates
+the identifier to force Apple Books past its cache; to a standards-compliant
+reader that makes each build a separate publication rather than an update.
+`preview.sh` passes `--dev` for you.
 
 If Books still shows a stale copy, delete the book from the library and
 re-add it; the identifier only helps on a fresh import.

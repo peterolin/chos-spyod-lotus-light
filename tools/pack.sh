@@ -35,6 +35,12 @@
 # Never ship a --dev build: to a standards-compliant reader it is a separate
 # publication rather than an update. tools/preview.sh passes it for you.
 #
+# The version is in the FILENAME as well as on the title pages:
+#   release   build/Ka-Nying-Chos-spyod-1.1.epub
+#   dev       build/Ka-Nying-Chos-spyod-1.1+15-dev.epub   (3 newest kept)
+# build/Ka-Nying-Chos-spyod.epub remains as a symlink to the newest build, so
+# older references keep working.
+#
 #   tools/pack.sh                 release build — stable identifier
 #   tools/pack.sh --dev           dev build — identifier busted per content
 #   tools/pack.sh --stamp-title   also append the build to the visible title
@@ -52,7 +58,8 @@ done
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="$REPO/src"
-OUT="$REPO/build/Ka-Nying-Chos-spyod.epub"
+NAME="Ka-Nying-Chos-spyod"
+STABLE="$REPO/build/$NAME.epub"
 
 [ -d "$SRC" ] || { echo "error: no src/ — run tools/unpack.sh first" >&2; exit 1; }
 [ -f "$SRC/mimetype" ] || { echo "error: src/mimetype missing" >&2; exit 1; }
@@ -82,6 +89,16 @@ VERSION="$(grep -v '^[[:space:]]*#' "$VERSION_FILE" | tr -d '[:space:]' | head -
 
 YEAR="$(date +%Y)"
 STAMP="${VERSION}+${N}+${HASH}"
+
+# The version goes in the FILENAME too: a release build is a file people are
+# handed, and "which one is this?" should be answerable without opening it. A
+# dev build carries the build number as well, so successive dev builds cannot
+# masquerade as one another in Finder or in the Books import dialog.
+if [ "$DEV" = "1" ]; then
+  OUT="$REPO/build/${NAME}-${VERSION}+${N}-dev.epub"
+else
+  OUT="$REPO/build/${NAME}-${VERSION}.epub"
+fi
 
 # Stage a copy so the stamp never touches src/.
 STAGE="$(mktemp -d)"
@@ -205,7 +222,19 @@ zip -q -X -r -9 -D "$OUT" . \
 
 printf '%s\n' "$STAMP" > "$REPO/build/version.txt"
 
+# A stable path pointing at the newest build, so preview.sh and anything else
+# using the old fixed name keeps working. Relative, so build/ stays movable.
+ln -sf "$(basename "$OUT")" "$STABLE"
+
+# Dev builds are disposable and 4 MB each; keep only the three newest.
+if [ "$DEV" = "1" ]; then
+  ls -t "$REPO/build/${NAME}"-*-dev.epub 2>/dev/null | tail -n +4 | while read -r old; do
+    rm -f "$old"
+  done
+fi
+
 echo "built  $OUT"
+echo "also   $STABLE -> $(basename "$OUT")"
 echo "size   $(du -h "$OUT" | cut -f1)"
 echo "files  $(unzip -l "$OUT" | tail -1 | awk '{print $2}')"
 echo "build  $STAMP"
