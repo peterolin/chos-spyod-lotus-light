@@ -33,10 +33,14 @@
  *      accent  the prayer titles (pecha red, མཚལ), the ↳ jump targets, and
  *              the key page's editing aid.
  *      repeat  the ༼ ༽ brackets that delimit a repeat, and the numeral for
- *              its count — the MARKS only. The repeated Tibetan itself keeps
- *              the reader's ink: colouring whole verses and torma mantras was
- *              too much, and it is the brackets, not the words, that are the
- *              editor's addition.
+ *              its count. RED MARKS WHAT THE EDITOR SUPPLIED, and that alone
+ *              decides how far it reaches:
+ *                .repeatWrap    the words are printed, only the instruction
+ *                               to repeat them is added -> marks red, words
+ *                               keep the reader's ink.
+ *                .repeatNextOcc the words are NOT printed — they expand a
+ *                               line the print abbreviates with ༴ -> marks
+ *                               and words both red.
  *    Neither hue is ever a background. At 703 occurrences a tint behind the
  *    repeated text read as highlighter pen through half the book.
  *
@@ -433,7 +437,15 @@ a.ipnpx {
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
+/** Here the WORDS are red too, and that is the one place it is right: this
+    text is not in the printed book at all — it is the editor's expansion of a
+    line the print abbreviates with ༴. Contrast .repeatWrap below, where the
+    words ARE printed and only the repeat instruction is added, so there the
+    marks alone are red. The rule throughout is that red marks what the editor
+    supplied. **/
 .repeatNextOcc {
+  color: var(--repeat);
+  -webkit-text-fill-color: var(--repeat);
   padding: 0;
   text-decoration: none;
   display: inline;
