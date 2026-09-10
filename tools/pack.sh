@@ -4,39 +4,49 @@
 # src/ is the source of truth. This script is the ONLY way an .epub
 # should come into existence in this repo.
 #
-# VERSION AND YEAR:
-# The title pages carry {{VERSION}} and {{YEAR}} placeholders, filled in here.
-# VERSION is 1.0.<n>, where n is a build counter kept in .buildnum at the repo
-# root — git-ignored, so building never dirties the tree — and incremented on
-# every build. YEAR is the year at build time, so a book built next January
-# stops claiming 2023.
+# VERSION, YEAR, BUILD:
+# These placeholders are filled in on a staged copy, so src keeps them and the
+# tree stays clean across builds:
 #
-# CACHE STAMPING — why this exists:
-# Apple Books keys its library on the OPF unique identifier. Re-importing a
-# file whose identifier it has seen before shows the CACHED book, so CSS and
-# markup changes appear not to have happened. Every build therefore stamps
-# the output with:
+#   {{VERSION}}  read from the VERSION file at the repo root. Set BY HAND at
+#                release — it is the number readers see, so it should mean
+#                something to them, which a build counter cannot.
+#   {{YEAR}}     the year at build time, so the book stops claiming 2023.
+#   {{BUILD}}    an automatic counter from .buildnum (git-ignored, and kept
+#                outside build/ so wiping output cannot reset it). Appears on
+#                the key page and in the metadata: it is what identifies a
+#                build in a bug report.
 #
-#   version     1.0.<n>+<content hash>           always increases
-#   identifier  <base uuid>-b<content hash>      changes iff src/ changed
+# METADATA — the compatible choices:
+# The package stays EPUB 2.0 with its NCX. EPUB 2 is read by essentially
+# everything and converts to Kindle far more reliably than EPUB 3, which
+# matters more here than any EPUB 3 feature would gain.
 #
-# Deriving the identifier from a hash of src/ (rather than bumping it every
-# run) means a real change always opens fresh, while rebuilding unchanged
-# content does not litter the Books library with duplicate copies.
+# EPUB 3 defines the Release Identifier as dc:identifier + dcterms:modified:
+# the identifier stays STABLE and the modified date marks each revision. So a
+# release build leaves the identifier exactly as src has it, and only bumps
+# dcterms:modified. Version metadata is written EPUB 2 style
+# (<meta name=... content=...>), which EPUB 2 readers understand.
 #
-# src/ is never modified: the stamp is applied to a staged copy.
+# --dev DEFEATS that on purpose. Apple Books keys its library on the
+# identifier, so re-importing a file it has seen shows the CACHED book and
+# your CSS changes appear not to have happened. --dev suffixes the identifier
+# with a hash of src/, making each changed build a different book to Books.
+# Never ship a --dev build: to a standards-compliant reader it is a separate
+# publication rather than an update. tools/preview.sh passes it for you.
 #
-#   tools/pack.sh                 build, stamped
-#   tools/pack.sh --stamp-title   also append the build to the visible title,
-#                                 so several builds are told apart in a
-#                                 library listing
+#   tools/pack.sh                 release build — stable identifier
+#   tools/pack.sh --dev           dev build — identifier busted per content
+#   tools/pack.sh --stamp-title   also append the build to the visible title
 set -euo pipefail
 
 STAMP_TITLE=0
+DEV=0
 for arg in "$@"; do
   case "$arg" in
     --stamp-title) STAMP_TITLE=1 ;;
-    *) echo "usage: pack.sh [--stamp-title]" >&2; exit 2 ;;
+    --dev) DEV=1 ;;
+    *) echo "usage: pack.sh [--dev] [--stamp-title]" >&2; exit 2 ;;
   esac
 done
 
@@ -64,9 +74,14 @@ N=0
 N=$(( ${N:-0} + 1 ))
 printf '%s\n' "$N" > "$COUNTER"
 
-VERSION="1.0.${N}"
+# The reader-facing version is editorial, so it is read, never generated.
+VERSION_FILE="$REPO/VERSION"
+[ -f "$VERSION_FILE" ] || { echo "error: no VERSION file at repo root" >&2; exit 1; }
+VERSION="$(grep -v '^[[:space:]]*#' "$VERSION_FILE" | tr -d '[:space:]' | head -c 32)"
+[ -n "$VERSION" ] || { echo "error: VERSION file has no version in it" >&2; exit 1; }
+
 YEAR="$(date +%Y)"
-STAMP="${VERSION}+${HASH}"
+STAMP="${VERSION}+${N}+${HASH}"
 
 # Stage a copy so the stamp never touches src/.
 STAGE="$(mktemp -d)"
@@ -76,36 +91,43 @@ cp -R "$SRC"/. "$STAGE"/
 find "$STAGE" -name '.DS_Store' -delete
 
 # Fill the {{VERSION}} / {{YEAR}} placeholders in the staged title pages.
-python3 - "$STAGE" "$VERSION" "$YEAR" <<'FILL'
+python3 - "$STAGE" "$VERSION" "$YEAR" "$N" <<'FILL'
 import pathlib, sys
-stage, version, year = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3]
+stage, version, year, build = pathlib.Path(sys.argv[1]), *sys.argv[2:5]
+subs = {"{{VERSION}}": version, "{{YEAR}}": year, "{{BUILD}}": build}
 hits = 0
 for f in sorted(list(stage.rglob("*.htm")) + list(stage.rglob("*.xhtml"))):
     t = f.read_text(encoding="utf-8")
-    if "{{VERSION}}" not in t and "{{YEAR}}" not in t:
+    if not any(k in t for k in subs):
         continue
-    f.write_text(t.replace("{{VERSION}}", version).replace("{{YEAR}}", year),
-                 encoding="utf-8")
+    for k, v in subs.items():
+        t = t.replace(k, v)
+    f.write_text(t, encoding="utf-8")
     hits += 1
 if hits == 0:
-    sys.exit("error: no {{VERSION}}/{{YEAR}} placeholder found to fill")
+    sys.exit("error: no {{VERSION}}/{{YEAR}}/{{BUILD}} placeholder found to fill")
 FILL
 
-STAMP_TITLE="$STAMP_TITLE" VERSION="$STAMP" BUILD="$BUILD" HASH="$HASH" \
+STAMP_TITLE="$STAMP_TITLE" DEV="$DEV" STAMP="$STAMP" VERSION="$VERSION" \
+BUILD="$BUILD" HASH="$HASH" \
 python3 - "$STAGE/content.opf" <<'PY'
 import os, re, sys
 
 path = sys.argv[1]
-version = os.environ["VERSION"]
+stamp = os.environ["STAMP"]            # version+build+hash, for the metadata
+version = os.environ["VERSION"]        # the reader-facing version
 hash8 = os.environ["HASH"]
+dev = os.environ["DEV"] == "1"
 stamp_title = os.environ["STAMP_TITLE"] == "1"
 opf = open(path, encoding="utf-8").read()
 
 # Targeted regex edits, not an XML round-trip: re-serialising this OPF would
 # rewrite its namespace prefixes and Calibre-specific metadata wholesale.
 
-# 1. The identifier Apple Books matches on. Which <dc:identifier> counts is
-#    named by the package's unique-identifier attribute.
+# 1. The identifier. A release build leaves it STABLE — that is the whole
+#    point of an identifier, and with dcterms:modified below it forms the
+#    Release Identifier that marks this as a revision of the same book.
+#    Only --dev suffixes it, to force Apple Books past its cache.
 m = re.search(r'\bunique-identifier="([^"]+)"', opf)
 if not m:
     sys.exit("error: package has no unique-identifier attribute")
@@ -119,8 +141,10 @@ m2 = ident.search(opf)
 if not m2:
     sys.exit(f"error: no <dc:identifier id=\"{uid}\"> to stamp")
 
+# Strip any suffix a previous --dev build left, then re-add only for --dev.
 base = re.sub(r'-b[0-9a-f]{8}$', '', m2.group(2).strip())
-opf = ident.sub(lambda _m: f"{_m.group(1)}{base}-b{hash8}{_m.group(3)}", opf, count=1)
+new_id = f"{base}-b{hash8}" if dev else base
+opf = ident.sub(lambda _m: f"{_m.group(1)}{new_id}{_m.group(3)}", opf, count=1)
 
 # 2. dcterms:modified must be ISO 8601 UTC. The value carried in src is
 #    '2023-09-23T11:05:00:00Z' — malformed, an extra :00 — so it is replaced
@@ -138,18 +162,27 @@ else:
         "</metadata>",
         f'  <meta property="dcterms:modified">{now}</meta>\n  </metadata>', 1)
 
-# 3. A human-readable build marker, so a built file can be identified.
-opf = re.sub(r'\s*<meta name="build" content="[^"]*"/>', "", opf)
-opf = opf.replace(
-    "</metadata>", f'  <meta name="build" content="{version}"/>\n  </metadata>', 1)
+# 3. Version metadata, EPUB 2 style (name/content), which EPUB 2 readers
+#    understand — <meta property=...> is an EPUB 3 construct.
+opf = re.sub(r'\s*<meta name="(?:build|version)" content="[^"]*"/>', "", opf)
+opf = opf.replace("</metadata>",
+                  f'  <meta name="version" content="{version}"/>\n'
+                  f'  <meta name="build" content="{stamp}"/>\n  </metadata>', 1)
 
-# 4. Optional: put the build in the title, so a library listing tells builds
+# 4. dc:date. src carries '0101-01-01T00:00:00+00:00', which is nonsense; in
+#    EPUB 2 this is the edition's date, so write the build date as W3CDTF.
+day = "%s-%s-%s" % (b[0:4], b[4:6], b[6:8])
+date = re.compile(r'(<dc:date\b[^>]*>)(.*?)(</dc:date>)', re.S)
+if date.search(opf):
+    opf = date.sub(lambda _m: f"{_m.group(1)}{day}{_m.group(3)}", opf, count=1)
+
+# 5. Optional: put the build in the title, so a library listing tells builds
 #    apart at a glance.
 if stamp_title:
     opf = re.sub(r'(<dc:title>)(.*?)(</dc:title>)',
                  lambda _m: "%s%s [%s]%s" % (
                      _m.group(1), re.sub(r'\s*\[[\d.+a-f]+\]$', '', _m.group(2)),
-                     version, _m.group(3)),
+                     stamp, _m.group(3)),
                  opf, count=1, flags=re.S)
 
 open(path, "w", encoding="utf-8").write(opf)
@@ -176,7 +209,12 @@ echo "built  $OUT"
 echo "size   $(du -h "$OUT" | cut -f1)"
 echo "files  $(unzip -l "$OUT" | tail -1 | awk '{print $2}')"
 echo "build  $STAMP"
-echo "shown  $VERSION $YEAR   (on both title pages)"
+echo "shown  $VERSION $YEAR   (title pages) · build $N (key page)"
+if [ "$DEV" = "1" ]; then
+  echo "mode   DEV — identifier busted to defeat the Books cache. Do not ship."
+else
+  echo "mode   release — identifier stable, dcterms:modified bumped."
+fi
 
 # Sanity: first entry must be an uncompressed mimetype.
 first="$(unzip -l "$OUT" | sed -n '4p' | awk '{print $NF}')"

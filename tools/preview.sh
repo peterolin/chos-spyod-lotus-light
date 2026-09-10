@@ -8,7 +8,7 @@ set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VIEWER="/Applications/calibre.app/Contents/MacOS/ebook-viewer"
 
-"$REPO/tools/pack.sh"
+"$REPO/tools/pack.sh" --dev
 
 [ -x "$VIEWER" ] || { echo "error: Calibre viewer not found at $VIEWER" >&2; exit 1; }
 exec "$VIEWER" "$REPO/build/Ka-Nying-Chos-spyod.epub"

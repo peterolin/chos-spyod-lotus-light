@@ -1,0 +1,13 @@
+# The version READERS see, on both title pages. Set it by hand at release;
+# tools/pack.sh only reads it. Lines starting with # are ignored.
+#
+#   MAJOR  restructuring, or a different set of practices
+#   MINOR  prayers, sections or jump routes added
+#   PATCH  corrections — typos, page numbers, dead anchors
+#
+# The build number is separate and automatic (.buildnum); it appears on the
+# key page and in the metadata, for identifying a build in a bug report.
+#
+# 1.0 was the 2023 edition. This is the first substantial revision since,
+# so it starts at 1.1 — change it to whatever you think right.
+1.1

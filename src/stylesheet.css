@@ -68,6 +68,14 @@
   }
 }
 
+/** Build stamp on the key page. Quiet, but present: when a reader reports a
+    dead link, this is what tells you which build they have. **/
+.colophon {
+  opacity: var(--secondary-strength);
+  font-size: 0.6em;
+  font-family: Courier New, monospace;
+}
+
 /** Editing aids. Shown on the key page, hidden in the running text. **/
 .invisiblec {
   display: inline;
@@ -184,21 +192,26 @@
   margin: 0.5em;
   font-weight: normal;
 }
-/** The span sits AFTER the </h1>, and the title is a block, so it can never
-    share the title's line — left to itself it started a new line and took the
-    body's left alignment, landing adrift above the arrows. Centre it and pull
-    it tight under the title so the two read as one unit. **/
-h1 + .pageno, h2 + .pageno, h3 + .pageno,
-h4 + .pageno, h5 + .pageno, h6 + .pageno {
+/** The number now sits INSIDE the heading, for the same reason the arrows do:
+    as a separate block sibling it could be broken onto the next page, away
+    from the title it belongs to. A block-level span inside the heading gives
+    it its own centred line while keeping it in the one unbreakable box.
+
+    Being a child rather than a sibling is also what distinguishes the 109
+    numbers that belong to a title from the 30 standing alone mid-text, which
+    stay hidden with the rest of the page-marker clutter. **/
+.tocpage1 > .pageno, .tocpage2 > .pageno {
   display: block;
   text-align: center;
   opacity: var(--secondary-strength);
-  margin: 0 0 0.1em 0;
-  line-height: 1;
+  margin: 0;
+  line-height: 1.2;
 }
 /** Sections whose printed page is not yet known carry '???' in the source as
     a standing TODO. Keep that visible to the editor, never to the reader.
     Two classes (0-2-0) outrank the h + .pageno rule above (0-1-1). **/
+.tocpage1 > .pageno.pageno-unknown,
+.tocpage2 > .pageno.pageno-unknown,
 .pageno.pageno-unknown {
   display: none;
 }

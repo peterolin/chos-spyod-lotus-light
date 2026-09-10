@@ -35,10 +35,13 @@ SRC = Path(__file__).resolve().parent.parent / "src"
 
 # A section heading that can be linked to: has both tocpageN class and an id.
 HEADING = re.compile(
-    r'<h[1-6][^>]*\bclass="tocpage[12]"[^>]*\bid="([^"]+)"[^>]*>(.*?)</h[1-6]>'
-    r'(?:\s*<span class="pageno">([^<]*)</span>)?',
+    r'<h[1-6][^>]*\bclass="tocpage[12]"[^>]*\bid="([^"]+)"[^>]*>(.*?)</h[1-6]>',
     re.S,
 )
+# The page number lives INSIDE the heading now (moved there so a reader cannot
+# break it away from the title), so it is read out of the heading's content and
+# then removed from the title text.
+PAGENO_IN = re.compile(r'<span class="pageno[^"]*">([^<]*)</span>', re.S)
 
 # A left/right arrow inside a nav block.
 ARROW = re.compile(r'<a\s+class="(left|right)"\s+([^>]*?)(/?)>')
@@ -105,11 +108,13 @@ def collect(files):
         text = path.read_text(encoding="utf-8")
         found = []
         for m in HEADING.finditer(text):
+            inner = m.group(2)
+            pm = PAGENO_IN.search(inner)
             sec = {
                 "file": rel,
                 "id": m.group(1),
-                "title": clean_title(m.group(2)),
-                "page": (m.group(3) or "").strip(),
+                "title": clean_title(PAGENO_IN.sub("", inner)),
+                "page": (pm.group(1) if pm else "").strip(),
                 "start": m.start(),
             }
             found.append(sec)
