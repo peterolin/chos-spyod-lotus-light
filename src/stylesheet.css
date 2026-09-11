@@ -123,12 +123,21 @@
      one theme where the hue cannot. 0.75 measures 8.2:1 against
      surrounding text at 13.7:1. */
   --repeat-strength: 1;
+  /* The braces around a jump link. The third hue, and the only one that is
+     not red, because it does not mean the same thing: red marks what the
+     editor SUPPLIED (words, repeat instructions, the place you land), blue
+     marks what the editor BUILT (navigation). The reader already reads
+     navigation as blue, since links wear the reading system's link colour.
+     Declared rather than `revert` so it survives Books' Night theme — see
+     the PLATFORM NOTE. 6.4:1 on white. */
+  --jump:        #2C5AA0;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --accent:      #E9A79A;
     --repeat:      #CE9A90;   /* 7.0:1 on night, against the accent's 8.5 */
+    --jump:        #9FC2F0;   /* 8.9:1 on night */
     /* Not applied in the light themes: the red at 0.75 would fall to 3.5:1
        on white and 2.8:1 on gray, under AA. Here it costs nothing, since
        the red is repainted regardless. */
@@ -351,8 +360,18 @@
   cursor: pointer;
 }
 
+/** .jumpTODO renders a literal "TODO " so unfinished work cannot pass for
+    finished. It takes the opening brace in the same string, since an element
+    has only one :before — the closing ༽ comes from the shared rule below. **/
 .jumpTODO:before {
-  content: "TODO "; }
+  /* One string, not two adjacent ones: `"\0F3C\202F" "TODO "` is legal CSS
+     but the second string was dropped, and the TODO vanished with it. The
+     \202F escape ends at the T, which is not a hex digit, so the space that
+     follows TODO is an ordinary literal one. */
+  content: "\0F3C\202FTODO ";        /* ༼ + NARROW NO-BREAK SPACE + TODO */
+  color: var(--jump);
+  -webkit-text-fill-color: var(--jump);
+}
 
 /** Prev/next arrows: two quiet glyphs, flush to the edges of the title.
 
@@ -439,10 +458,20 @@ a.ipnpx {
 
 /** Jump-target marks.
 
+    ༼࿉༽ — U+0F3C, U+0FC9 NOR BU, U+0F3D. One unit of three characters saying
+    "you land here", and it replaces the ↳ that said it before. The gain is
+    that all three are IN Monlam (tibAlbatrossL, tibSmilingEgg,
+    tibAlbatrossR) where ↳ was not: that arrow arrived from whatever fallback
+    font the reading system chose, so its weight and shape were never ours.
+
     Two shapes, told apart by :empty — no markup change needed:
 
-      bare target      ↳            "you land here"
-      labelled target  ༼ label ༽ ↳  the label naming which landing spot
+      bare target      ༼࿉༽            "you land here"
+      labelled target  ༼ label ࿉༽     the label naming which landing spot
+
+    The labelled form keeps ONE brace pair rather than bracing the label and
+    then adding a second ༼࿉༽ beside it — four braces in a row read as
+    clutter, and the jewel inside the closing brace says the same thing.
 
     EVERY colour here is declared ON THE PSEUDO-ELEMENT, not left to inherit
     from the element. That is the whole trick: Books' Night theme repaints
@@ -454,7 +483,7 @@ a.ipnpx {
     in the three light themes braces and label are both red. **/
 .inlineAnchor:empty:after,
 .inlineAnchorReturn:empty:after {
-  content: "\21B3";               /* ↳ */
+  content: "\0F3C\0FC9\0F3D";     /* ༼࿉༽ */
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
@@ -466,11 +495,11 @@ a.ipnpx {
 }
 .inlineAnchor:not(:empty):after,
 .inlineAnchorReturn:not(:empty):after {
-  /** ༽ then ↳ — the braces delimit the label, the arrow still says "you land
-      here", so a labelled target carries both. The space between them is
-      non-breaking, or a line break could leave the arrow stranded from the
-      label it belongs to. **/
-  content: "\0F3D\00A0\21B3";      /* ༽ ↳ */
+  /** ࿉ then ༽ — the jewel closes the label inside the same brace pair the
+      :before opened. The space before it is NARROW NO-BREAK: thin, so the
+      jewel sits close to its label, and non-breaking, or a line break could
+      leave it stranded from the label it belongs to. **/
+  content: "\202F\0FC9\0F3D";      /* ࿉༽ */
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
@@ -497,28 +526,56 @@ a.ipnpx {
 
 /** Navigation links.
 
-    Compact solid triangles, ▸ and ◂, rather than the longer ← and →: shorter
-    beside a Tibetan label, and unambiguously directional. Like every arrow in
-    this book they come from a fallback font — Monlam has none of them — so
-    the choice is purely one of shape.
+    Every jump link is BRACED, ༼ … ༽, so there is no question that it is not
+    part of the printed chos spyod. The braces replace the triangles ▸ and ◂
+    that used to mark direction, and the gain is twofold: both glyphs are IN
+    Monlam (tibAlbatrossL, tibAlbatrossR) where neither triangle was — those
+    arrived from whatever fallback font the reading system chose, so their
+    weight and shape were never ours — and a pair that OPENS and CLOSES
+    delimits the insertion, which one arrow beside it never did.
 
-    The triangle is set at 0.8em, smaller than the label it follows, and the gap
-    beside it is U+202F NARROW NO-BREAK SPACE — thin, so the arrow sits close
-    to its page number, and still non-breaking.
+    No jewel here. ༼࿉༽ belongs to the jump TARGET, the place you land; a link
+    and its destination should not wear the same mark.
 
-    Non-breaking matters: with an ordinary space the arrow wrapped to the next
+    Blue, not red, and the distinction carries meaning in this book: red
+    marks what the editor SUPPLIED — words, repeat instructions, the place
+    you land. Blue marks what the editor BUILT — navigation, which is
+    machinery rather than text, and which the reader already reads as blue
+    because links wear the reading system's own link colour.
+
+    The colour is declared HERE, on the pseudo-element rule, which is the only
+    way it survives Books' Night theme — a pseudo-element that merely inherits
+    gets repainted with its element. See the PLATFORM NOTE at the top. That is
+    also why --jump is a declared pair rather than `revert`: revert would match
+    the reader's own link blue exactly, but it is an inherited colour and Night
+    would take it.
+
+    The braces are set at 0.8em, smaller than the label they enclose, and the
+    gap inside each is U+202F NARROW NO-BREAK SPACE — thin, so a brace sits
+    close to its label, and still non-breaking.
+
+    Non-breaking matters: with an ordinary space the mark wrapped to the next
     line by itself, leaving the number stranded at the end of the line above
-    — "…88" then "→". A plain THIN SPACE (U+2009) would reintroduce that,
-    since it permits a break; U+202F does not. Both are written as escapes
-    rather than literals so a later edit cannot mistake one for a plain
-    space. **/
-.jumpUp:before {
-  content: "\25C2\202F";        /* ◂ + NARROW NO-BREAK SPACE */
+    — "…88" then the mark. A plain THIN SPACE (U+2009) would reintroduce
+    that, since it permits a break; U+202F does not. Everything is written as
+    escapes rather than literals so a later edit cannot mistake a special
+    space for a plain one. **/
+/* .jumpTodO is NOT listed here. It differs from .jumpTODO only in case, and
+   a reading system that matches classes case-insensitively would let this
+   rule override .jumpTODO:before and swallow its "TODO " prefix — measured,
+   not guessed. No document uses .jumpTodO any more. */
+.jump:before, .jumpUp:before, .jumpDown:before, .easyjump:before {
+  content: "\0F3C\202F";             /* ༼ + NARROW NO-BREAK SPACE */
   font-size: 0.8em;
+  color: var(--jump);
+  -webkit-text-fill-color: var(--jump);
 }
-.jumpDown:after {
-  content: "\202F\25B8";        /* NARROW NO-BREAK SPACE + ▸ */
+.jump:after, .jumpUp:after, .jumpDown:after, .easyjump:after,
+.jumpTODO:after {
+  content: "\202F\0F3D";             /* NARROW NO-BREAK SPACE + ༽ */
   font-size: 0.8em;
+  color: var(--jump);
+  -webkit-text-fill-color: var(--jump);
 }
 /** The link that closes a repeated passage and sends you back to its start.
 
