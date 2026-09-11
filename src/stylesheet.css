@@ -398,8 +398,13 @@ a.ipnpx {
 .inlineAnchorReturn:after {
   content: "↳";
   }
+/** The START of a repeated passage — the place a jumpRepeat sends you back
+    to. So it takes the OPENING brace: with the closing one it emitted, the
+    pair read ༽ … ༽, two closing braces and no opening one. Same shape as
+    .repeatWrap now, which is the point — one visual idiom for "repeat this
+    span", whether the span is marked inline or by an anchor and a link. **/
 .repeatAnchor:after {
-  content: "\0F3D";              /* ༽ — in the font, unlike the old ➡️ emoji */
+  content: "\0F3C";              /* ༼ */
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
