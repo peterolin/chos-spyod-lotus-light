@@ -464,18 +464,30 @@ a.ipnpx {
 .jumpDown:after {
   content: "\00A0\2192";        /* NBSP + → */
 }
-/** The repeat-jump glyphs were 🔄3️⃣ and ⟲ — colour emoji and a maths arrow,
-    neither of them in Monlam, so both arrived from a fallback font. Tibetan
-    marks instead, in the repeat colour. **/
-.jumpRepeat3:after {
-  content: "\00A0\0F3D\0F23";   /* NBSP ༽༣ */
+/** The link that closes a repeated passage and sends you back to its start.
+
+    The mark is on :before, not :after, so the brace comes FIRST and any
+    repeat count follows it — ༽༢ rather than ༢༽. The glyphs it replaced were
+    🔄3️⃣ and ⟲: colour emoji and a maths arrow, neither in Monlam, so both
+    arrived from a fallback font.
+
+    Colour is declared here on the pseudo-element, which is what makes it
+    survive Books' Night theme — see the PLATFORM NOTE. The counts live in
+    CSS for the same reason: as element text they would be repainted, and a
+    half-red mark reads worse than none. **/
+.jumpRepeat:before, .jumpRepeat3:before {
+  content: "\0F3D";               /* ༽ */
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
-.jumpRepeat:after {
-  content: "\00A0\0F3D";         /* NBSP ༽ */
-  color: var(--repeat);
-  -webkit-text-fill-color: var(--repeat);
+.jumpRepeat3:before {
+  content: "\0F3D\0F23";          /* ༽༣ */
+}
+/** A passage recited a different number of times in different practices.
+    Numerals joined by tsheg, which is how Tibetan joins such a list
+    (ཚར་གཉིས་གསུམ་བདུན་) — no comma, since Tibetan has none. **/
+.jumpRepeat.count237:before {
+  content: "\0F3D\0F22\0F0B\0F23\0F0B\0F27";   /* ༽༢་༣་༧ */
 }
 /** REPEAT MARKING
  *
