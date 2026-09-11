@@ -295,7 +295,24 @@ the name or the stylesheet says so.
 actually is. Each rename is a mechanical find-and-replace verifiable by
 `check.py` and a diff of the built HTML.
 
-### C4. Four classes used with no rule, seven rules with no element
+### C4. `.invisible` and `.invisibleRepeat` display, and carry an open TODO
+
+```css
+.invisible       { display: none;   /* TODO Set to "none" or "inline" */ }
+.invisibleRepeat { display: inline; /* TODO Set to "none" or "inline" */ }
+```
+
+`.invisibleRepeat` is used 17 times, all in `p257_leu_bdun_ma.htm`, and it
+renders — the name says the opposite of what the rule does. Both carry the
+same unresolved TODO, which means the decision they record was never made.
+
+Anyone reading `<span class="invisibleRepeat">` in the source will believe
+that text does not appear in the book. It does.
+
+**Fix:** make the decision, then either delete the class or rename it to what
+it actually does.
+
+### C5. Four classes used with no rule, seven rules with no element
 
 ```
 used, undeclared:   eh2   just   line191   margin_eh2_ee
@@ -307,7 +324,7 @@ Both halves are dead weight. `jumpTodO` is worse than dead — it differs from
 case-insensitively will apply one rule to the other. That already bit once
 (commit `3df8d67`), and it will bite again while the selector exists.
 
-### C5. Heading levels are arbitrary within one series
+### C6. Heading levels are arbitrary within one series
 
 The seven chapters of the ལེའུ་བདུན་མ། are one series at one depth, and they are
 marked up at two:
@@ -328,7 +345,7 @@ choice between them tracks nothing.
 **Fix:** pick the level from the structure — a prayer is `h1`, a chapter
 within one is `h2` — and let `tocpage1`/`tocpage2` keep doing the styling.
 
-### C6. File naming is two schemes
+### C7. File naming is two schemes
 
 ```
 c_53.htm … c_107.htm                      sequence number, meaning nothing
@@ -511,6 +528,16 @@ revisit it, and it is a large piece of work.
 - the swift-return prayer's two verses are in; Düdjom Rinpoche's long
   supplication for CNR is available in Lumbini X.2 and deliberately not included
 - `མཎྜལ་༢་རྗེས་སུ། 110` — a label carrying a stray page number
+- **`p257_leu_bdun_ma.htm:468`** — `ཨོ་རྒྱན་པདྨ་འབྱུང་གནས་གསོལ་བ་འདེབས༔`, missing the
+  `ལ`. Eight written-out instances of this refrain in the file read
+  `གནས་ལ་གསོལ`; this one alone reads `གནས་གསོལ`. Found while correcting the
+  seventeen expansions, and it is a different fault — the printed text, not
+  an expansion — so it was left alone.
+- **`p257_leu_bdun_ma.htm:570`** — a `repeatFirstOcc` whose content *ends in a
+  `༴`*: `ལ་གསོལ་བ་འདེབས༔ ཨོ་རྒྱན་པདྨ་འབྱུང་གནས་ལ༴` with no expansion after it. A
+  first occurrence is by definition the written-out one, so it should not
+  contain an abbreviation mark at all, and the refrain's tail
+  (`་གསོལ་བ་འདེབས༔`) is simply absent from the line.
 - `ངྣདྨངྒྱཌྒྱ༔` at `p88_91_104_115.htm:23`, where the opening line of
   རྒྱུན་གྱི་བཀོལ་བྱང་། should be. Three stacks that occur nowhere else in the book,
   in eight syllables, with a `དྨ` embedded — found by `tools/stacks.py`, and
