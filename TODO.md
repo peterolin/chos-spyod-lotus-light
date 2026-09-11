@@ -598,54 +598,33 @@ Still open from the original entry: `.lpn` sets at about 60% of body text, a
 size chosen for a number sitting beside a label. These five are now the only
 thing inside their braces. Worth a look on device before deciding.
 
-### F2. The repeat braces should be clickable, back to the start
-
-A long repeated passage is marked `༼ … ༽` and there is no way to get back to
-its beginning. For the longer ones that matters:
+### F2. ~~The repeat braces should be clickable, back to the start~~ — DONE
 
 ```
-54  repeatWrap / repeatWrap3 spans in the book
-23  of them over 120 characters
-760 characters in the longest
- 0  of them carry an id
+༼ …repeated passage… ◂༽          repeatWrap  + jumpRepeat
+༼ …repeated passage… ◂༽༣         repeatWrap3 + jumpRepeat3
+༼ …repeated passage… ◂༽༢་༣་༧      the 21 Taras, unchanged
 ```
 
-**The mechanism already exists and is used zero times.** `.repeatAnchor` marks
-a repeat's start and `.jumpRepeat` is a link that closes a repeat and sends you
-back to it — both styled, both documented, and the book contains one
-`repeatAnchor` and **no** `jumpRepeat` at all. `.jumpRepeat` even sits in the
-`color: revert` group with the other links while its `:before` declares
-`--repeat` on the pseudo-element, so the mark stays red while the element is a
-real link. The design anticipated this exactly; nothing ever used it.
+All 62 repeat spans converted: each gained an `id="repeatN"` and an empty
+`<a class="jumpRepeat…" href="#repeatN">` after its closing `</span>`. The
+span draws the opening `༼`; the link draws the closing `◂༽`, so the mark that
+closes a repeat is also the control that returns you to its start.
 
-**Visual proposal.** Put a back-arrow inside the closing brace, and make that
-brace the link:
+The shape was not invented. `.repeatAnchor` + `.jumpRepeat` was already
+designed, styled and documented for exactly this, and already in use once —
+`p88…:498`, `<a class="jumpRepeat count237" href="#TOC_21Taras"></a>`, an
+empty link whose mark comes from CSS. The 62 follow it.
 
-```
-  ༼ …repeated passage… ◂༽
-  ༼ …repeated passage… ◂༽༣        the three-times variant, numeral outside
-```
+`.repeatWrap:after` and `.repeatWrap3:after` are deleted; the closing brace
+now has one source instead of two.
 
-Three reasons for that shape rather than something new:
-
-- It reuses an idiom the book just established. Jump links read `༼◂ … ▸༽`, so
-  an arrow inside a brace already means "this brace takes you somewhere".
-- **It stays red.** Red means the editor supplied it, and a repeat instruction
-  is exactly that. Blue would say "navigation the editor built", which is only
-  half true here and would be the one red-to-blue exception in a system of 703
-  marks.
-- It costs one glyph. The opening brace deliberately does **not** gain the
-  jewel `࿉`: the brace is already the landmark you land on, and adding a second
-  mark to 54 openings doubles the clutter without adding information. A jump
-  target needs `࿉` because there the jewel is the only mark; here it would be
-  the second.
-
-**The markup decision to settle when doing it:** a pseudo-element of a `<span>`
-cannot be clicked, so the closing brace has to come from an `<a>`. Cleanest is
-to let the closing brace live only on the `jumpRepeat` link and have
-`repeatWrap` emit the opening alone — which is precisely the
-`repeatAnchor` + `jumpRepeat` pair, so the 54 spans convert to a shape that is
-already designed. Each needs an id; none has one.
+**One regression, stated rather than shipped quietly:** those 62 links are
+empty elements. They have no accessible name, so a screen reader announces 63
+unlabelled links. Generated content is not reliably read out, so the mark
+itself does not supply one. The fix is a `title` on each — but the wording
+should be Tibetan the book already uses, not something invented, so it needs
+deciding. See E1, which this compounds.
 
 ### F3. ~~ཆོས་རྣམས་ཐམས་ཅད། has a heading it should not have~~ — RESOLVED
 

@@ -664,6 +664,23 @@ a.ipnpx {
 }
 /** The link that closes a repeated passage and sends you back to its start.
 
+    EVERY repeat in the book now ends in one of these — 62 of them. The span
+    draws the opening ༼ and this link draws the closing ◂༽, so the mark that
+    closes a repeat is also the control that returns you to its beginning. A
+    long passage repeated three times was previously a one-way trip: you got
+    to the end, and finding the start again meant scrolling.
+
+    The arrow rides INSIDE the brace, ◂༽, which is the idiom the jump links
+    use — an arrow within a brace means the brace takes you somewhere. It
+    stays RED, not link-blue: red marks what the editor supplied, and a repeat
+    instruction is exactly that. The link element itself is empty, so nothing
+    is ever painted in the reading system's link colour.
+
+    The opening brace deliberately does NOT gain the jewel ࿉. The brace is
+    already the landmark you land on, and a second mark on 62 openings would
+    double the clutter without adding information — unlike a jump target,
+    where the jewel is the only mark there is.
+
     The mark is on :before, not :after, so the brace comes FIRST and any
     repeat count follows it — ༽༢ rather than ༢༽. The glyphs it replaced were
     🔄3️⃣ and ⟲: colour emoji and a maths arrow, neither in Monlam, so both
@@ -674,19 +691,19 @@ a.ipnpx {
     CSS for the same reason: as element text they would be repainted, and a
     half-red mark reads worse than none. **/
 .jumpRepeat:before, .jumpRepeat3:before {
-  content: "\0F3D\202F";          /* ༽ + NARROW NO-BREAK SPACE */
-  padding-right: 0.12em;
+  content: "\202F\25C2\0F3D";     /* NARROW NO-BREAK SPACE + ◂༽ */
+  padding-left: 0.12em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
 .jumpRepeat3:before {
-  content: "\0F3D\0F23\202F";     /* ༽༣ + NARROW NO-BREAK SPACE */
+  content: "\202F\25C2\0F3D\0F23";   /* NNBSP + ◂༽༣ */
 }
 /** A passage recited a different number of times in different practices.
     Numerals joined by tsheg, which is how Tibetan joins such a list
     (ཚར་གཉིས་གསུམ་བདུན་) — no comma, since Tibetan has none. **/
 .jumpRepeat.count237:before {
-  content: "\0F3D\0F22\0F0B\0F23\0F0B\0F27\202F";  /* ༽༢་༣་༧ + NNBSP */
+  content: "\202F\25C2\0F3D\0F22\0F0B\0F23\0F0B\0F27";  /* NNBSP + ◂༽༢་༣་༧ */
 }
 /** REPEAT MARKING
  *
@@ -755,24 +772,8 @@ a.ipnpx {
   margin-left: 0.2em;
   margin-right: 0;
 }
-.repeatWrap:after, .repeatEnd:after {
-  content: "\202F\0F3D";         /* NARROW NO-BREAK SPACE + ༽ */
-  color: var(--repeat);
-  -webkit-text-fill-color: var(--repeat);
-  padding-left: 0.12em;
-  margin-left: 0;
-  margin-right: 0.2em;
-}
 /** …three times. The numeral is the whole point of the variant, and the old
     marker did not carry it. **/
-.repeatWrap3:after, .repeatEnd3:after {
-  content: "\202F\0F3D\0F23";    /* NARROW NO-BREAK SPACE + ༽༣ */
-  color: var(--repeat);
-  -webkit-text-fill-color: var(--repeat);
-  padding-left: 0.12em;
-  margin-left: 0;
-  margin-right: 0.2em;
-}
 /** Formatting for the Table of Contents file toc1.xhtml **/
 ul {
   padding-left: 0.3em;
