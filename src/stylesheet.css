@@ -48,6 +48,34 @@
  * CSS Color 4 and is dropped wholesale by older EPUB engines.
  *
  * ---------------------------------------------------------------------------
+ * BRACE SPACING — one convention, everywhere, no exceptions.
+ *
+ * Every generated brace in this book — jump link, jump target, repeat, repeat
+ * count, expansion — spaces itself the same way:
+ *
+ *     opening    content "\0F3C\202F"   padding-right: 0.12em
+ *     closing    content "\202F\0F3D"   padding-left:  0.12em
+ *
+ * The thin space always goes on the side FACING THE TEXT the brace encloses.
+ * Outer air, where a mark needs it, is a MARGIN and stays outside the brace.
+ *
+ * Two parts because they do different jobs. U+202F NARROW NO-BREAK SPACE is
+ * the typographic gap and is non-breaking, so a line break can never strand a
+ * brace from its text. The 0.12em of padding is the tuning knob — it can be
+ * opened or closed without touching the content string, which is where the
+ * escapes live and where an edit is easy to get wrong.
+ *
+ * This replaced a state where the rules disagreed: some braces had no inside
+ * space at all and sat hard against the Tibetan, others carried U+202F, and
+ * the repeat pair had an explicit "tight against the text" rule. Opening and
+ * closing braces of the SAME pair were spaced differently, which is what made
+ * it read as clutter on one side and a gap on the other.
+ *
+ * Marks with nothing inside them — the bare target ༼࿉༽ — take no inside
+ * space, because there is nothing to separate.
+ * ---------------------------------------------------------------------------
+ *
+ * ---------------------------------------------------------------------------
  * PLATFORM NOTE — Apple Books' Night theme, measured with a probe in the book
  * rather than guessed:
  *
@@ -480,17 +508,17 @@ a.ipnpx {
 }
 .inlineAnchor:not(:empty):before,
 .inlineAnchorReturn:not(:empty):before {
-  content: "\0F3C";               /* ༼ */
+  content: "\0F3C\202F";          /* ༼ + NARROW NO-BREAK SPACE */
+  padding-right: 0.12em;
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
 .inlineAnchor:not(:empty):after,
 .inlineAnchorReturn:not(:empty):after {
   /** ࿉ then ༽ — the jewel closes the label inside the same brace pair the
-      :before opened. The space before it is NARROW NO-BREAK: thin, so the
-      jewel sits close to its label, and non-breaking, or a line break could
-      leave it stranded from the label it belongs to. **/
-  content: "\202F\0FC9\0F3D";      /* ࿉༽ */
+      :before opened. **/
+  content: "\202F\0FC9\0F3D";      /* NARROW NO-BREAK SPACE + ࿉༽ */
+  padding-left: 0.12em;
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
@@ -500,7 +528,8 @@ a.ipnpx {
     .repeatWrap now, which is the point — one visual idiom for "repeat this
     span", whether the span is marked inline or by an anchor and a link. **/
 .repeatAnchor:after {
-  content: "\0F3C";              /* ༼ */
+  content: "\0F3C\202F";         /* ༼ + NARROW NO-BREAK SPACE */
+  padding-right: 0.12em;
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
@@ -597,18 +626,19 @@ a.ipnpx {
     CSS for the same reason: as element text they would be repainted, and a
     half-red mark reads worse than none. **/
 .jumpRepeat:before, .jumpRepeat3:before {
-  content: "\0F3D";               /* ༽ */
+  content: "\0F3D\202F";          /* ༽ + NARROW NO-BREAK SPACE */
+  padding-right: 0.12em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
 .jumpRepeat3:before {
-  content: "\0F3D\0F23";          /* ༽༣ */
+  content: "\0F3D\0F23\202F";     /* ༽༣ + NARROW NO-BREAK SPACE */
 }
 /** A passage recited a different number of times in different practices.
     Numerals joined by tsheg, which is how Tibetan joins such a list
     (ཚར་གཉིས་གསུམ་བདུན་) — no comma, since Tibetan has none. **/
 .jumpRepeat.count237:before {
-  content: "\0F3D\0F22\0F0B\0F23\0F0B\0F27";   /* ༽༢་༣་༧ */
+  content: "\0F3D\0F22\0F0B\0F23\0F0B\0F27\202F";  /* ༽༢་༣་༧ + NNBSP */
 }
 /** REPEAT MARKING
  *
@@ -637,12 +667,14 @@ a.ipnpx {
     carries the printed ༴ before it; the brackets mark where the editor's
     expansion begins and ends. **/
 .repeatNextOcc:before {
-  content: "\0F3C";
+  content: "\0F3C\202F";
+  padding-right: 0.12em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
 .repeatNextOcc:after {
-  content: "\0F3D";
+  content: "\202F\0F3D";
+  padding-left: 0.12em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
@@ -668,31 +700,28 @@ a.ipnpx {
 /** Repeat this span as a unit. **/
 .repeatWrap:before, .repeatWrap3:before,
 .repeatEnd:before, .repeatEnd3:before {
-  content: "\0F3C";              /* ༼ */
+  content: "\0F3C\202F";         /* ༼ + NARROW NO-BREAK SPACE */
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
-  padding: 0;
-  /** Tight against the text it opens, air on the outside. **/
+  padding-right: 0.12em;
   margin-left: 0.2em;
   margin-right: 0;
 }
 .repeatWrap:after, .repeatEnd:after {
-  content: "\0F3D";              /* ༽ */
+  content: "\202F\0F3D";         /* NARROW NO-BREAK SPACE + ༽ */
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
-  padding: 0;
-  /** Tight against the text it closes, air on the outside. **/
+  padding-left: 0.12em;
   margin-left: 0;
   margin-right: 0.2em;
 }
 /** …three times. The numeral is the whole point of the variant, and the old
     marker did not carry it. **/
 .repeatWrap3:after, .repeatEnd3:after {
-  content: "\0F3D\0F23";         /* ༽༣ */
+  content: "\202F\0F3D\0F23";    /* NARROW NO-BREAK SPACE + ༽༣ */
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
-  padding: 0;
-  /** Tight against the text it closes, air on the outside. **/
+  padding-left: 0.12em;
   margin-left: 0;
   margin-right: 0.2em;
 }
