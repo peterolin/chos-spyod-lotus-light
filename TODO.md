@@ -307,7 +307,28 @@ Both halves are dead weight. `jumpTodO` is worse than dead — it differs from
 case-insensitively will apply one rule to the other. That already bit once
 (commit `3df8d67`), and it will bite again while the selector exists.
 
-### C5. File naming is two schemes
+### C5. Heading levels are arbitrary within one series
+
+The seven chapters of the ལེའུ་བདུན་མ། are one series at one depth, and they are
+marked up at two:
+
+```
+p257_leu_bdun_ma.htm   leu1 h2   leu2 h2   leu3 h3   leu4 h3
+                       leu5 h2   leu6 h3   leu7 h2
+```
+
+All seven carry `class="tocpage2"`, so they look identical and behave
+identically — the level is doing no work, which is exactly why it drifted.
+It does work for a screen reader, which builds its document outline from the
+levels and will report this series as jumping in and out of a subsection.
+
+Elsewhere the same is true across the book: 106 `h1`, 18 `h2`, 8 `h3`, and the
+choice between them tracks nothing.
+
+**Fix:** pick the level from the structure — a prayer is `h1`, a chapter
+within one is `h2` — and let `tocpage1`/`tocpage2` keep doing the styling.
+
+### C6. File naming is two schemes
 
 ```
 c_53.htm … c_107.htm                      sequence number, meaning nothing
@@ -583,6 +604,48 @@ to let the closing brace live only on the `jumpRepeat` link and have
 `repeatWrap` emit the opening alone — which is precisely the
 `repeatAnchor` + `jumpRepeat` pair, so the 54 spans convert to a shape that is
 already designed. Each needs an id; none has one.
+
+### F3. ཆོས་རྣམས་ཐམས་ཅད། has a heading it should not have
+
+```
+p133_135_137_148_154_161_170_175_177_179.htm:253
+  <h3 class="tocpage2" id="chos_rnams_thams_cad"><a class="ppnp">TODO phys page</a>
+      <br/>ཆོས་རྣམས་ཐམས་ཅད།<span class="pageno">???</span></h3>
+:256
+  <span class="tibnormal">ཆོས་རྣམས་ཐམས་ཅད་རྒྱུ་ལས་བྱུང་། །དེ་རྒྱུ་དེ་བཞིན་གཤེགས་པས་གསུངས།
+```
+
+The heading is the first four syllables of the verse directly beneath it. It
+is not a title the book gives this passage; it is the text, repeated, promoted
+to a divider. The verse should simply run inline.
+
+Removing it is clean in the one way that usually is not: **nothing links to
+the heading.** The jump link that reaches this passage —
+`c_78.htm:99` — points at `#TOC_ChonamThamche`, the `inlineAnchor` on the line
+below, not at the heading id. It is also absent from the NCX.
+
+Two things do have to be re-derived with it gone, and both are mechanical:
+
+```
+page154  right → #chos_rnams_thams_cad
+page157  left  → #chos_rnams_thams_cad
+```
+
+Reset those two to placeholders and `nav.py --write` will chain 154 ↔ 157
+directly. That also removes one of the fifteen arrow-less headings in D6, one
+of the `???` page numbers in A5, and the only visible `TODO phys page` string
+in the book.
+
+### F4. ~~Too much air above the title rule~~ — RESOLVED, provisionally
+
+`margin-top` on `.tocpage1, .tocpage2` halved, 2.2em → 1.1em. That is the gap
+between the end of the last prayer and the hairline that divides it from the
+next; at 2.2em the rule floated clear of the text above rather than dividing
+two things.
+
+Explicitly a starting point, not a settled value — recorded here so the next
+adjustment knows where it came from. The 0.15em below the title is untouched:
+it is deliberately tight, and it is what groups a title with its own text.
 
 ---
 

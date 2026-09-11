@@ -254,7 +254,13 @@
       but it does not work here. What DOES mark the title in Night is the
       divider rule below, which is a border rather than text. **/
   -webkit-text-fill-color: var(--accent);
-  margin: 2.2em 0 0.15em 0;
+  /** The first number is the air ABOVE the hairline — the gap between the end
+      of the last prayer and the rule that divides it from this one. Halved
+      from 2.2em after reading it on the device; 2.2 left the rule floating
+      well clear of the text above it rather than dividing two things. This is
+      a starting point, not a settled value. The 0.15em below is deliberately
+      tight and is what groups the title with its own text. **/
+  margin: 1.1em 0 0.15em 0;
   border-top: 1px solid var(--accent-rule);
   text-align: center;
   line-height: 1.5;
