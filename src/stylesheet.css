@@ -409,7 +409,7 @@ a.ipnpx {
     Two shapes, told apart by :empty — no markup change needed:
 
       bare target      ↳            "you land here"
-      labelled target  ༼ label ༽    the label naming which landing spot
+      labelled target  ༼ label ༽ ↳  the label naming which landing spot
 
     EVERY colour here is declared ON THE PSEUDO-ELEMENT, not left to inherit
     from the element. That is the whole trick: Books' Night theme repaints
@@ -433,7 +433,11 @@ a.ipnpx {
 }
 .inlineAnchor:not(:empty):after,
 .inlineAnchorReturn:not(:empty):after {
-  content: "\0F3D";               /* ༽ */
+  /** ༽ then ↳ — the braces delimit the label, the arrow still says "you land
+      here", so a labelled target carries both. The space between them is
+      non-breaking, or a line break could leave the arrow stranded from the
+      label it belongs to. **/
+  content: "\0F3D\00A0\21B3";      /* ༽ ↳ */
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
