@@ -19,8 +19,14 @@ still hold a placeholder (`../pn.htm#todo`, `#TODO`, `title="todoprev"` …);
 arrows that already point somewhere real are left alone, but are checked and
 reported when they disagree with document order.
 
+It also audits the JUMP LINKS: an arrow that points the wrong way is worse
+than no arrow, and neither check.py nor a reading of the page will catch it,
+because the link still resolves. Direction is measured from real reading
+order — spine index, then position within the document — so it is as
+mechanically certain as the prev/next chain, and --write corrects it.
+
     python3 tools/nav.py            report only (default)
-    python3 tools/nav.py --write    rewrite the placeholders
+    python3 tools/nav.py --write    rewrite the placeholders, turn wrong arrows
 
 Run tools/check.py afterwards.
 """
@@ -42,6 +48,16 @@ HEADING = re.compile(
 # break it away from the title), so it is read out of the heading's content and
 # then removed from the title text.
 PAGENO_IN = re.compile(r'<span class="pageno[^"]*">([^<]*)</span>', re.S)
+
+# A jump link in the running text, and which direction each class claims.
+# jumpTODO renders a literal "TODO " prefix, so it is deliberately unfinished
+# and gets no arrow; key.xhtml is the legend, whose rows demonstrate each
+# class BY NAME and so must keep the class they document.
+JUMP = re.compile(
+    r'<a class="(jump|jumpUp|jumpDown|jumpTODO|jumpTodO|easyjump)"'
+    r'((?=[^>]*\bhref="([^"]+)")[^>]*)>')
+CLAIMS = {"jumpUp": "back", "jumpDown": "fwd"}
+LEGEND = "key.xhtml"
 
 # A left/right arrow inside a nav block.
 ARROW = re.compile(r'<a\s+class="(left|right)"\s+([^>]*?)(/?)>')
@@ -155,6 +171,66 @@ def set_attr(attrs, name, value):
     return f'{attrs.rstrip()} {name}="{value}"'
 
 
+def id_positions(files):
+    """Absolute position of every id in the book: (document index, offset)."""
+    pos = {}
+    for i, rel in enumerate(files):
+        text = (SRC / rel).read_text(encoding="utf-8")
+        for m in re.finditer(r'\bid="([^"]+)"', text):
+            pos[(rel, m.group(1))] = (i, m.start())
+    return pos
+
+
+def audit_jumps(files, apply=False):
+    """Check every jump link's arrow against the direction it actually goes.
+
+    Returns (turned, arrowless). A reversed arrow is mechanically certain —
+    the target either precedes the link in reading order or follows it — so
+    --write swaps the class. A link whose class has no arrow at all is only
+    reported: whether that class was chosen deliberately is a judgement.
+    """
+    pos = id_positions(files)
+    turned, arrowless = [], []
+
+    for i, rel in enumerate(files):
+        if Path(rel).name == LEGEND:
+            continue
+        path = SRC / rel
+        text = path.read_text(encoding="utf-8")
+        changed = False
+
+        def classify(m):
+            nonlocal changed
+            cls, attrs, href = m.group(1), m.group(2), m.group(3)
+            if "#" not in href:
+                return m.group(0)
+            target_file, frag = href.split("#", 1)
+            key = (rel if not target_file else "OPS/" + Path(target_file).name, frag)
+            if key not in pos:
+                return m.group(0)          # check.py reports unresolvable ones
+            goes = "fwd" if pos[key] > (i, m.start()) else "back"
+            want = "jumpDown" if goes == "fwd" else "jumpUp"
+
+            if cls not in CLAIMS:
+                if cls != "jumpTODO":
+                    arrowless.append((rel, cls, want, frag))
+                return m.group(0)
+            if CLAIMS[cls] == goes:
+                return m.group(0)
+
+            turned.append((rel, cls, want, frag))
+            if apply:
+                changed = True
+                return f'<a class="{want}"{attrs}>'
+            return m.group(0)
+
+        new = JUMP.sub(classify, text)
+        if apply and changed:
+            path.write_text(new, encoding="utf-8")
+
+    return turned, arrowless
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true", help="apply the changes")
@@ -265,6 +341,8 @@ def main():
             out.append(text[cursor:])
             (SRC / rel).write_text("".join(out), encoding="utf-8")
 
+    turned, arrowless = audit_jumps(files, apply=args.write)
+
     print(f"{len(sections)} linkable sections across {len(per_file)} files\n")
     for n in notes:
         print("  -", n)
@@ -281,6 +359,16 @@ def main():
         print("not the tool's (in several the heading is the wrong spelling):\n")
         for d in drift:
             print("  -", d)
+    verb2 = "turned" if args.write else "point the wrong way"
+    print(f"\njump arrows {verb2}: {len(turned)}")
+    for rel, was, now, frag in turned:
+        print(f"  - {Path(rel).name}: {was} -> {now}  (#{frag})")
+    if arrowless:
+        print(f"\n{len(arrowless)} jump links have a class that draws NO arrow —")
+        print("yours to judge: reclassify, or leave if the class is deliberate.\n")
+        for rel, cls, want, frag in arrowless:
+            print(f"  - {Path(rel).name}: {cls}, goes {want[4:]}  (#{frag})")
+
     if not args.write:
         print("\nreport only; re-run with --write to apply")
     return 0

@@ -183,6 +183,24 @@ It is deliberately conservative, and the split matters:
 Re-running after `--write` reports nothing to do, so it is safe in a loop.
 Add a section anywhere and re-run to wire it into the chain.
 
+### It also audits the jump arrows
+
+An arrow pointing the wrong way is worse than no arrow, and nothing else
+catches it: the link still resolves, so `check.py` passes it, and the page
+looks fine — you only find out by following it and landing in the wrong place.
+
+`nav.py` measures where each jump link actually goes, from real reading order
+(spine index, then position within the document), and compares that with the
+direction its class claims. `--write` swaps the class, since the direction is
+a fact rather than a judgement. Four live arrows were reversed when this check
+was first run.
+
+Two groups are deliberately exempt: `key.xhtml`, whose rows demonstrate each
+class *by name*, and `.jumpTODO`, which renders a literal `TODO ` prefix and
+should not be dressed up as finished. A class that draws no arrow at all
+(`jump`, `easyjump`) is reported, never auto-changed — whether it was chosen
+deliberately is a judgement.
+
 ## Importing an EPUB (rare)
 
 `tools/unpack.sh some.epub` replaces `src/` with that file's contents. It
