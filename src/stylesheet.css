@@ -59,9 +59,11 @@
  *   together, a gradient clipped to the text, and a colour declared only
  *   inside the dark query. All nine came out white.
  *
- *   Night LEAVES GENERATED CONTENT ALONE. :before/:after keep their author
- *   colour — which is why the ༼ ༽ braces stay red in Night while a prayer
- *   title goes white.
+ *   Night LEAVES GENERATED CONTENT ALONE — but only colour DECLARED ON the
+ *   pseudo-element rule. A pseudo-element that merely INHERITS its colour
+ *   from the element is repainted along with it. That is why the ༼ ༽ braces
+ *   stayed red in Night (they set their own colour) while the ↳ did not (it
+ *   inherited), and why a prayer title goes white.
  *
  * So: never let a signal depend on TEXT colour alone. Anything that must
  * survive Night belongs in generated content, or in a border, or in
@@ -402,12 +404,39 @@ a.ipnpx {
   opacity: 1;
   }
 
-.inlineAnchor:after {
-  content:"↳";
+/** Jump-target marks.
+
+    Two shapes, told apart by :empty — no markup change needed:
+
+      bare target      ↳            "you land here"
+      labelled target  ༼ label ༽    the label naming which landing spot
+
+    EVERY colour here is declared ON THE PSEUDO-ELEMENT, not left to inherit
+    from the element. That is the whole trick: Books' Night theme repaints
+    element text, and anything a pseudo-element merely INHERITS is repainted
+    with it. Declared directly, it survives. This is why the repeat braces
+    stayed red in Night while the ↳ — which only inherited — did not.
+
+    So in Night the braces stay red and the label text goes to Books' ink;
+    in the three light themes braces and label are both red. **/
+.inlineAnchor:empty:after,
+.inlineAnchorReturn:empty:after {
+  content: "\21B3";               /* ↳ */
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
 }
-.inlineAnchorReturn:after {
-  content: "↳";
-  }
+.inlineAnchor:not(:empty):before,
+.inlineAnchorReturn:not(:empty):before {
+  content: "\0F3C";               /* ༼ */
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+}
+.inlineAnchor:not(:empty):after,
+.inlineAnchorReturn:not(:empty):after {
+  content: "\0F3D";               /* ༽ */
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+}
 /** The START of a repeated passage — the place a jumpRepeat sends you back
     to. So it takes the OPENING brace: with the closing one it emitted, the
     pair read ༽ … ༽, two closing braces and no opening one. Same shape as
