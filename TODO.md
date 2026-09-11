@@ -565,38 +565,38 @@ revisit it, and it is a large piece of work.
 Not findings from the review — work requested since. Kept here so the whole
 backlog is in one place.
 
-### F1. A jump link for "incipit … སོགས"
-
-Where the book prints an incipit and then `སོགས` ("and so on"), the jump link
-belongs **inside** that construction, not after it, and it should carry no
-label — the incipit is already on the page, a syllable away.
+### F1. ~~A jump link for "incipit … སོགས"~~ — DONE for the five that fit
 
 ```
-now      ཇི་སྙེད་སུ་དག་སོགས་ནས།  ༼ ཇི་སྙེད་སུ་དག། 581 ▸༽
-wanted   ཇི་སྙེད་སུ་དག ༼ 581 ▸༽ སོགས་ནས།
+p1_4…:583   ཇི་སྙེད་སུ་དག་ ༼ 581 ▸༽ སོགས་ནས།
+p1_4…:680   མེ་ཏོག་དམ་པ་ ༼ 582 ▸༽ སོགས་ནས།
+p1_4…:692   འདོད་ཆགས་ཞེ་སྡང་ ༼ 583 ▸༽ སོགས་ནས།
+p88…:282    རྗེ་བཙུན་འཕགས་མ་སྒྲོལ་མ་དང་ ༼ 121 ▸༽ སོགས་ནས།
+p88…:297    ཇི་སྙེད་སུ་དག་ ༼ 581 ▸༽ སོགས་ཡན་ལག་བདུན་པ་དང་།
 ```
 
-**This needs no CSS.** Verified by rendering against the built book: a
-`.jumpDown` whose only content is its `<span class="lpn">` already comes out as
-`༼ 581 ▸༽`, arrow, braces and spacing intact. The existing classes do the job —
-strip the label from the markup and the mark is right.
+No CSS was needed, as predicted — the existing classes render a label-less
+link correctly.
 
-One CSS question does fall out of it, though. `.lpn` is `0.75em` of a link that
-is itself `80%`, so the number sets at about 60% of body text. That size was
-chosen for a number sitting *beside* a label; alone inside the braces it is the
-only thing there, and it looks small. Decide after seeing a page of them.
+**Twelve of the seventeen candidates were left alone**, and the count was the
+point of surveying rather than pattern-matching. Most name a *destination*
+rather than echo an adjacent incipit — `ཆོས་རྣམས་ཐམས་ཅད། 154` beside
+`སྡིག་པ་ཅི་ཡང་སོགས` is a correct link doing its job, not a duplication.
 
-**The work is the content pass, and it is per-link judgement.** Candidates:
+Two more were the right shape but refused for a stated reason:
 
-```
-17  jump links with a སོགས within ~45 characters
- 6  of those whose label also echoes the nearby text — the clearest cases
-```
+- `c_79.htm:65` — `བྱིན་རླབས་མཁའ་ལ` sits exactly between its incipit and its
+  `སོགས`, but it carries **no `.lpn`**. Stripping the label would leave an
+  empty link, a brace pair with nothing inside. It is also a `.jumpTODO`,
+  which the book deliberately renders unfinished. Give it a page number and
+  it becomes the sixth.
+- `p88…:349` — `ཕྱག་འཚལ་བ་ནི་ཉི་ཤུ་རྩ་གཅིག་ཚར་གཉིས། 115` echoes the printed incipit
+  but *adds* `ཚར་གཉིས།`, "two times", which is not in the printed text. That is
+  information, not duplication, and stripping the label would delete it.
 
-Each has to move, some forward and some back, and "the incipit" has to be
-found by reading, not by pattern — the printed incipit is sometimes several
-syllables from the link and sometimes on the other side of it. A tool can
-produce the candidate list (the query above); a human decides each one.
+Still open from the original entry: `.lpn` sets at about 60% of body text, a
+size chosen for a number sitting beside a label. These five are now the only
+thing inside their braces. Worth a look on device before deciding.
 
 ### F2. The repeat braces should be clickable, back to the start
 
