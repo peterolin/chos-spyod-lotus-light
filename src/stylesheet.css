@@ -481,7 +481,12 @@ a.ipnpx {
 
 /** Navigation links.
 
-    The arrow is set at 0.8em, smaller than the label it follows, and the gap
+    Compact solid triangles, ▸ and ◂, rather than the longer ← and →: shorter
+    beside a Tibetan label, and unambiguously directional. Like every arrow in
+    this book they come from a fallback font — Monlam has none of them — so
+    the choice is purely one of shape.
+
+    The triangle is set at 0.8em, smaller than the label it follows, and the gap
     beside it is U+202F NARROW NO-BREAK SPACE — thin, so the arrow sits close
     to its page number, and still non-breaking.
 
@@ -492,11 +497,11 @@ a.ipnpx {
     rather than literals so a later edit cannot mistake one for a plain
     space. **/
 .jumpUp:before {
-  content: "\2190\202F";        /* ← + NARROW NO-BREAK SPACE */
+  content: "\25C2\202F";        /* ◂ + NARROW NO-BREAK SPACE */
   font-size: 0.8em;
 }
 .jumpDown:after {
-  content: "\202F\2192";        /* NARROW NO-BREAK SPACE + → */
+  content: "\202F\25B8";        /* NARROW NO-BREAK SPACE + ▸ */
   font-size: 0.8em;
 }
 /** The link that closes a repeated passage and sends you back to its start.
