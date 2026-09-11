@@ -65,6 +65,11 @@
  *   stayed red in Night (they set their own colour) while the ↳ did not (it
  *   inherited), and why a prayer title goes white.
  *
+ *   Night DOES respect OPACITY. Opacity is not a colour — it composites
+ *   whatever colour results — so it is the one way to change how text
+ *   itself reads in Night. It is what the yig chung has always used, and
+ *   what now carries the editorial-expansion signal there.
+ *
  * So: never let a signal depend on TEXT colour alone. Anything that must
  * survive Night belongs in generated content, or in a border, or in
  * something other than hue — size, weight, spacing, a rule. Text colour is a
@@ -94,12 +99,24 @@
      against its 6.8:1. Readable — this is liturgy, not decoration — while
      plainly not the original chos-spyod text. */
   --repeat:      #96524A;
+  /* How strongly an editorial EXPANSION is inked. 1 in the three light
+     themes, where --repeat already marks it. Books' Night theme repaints
+     that red away, but OPACITY IS NOT A COLOUR — it composites whatever
+     colour results, so it cannot be overridden the same way. Reducing it
+     there keeps the "this was supplied by the editor" signal alive in the
+     one theme where the hue cannot. 0.75 measures 8.2:1 against
+     surrounding text at 13.7:1. */
+  --repeat-strength: 1;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --accent:      #E9A79A;
     --repeat:      #CE9A90;   /* 7.0:1 on night, against the accent's 8.5 */
+    /* Not applied in the light themes: the red at 0.75 would fall to 3.5:1
+       on white and 2.8:1 on gray, under AA. Here it costs nothing, since
+       the red is repainted regardless. */
+    --repeat-strength: 0.75;
   }
 }
 
@@ -534,6 +551,9 @@ a.ipnpx {
 .repeatNextOcc {
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
+  /** Belt and braces across the four themes: the red marks this where a
+      hue survives, the reduced intensity marks it where one does not. **/
+  opacity: var(--repeat-strength);
   padding: 0;
   text-decoration: none;
   display: inline;
