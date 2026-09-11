@@ -1,5 +1,41 @@
 /** Don't use Calibres Beautify all files. It will damage the formatting of the special characters inserted in the files. */
 
+/** ---------------------------------------------------------------------------
+ * ONE STYLESHEET. This file was three — stylesheet.css, fonts.css and
+ * page_styles.css — and the split was the direct cause of a real fault: six
+ * documents linked one and missed another, so they asked for Monlam and were
+ * handed whatever the reading system substituted. Nothing was gained by the
+ * separation; a document can no longer be half-configured.
+ *
+ * The @font-face src is relative to THIS FILE, not to the document that links
+ * it, so `fonts/…` resolves the same from OPS/ as from the root.
+ * --------------------------------------------------------------------------- */
+
+@font-face {
+  src: url(fonts/Courier-New.ttf);
+  font-family: "Courier New", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+@font-face {
+  src: url(fonts/Monlam_Uni_OuChan2.ttf);
+  font-family: "Monlam Uni OuChan2", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  }
+
+@page {
+  margin-bottom: 10pt;
+  margin-top: 10pt;
+  margin-left: 1em;
+  margin-right: 1em;
+  page-break-inside: avoid;
+  }
+
+
 /**
  * COLOUR SYSTEM
  *

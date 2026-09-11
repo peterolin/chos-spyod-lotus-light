@@ -43,20 +43,19 @@ spine and NCX; the file lives in `retired/` with a note.
    so the retired file still shipped as an unreferenced resource until it was
    moved out of `src/`. See **D5**.
 
-### A2. Six documents link `stylesheet.css` but not `fonts.css`
+### A2. ~~Six documents link `stylesheet.css` but not `fonts.css`~~ — RESOLVED
 
-```
-src/OPS/c_87.htm   src/OPS/c_91.htm   src/OPS/p362.htm
-src/OPS/titlepage.htm   src/pn.htm   src/repeats.htm
-```
+`c_87`, `c_91`, `p362`, `OPS/titlepage.htm`, `pn.htm` and `repeats.htm` linked
+no file containing an `@font-face`, so they asked for Monlam and were handed
+whatever the reading system substituted. Fixed by removing the cause rather
+than the symptom — see B4. Verified through the CSSOM of the built book: every
+document now reports exactly one stylesheet carrying both `@font-face` rules.
 
-`@font-face` lives only in `fonts.css`. These six ask for
-`font-family: Monlam Uni OuChan2` and are handed whatever the reading system
-substitutes. On a device where Monlam is not installed — which is most
-devices — they are set in a different typeface from the rest of the book.
-
-**Fix:** add the `fonts.css` link. Better: stop having a separate `fonts.css`
-at all (see B4).
+The check that matters here is the CSSOM one, not `document.fonts.check()`.
+That returned `true` for every document even before the merge, because Monlam
+is installed system-wide on this machine — a false positive of exactly the kind
+that made the ཏངྱ hunt take a morning. Ask whether the RULE reached the
+document, not whether the FONT is available.
 
 ### A3. Nine spine documents are not in the NCX
 
@@ -144,15 +143,19 @@ and more practically, `#page543` is ambiguous to a human reading a link and to
 any tool that does not track which document it is in. `check.py` already
 catches duplicates *within* a document; it does not flag these.
 
-### B4. `fonts.css` is a separate file for no reason
+### B4. ~~`fonts.css` is a separate file for no reason~~ — RESOLVED
 
-Three stylesheets — `stylesheet.css`, `page_styles.css`, `fonts.css` — and two
-of them are tiny. `page_styles.css` is six lines of `@page`. `fonts.css` is two
-`@font-face` blocks. Splitting them buys nothing and it is the direct cause of
-A2: a document can link one and miss the other.
+The three stylesheets are one. `fonts.css` (two `@font-face` blocks) and
+`page_styles.css` (six lines of `@page`) are folded into `stylesheet.css` and
+deleted; 58 documents lost their redundant `<link>` elements and the manifest
+lost two items. The book ships 72 files where it shipped 74.
 
-**Fix:** fold all three into `stylesheet.css`. One link per document, one file
-to keep in the manifest, one less way to be half-configured.
+A document can no longer be half-configured, which was the whole argument: the
+split bought nothing and cost A2.
+
+`@font-face` `src` is relative to the stylesheet, not to the document that
+links it, so `fonts/…` resolves identically from `OPS/` and from the root. No
+path needed changing.
 
 ### B5. calibre residue in the package metadata
 
