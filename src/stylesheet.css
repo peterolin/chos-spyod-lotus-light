@@ -331,6 +331,16 @@
     overlaps; the heading's side padding reserves the gutters on every line,
     so a title wrapping to two or three lines still clears them. **/
 .left, .right  {
+  /** Handed back to the reading system, like every other link. Two reasons:
+      they ARE links, so the reader's own theme-aware blue is right for them;
+      and since they now live inside the heading they were INHERITING its
+      accent and coming out red, which made them read as part of the title
+      rather than as navigation.
+
+      -webkit-text-fill-color has to be reset too, or the accent the heading
+      sets on it keeps painting the glyph regardless of `color`. **/
+  color: revert;
+  -webkit-text-fill-color: currentColor;
   opacity: var(--secondary-strength);
   padding: 0.2em 0.3em;
   text-align: center;
