@@ -28,6 +28,7 @@ The source of truth is **`src/`** — the unpacked EPUB, 76 plain files.
 edit      src/…                        in VSCode, alongside Claude
 nav       python3 tools/nav.py         derive prev/next arrows (report only)
 check     python3 tools/check.py       structural QA (links, anchors, manifest)
+stacks    python3 tools/stacks.py      Tibetan stacks that look like slips
 preview   tools/preview.sh             builds, then opens the Calibre viewer
 build     tools/pack.sh                -> build/Ka-Nying-Chos-spyod-<version>.epub
 commit    git add src/ && git commit    real, readable, line-level diffs
@@ -200,6 +201,41 @@ class *by name*, and `.jumpTODO`, which renders a literal `TODO ` prefix and
 should not be dressed up as finished. A class that draws no arrow at all
 (`jump`, `easyjump`) is reported, never auto-changed — whether it was chosen
 deliberately is a judgement.
+
+## tools/stacks.py
+
+A stack is a base letter with subjoined letters under it — ཕྱ, སྒྲ, དྱ. The book
+contains 180 distinct ones across 36,285 occurrences, and almost all of them
+recur constantly. The interesting ones occur **once**.
+
+This exists because of `ཏངྱ`. The dhāraṇī in ཆགས་མེད་བདེ་སྨོན། read `ཏ ང ྱ` where
+*tadyathā* needs `ཏ ད ྱ` — nga for da, a single letter — and `ངྱ` is not a
+stack that Tibetan or Sanskrit writes. Nothing in the toolchain could see it:
+the characters are valid Unicode, every link resolved, so `check.py` passed it;
+it is not a link, so `nav.py` had nothing to say; and the eye reads straight
+through a one-letter slip in the middle of a mantra.
+
+It was caught in Apple Books, which drew a dotted circle over the orphaned
+ya-tak — weeks after it was written. Worth knowing: **neither HarfBuzz nor
+CoreText reproduces that.** Both ligate `ངྱ` happily through Monlam's GSUB, so
+Books is validating the stack itself, and it was the only validator this book
+had.
+
+```bash
+python3 tools/stacks.py            # report stacks needing review
+python3 tools/stacks.py --all      # every stack with its count
+python3 tools/stacks.py --accept   # record today's rarities as reviewed
+python3 tools/stacks.py --strict   # exit non-zero if any need review
+```
+
+Frequency is the signal, and **it is a signal, not a verdict.** Rare stacks are
+reported and never changed: `ཀྵྞ` and `རྫྙ` are singletons too, and they are
+correct Sanskrit. Judgement stays with you, which is the same division `nav.py`
+draws.
+
+Reviewed stacks go in `tools/stacks-known.txt` so the report shrinks to what is
+**new**. Read the report before running `--accept` — it accepts everything
+outstanding, which would bury the one you were meant to catch.
 
 ## Importing an EPUB (rare)
 

@@ -1,0 +1,16 @@
+# Tibetan stacks reviewed and accepted as correct, one per line.
+#
+# tools/stacks.py reports every base+subjoined stack that occurs rarely, on the
+# argument that a one-letter typing slip almost always produces a stack found
+# nowhere else in the book. Most rare stacks are NOT slips — Sanskrit
+# transliteration in mantras legitimately produces singletons like ཀྵྞ and རྫྙ —
+# so this file is how a reviewed stack stops being reported.
+#
+# Add entries by reading the report and then running:
+#
+#     python3 tools/stacks.py --accept
+#
+# Never run --accept without reading the report first: it accepts EVERYTHING
+# currently outstanding, which would bury the one you were meant to catch.
+#
+# Anything after a # on a line is ignored.

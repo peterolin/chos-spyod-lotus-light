@@ -331,55 +331,32 @@ silently.
 **Fix:** `pack.sh` runs `check.py` first and refuses to build on errors, with
 an explicit `--force` for when you know better.
 
-### D4. No check for what only a reader can see
+### D4. ~~No check for what only a reader can see~~ — RESOLVED, and it found one
 
-The dotted circle in `ཏངྱ` was found by eye, in Books, weeks after it was
-written. The character sequence was valid Unicode and resolved fine, so no tool
-had anything to say about it.
+`tools/stacks.py`. 180 distinct base+subjoined stacks across 36,285
+occurrences; it reports the ones that occur twice or fewer, on the argument
+that a one-letter slip almost always produces a stack found nowhere else while
+every real stack in a liturgy recurs.
 
-**Fix:** a stack checker. Enumerate every base+subjoined cluster in the book —
-there are 180 distinct ones — and flag the rare ones for review. A sweep of the
-singletons already turns up `ངྣདྨངྒྱཌྒྱ` in `p88_91_104_115.htm:25`, sitting where
-an opening line should be, which looks like a second encoding accident of the
-same family. **This one is worth doing next.**
-
-### D5. `pack.sh` ships every file in `src/`, manifest or not
+**36 stacks are outstanding for your review**, and one group is not Sanskrit:
 
 ```
-tools/pack.sh:107   cp -R "$SRC"/. "$STAGE"/
+ངྣ  ངྒྱ  ཌྒྱ      all three in  src/OPS/p88_91_104_115.htm:23
+                 ངྣདྨངྒྱཌྒྱ༔ སྤྲོས་མེད་དོན་གྱི་རྣལ་འབྱོར་པས༔
 ```
 
-The build copies the whole tree and never consults the manifest. Any stray
-file in `src/` — a retired document, a scratch copy, an editor backup — is
-published inside the EPUB as a resource no manifest entry references. This was
-found by retiring Fastjump: removing it from the manifest and spine did not
-stop it shipping.
+Three singleton stacks in one eight-syllable run, sitting exactly where the
+opening line of རྒྱུན་གྱི་བཀོལ་བྱང་། should be, and containing a recognisable `དྨ`.
+That is what an encoding accident looks like. The other 33 are all in plain
+mantra context and are almost certainly correct Sanskrit — `ཛྷ` is in the
+Sanskrit alphabet recitation `ཀ་ཁ་ག་གྷ་ང་། ཙ་ཚ་ཛ་ཛྷ་ཉ།`, `ཁྭ` is the ordinary
+Tibetan word for crow — but that is a judgement, so the tool reports and does
+not decide.
 
-**Fix:** `pack.sh` stages only files the manifest lists (plus `mimetype` and
-`META-INF/`), and fails loudly on a `src/` file that is not manifested — that
-second half is the part that catches the mistake rather than hiding it.
+Accepted stacks go in `tools/stacks-known.txt`, which ships empty, so the
+report shrinks to what is new once you have been through these.
 
-### D6. `nav.py` fills arrows but never adds a missing one
-
-Fifteen `tocpage` headings carry no `<a class="left">` or `<a class="right">`
-at all, so they are simply outside the navigation:
-
-```
-c_80.htm page558     c_81.htm page578      c_82.htm page581
-c_95.htm kun_bzang_rdo_rje_chang           c_95.htm dbud_bzhi_las_rgyal
-c_101.htm page704    c_106.htm snang_grags_rigs_gsum
-c_extra.htm zuryig   c_extra.htm shabten
-p133… page142, page148, chos_rnams_thams_cad
-p334… page340, tn_om_ah_hung, tn_offerings
-```
-
-`nav.py` derives and repairs the arrows in elements that exist; it has no way
-to create one. So a heading that was never wired stays unwired forever, and
-the tool reports everything as fine.
-
-**Fix:** `--write` inserts the pair when a heading has neither, which makes
-"every linkable section is reachable by arrow" an invariant the tool can hold
-rather than an accident of which headings someone remembered.
+D4 is closed as tooling. **The ངྣདྨངྒྱཌྒྱ run is open as content — see E7.**
 
 ---
 
@@ -458,6 +435,10 @@ revisit it, and it is a large piece of work.
 - the swift-return prayer's two verses are in; Düdjom Rinpoche's long
   supplication for CNR is available in Lumbini X.2 and deliberately not included
 - `མཎྜལ་༢་རྗེས་སུ། 110` — a label carrying a stray page number
+- `ངྣདྨངྒྱཌྒྱ༔` at `p88_91_104_115.htm:23`, where the opening line of
+  རྒྱུན་གྱི་བཀོལ་བྱང་། should be. Three stacks that occur nowhere else in the book,
+  in eight syllables, with a `དྨ` embedded — found by `tools/stacks.py`, and
+  the same family as ཏངྱ. Needs the printed pecha, not a guess.
 
 ---
 
