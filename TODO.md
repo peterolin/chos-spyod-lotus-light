@@ -120,8 +120,11 @@ Three more faults are visible in the same document while you are in there:
 - the `page142` heading text begins `142ལྷ་རྣམས་…` — the page number is in the
   title *as well as* in its `pageno` span
 - `page142` and `page148` carry no arrows at all (part of D6)
-- `page157` has an empty `pageno`, and `chos_rnams_thams_cad` has `???` and a
-  literal `TODO phys page` in its heading text
+- ~~`page157` has an empty `pageno`~~ — fixed 2026-09-12. It had no `pageno`
+  span at all; given `157`, which the book already asserted twice (the id,
+  and `page161`'s left tooltip `དམར་གསུར། 157`). Tooltip disagreements 30 → 29.
+- `chos_rnams_thams_cad` has `???` and a literal `TODO phys page` in its
+  heading text — see F3
 
 ### A5. Seven `???` and 70 `TODO` markers remain in the source
 
