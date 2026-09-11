@@ -123,21 +123,12 @@
      one theme where the hue cannot. 0.75 measures 8.2:1 against
      surrounding text at 13.7:1. */
   --repeat-strength: 1;
-  /* The braces around a jump link. The third hue, and the only one that is
-     not red, because it does not mean the same thing: red marks what the
-     editor SUPPLIED (words, repeat instructions, the place you land), blue
-     marks what the editor BUILT (navigation). The reader already reads
-     navigation as blue, since links wear the reading system's link colour.
-     Declared rather than `revert` so it survives Books' Night theme — see
-     the PLATFORM NOTE. 6.4:1 on white. */
-  --jump:        #2C5AA0;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --accent:      #E9A79A;
     --repeat:      #CE9A90;   /* 7.0:1 on night, against the accent's 8.5 */
-    --jump:        #9FC2F0;   /* 8.9:1 on night */
     /* Not applied in the light themes: the red at 0.75 would fall to 3.5:1
        on white and 2.8:1 on gray, under AA. Here it costs nothing, since
        the red is repainted regardless. */
@@ -369,8 +360,8 @@
      \202F escape ends at the T, which is not a hex digit, so the space that
      follows TODO is an ordinary literal one. */
   content: "\0F3C\202FTODO ";        /* ༼ + NARROW NO-BREAK SPACE + TODO */
-  color: var(--jump);
-  -webkit-text-fill-color: var(--jump);
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
 }
 
 /** Prev/next arrows: two quiet glyphs, flush to the edges of the title.
@@ -537,22 +528,29 @@ a.ipnpx {
     No jewel here. ༼࿉༽ belongs to the jump TARGET, the place you land; a link
     and its destination should not wear the same mark.
 
-    Blue, not red, and the distinction carries meaning in this book: red
-    marks what the editor SUPPLIED — words, repeat instructions, the place
-    you land. Blue marks what the editor BUILT — navigation, which is
-    machinery rather than text, and which the reader already reads as blue
-    because links wear the reading system's own link colour.
+    The braces take the LINK'S OWN COLOUR, by inheriting it rather than
+    declaring one. The <a> carries `color: revert`, the reading system's link
+    colour, so brace and label are the same blue in every theme — including
+    whatever blue Books settles on in Night, which no value of ours could
+    have predicted.
 
-    The colour is declared HERE, on the pseudo-element rule, which is the only
-    way it survives Books' Night theme — a pseudo-element that merely inherits
-    gets repainted with its element. See the PLATFORM NOTE at the top. That is
-    also why --jump is a declared pair rather than `revert`: revert would match
-    the reader's own link blue exactly, but it is an inherited colour and Night
-    would take it.
+    This is the one place where inheriting is right, and it does not
+    contradict the PLATFORM NOTE. The note's rule is that a SIGNAL must not
+    depend on colour, because Night repaints it. Here the signal is the brace
+    SHAPE, which Night cannot touch; the colour only has to MATCH the link,
+    and inheriting is the only thing that matches it by construction. A
+    declared blue would drift away from the link the moment a reading system
+    chose a different one.
 
-    The braces are set at 0.8em, smaller than the label they enclose, and the
-    gap inside each is U+202F NARROW NO-BREAK SPACE — thin, so a brace sits
-    close to its label, and still non-breaking.
+    The direction arrow rides INSIDE the opening or closing brace — ༼◂ back,
+    ▸༽ forward — because an element has only two pseudo-elements and the
+    braces need both. One string each, so a line break cannot separate the
+    arrow from the brace it belongs to.
+
+    The braces are set at 0.8em, smaller than the label they enclose. The gap
+    inside each is U+202F NARROW NO-BREAK SPACE plus a little padding: the
+    space on its own set the brace hard against the Tibetan and read as
+    clutter.
 
     Non-breaking matters: with an ordinary space the mark wrapped to the next
     line by itself, leaving the number stranded at the end of the line above
@@ -567,15 +565,25 @@ a.ipnpx {
 .jump:before, .jumpUp:before, .jumpDown:before, .easyjump:before {
   content: "\0F3C\202F";             /* ༼ + NARROW NO-BREAK SPACE */
   font-size: 0.8em;
-  color: var(--jump);
-  -webkit-text-fill-color: var(--jump);
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
+  padding-right: 0.12em;
+}
+/* Direction rides inside the brace. Longhand after the shared rule, so it
+   overrides only the content and keeps colour, size and padding. */
+.jumpUp:before {
+  content: "\0F3C\25C2\202F";       /* ༼◂ + NARROW NO-BREAK SPACE */
 }
 .jump:after, .jumpUp:after, .jumpDown:after, .easyjump:after,
 .jumpTODO:after {
   content: "\202F\0F3D";             /* NARROW NO-BREAK SPACE + ༽ */
   font-size: 0.8em;
-  color: var(--jump);
-  -webkit-text-fill-color: var(--jump);
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
+  padding-left: 0.12em;
+}
+.jumpDown:after {
+  content: "\202F\25B8\0F3D";       /* NARROW NO-BREAK SPACE + ▸༽ */
 }
 /** The link that closes a repeated passage and sends you back to its start.
 
