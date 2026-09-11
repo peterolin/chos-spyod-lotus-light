@@ -84,8 +84,9 @@
   --accent:      #9C3B2E;   /* prayer titles + jump targets. 6.8:1 on white */
   /* The prayer-title divider. A border, not text, so it survives Books'
      Night theme when the title's own red does not — in Night this rule is
-     the only red left marking a title. */
-  --accent-rule: rgba(156, 59, 46, 0.55);
+     the only red left marking a title, which is why it carries the accent at
+     full strength rather than a tint. Confirmed rendering in Night. */
+  --accent-rule: var(--accent);
   /* Repeated/abbreviated text. A weaker relative of the accent, not a second
      accent: saturation 0.34 against the accent's 0.54, and 5.8:1 on white
      against its 6.8:1. Readable — this is liturgy, not decoration — while
@@ -96,7 +97,6 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --accent:      #E9A79A;
-    --accent-rule: rgba(233, 167, 154, 0.55);
     --repeat:      #CE9A90;   /* 7.0:1 on night, against the accent's 8.5 */
   }
 }
