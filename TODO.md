@@ -565,15 +565,31 @@ revisit it, and it is a large piece of work.
 Not findings from the review — work requested since. Kept here so the whole
 backlog is in one place.
 
-### F1. ~~A jump link for "incipit … སོགས"~~ — DONE for the five that fit
+### F1. ~~A jump link for "incipit … སོགས"~~ — DONE, eleven of them
 
 ```
-p1_4…:583   ཇི་སྙེད་སུ་དག་ ༼ 581 ▸༽ སོགས་ནས།
-p1_4…:680   མེ་ཏོག་དམ་པ་ ༼ 582 ▸༽ སོགས་ནས།
-p1_4…:692   འདོད་ཆགས་ཞེ་སྡང་ ༼ 583 ▸༽ སོགས་ནས།
+p1_4…:194   ཇི་སྙེད་སུ་དག་ཕྱོགས་བཅུའི་འཇིག་རྟེན་ན། ༼ 581 ▸༽ །ཞེས་སོགས་ནས།
+p1_4…:241   མེ་ཏོག་དམ་པ་ཕྲེང་བ་དམ་པ་དང་། ༼ 582 ▸༽ །ཞེས་པ་ནས།
+p1_4…:581   ཇི་སྙེད་སུ་དག་ ༼ 581 ▸༽ སོགས་ནས།
+p1_4…:678   མེ་ཏོག་དམ་པ་ ༼ 582 ▸༽ སོགས་ནས།
+p1_4…:690   འདོད་ཆགས་ཞེ་སྡང་ ༼ 583 ▸༽ སོགས་ནས།
+p219…:213   ཇི་སྙེད་སུ་དག་ ༼ 581 ▸༽ སོགས་ཀྱིས་ཡན་ལག་བདུན་པ་འབུལ།
+p334…:195   ཧོཿ རིག་འཛིན་བླ་མའི་དཀྱིལ་འཁོར་ ༼ 356 ▸༽ སོགས་བསྔོ་སྨོན་…
 p88…:282    རྗེ་བཙུན་འཕགས་མ་སྒྲོལ་མ་དང་ ༼ 121 ▸༽ སོགས་ནས།
 p88…:297    ཇི་སྙེད་སུ་དག་ ༼ 581 ▸༽ སོགས་ཡན་ལག་བདུན་པ་དང་།
+p88…:355    ཨོཾ༔ དངོས་འབྱོར་ཡིད་ཀྱིས་ ༼ 109 ◂༽ མཆོད་པ་རྗེས་སུ་
+p133…:272   སྐྱབས་སེམས་གང་རུང་བྱ། ༼ 154 ◂༽
 ```
+
+**Done in two passes, and the first one was wrong.** It found five, because the
+survey required a `སོགས` within ±45 characters of the link. Six more sit just
+outside that window — the incipit itself can be 40 characters long, so the
+`སོགས` that follows it lands at 50 or 60. The second survey asked a better
+question: does the link's label repeat text on the page within ±220
+characters, before or after? That returns 16, of which 11 are this pattern.
+
+The lesson is the window, not the count. A proximity test tuned to the
+examples you have in front of you will miss the ones you do not.
 
 No CSS was needed, as predicted — the existing classes render a label-less
 link correctly.
