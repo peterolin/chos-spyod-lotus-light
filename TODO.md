@@ -84,6 +84,45 @@ src/titlepage.xhtml:2   xml:lang="en"
 It is the Tibetan title page. It is also the only document in the book that
 declares a language at all — see E1.
 
+### A6. Pages 142 and 137 are out of order, and the arrows follow
+
+In `p133_135_137_148_154_161_170_175_177_179.htm`, the section for printed
+page **142 sits between 135 and 137**:
+
+```
+line  18   page133   ཡི་དྭགས་ཆུ་སྦྱིན།
+line  38   page135   ཆུ་སྦྱིན་སྤྱད་གྲོལ།
+line  57   page142   ལྷ་རྣམས་མཉེས་བྱེད་བསང་མཆོད་     ← out of order
+line 102   page137   ཛམྦྷ་ལའི་ཆུ་སྦྱིན།
+line 150   page148   ཆ་གསུམ།
+```
+
+This is not cosmetic. `nav.py` derives the prev/next chain from **document
+order**, which is the right rule and gives the wrong answer here:
+
+```
+page135  right → #page142    "ལྷ་རྣམས་མཉེས་བྱེད་བསང་མཆོད་ 142"
+page137  left  → #page142
+```
+
+So stepping forward from 135 lands on 142, and stepping forward again goes to
+137 — five printed pages backwards. `nav.py` reports zero problems, correctly:
+document order is exactly what it was told to follow.
+
+**Fix:** move the 142 section to its place after 137, then re-derive with
+`nav.py --write`. Moving content in a 700-page liturgy is not something to do
+blind — confirm against the printed pecha which order is right first, since it
+is also possible the section belongs where it is and the heading's page number
+is wrong.
+
+Three more faults are visible in the same document while you are in there:
+
+- the `page142` heading text begins `142ལྷ་རྣམས་…` — the page number is in the
+  title *as well as* in its `pageno` span
+- `page142` and `page148` carry no arrows at all (part of D6)
+- `page157` has an empty `pageno`, and `chos_rnams_thams_cad` has `???` and a
+  literal `TODO phys page` in its heading text
+
 ### A5. Seven `???` and 70 `TODO` markers remain in the source
 
 `.jumpTODO` renders a literal `TODO ` prefix to the reader, by design, so 11 of
@@ -357,6 +396,22 @@ Accepted stacks go in `tools/stacks-known.txt`, which ships empty, so the
 report shrinks to what is new once you have been through these.
 
 D4 is closed as tooling. **The ངྣདྨངྒྱཌྒྱ run is open as content — see E7.**
+
+### D7. `nav.py` cannot tell that document order disagrees with the book
+
+A6 is invisible to every tool the project has. `nav.py` already reads the
+printed page number out of each heading — it puts it in the tooltips — so it
+has both numbers in hand and never compares them.
+
+**Fix:** when the next section in document order has a LOWER printed page than
+the current one, report it. It must stay a report: whether the fix is to move
+the section or to correct its page number is a judgement about the printed
+pecha, and reordering a document automatically is exactly the kind of thing a
+tool should never do. But a five-page backward step should not be something
+only a reader can find.
+
+Cheap, too — the data is already collected, it just needs one comparison and a
+line in the report.
 
 ---
 
