@@ -481,16 +481,23 @@ a.ipnpx {
 
 /** Navigation links.
 
-    The space beside the arrow is a NON-BREAKING space (\00A0). With an
-    ordinary space the arrow wrapped to the next line on its own, leaving the
-    page number stranded at the end of the line above — "…88" then "→".
-    Written as an escape rather than a literal so it cannot be mistaken for a
-    plain space by a later edit. **/
+    The arrow is set at 0.8em, smaller than the label it follows, and the gap
+    beside it is U+202F NARROW NO-BREAK SPACE — thin, so the arrow sits close
+    to its page number, and still non-breaking.
+
+    Non-breaking matters: with an ordinary space the arrow wrapped to the next
+    line by itself, leaving the number stranded at the end of the line above
+    — "…88" then "→". A plain THIN SPACE (U+2009) would reintroduce that,
+    since it permits a break; U+202F does not. Both are written as escapes
+    rather than literals so a later edit cannot mistake one for a plain
+    space. **/
 .jumpUp:before {
-  content: "\2190\00A0";        /* ← + NBSP */
+  content: "\2190\202F";        /* ← + NARROW NO-BREAK SPACE */
+  font-size: 0.8em;
 }
 .jumpDown:after {
-  content: "\00A0\2192";        /* NBSP + → */
+  content: "\202F\2192";        /* NARROW NO-BREAK SPACE + → */
+  font-size: 0.8em;
 }
 /** The link that closes a repeated passage and sends you back to its start.
 
