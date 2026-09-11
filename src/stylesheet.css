@@ -265,8 +265,10 @@
   /** A title's divider is a border, and a border is drawn in normal flow — so
       anything floated beside it cuts straight through the red rule. That is
       what the three deity images used to do to the heading below them.
-      Insurance, now that nothing in the book floats: a title always starts on
-      a clear line. **/
+
+      Nothing in the book floats any more — the last floated element was the
+      orphaned .wrap nav block in p88, removed with these rules. This stays as
+      insurance: a title always starts on a clear line. **/
   clear: both;
   text-align: center;
   line-height: 1.5;
@@ -486,8 +488,6 @@
     p88_91_104_115.htm, where there is no heading to pin the arrows to. The
     other 104 are pinned inside their titles above, and `float` is ignored on
     a positioned element anyway. **/
-.wrap > .left  { float: left; }
-.wrap > .right { float: right; }
 
 
 /** In-line actual physical page marker
@@ -838,20 +838,6 @@ ul .toctib2 {
 /** The nav block. No rule of its own — the divider above the title does that
     job now. overflow contains the floated arrows, which previously escaped
     the div. **/
-.wrap {
-  text-align: center;
-  padding: 0em 0.2em 0.2em 0.2em;
-  margin-bottom: 0.6em;
-  overflow: hidden;
-  /** Keep the arrows with their title, and the whole header with the text it
-      introduces. **/
-  page-break-before: avoid;
-  break-before: avoid;
-  page-break-after: avoid;
-  break-after: avoid;
-  page-break-inside: avoid;
-  break-inside: avoid;
-}
 div#pagenumberlist {
   margin: 2em;
 }
