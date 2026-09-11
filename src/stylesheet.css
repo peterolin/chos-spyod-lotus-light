@@ -468,6 +468,17 @@ a.ipnpx {
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
+/** The printed page number inside a jump link. Smaller than the Tibetan it
+    follows: it is a reference, not part of the label, and at the same size
+    the Latin digits sat heavier than the script around them. Tabular figures
+    so a column of links keeps its numbers aligned.
+
+    0.75em of the link, which is itself 80%, so about 60% of body text. **/
+.lpn {
+  font-size: 0.75em;
+  font-variant-numeric: tabular-nums;
+}
+
 /** Navigation links.
 
     The space beside the arrow is a NON-BREAKING space (\00A0). With an
