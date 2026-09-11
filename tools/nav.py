@@ -32,10 +32,11 @@ Run tools/check.py afterwards.
 """
 
 import argparse
+import os
 import re
 import sys
 import xml.etree.ElementTree as ET
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 SRC = Path(__file__).resolve().parent.parent / "src"
 
@@ -140,11 +141,18 @@ def collect(files):
 
 
 def link_to(target, from_file):
-    """href for target as seen from from_file (both live in OPS/)."""
+    """href for target as seen from from_file.
+
+    Most documents live in OPS/, but not all: c_fastjump.htm, pn.htm,
+    repeats.htm and key.xhtml sit at the root beside it. A bare basename is
+    only right when the two share a directory, so the path is computed
+    relative to the linking document.
+    """
     frag = f"#{target['id']}"
     if target["file"] == from_file:
         return frag
-    return Path(target["file"]).name + frag
+    rel = os.path.relpath(target["file"], Path(from_file).parent)
+    return PurePosixPath(rel).as_posix() + frag
 
 
 def tooltip(target):
