@@ -528,20 +528,10 @@ revisit it, and it is a large piece of work.
 - the swift-return prayer's two verses are in; Düdjom Rinpoche's long
   supplication for CNR is available in Lumbini X.2 and deliberately not included
 - `མཎྜལ་༢་རྗེས་སུ། 110` — a label carrying a stray page number
-- **`p257_leu_bdun_ma.htm:468`** — `ཨོ་རྒྱན་པདྨ་འབྱུང་གནས་གསོལ་བ་འདེབས༔`, missing the
-  `ལ`. Eight written-out instances of this refrain in the file read
-  `གནས་ལ་གསོལ`; this one alone reads `གནས་གསོལ`. Found while correcting the
-  seventeen expansions, and it is a different fault — the printed text, not
-  an expansion — so it was left alone.
-- **`p257_leu_bdun_ma.htm:570`** — a `repeatFirstOcc` whose content *ends in a
-  `༴`*: `ལ་གསོལ་བ་འདེབས༔ ཨོ་རྒྱན་པདྨ་འབྱུང་གནས་ལ༴` with no expansion after it. A
-  first occurrence is by definition the written-out one, so it should not
-  contain an abbreviation mark at all, and the refrain's tail
-  (`་གསོལ་བ་འདེབས༔`) is simply absent from the line.
-- `ངྣདྨངྒྱཌྒྱ༔` at `p88_91_104_115.htm:23`, where the opening line of
-  རྒྱུན་གྱི་བཀོལ་བྱང་། should be. Three stacks that occur nowhere else in the book,
-  in eight syllables, with a `དྨ` embedded — found by `tools/stacks.py`, and
-  the same family as ཏངྱ. Needs the printed pecha, not a guess.
+- ~~`p257_leu_bdun_ma.htm:468` and `:570`~~ — fixed 2026-09-12, both set to
+  match the written-out refrain used elsewhere in the file. **Peter to check
+  against the pecha**: 468 had lost the `ལ` after `གནས`, and 570 was a
+  `repeatFirstOcc` ending in a `༴` with the tail absent.
 
 ---
 
