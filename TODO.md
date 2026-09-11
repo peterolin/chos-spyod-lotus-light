@@ -454,6 +454,24 @@ only a reader can find.
 Cheap, too — the data is already collected, it just needs one comparison and a
 line in the report.
 
+### D8. Nothing checks a jump link's page number against its target
+
+A jump link carries a printed page in its `.lpn` — `གསང་ཐིག་རྡོར་སེམས། 92` — and
+nothing has ever compared that number with where the link actually goes. One
+such link pointed at `c_78.htm`, which is page **546**, and only a reader
+following it found out.
+
+The check that works is one-sided, and that is what makes it usable. A target
+deep inside a long section legitimately sits on a later printed page than its
+heading, so "label ≠ heading page" is mostly noise — 49 hits, nearly all
+correct. But a target can never sit on an **earlier** page than the heading it
+falls under, so "label page < heading page" is impossible by construction.
+That test returns 3.
+
+**Fix:** add it to `nav.py`, which already parses every heading's printed page
+and every link. Report only, like the tooltip audit — deciding whether the
+label or the target is wrong is a reading of the pecha.
+
 ---
 
 ## E. Recorded, not being done now
@@ -531,6 +549,10 @@ revisit it, and it is a large piece of work.
 - the swift-return prayer's two verses are in; Düdjom Rinpoche's long
   supplication for CNR is available in Lumbini X.2 and deliberately not included
 - `མཎྜལ་༢་རྗེས་སུ། 110` — a label carrying a stray page number
+- Three jump links whose page number is earlier than the heading their target
+  sits under, found by the D8 check — impossible, so one of the two is wrong:
+  `p334…:141` `སྐུ་གསུམ་བླ་མའི་ལྷ་ཚོགས། 334` → `#TN_KusumLamey` (under 346), and
+  `p334…:160`/`:291` `ཨོཾ་ཨཱཿ ཧཱུྃ༔ ཕྱི་མཆོད། 344` → `#TOC_Offerings` (under 346)
 - ~~`p257_leu_bdun_ma.htm:468` and `:570`~~ — fixed 2026-09-12, both set to
   match the written-out refrain used elsewhere in the file. **Peter to check
   against the pecha**: 468 had lost the `ལ` after `གནས`, and 570 was a
