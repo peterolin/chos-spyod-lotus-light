@@ -625,36 +625,20 @@ to let the closing brace live only on the `jumpRepeat` link and have
 `repeatAnchor` + `jumpRepeat` pair, so the 54 spans convert to a shape that is
 already designed. Each needs an id; none has one.
 
-### F3. ཆོས་རྣམས་ཐམས་ཅད། has a heading it should not have
+### F3. ~~ཆོས་རྣམས་ཐམས་ཅད། has a heading it should not have~~ — RESOLVED
 
-```
-p133_135_137_148_154_161_170_175_177_179.htm:253
-  <h3 class="tocpage2" id="chos_rnams_thams_cad"><a class="ppnp">TODO phys page</a>
-      <br/>ཆོས་རྣམས་ཐམས་ཅད།<span class="pageno">???</span></h3>
-:256
-  <span class="tibnormal">ཆོས་རྣམས་ཐམས་ཅད་རྒྱུ་ལས་བྱུང་། །དེ་རྒྱུ་དེ་བཞིན་གཤེགས་པས་གསུངས།
-```
+Removed 2026-09-12. The heading was the first four syllables of the verse
+directly beneath it — the text repeated and promoted to a divider.
 
-The heading is the first four syllables of the verse directly beneath it. It
-is not a title the book gives this passage; it is the text, repeated, promoted
-to a divider. The verse should simply run inline.
+Clean, as predicted: nothing linked to the heading. The jump link that reaches
+this passage (`c_78.htm:99`) targets `#TOC_ChonamThamche`, the `inlineAnchor`
+on the line below, which is kept; the heading was absent from the NCX. Only
+`page154`'s right arrow and `page157`'s left needed re-deriving, and they now
+chain 154 ↔ 157 directly.
 
-Removing it is clean in the one way that usually is not: **nothing links to
-the heading.** The jump link that reaches this passage —
-`c_78.htm:99` — points at `#TOC_ChonamThamche`, the `inlineAnchor` on the line
-below, not at the heading id. It is also absent from the NCX.
-
-Two things do have to be re-derived with it gone, and both are mechanical:
-
-```
-page154  right → #chos_rnams_thams_cad
-page157  left  → #chos_rnams_thams_cad
-```
-
-Reset those two to placeholders and `nav.py --write` will chain 154 ↔ 157
-directly. That also removes one of the fifteen arrow-less headings in D6, one
-of the `???` page numbers in A5, and the only visible `TODO phys page` string
-in the book.
+It paid the three dividends it promised: one fewer arrow-less heading (D6),
+one fewer `???` page number (A5), and the last visible `TODO phys page` string
+in the book is gone.
 
 ### F4. ~~Too much air above the title rule~~ — RESOLVED, provisionally
 
