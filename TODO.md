@@ -15,30 +15,33 @@ Severity is about the reader, not about tidiness:
 | **D** | tooling and process |
 | **E** | recorded, deliberately not being done now |
 
-Nothing here has been changed. This is the list, not the work.
+Items are struck through and marked RESOLVED as they close, with what was
+actually done — a closed item often leaves something behind that the rest of
+the list needs to know about.
 
 ---
 
 ## A. The reader sees this today
 
-### A1. `c_fastjump.htm` has no `<head>`, so the Fastjump page has no CSS and no font
+### A1. ~~`c_fastjump.htm` has no `<head>`~~ — RESOLVED by retiring the page
 
-```
-src/c_fastjump.htm:1-4
-  <?xml version='1.0' encoding='utf-8'?>
-  <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="...">
+The Fastjump page had no `<head>` at all: no stylesheet, no font, no title.
+Every reading of it was browser defaults, which is why it looked nothing like
+the book. Retired 2026-09-11 rather than repaired — rarely used, and fixing it
+properly meant a head, valid markup (it was 22 `<ul>` elements holding bare
+text with no `<li>`), a layout, and an editorial pass. Out of the manifest,
+spine and NCX; the file lives in `retired/` with a note.
 
-  <body class="calibreBody">
-```
+**Two traps it left behind, both live:**
 
-No `<head>`, no `<title>`, no `<link>`. It is the only document in the book in
-this state, and it is in the spine. The page therefore renders in the reading
-system's default face at default size — which is exactly what the Fastjump
-screenshot shows: bold sans-serif heading, English in sans, Tibetan in a
-fallback font, none of the book's design.
-
-**Fix:** give it the same `<head>` as every other document. One-line change,
-large visible effect.
+1. Those 22 entries were the only inbound links to roughly twenty anchors —
+   `TOC_KunzangDorjeChang`, `TOC_37Mandala`, `TOC_Mahakala`, `TN_Tsog` and the
+   rest. They are now anchors nothing links to, which is exactly what **B7**
+   says to delete. **Do not.** The curated list is the valuable part of that
+   page; a future Fastjump needs those anchors to exist.
+2. `pack.sh` copies all of `src/` into the book *regardless of the manifest*,
+   so the retired file still shipped as an unreferenced resource until it was
+   moved out of `src/`. See **D5**.
 
 ### A2. Six documents link `stylesheet.css` but not `fonts.css`
 
@@ -193,6 +196,11 @@ place no link goes.
 
 **Fix:** for each, either add the link that was intended or delete the anchor.
 
+> **Read A1 first.** About twenty of these lost their only inbound link when
+> Fastjump was retired, and they are exactly the ones a future Fastjump needs.
+> Deleting them would throw away the curated list that was the point of that
+> page. Check an anchor against `retired/c_fastjump.htm` before removing it.
+
 ---
 
 ## C. Naming and convention
@@ -332,6 +340,44 @@ singletons already turns up `ངྣདྨངྒྱཌྒྱ` in `p88_91_104_115.
 an opening line should be, which looks like a second encoding accident of the
 same family. **This one is worth doing next.**
 
+### D5. `pack.sh` ships every file in `src/`, manifest or not
+
+```
+tools/pack.sh:107   cp -R "$SRC"/. "$STAGE"/
+```
+
+The build copies the whole tree and never consults the manifest. Any stray
+file in `src/` — a retired document, a scratch copy, an editor backup — is
+published inside the EPUB as a resource no manifest entry references. This was
+found by retiring Fastjump: removing it from the manifest and spine did not
+stop it shipping.
+
+**Fix:** `pack.sh` stages only files the manifest lists (plus `mimetype` and
+`META-INF/`), and fails loudly on a `src/` file that is not manifested — that
+second half is the part that catches the mistake rather than hiding it.
+
+### D6. `nav.py` fills arrows but never adds a missing one
+
+Fifteen `tocpage` headings carry no `<a class="left">` or `<a class="right">`
+at all, so they are simply outside the navigation:
+
+```
+c_80.htm page558     c_81.htm page578      c_82.htm page581
+c_95.htm kun_bzang_rdo_rje_chang           c_95.htm dbud_bzhi_las_rgyal
+c_101.htm page704    c_106.htm snang_grags_rigs_gsum
+c_extra.htm zuryig   c_extra.htm shabten
+p133… page142, page148, chos_rnams_thams_cad
+p334… page340, tn_om_ah_hung, tn_offerings
+```
+
+`nav.py` derives and repairs the arrows in elements that exist; it has no way
+to create one. So a heading that was never wired stays unwired forever, and
+the tool reports everything as fine.
+
+**Fix:** `--write` inserts the pair when a heading has neither, which makes
+"every linkable section is reachable by arrow" an invariant the tool can hold
+rather than an accident of which headings someone remembered.
+
 ---
 
 ## E. Recorded, not being done now
@@ -344,19 +390,36 @@ voice, the OS's language-aware font fallback gets no hint, and Tibetan
 line-breaking heuristics get nothing. Fix is mechanical — `xml:lang="bo"
 lang="bo"` on the Tibetan documents, `lang="en"` on the English runs.
 
-### E2. No page-list
+### E2. The page-list exists, is in the wrong file, and is 7/64 done
+
+Correcting what an earlier draft of this list said. There *is* a page-list —
+it is just not reachable by anything:
+
+```
+src/toc.ncx:682   <nav epub:type="page-list">   ← EPUB 3 markup inside an NCX
+src/toc.ncx:690   ?</ol>                        ← stray character
+                  7 <li> entries (pp4–pp10) of 64 available anchors
+                  0 <pageTarget> elements, which is what EPUB 2 reads
+```
+
+An EPUB 3 `<nav>` cannot live inside `toc.ncx`; a nav document is a separate
+XHTML file declared in the manifest with `properties="nav"`, and there isn't
+one. So EPUB 2 readers look for `<pageList>` and find nothing, EPUB 3 readers
+look for a nav document and find nothing, and this element is dead in both
+directions. It also covers pages 4–10 of a ~700-page book.
+
+The underlying opportunity stands, and it is a good one:
 
 ```
 137  printed page numbers rendered in headings
  64  distinct  id="ppNNN"  anchors already in the content
-  0  pageTarget entries in toc.ncx
 ```
 
-The anchors exist; the navigation that uses them does not. An NCX `<pageList>`
-is what makes a reader's "go to page" follow the *printed* book — for a text
-where the umdze calls "page 319", that is the difference between finding it and
-scrolling. Books' support for EPUB 2 NCX `pageList` is uneven, so this is a
-probe first, a feature second.
+A real page-list is what makes "go to page" follow the *printed* book — for a
+text where the umdze calls "page 319", that is the difference between finding
+it and scrolling. Decide EPUB 2 `<pageList>` or an EPUB 3 nav document, build
+it from the anchors that already exist, and delete the thing in the NCX either
+way. Books' support for NCX `pageList` is uneven, so probe before committing.
 
 ### E3. Accessibility metadata
 
