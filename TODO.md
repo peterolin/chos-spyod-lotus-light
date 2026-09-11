@@ -497,6 +497,95 @@ revisit it, and it is a large piece of work.
 
 ---
 
+## F. Asked for, not yet built
+
+Not findings from the review — work requested since. Kept here so the whole
+backlog is in one place.
+
+### F1. A jump link for "incipit … སོགས"
+
+Where the book prints an incipit and then `སོགས` ("and so on"), the jump link
+belongs **inside** that construction, not after it, and it should carry no
+label — the incipit is already on the page, a syllable away.
+
+```
+now      ཇི་སྙེད་སུ་དག་སོགས་ནས།  ༼ ཇི་སྙེད་སུ་དག། 581 ▸༽
+wanted   ཇི་སྙེད་སུ་དག ༼ 581 ▸༽ སོགས་ནས།
+```
+
+**This needs no CSS.** Verified by rendering against the built book: a
+`.jumpDown` whose only content is its `<span class="lpn">` already comes out as
+`༼ 581 ▸༽`, arrow, braces and spacing intact. The existing classes do the job —
+strip the label from the markup and the mark is right.
+
+One CSS question does fall out of it, though. `.lpn` is `0.75em` of a link that
+is itself `80%`, so the number sets at about 60% of body text. That size was
+chosen for a number sitting *beside* a label; alone inside the braces it is the
+only thing there, and it looks small. Decide after seeing a page of them.
+
+**The work is the content pass, and it is per-link judgement.** Candidates:
+
+```
+17  jump links with a སོགས within ~45 characters
+ 6  of those whose label also echoes the nearby text — the clearest cases
+```
+
+Each has to move, some forward and some back, and "the incipit" has to be
+found by reading, not by pattern — the printed incipit is sometimes several
+syllables from the link and sometimes on the other side of it. A tool can
+produce the candidate list (the query above); a human decides each one.
+
+### F2. The repeat braces should be clickable, back to the start
+
+A long repeated passage is marked `༼ … ༽` and there is no way to get back to
+its beginning. For the longer ones that matters:
+
+```
+54  repeatWrap / repeatWrap3 spans in the book
+23  of them over 120 characters
+760 characters in the longest
+ 0  of them carry an id
+```
+
+**The mechanism already exists and is used zero times.** `.repeatAnchor` marks
+a repeat's start and `.jumpRepeat` is a link that closes a repeat and sends you
+back to it — both styled, both documented, and the book contains one
+`repeatAnchor` and **no** `jumpRepeat` at all. `.jumpRepeat` even sits in the
+`color: revert` group with the other links while its `:before` declares
+`--repeat` on the pseudo-element, so the mark stays red while the element is a
+real link. The design anticipated this exactly; nothing ever used it.
+
+**Visual proposal.** Put a back-arrow inside the closing brace, and make that
+brace the link:
+
+```
+  ༼ …repeated passage… ◂༽
+  ༼ …repeated passage… ◂༽༣        the three-times variant, numeral outside
+```
+
+Three reasons for that shape rather than something new:
+
+- It reuses an idiom the book just established. Jump links read `༼◂ … ▸༽`, so
+  an arrow inside a brace already means "this brace takes you somewhere".
+- **It stays red.** Red means the editor supplied it, and a repeat instruction
+  is exactly that. Blue would say "navigation the editor built", which is only
+  half true here and would be the one red-to-blue exception in a system of 703
+  marks.
+- It costs one glyph. The opening brace deliberately does **not** gain the
+  jewel `࿉`: the brace is already the landmark you land on, and adding a second
+  mark to 54 openings doubles the clutter without adding information. A jump
+  target needs `࿉` because there the jewel is the only mark; here it would be
+  the second.
+
+**The markup decision to settle when doing it:** a pseudo-element of a `<span>`
+cannot be clicked, so the closing brace has to come from an `<a>`. Cleanest is
+to let the closing brace live only on the `jumpRepeat` link and have
+`repeatWrap` emit the opening alone — which is precisely the
+`repeatAnchor` + `jumpRepeat` pair, so the 54 spans convert to a shape that is
+already designed. Each needs an id; none has one.
+
+---
+
 ## What is already right
 
 Worth stating, so a future pass does not "fix" it:
