@@ -74,6 +74,22 @@
  * survive Night belongs in generated content, or in a border, or in
  * something other than hue — size, weight, spacing, a rule. Text colour is a
  * bonus for the three light themes, not a mechanism.
+ *
+ * PLATFORM NOTE — the running head. The line Books prints at the top of every
+ * page is dc:title, verbatim, on every page of the book. It cannot be made to
+ * name the current prayer:
+ *
+ *   The NCX is not consulted. The Fastjump page is a real navPoint
+ *   (toc.ncx, <text>Fastjump</text>) and Books still printed the book title
+ *   over it.
+ *
+ *   The document <title> is not consulted either. All 53 documents were given
+ *   their own title, derived from their tocpage heading, and built as
+ *   1.1+51-dev; the header did not change. The titles are kept anyway —
+ *   other reading systems and VoiceOver do use them.
+ *
+ * The per-prayer title in this book is therefore the red tocpage divider in
+ * the content, and that is the only running head there is going to be.
  * ---------------------------------------------------------------------------
  */
 :root {
