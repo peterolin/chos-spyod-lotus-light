@@ -262,6 +262,12 @@
       tight and is what groups the title with its own text. **/
   margin: 1.1em 0 0.15em 0;
   border-top: 1px solid var(--accent-rule);
+  /** A title's divider is a border, and a border is drawn in normal flow — so
+      anything floated beside it cuts straight through the red rule. That is
+      what the three deity images used to do to the heading below them.
+      Insurance, now that nothing in the book floats: a title always starts on
+      a clear line. **/
+  clear: both;
   text-align: center;
   line-height: 1.5;
   font-size: 100%;
@@ -889,18 +895,47 @@ th {
 }
 
 
+/** No image may be wider than the column it sits in.
+
+    The pecha photograph on the first page is 607px natively and carried no
+    class and no width, so on any screen narrower than that it pushed the
+    whole document sideways — measured at 320, 375 and 420px, all overflowing
+    by the same 107px. That is a horizontal scrollbar on a phone, and it moves
+    the Tibetan out from under the reader's thumb.
+
+    height:auto keeps the aspect ratio when max-width takes effect. **/
+img {
+  max-width: 100%;
+  height: auto;
+  }
+
+/** The three deity images on the opening pages.
+
+    They used to `float: right` with `clear: right`, which stacked them down
+    the right margin and did two bad things: the box overflowed the column on
+    a narrow screen, cutting the captions off, and — because a float is out of
+    normal flow and .tocpage carries the red title rule as a border-top — the
+    last one collided with the heading below it.
+
+    Now they simply flow, one after another, in a centred row under the pecha
+    image. inline-block boxes wrap by themselves: three across on a wide
+    screen, two then one on a phone, with no breakpoint to maintain.
+
+    Removed with the float: `margin: auto 0` (auto vertical margins compute to
+    zero, so it never did anything), and justify-content/align-items, which
+    are flex properties on a box that was never a flex container. **/
+.imagerow {
+  text-align: center;
+  clear: both;
+  margin: 0.8em 0;
+  }
 .imagebox {
-  padding: 0.1em 0.1em 0.1em 0.1em;
-  margin: auto 0;
+  padding: 0.1em;
   display: inline-block;
-  float: right;
-  clear: right;
-  border-width: 0.1em;
-  border-style: none;
-  border-color: var(--ui-border);
-  justify-content: center;
-  align-items: center;
+  vertical-align: top;
+  margin: 0.3em;
   page-break-inside: avoid;
+  break-inside: avoid;
   text-align: center;
   }
 .imageframe {
@@ -916,7 +951,11 @@ th {
 
 .image {
   padding: 0.2em 0.2em 0.2em 0.2em;
+  /** A cap, not a size: max-width lets the image shrink with the column
+      instead of overflowing it, which is what the fixed 3cm did. **/
   width: 3cm;
+  max-width: 100%;
+  height: auto;
   border-style: solid;
   border-color: var(--ui-border);
   border-width: 3px;
@@ -925,7 +964,9 @@ th {
   }
 
 .caption {
-  width: 3.5cm;
+  /** Was 3.5cm — WIDER than the 3cm image, so the caption, not the picture,
+      decided how wide the box was, and pushed it past the column edge. **/
+  max-width: 100%;
   font-family: Monlam Uni OuChan2, serif;
   font-size: 0.5em;
   line-height: 0.9em;
