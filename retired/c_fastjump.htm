@@ -1,4 +1,25 @@
 <?xml version='1.0' encoding='utf-8'?>
+<!--
+  RETIRED 2026-09-11. Out of the spine, the manifest and the NCX, and moved
+  out of src/ entirely — pack.sh copies all of src/ into the book regardless
+  of the manifest, so a file left there would still ship, unreferenced. The
+  file is kept, not deleted.
+
+  Why: rarely used in practice, and never finished. It has no <head>, so it
+  has never once rendered with the book's stylesheet or font — every reading
+  of it has been browser defaults. Its markup is 22 <ul> elements each holding
+  bare text and no <li>. One entry is labelled ???; སྟོན་པ་འཇིག་རྟེན། appears twice,
+  the second time misspelt འཇིར་རྟེན།.
+
+  The idea was sound and the need is real: the table of contents does not
+  reach these places. Revisit once the body of the book is solid.
+
+  WHAT IS VALUABLE HERE IS THE LIST, NOT THE PAGE. These 22 entries are the
+  only inbound links to about twenty anchors — TOC_KunzangDorjeChang,
+  TOC_37Mandala, TOC_Mahakala, TN_Tsog and the rest. With this page out of the
+  spine those anchors have no inbound link at all. DO NOT delete them as dead:
+  see TODO.md B7, which otherwise says to remove anchors nothing links to.
+-->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
 
 <body class="calibreBody">

@@ -671,12 +671,6 @@
       </navLabel>
       <content src="OPS/c_extra.htm#zuryig"/>
     </navPoint>
-    <navPoint id="num_111" playOrder="111">
-      <navLabel>
-        <text>Fastjump</text>
-      </navLabel>
-      <content src="c_fastjump.htm"/>
-    </navPoint>
   </navMap>
 
 <nav epub:type="page-list">
