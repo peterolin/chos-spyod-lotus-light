@@ -670,6 +670,18 @@
         <text>ཟུར་ཡིག་</text>
       </navLabel>
       <content src="OPS/c_extra.htm#zuryig"/>
+      <navPoint id="num_111" playOrder="111">
+        <navLabel>
+          <text>བླ་མ་རྒྱང་འབོད།</text>
+        </navLabel>
+        <content src="OPS/c_extra.htm#TOC_LamaGyangbo"/>
+      </navPoint>
+      <navPoint id="num_112" playOrder="112">
+        <navLabel>
+          <text>སྤྲོས་མེད་དོན་གྱི་བླ་སྒྲུབ།</text>
+        </navLabel>
+        <content src="OPS/c_extra.htm#TOC_TromeLadrub"/>
+      </navPoint>
     </navPoint>
   </navMap>
 

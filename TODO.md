@@ -668,6 +668,75 @@ Explicitly a starting point, not a settled value — recorded here so the next
 adjustment knows where it came from. The 0.15em below the title is untouched:
 it is deliberately tight, and it is what groups a title with its own text.
 
+### F5. Phurba conclusion — needs the Pyr pecha
+
+Requested 2026-09-12. The phurba practice lacks its concluding section; the
+text is to be taken from the Pyr pecha, not reconstructed. Blocked on having
+the pecha to hand. Same rule as everywhere else: never assert a page number
+the book does not state.
+
+### F6. Jump links through the refuge sequence: red → white → red → ཆོས་རྣམས་ཐམས་ཅད།
+
+Requested 2026-09-12. Three jumps to build:
+
+1. from the red refuge to the white refuge;
+2. from the white refuge onward to the red;
+3. from the red to the teaching of `ཆོས་རྣམས་ཐམས་ཅད།` (p154 — already a
+   divider after F3, and already a link target from several places; see F1
+   for the `ཆོས་རྣམས་ཐམས་ཅད། 154` links that exist).
+
+Build as round trips where the reader comes back, following the four already
+in place (dkar sur ↔ dmar sur, ཨེ་མ་ཧོ p378↔p418, མདུན་བསྐྱེད p88, ཐུགས་སྒྲུབ་ refuge
+p334). Survey every refuge occurrence first — there are several refuge verses
+in the book and the link must anchor on the one Peter means, not the first one
+that greps. Confirm the two sections with Peter before wiring them.
+
+### F7. ~~Add: the ultimate guru sadhana of simplicity~~ — PLACED 2026-09-12, awaiting Peter's read
+
+Requested 2026-09-12. Tulku Urgyen Rinpoche's short guru sadhana, 51 lines in
+five parts. **Source:** `resources/TUR Guru Sadhana.pdf` pp. 6–8 (Bodhi
+Translation, 2025). Its text layer is a legacy-font skeleton, so the Tibetan was
+transcribed from the page images into `resources/extracted/tur-guru-sadhana.md`
+and checked three ways (every surviving skeleton character in order, the
+phonetics on pp. 9–10, and every stack against the two big corpora). Two things
+for Peter's eye before it goes in: the seed syllable is read as `ཨཿ` (the PDF
+shows a visarga; the layer dropped it), and `ཨོ་ཌྷི་ཡ་ན` is spelt as printed, which
+occurs nowhere else in the book. The PDF's `༌` before a shad after `བཟང`/`ཡང` is
+kept as printed; our book uses a plain tsheg there. Placed second in the ཟུར་ཡིག
+(`c_extra.htm#TOC_TromeLadrub`), with its own NCX entry under ཟུར་ཡིག and a row on
+the TOC page. Not yet read on device. Not in the newer
+source EPUB (`comparison-2026-09-12.md`, finding 1).
+
+### F8. ~~Add: calling the guru from afar~~ — PLACED 2026-09-12, awaiting Peter's read
+
+Requested 2026-09-12. A text to be added to the book. Source, placement, and
+title not yet given. Same handling as F7. If it goes alongside F7, decide the
+order and whether the two share a heading level with the ཞབས་རྟེན། section.
+
+**2026-09-12:** not in the newer source EPUB. **Source found:** Jamgön Kongtrul's
+text in `resources/Lumbini 2024 Chantbook En-Tib.epub` (`calling_the_guru.html`),
+61 clean-Unicode paragraphs lifted verbatim; instruction paragraphs became
+yigchung. Its title line there is in a legacy font with private-use glyphs, so
+the title was supplied from the standard wording and checked syllable by
+syllable against the surviving skeleton. Placed first in the ཟུར་ཡིག
+(`c_extra.htm#TOC_LamaGyangbo`), NCX entry under ཟུར་ཡིག, row on the TOC page.
+Peter to confirm this is the version Ka-Nying recites. Not yet read on device.
+
+### F9. Adjudicate the variants between the 3rd and 4th printing
+
+Added 2026-09-12. The newer source EPUB (`resources/…ཞལ་འདོན།.epub`, a Pages
+export of the **fourth** printing; ours follows the third) has the same 101
+texts as ours and nothing we lack. The two differ in about 50 small readings
+seen from its side and 34 from ours, all listed with context in
+`resources/extracted/comparison-2026-09-12.md` (sections C1, C2), with a
+findings summary at the top. Each needs the pecha, not a guess. Two look like
+errors on our side (a `ཏུ` for `དུ`, a swapped `ཤོ`/`ཤྭ` in a mantra); one where the
+new book is probably wrong appears ten times in the Tārā sadhana. When lifting
+text from that EPUB: NFC-normalise (it uses the deprecated precomposed vowel
+U+0F75) and expect its ditto marks in place of our `༴` + written-out refrain.
+Regenerate the report with the three commands at the top of
+`tools/compare_source.py`.
+
 ---
 
 ## What is already right
