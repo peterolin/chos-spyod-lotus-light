@@ -84,7 +84,7 @@ src/titlepage.xhtml:2   xml:lang="en"
 It is the Tibetan title page. It is also the only document in the book that
 declares a language at all — see E1.
 
-### A6. Pages 142 and 137 are out of order, and the arrows follow
+### A6. ~~Pages 142 and 137 are out of order, and the arrows follow~~ — RESOLVED 2026-09-15: section moved to its place between 137 and 148, NCX and TOC-page entries added, arrows re-derived
 
 In `p133_135_137_148_154_161_170_175_177_179.htm`, the section for printed
 page **142 sits between 135 and 137**:
@@ -782,6 +782,23 @@ below lists every heading in the same state (some are deliberate: ཟུར་�
 the ཞབས་རྟེན། sub-collection headings). Fix: insert the two placeholder anchors
 into the heading and run `python3 tools/nav.py --write`; and teach nav.py to
 report linkable headings that have no arrows, so this cannot hide again.
+
+### F12. Split the refuge-and-bodhicitta repeat in the ཐུགས་སྒྲུབ་ཟུར་འདེབས
+
+Peter, 2026-09-15. In the zur 'debs (`p334_thugs_sgrub_brgyud_debs.htm`,
+the `repeat5` span under སྐྱབས་སེམས་དང་བགེགས་གཏོར།) the abbreviated ན་མོཿ བདག་དང་
+… སོགས་ནས་ … བསྒྲུབ་པར་བགྱི༔ is wrapped as one three-fold repeat. Refuge and
+bodhicitta are to be split into two repeats. Needs the pecha for where the
+break falls and what each part's count is; the jump to the Trinley Nyingpo
+refuge at 346 sits inside the span and must keep working.
+
+### F13. Relabel the ཟུར། 159 link — བསྔོ་བ་སྨོན་ལམ། or the like
+
+Peter, 2026-09-15. In `p133_…htm` (the གསུར section, line ~260) a jump reads
+`ཟུར། 159` and points at `#dedications`. "zur" alone says nothing to the
+reader; the label should name what is there — the dedication and aspiration
+verses, བསྔོ་བ་སྨོན་ལམ། or wording of Peter's choice. Lift the words from
+the destination's own text rather than typing them.
 
 ---
 

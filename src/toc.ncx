@@ -13,129 +13,129 @@
   <navMap>
     <navPoint id="num_1" playOrder="1">
       <navLabel>
-        <text>དཀར་ཆག Table of Contents</text>
-      </navLabel>
-      <content src="toc1.htm"/>
-    </navPoint>
-    <navPoint id="num_2" playOrder="2">
-      <navLabel>
         <text>སྐྱབས་སེམས་ཡན་ལག་བདུན་པ་རྒྱས་པ། 4</text>
       </navLabel>
       <content src="OPS/p1_4_27_30_34_39_48.htm"/>
     </navPoint>
-    <navPoint id="num_3" playOrder="3">
+    <navPoint id="num_2" playOrder="2">
       <navLabel>
         <text>བྱང་ཆུབ་མཆོག་ཏུ་སེམས་བསྐྱེད་པའི་ཆོ་ག 27</text>
       </navLabel>
       <content src="OPS/p1_4_27_30_34_39_48.htm#page27"/>
     </navPoint>
-    <navPoint id="num_4" playOrder="4">
+    <navPoint id="num_3" playOrder="3">
       <navLabel>
         <text>བཀྲ་ཤིས་བརྒྱད་པ། 30</text>
       </navLabel>
       <content src="OPS/p1_4_27_30_34_39_48.htm#page30"/>
     </navPoint>
-    <navPoint id="num_5" playOrder="5">
+    <navPoint id="num_4" playOrder="4">
       <navLabel>
         <text>ཐུབ་བསྟོད། 34</text>
       </navLabel>
       <content src="OPS/p1_4_27_30_34_39_48.htm#page34"/>
     </navPoint>
-    <navPoint id="num_6" playOrder="6">
+    <navPoint id="num_5" playOrder="5">
       <navLabel>
         <text>ཐུབ་ཆོག 39</text>
       </navLabel>
       <content src="OPS/p1_4_27_30_34_39_48.htm#page39"/>
     </navPoint>
-    <navPoint id="num_7" playOrder="7">
+    <navPoint id="num_6" playOrder="6">
       <navLabel>
         <text>གནས་བརྟན་ཕྱག་མཆོད། 48</text>
       </navLabel>
       <content src="OPS/p1_4_27_30_34_39_48.htm#page48"/>
     </navPoint>
-    <navPoint id="num_8" playOrder="8">
+    <navPoint id="num_7" playOrder="7">
       <navLabel>
         <text>ཚིག་བདུན་གསོལ་འདེབས། 60</text>
       </navLabel>
       <content src="OPS/p60_61_62_64_70_77_84.htm#page60"/>
     </navPoint>
-    <navPoint id="num_9" playOrder="9">
+    <navPoint id="num_8" playOrder="8">
       <navLabel>
         <text>གསོལ་འདེབས་བླ་མ་སྐུ་གསུམ། 61</text>
       </navLabel>
       <content src="OPS/p60_61_62_64_70_77_84.htm#page61"/>
     </navPoint>
-    <navPoint id="num_10" playOrder="10">
+    <navPoint id="num_9" playOrder="9">
       <navLabel>
         <text>ཞལ་ཆེམས་གསོལ་འདེབས། 62</text>
       </navLabel>
       <content src="OPS/p60_61_62_64_70_77_84.htm#page62"/>
     </navPoint>
-    <navPoint id="num_11" playOrder="11">
+    <navPoint id="num_10" playOrder="10">
       <navLabel>
         <text>བླ་བརྒྱུད་གསོལ་འདེབས། 64</text>
       </navLabel>
       <content src="OPS/p60_61_62_64_70_77_84.htm#page64"/>
     </navPoint>
-    <navPoint id="num_12" playOrder="12">
+    <navPoint id="num_11" playOrder="11">
       <navLabel>
         <text>མཆོག་གླིངརྣམ་ཐར་གསོལ་འདེབས། 70</text>
       </navLabel>
       <content src="OPS/p60_61_62_64_70_77_84.htm#page70"/>
     </navPoint>
-    <navPoint id="num_13" playOrder="13">
+    <navPoint id="num_12" playOrder="12">
       <navLabel>
         <text>མཁྱེན་བརྩེ་རྣམ་ཐར་གསོལ་འདེབས། 77</text>
       </navLabel>
       <content src="OPS/p60_61_62_64_70_77_84.htm#page77"/>
     </navPoint>
-    <navPoint id="num_14" playOrder="14">
+    <navPoint id="num_13" playOrder="13">
       <navLabel>
         <text>ཀོང་སྤྲུལ་རྣམ་ཐར་གསོལ་འདེབས། 84</text>
       </navLabel>
       <content src="OPS/p60_61_62_64_70_77_84.htm#page84"/>
     </navPoint>
-    <navPoint id="num_15" playOrder="15">
+    <navPoint id="num_14" playOrder="14">
       <navLabel>
         <text>རྒྱུན་གྱི་བཀོལ་བྱང། 88</text>
       </navLabel>
       <content src="OPS/p88_91_104_115.htm"/>
     </navPoint>
-    <navPoint id="num_16" playOrder="16">
+    <navPoint id="num_15" playOrder="15">
       <navLabel>
         <text>གསང་ཐིག་རྡོར་སེམས། 91</text>
       </navLabel>
       <content src="OPS/p88_91_104_115.htm#page92"/>
     </navPoint>
-    <navPoint id="num_17" playOrder="17">
+    <navPoint id="num_16" playOrder="16">
       <navLabel>
         <text>ཟབ་ཏིག་སྒྲོལ་ཆོག 104</text>
       </navLabel>
       <content src="OPS/p88_91_104_115.htm#p104"/>
     </navPoint>
-    <navPoint id="num_18" playOrder="18">
+    <navPoint id="num_17" playOrder="17">
       <navLabel>
         <text>སྒྲོལ་མ་ཁག 115</text>
       </navLabel>
       <content src="OPS/p88_91_104_115.htm#page115"/>
     </navPoint>
-    <navPoint id="num_19" playOrder="19">
+    <navPoint id="num_18" playOrder="18">
       <navLabel>
         <text>ཡི་དྭགས་ཆུ་སྦྱིན། 133</text>
       </navLabel>
       <content src="OPS/p133_135_137_148_154_161_170_175_177_179.htm"/>
     </navPoint>
-    <navPoint id="num_20" playOrder="20">
+    <navPoint id="num_19" playOrder="19">
       <navLabel>
         <text>ཆུ་སྦྱིན་སྤྱད་གྲོལ། 135</text>
       </navLabel>
       <content src="OPS/p133_135_137_148_154_161_170_175_177_179.htm#page135"/>
     </navPoint>
-    <navPoint id="num_21" playOrder="21">
+    <navPoint id="num_20" playOrder="20">
       <navLabel>
         <text>ཛམྦྷ་ལའི་ཆུ་སྦྱིན། 137</text>
       </navLabel>
       <content src="OPS/p133_135_137_148_154_161_170_175_177_179.htm#page137"/>
+    </navPoint>
+    <navPoint id="num_21" playOrder="21">
+      <navLabel>
+        <text>ལྷ་རྣམས་མཉེས་བྱེད་བསང་མཆོད་ 142</text>
+      </navLabel>
+      <content src="OPS/p133_135_137_148_154_161_170_175_177_179.htm#page142"/>
     </navPoint>
     <navPoint id="num_22" playOrder="22">
       <navLabel>
@@ -724,6 +724,12 @@
         </navLabel>
         <content src="OPS/c_extra.htm#TOC_PhurpaDuDang"/>
       </navPoint>
+    </navPoint>
+    <navPoint id="num_120" playOrder="120">
+      <navLabel>
+        <text>Table of Contents in English · དཀར་ཆག</text>
+      </navLabel>
+      <content src="toc1.htm"/>
     </navPoint>
   </navMap>
 
