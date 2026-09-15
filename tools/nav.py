@@ -239,6 +239,82 @@ def audit_jumps(files, apply=False):
     return turned, arrowless
 
 
+PRAYER = re.compile(r'<h[1-6][^>]*\bclass="(tocpage[12])"[^>]*\bid="([^"]+)"', re.S)
+# Files whose tocpage2 sub-headings are separate texts for the triangle rule:
+# the seven chapters of the ལེའུ་བདུན་མ are read as independent prayers
+# (Peter, 2026-09-15). Elsewhere a tocpage2 heading is a section of one text.
+SUBTEXT_FILES = {"p257_leu_bdun_ma.htm"}
+SCOPE_ATTR = re.compile(r'\s*\bdata-scope="[^"]*"')
+
+
+def audit_scope(files, apply=False):
+    """Stamp every jump link with whether it leaves its prayer.
+
+    The reader sees one triangle for a jump that stays inside the text in
+    front of them and two for a jump into another text (Peter, 2026-09-15).
+    "Text" means the nearest preceding heading with class tocpage1 — the
+    prayer-level heading — not the file: several files hold several prayers.
+    In SUBTEXT_FILES the tocpage2 sub-headings count too (the seven chapters).
+    A link whose target sits under a different such heading (or in another
+    file) gets data-scope="out"; one that stays loses the attribute. The
+    stylesheet draws the doubled triangle from that attribute alone. Returns
+    the list of links whose stamp changed; --write applies it.
+    """
+    pos = id_positions(files)
+    owners = {}                       # (file, id) -> (file, prayer id)
+    prayers = {}                      # file -> [(offset, id)]
+    for rel in files:
+        text = (SRC / rel).read_text(encoding="utf-8")
+        prayers[rel] = [(m.start(), m.group(2)) for m in PRAYER.finditer(text)
+                        if m.group(1) == "tocpage1" or Path(rel).name in SUBTEXT_FILES]
+
+    def owner(rel, offset):
+        last = None
+        for off, pid in prayers.get(rel, []):
+            if off <= offset:
+                last = pid
+            else:
+                break
+        return (rel, last)
+
+    changes = []
+    for rel in files:
+        if Path(rel).name == LEGEND:
+            continue
+        path = SRC / rel
+        text = path.read_text(encoding="utf-8")
+        changed = False
+
+        def stamp(m):
+            nonlocal changed
+            cls, attrs, href = m.group(1), m.group(2), m.group(3)
+            if cls not in CLAIMS or "#" not in href:
+                return m.group(0)
+            target_file, frag = href.split("#", 1)
+            trel = rel if not target_file else "OPS/" + Path(target_file).name
+            if (trel, frag) not in pos:
+                return m.group(0)
+            here = owner(rel, m.start())
+            there = owner(trel, pos[(trel, frag)][1])
+            want = "out" if here != there else None
+            have = attr(attrs, "data-scope")
+            if have == want:
+                return m.group(0)
+            changes.append((rel, cls, frag, have, want))
+            if not apply:
+                return m.group(0)
+            changed = True
+            new_attrs = SCOPE_ATTR.sub("", attrs)
+            if want:
+                new_attrs = set_attr(new_attrs, "data-scope", want)
+            return f'<a class="{cls}"{new_attrs}>'
+
+        new = JUMP.sub(stamp, text)
+        if apply and changed:
+            path.write_text(new, encoding="utf-8")
+    return changes
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true", help="apply the changes")
@@ -350,6 +426,7 @@ def main():
             (SRC / rel).write_text("".join(out), encoding="utf-8")
 
     turned, arrowless = audit_jumps(files, apply=args.write)
+    rescoped = audit_scope(files, apply=args.write)
 
     print(f"{len(sections)} linkable sections across {len(per_file)} files\n")
     for n in notes:
@@ -367,6 +444,10 @@ def main():
         print("not the tool's (in several the heading is the wrong spelling):\n")
         for d in drift:
             print("  -", d)
+    verb3 = "restamped" if args.write else "need restamping"
+    print(f"\njump scope (one triangle inside the prayer, two out) {verb3}: {len(rescoped)}")
+    for rel, cls, frag, have, want in rescoped[:40]:
+        print(f"  - {Path(rel).name}: {cls} #{frag}: {have or 'in'} -> {want or 'in'}")
     verb2 = "turned" if args.write else "point the wrong way"
     print(f"\njump arrows {verb2}: {len(turned)}")
     for rel, was, now, frag in turned:

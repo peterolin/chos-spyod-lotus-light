@@ -704,6 +704,22 @@ a.ipnpx {
 .jumpDown:after {
   content: "\202F\25B8\0F3D";       /* NARROW NO-BREAK SPACE + ▸༽ */
 }
+/** ONE TRIANGLE OR TWO. A jump that stays inside the prayer in front of
+    the reader keeps the single triangle; a jump into ANOTHER prayer doubles
+    it — ▸▸ / ◂◂ — so the reader knows before tapping whether they are
+    moving within the text or leaving it (Peter, 2026-09-15). "Prayer" is
+    the nearest preceding tocpage1 heading, not the file: several files hold
+    several prayers, so the href alone cannot tell. The seven chapters of the
+    ལེའུ་བདུན་མ count as separate texts (nav.py SUBTEXT_FILES). nav.py's scope audit
+    derives it from heading positions and stamps data-scope="out" on the
+    links that leave; --write keeps the stamps current. Nothing here to edit
+    by hand. **/
+.jumpUp[data-scope="out"]:before {
+  content: "\0F3C\25C2\25C2\202F";   /* ༼◂◂ + NARROW NO-BREAK SPACE */
+}
+.jumpDown[data-scope="out"]:after {
+  content: "\202F\25B8\25B8\0F3D";   /* NARROW NO-BREAK SPACE + ▸▸༽ */
+}
 /** The link that closes a repeated passage and sends you back to its start.
 
     EVERY repeat in the book now ends in one of these — 62 of them. The span
