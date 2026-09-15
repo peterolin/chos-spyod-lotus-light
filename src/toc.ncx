@@ -682,6 +682,12 @@
         </navLabel>
         <content src="OPS/c_extra.htm#TOC_TromeLadrub"/>
       </navPoint>
+      <navPoint id="num_113" playOrder="113">
+        <navLabel>
+          <text>ཕུར་པའི་བསྡུ་ལྡང་།</text>
+        </navLabel>
+        <content src="OPS/c_extra.htm#TOC_PhurpaDuDang"/>
+      </navPoint>
     </navPoint>
   </navMap>
 

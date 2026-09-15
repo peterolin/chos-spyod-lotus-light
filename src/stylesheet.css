@@ -307,11 +307,20 @@
 /** Yig-chung small letters — the instruction layer.
     Same ink as the body, one degree quieter. No colour of its own, so it
     stays right in every reader theme. */
+/** HEAD-LINE ALIGNMENT. Tibetan hangs from the head line, but CSS aligns
+    baselines, so smaller text drops: at 0.8em its head line sits 0.2 × H
+    below the body's, where H is the head-line height above the baseline.
+    Measured in Monlam Uni OuChan2 (fontTools, 2026-09-15): yMax of ཀ ག ང ད ན
+    མ ས ལ ར ཧ is 481/1020 = 0.472em, the same for every letter. The raise
+    needed is H × (1 − 0.8) = 0.094em of the body, which in the yig chung's
+    own em (what vertical-align lengths use) is 0.094 / 0.8 = 0.118em.
+    Change the font-size and this number changes with it: H × (1/s − 1). **/
 .tibyigchung {
   font-family: Monlam Uni OuChan2, serif;
   opacity: var(--secondary-strength);
   font-size: 0.8em;
   line-height: 1.5em;
+  vertical-align: 0.118em;
 }
 /** The in-line title line (༄༅། །…བཞུགས་སོ།།). It used to be set at 1.5em to
     act as the prayer's heading; the red centred title does that job now, so
@@ -321,6 +330,7 @@
   opacity: var(--secondary-strength);
   font-size: 0.8em;
   line-height: 1.5em;
+  vertical-align: 0.118em;    /* head-line alignment, see .tibyigchung */
   margin: 0 1em 0 0;
 }
 
@@ -413,6 +423,9 @@
   padding: 0;
   display: inline;
   font-size: 70%;
+  /** Head-line alignment, same reasoning as .tibyigchung:
+      H × (1/0.7 − 1) = 0.472 × 0.429 = 0.202em of this element's em. **/
+  vertical-align: 0.202em;
   margin-right: 0.3em;
   margin-left: 0.3em;
   border: none;

@@ -668,12 +668,18 @@ Explicitly a starting point, not a settled value — recorded here so the next
 adjustment knows where it came from. The 0.15em below the title is untouched:
 it is deliberately tight, and it is what groups a title with its own text.
 
-### F5. Phurba conclusion — needs the Pyr pecha
+### F5. ~~Phurba conclusion~~ — PLACED 2026-09-12 from the Lumbini chantbook
 
-Requested 2026-09-12. The phurba practice lacks its concluding section; the
-text is to be taken from the Pyr pecha, not reconstructed. Blocked on having
-the pecha to hand. Same rule as everywhere else: never assert a page number
-the book does not state.
+Requested 2026-09-12; first thought to need the Pyr pecha. The Lumbini 2024
+chantbook (`kilaya.html`) has it: from the ཧཱུྃ༔ སྣང་སྲིད་ཕུར་བུའི verse to the
+chapter's end — dissolution and re-arising, the departure mantra, and two
+verses of aspiration and auspiciousness. Lifted verbatim (six paragraphs,
+clean Unicode; the source's runs of spaces turned into line breaks, and one
+missing break after a ༔ supplied). Third entry of the ཟུར་ཡིག
+(`c_extra.htm#TOC_PhurpaDuDang`), NCX and TOC-page rows, a bare jewel target at
+its head, and a jump to it from the end of ཚེ་རིང་མ (`c_68.htm`). The heading
+`ཕུར་པའི་བསྡུ་ལྡང་།` is mine, built from the passage's own words — rename if
+the book has a better one. Not yet read on device.
 
 ### F6. Jump links through the refuge sequence: red → white → red → ཆོས་རྣམས་ཐམས་ཅད།
 
