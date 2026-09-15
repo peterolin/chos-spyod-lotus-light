@@ -743,6 +743,46 @@ U+0F75) and expect its ditto marks in place of our `༴` + written-out refrain.
 Regenerate the report with the three commands at the top of
 `tools/compare_source.py`.
 
+### F10. ~~The embedded Monlam font is patched~~ — SUPERSEDED: the book now embeds Noto Serif Tibetan
+
+2026-09-15. Two rendering faults were traced to Monlam Uni OuChan2 itself: no
+mark positioning, so ཾ and ྃ sat right of centre on wide letters (རཾ་ཡཾ་ཁཾ);
+and no glyphs for the en space and hair space the text uses ~5,300 times, so
+those gaps were drawn by whatever fallback font Books picked. A font patch
+fixed both and was then invisible on device for four builds, because the Mac
+has Monlam installed under the same name and Books used the installed copy.
+
+Peter's call: a font that works out of the box, on Apple and Android, over a
+patched one. Jomolhari was tried first (build 109) and failed the same way in
+Books: it has no GPOS mark-to-base table, and the substitutions it relies on
+instead are honoured by Chrome but not by CoreText. Rendering the candidates
+through Quick Look's WebKit — the engine Books uses — showed **Noto Serif
+Tibetan** (Google Fonts, v2.103, SIL OFL) centring the marks and setting the
+visarga tight; it has a real mark-to-base table and is Android's own Tibetan
+font. Comparison sheets: `resources/extracted/font-comparison-2026-09-15.png`.
+Licence ships as `src/fonts/OFL-NotoSerifTibetan.txt`.
+
+Consequences recorded in the stylesheet: body size 1.5em → 1.25em (its letter
+body is ~23% taller), head-line raises recomputed from H = 0.678 (yig chung
+0.170em, jewel marks 0.291em). Lesson for the file: test Tibetan shaping in
+WebKit (`qlmanage -t` on an HTML page), not only in Chrome.
+
+To check on device (build 110+): the anusvara; the gap after ཨཱཿ; overall size
+against the printed book — 1.25em is a computed guess; the jump-brace spacing;
+the yig chung head-line alignment; and the ༔ gaps, which now come from the
+reader's fallback font again (sane under WebKit in the test).
+
+### F11. ཁོར་བ་དོང་སྤྲུག has no prev/next arrows — and nav.py cannot see that
+
+Peter, 2026-09-15. The heading at `c_80.htm#page558` carries no `<a class="left">`
+/ `<a class="right">` at all, so the section has no prev/next. `nav.py` only
+fills arrows that exist as placeholders; a heading with none is silently
+skipped, so "0 fillable, 0 unfillable" was true and still hid this. The survey
+below lists every heading in the same state (some are deliberate: ཟུར་ཡིག and
+the ཞབས་རྟེན། sub-collection headings). Fix: insert the two placeholder anchors
+into the heading and run `python3 tools/nav.py --write`; and teach nav.py to
+report linkable headings that have no arrows, so this cannot hide again.
+
 ---
 
 ## What is already right
