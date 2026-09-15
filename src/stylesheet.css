@@ -315,6 +315,49 @@
   page-break-inside: avoid;
   break-inside: avoid;
 }
+/** QUIET SUB-HEADINGS — class="tocpage2 minor". Same heading level as the
+    seven-chapter sub-headings, a different voice: for the sections inside one
+    practice (the Trinley Nyingpo zur 'debs: opening the mantra mansion,
+    dissolution, protectors, siddhis). Smaller, less air, no red rule, and the
+    prev/next arrows sit flush against the title as small triangles instead of
+    being pinned to the page edges, so they are visibly subordinate and
+    inconspicuous (Peter, 2026-09-15). nav.py treats them exactly like any
+    other tocpage2 heading. **/
+.tocpage2.minor {
+  font-size: 80%;
+  margin: 0.7em 0 0.1em 0;
+  padding: 0.2em 0 0 0;
+  border-top: none;
+  /** Both arrow links PRECEDE the title in the markup (nav.py writes them
+      that way and the big headings pin them to the edges, so order never
+      mattered). Inline, the next-arrow must follow the title: a flex row
+      lets `order` put the back arrow first, the title (the anonymous text
+      item, order 0) in the middle, then the next arrow and the page number.
+      No markup change, so nav.py keeps working unchanged. **/
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 0.3em;
+}
+.tocpage2.minor > .left, .tocpage2.minor > .right {
+  position: static;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  font-size: 75%;
+}
+.tocpage2.minor > .left  { order: -1; }
+.tocpage2.minor > .right { order:  1; }
+.tocpage2.minor > .left:before  { content: "\25C2"; }   /* ◂ before the title */
+.tocpage2.minor > .right:after  { content: "\25B8"; }   /* ▸ after it */
+.tocpage2.minor > .pageno {
+  display: inline;
+  order: 2;
+  margin: 0;
+  font-size: 80%;
+}
+
 /** A divider needs something above it to divide from. 46 of the 53 documents
     open with a prayer title, where the rule and the air would be dividing the
     title from nothing. (:first-child ignores whitespace text nodes, so this

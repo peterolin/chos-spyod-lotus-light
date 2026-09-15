@@ -541,7 +541,7 @@ revisit it, and it is a large piece of work.
 
 - 30 tooltip/heading disagreements — `nav.py` lists them; several are the
   *heading* being the wrong spelling
-- 2 arrow mismatches in the `page63` lineage chain, pending a Tibetan heading
+- ~~2 arrow mismatches in the `page63` lineage chain~~ — resolved 2026-09-15: the heading was a fabricated placeholder ("?? == Lineage prayers == ??") and Peter had it removed; the chain runs 62 → 64
 - `p319` refrain line counts: `དགོངས་པས` ×11 and `གུས་པས` ×10 where six other
   refrain lines appear ×12
 - `ཨོ་སྭསྟི` in three ཞབས་རྟེན། verses where the rest of the book writes `ཨོཾ་སྭསྟི`;

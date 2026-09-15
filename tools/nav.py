@@ -42,7 +42,7 @@ SRC = Path(__file__).resolve().parent.parent / "src"
 
 # A section heading that can be linked to: has both tocpageN class and an id.
 HEADING = re.compile(
-    r'<h[1-6][^>]*\bclass="tocpage[12]"[^>]*\bid="([^"]+)"[^>]*>(.*?)</h[1-6]>',
+    r'<h[1-6][^>]*\bclass="tocpage[12](?: [^"]*)?"[^>]*\bid="([^"]+)"[^>]*>(.*?)</h[1-6]>',
     re.S,
 )
 # The page number lives INSIDE the heading now (moved there so a reader cannot
@@ -210,13 +210,21 @@ def audit_jumps(files, apply=False):
         def classify(m):
             nonlocal changed
             cls, attrs, href = m.group(1), m.group(2), m.group(3)
-            if "#" not in href:
-                return m.group(0)
-            target_file, frag = href.split("#", 1)
-            key = (rel if not target_file else "OPS/" + Path(target_file).name, frag)
-            if key not in pos:
-                return m.group(0)          # check.py reports unresolvable ones
-            goes = "fwd" if pos[key] > (i, m.start()) else "back"
+            if "#" in href:
+                target_file, frag = href.split("#", 1)
+                key = (rel if not target_file else "OPS/" + Path(target_file).name, frag)
+                if key not in pos:
+                    return m.group(0)          # check.py reports unresolvable ones
+                target = pos[key]
+            else:
+                # No fragment: the link lands at the top of another document,
+                # whose place in the spine still fixes the direction.
+                trel = "OPS/" + Path(href).name
+                if trel not in files or trel == rel:
+                    return m.group(0)
+                target = (files.index(trel), -1)
+                frag = ""
+            goes = "fwd" if target > (i, m.start()) else "back"
             want = "jumpDown" if goes == "fwd" else "jumpUp"
 
             if cls not in CLAIMS:
@@ -239,7 +247,7 @@ def audit_jumps(files, apply=False):
     return turned, arrowless
 
 
-PRAYER = re.compile(r'<h[1-6][^>]*\bclass="(tocpage[12])"[^>]*\bid="([^"]+)"', re.S)
+PRAYER = re.compile(r'<h[1-6][^>]*\bclass="(tocpage[12])(?: [^"]*)?"[^>]*\bid="([^"]+)"', re.S)
 # Files whose tocpage2 sub-headings are separate texts for the triangle rule:
 # the seven chapters of the ལེའུ་བདུན་མ are read as independent prayers
 # (Peter, 2026-09-15). Elsewhere a tocpage2 heading is a section of one text.
