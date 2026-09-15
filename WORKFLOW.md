@@ -129,7 +129,7 @@ src/              unpacked EPUB — THE SOURCE OF TRUTH
   c_fastjump.htm    quick-jump routes
   stylesheet.css / page_styles.css / fonts.css
   OPS/              53 content documents (c_NN.htm chapters, pNN_…htm merged pages)
-  fonts/            Monlam Uni OuChan2, Courier New
+  fonts/            Noto Serif Tibetan (OFL, licence beside it), Courier New
   META-INF/
 
 build/            generated .epub (git-ignored)
