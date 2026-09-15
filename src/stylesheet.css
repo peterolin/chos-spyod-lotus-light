@@ -212,6 +212,17 @@
      one theme where the hue cannot. 0.75 measures 8.2:1 against
      surrounding text at 13.7:1. */
   --repeat-strength: 1;
+
+  /* READER PREFERENCE — yig chung in green. Off by default; the key page has
+     a switch and toggle.js remembers it (see that file). This is the one
+     place rule 3 above is knowingly set aside, and only at the reader's
+     request. The green is the pair Claude Code's terminal uses for "update
+     installed": rgb(44,122,57) on light grounds, 5.4:1 on white, 4.9:1 on
+     sepia; rgb(78,186,101) on dark ones. When it is on the opacity comes off
+     (--yigchung-green-strength), since the hue already sets the small
+     letters apart and 0.85 of this green would fall to 4.1:1 on white. */
+  --yigchung-green: #2C7A39;
+  --yigchung-green-strength: 1;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -222,8 +233,21 @@
        on white and 2.8:1 on gray, under AA. Here it costs nothing, since
        the red is repainted regardless. */
     --repeat-strength: 0.75;
+    --yigchung-green: #4EBA65;   /* 8.8:1 on night */
   }
 }
+
+/** Reader preferences on the key page. Hidden until toggle.js reveals them,
+    so a reader whose app strips scripts never sees a switch that is dead.
+    The switch is a link, because Apple Books passes taps on form controls
+    to its page turner and a checkbox there cannot be ticked; a link is
+    tapped like every other link in the book, in the reader's link colour. **/
+.prefs { margin: 1em 0; }
+.prefs.needsjs { display: none; }
+.prefs .switch { color: revert; text-decoration: none; }
+.prefs .switch:before { content: "\0F3C\202F"; padding-right: 0.12em; }
+.prefs .switch:after  { content: "\202F\0F3D"; padding-left: 0.12em; }
+.prefs .sample { margin-left: 0.75em; }
 
 /** Build stamp on the key page. Quiet, but present: when a reader reports a
     dead link, this is what tells you which build they have. **/
@@ -432,6 +456,15 @@
     title shows (111 of them), while the 30 that stand alone mid-text stay
     hidden with the rest of the page-marker clutter. **/
 .pageno {
+/** The green preference. toggle.js puts .yigchung-green on <html> when the
+    reader has asked for it, in every document, before paint. Books' Night
+    theme will repaint this white like all element text; there the yig chung
+    simply falls back to the quiet-ink reading it has anyway. **/
+html.yigchung-green .tibyigchung,
+html.yigchung-green .tibyigchungH {
+  color: var(--yigchung-green);
+  opacity: var(--yigchung-green-strength);
+}
   display: none;
   padding: 0 0.2em;
   /** 0.4em, down from 0.5em — it was competing with the text around it. **/

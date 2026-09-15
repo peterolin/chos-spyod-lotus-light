@@ -83,6 +83,7 @@
     <item href="OPS/c_extra.htm" id="id" media-type="application/xhtml+xml"/>
     <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
     <item href="stylesheet.css" id="css" media-type="text/css"/>
+    <item href="toggle.js" id="toggle" media-type="text/javascript"/>
     <item href="cover.jpeg" id="cover" media-type="image/jpeg"/>
     <item id="id10" href="chosspyod_qr.png" media-type="image/png"/>
     <item id="id11" href="key.xhtml" media-type="application/xhtml+xml"/>

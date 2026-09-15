@@ -90,6 +90,7 @@ def render(rows):
 <h1 class="jewelstitle">Jewel Jumps</h1>
 <p class="jewelsintro">Every landing point in the book, in reading order: the mark, the first words after it, the prayer it belongs to and, where the printed book states it, the page. Tap a line to go there.</p>
 {body}
+  <script type="text/javascript" src="toggle.js"></script>
 </body>
 </html>
 '''

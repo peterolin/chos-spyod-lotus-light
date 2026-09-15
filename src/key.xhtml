@@ -4,6 +4,7 @@
 <head>
   <title>Ka-Nying ཆོས་སྤྱོད། (chos spyod)</title>
   <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+  <script type="text/javascript" src="toggle.js"></script>
 </head>
 
 <body class="calibreBody">
@@ -90,6 +91,16 @@
     </tr>
   </tbody>
 </table>
+
+<h2>Reading preferences</h2>
+
+<!-- Revealed by toggle.js, which also remembers the choice across the whole
+     book (localStorage). Stays hidden where scripts do not run. -->
+<div id="prefs" class="prefs needsjs">
+  <p><b>Small letters, <i>yig chung</i>:</b> <a id="yigchungGreen" class="switch" href="#prefs">reader's ink</a>
+  <span class="sample"><span class="tibnormal">སྐྱབས་སུ་མཆིའོ། །</span><span class="tibyigchung">ཞེས་ལན་གསུམ།</span></span></p>
+  <p>Tap the blue word to switch between the reader's ink and green ink. The choice is kept for the whole book, on this device, until you change it here. In a dark theme some readers repaint all text in their own ink and the green will not show.</p>
+</div>
 
 <h2>Typography</h2>
 
