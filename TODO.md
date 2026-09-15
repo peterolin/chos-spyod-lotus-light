@@ -800,6 +800,140 @@ reader; the label should name what is there — the dedication and aspiration
 verses, བསྔོ་བ་སྨོན་ལམ། or wording of Peter's choice. Lift the words from
 the destination's own text rather than typing them.
 
+## G. Markup and stylesheet review — 2026-09-15
+
+A second pass over `src/`, measured, after a month of navigation work. Graded
+by what it buys: G1–G4 change what a reader or the next editor meets; G5–G9
+are hygiene that a script can do in an afternoon; G10–G12 are conventions to
+adopt going forward rather than retrofit.
+
+### G1. The TOC page styling never applies
+
+`.toctib1` and `.toctib2` are written as `ul .toctib1` / `ul .toctib2`, but
+`toc1.htm` has no `<ul>`: the lists are `<dl class="toctib1">`. Both rules are
+dead, and the TOC page renders at raw browser defaults. Fix: `dl.toctib1`,
+`dl.toctib2`, and while there give `dt`/`dd` the sizes the rule intended.
+
+### G2. Ten CSS classes with no element, four elements with no rule
+
+Never used: `.center` (and its `(` `)` pseudo-content), `.invisiblec`,
+`.jumpTodO`, `.nextlink`, `.prevlink`, `.pagenumber`, `div.pn`, `div.pnh`,
+`.unit`, `.ttf`, plus `.pageno-unknown` as a bare class (`div#pagenumberlist`
+is used once, in `pn.htm`, and goes with it in G3).
+Used but unstyled: `eh2`, `just`, `margin_eh2_ee` (calibre residue in
+`pn.htm`) and `line191` — a jewel id typed into the class slot in
+`p88_…:380`, so that "anchor" has never been a jewel. Delete the ten,
+fix the one, drop the three with `pn.htm` (G3).
+
+### G3. ~~`pn.htm` and `repeats.htm` are spine pages nobody can reach~~ — RETIRED 2026-09-15 to `retired/`; the 64 in-word page anchors keep their ids and lose their dead href
+
+`pn.htm` is the old page-number list: 631 `.ppnp` anchors, 511 of them
+inside comments, no NCX entry, no inbound link since the fastjump page was
+retired. `repeats.htm` is 13 `<aside epub:type="footnote">` stubs from an
+abandoned pop-up-footnote experiment, also unreachable. Both are linear
+spine items, so a reader paging through the book meets two junk pages
+between the ཟུར་ཡིག and the English TOC. Retire both to `retired/` as
+`c_fastjump.htm` was, remove them from spine and manifest, and let check.py
+confirm nothing pointed there. (E2's page-list, if wanted, is a
+`nav epub:type="page-list"` in the NCX/nav document, not a page.)
+
+### G4. ~~Heading levels do not encode structure~~ — FIXED 2026-09-15: the four h2 chapter headings became h3; the mapping is recorded above the `.tocpage` rules in the stylesheet
+
+103 prayer titles are `h1.tocpage1`; 6 are `h2.tocpage1` (the ཟུར་ཡིག
+sub-collections and the two ཐུགས་སྒྲུབ sections); the seven chapters are
+`h2.tocpage2` for 1, 2, 5, 7 and `h3.tocpage2` for 3, 4, 6 — the same rank,
+two levels, at random; the quiet sub-headings are `h3.tocpage2.minor`. The
+class carries the meaning and the tag is noise, which is why CSS and nav.py
+both key on the class. Decide one mapping and apply it mechanically: prayer
+= `h1.tocpage1`, section of a collection = `h2.tocpage1`, sub-heading of a
+prayer = `h3.tocpage2` (chapters) or `h3.tocpage2.minor` (quiet). Screen
+readers and the NCX depth both benefit; nothing visual changes.
+
+### G5. Ninety-six ids duplicated across documents (B3, measured again)
+
+64 are `page N` / `ppN` pairs that exist in both a prayer file and `pn.htm`
+— gone with G3. The rest are `repeat1…repeat13` reused in 15 files: a
+same-document link, so harmless today, and a landmine the day two files are
+merged (which G7 and the page-break question both point toward). Rename to
+`repeat-<page>-<n>` or prefix with the file's first page.
+
+### G6. Six id conventions, one of them a typed accident
+
+`page420` (650), `TOC_CamelCase` (58), `return_from_…_p52` (16),
+`snake_case` (28), `TN_`/`tn_` (4 + 4, same section, two cases), `leu1`,
+`line142`, `toc_1`, `TODO`, `example6b`. Only `page N` is systematic. A
+convention worth having: `p<page>-<slug>` for everything a jump can land on
+(`p340-refuge-tree`), `h<page>` for headings, `rep<page>-<n>` for repeats.
+Rename with a script that rewrites every `href` and `id` together and runs
+check.py; nav.py's tooltips derive from headings, not ids, so they survive.
+
+### G7. Whitespace and line shape
+
+1,551 lines end in trailing whitespace; 449 lines exceed 400 characters
+(several over 2,000). Neither affects rendering, both make diffs unreadable
+and hide real changes — the tsheg batch today diffed as 343 hunks partly
+because of it. A one-time normalisation (strip trailing space, break after
+every `</span>` and before every `<span class=`, never inside Tibetan) would
+make future diffs show what changed. Do it as one commit with nothing else
+in it, and verify with `extract_text.py` that the extracted text is
+byte-identical before and after.
+
+### G8. Three inline `style=` and one hidden jewel
+
+`p1_4_…:50` — `<span id="TODO" style="display:none" class="inlineAnchor">`,
+a jewel named TODO, hidden by an inline style, and listed on the Jewel Jumps
+page as such. Resolve or delete. `acknowledgements.htm` and
+`titlepage.xhtml` carry one inline style each; the key page's `<col>` widths
+are the only defensible ones. Also three empty `tibyigchung(H)` spans
+(`c_56:20`, `p1_4:538`, `p219:305`) and one `.calibreBody`-less body among
+the four helper pages.
+
+### G9. Two `:root` blocks and one long comment-to-code ratio
+
+The stylesheet is 1,072 lines of which 77% is comment. The comments are
+good — they are the design record — but the file has no section headers
+and the rules are not in reading order: `.left:before` (the ← glyph) is at
+line 924, 350 lines after the arrow layout rules; `.center`, `.unit`, the
+`div.pn*` family and `ul`/`li` sit between the repeat marks and the table
+styles. `:root` is declared twice (light at 61 within COLOUR SYSTEM, dark at
+217), which is fine, but a reader has to know. Proposed order, each under a
+one-line banner: tokens → page/body → titles (all `tocpage*` rules together)
+→ body text (`tibnormal`, `tibyigchung*`) → page numbers → landing marks →
+jump links (all direction/scope rules together) → repeats → TOC/key/jewels
+pages → images → legacy (empty after G2). Pure reordering; diff it with the
+extracted-CSSOM trick used for the font check to prove nothing changed.
+
+### G10. Class names: two vocabularies
+
+Marks the editor added read as what they *do*: `jumpDown`, `inlineAnchor`,
+`repeatWrap3`, `lpn`. Body text reads as what it *is*: `tibnormal`,
+`tibyigchung`, `tibyigchungH`. Both fine; the seam is `lpn` (linked page
+number), `ppnp`, `ipnpx` (C3), `tibyigchungH` (the H means "heading line",
+not heading), `inlineAnchorReturn` (identical to `inlineAnchor` in every
+rule — merge), `repeatEnd`/`repeatEnd3` (3 uses, styled only by a shared
+`:before`). Rename on the same script as G6.
+
+### G11. `<span>` is doing `<p>`'s job (B1, still)
+
+748 `tibnormal` and 729 `tibyigchung` spans, the whole liturgy inline, with
+line structure carried by raw newlines inside spans. It works because the
+stylesheet never asks for block behaviour from them — until it does (the
+h3-inside-span overprint in `c_106` today was exactly this). Not a retrofit
+to do by hand; if ever, generate it: each top-level `tibnormal` span → `<p
+class="recite">`, each `tibyigchung` → `<p class="note">`, verified again
+with `extract_text.py`.
+
+### G12. Conventions to adopt from now on
+
+- New headings: pick the tag by G4's mapping; always arrows as placeholders
+  and let nav.py fill; always a page number or none, never `???`.
+- New jewels: `p<page>-<slug>` id; run `tools/jewels.py` after.
+- New links: never a file-only `href`; always a fragment.
+- Never type Tibetan into a shell heredoc (five failures on record); lift
+  from the source with a script.
+- One concern per commit (today's four-way split by hunk was needed because
+  three concerns shared files).
+
 ---
 
 ## What is already right

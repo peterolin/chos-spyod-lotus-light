@@ -26,6 +26,7 @@
     <meta name="calibre:author_link_map" content="{&quot;Ka-Nying Shedrup Ling/PO&quot;: &quot;&quot;}"/>
   </metadata>
   <manifest>
+    <item href="jewels.htm" id="jewels" media-type="application/xhtml+xml"/>
     <item href="toc1.htm" id="id1" media-type="application/xhtml+xml"/>
     <item href="titlepage.xhtml" id="titlepage1" media-type="application/xhtml+xml"/>
     <item href="OPS/titlepage.htm" id="titlepage" media-type="application/xhtml+xml"/>
@@ -83,8 +84,6 @@
     <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
     <item href="stylesheet.css" id="css" media-type="text/css"/>
     <item href="cover.jpeg" id="cover" media-type="image/jpeg"/>
-    <item id="id5" href="pn.htm" media-type="application/xhtml+xml"/>
-    <item id="id9" href="repeats.htm" media-type="application/xhtml+xml"/>
     <item id="id10" href="chosspyod_qr.png" media-type="image/png"/>
     <item id="id11" href="key.xhtml" media-type="application/xhtml+xml"/>
     <item id="font1" href="fonts/Courier-New.ttf" media-type="application/x-font-truetype"/>
@@ -99,6 +98,7 @@
   </manifest>
   <spine toc="ncx">
     <itemref idref="titlepage1"/>
+    <itemref idref="jewels"/>
     <itemref idref="titlepage"/>
     <itemref idref="id3"/>
     <itemref idref="id11"/>
@@ -154,8 +154,6 @@
     <itemref idref="n105"/>
     <itemref idref="n106"/>
     <itemref idref="id"/>
-    <itemref idref="id5"/>
-    <itemref idref="id9"/>
     <itemref idref="id1"/>
   </spine>
   <nav epub:type="toc"> <ol> <li><a href="OPS/p1_4_27_30_34_39_48.htm">C2</a> <ol> <li><a href="OPS/p1_4_27_30_34_39_48.htm#page27">C3</a></li> </ol> </li> <li><a href="OPS/p1_4_27_30_34_39_48.htm#page34">C5</a></li> </ol></nav>
