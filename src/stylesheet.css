@@ -982,8 +982,9 @@ a {
   text-decoration: none;
 }
 /** For translated TOC*/
-/** The ཟུར་ཡིག entry in the English TOC opens below a rule: everything above
-    it is the printed book, everything from it on is the editor's supplement. **/
+/** Rules in the English TOC divide it in three: the front matter (title page,
+    acknowledgements, the editor's notes), then the printed book from its
+    title onward, then the ཟུར་ཡིག and Jewel Jumps, the editor's supplement. **/
 dt.extra {
   border-top: 1px solid var(--ui-border);
   margin-top: 1.2em;

@@ -26,24 +26,6 @@ still resolve there.
 
 ## A. The reader sees this today
 
-### A3. Nine spine documents are not in the NCX
-
-```
-titlepage.xhtml   OPS/titlepage.htm   acknowledgements.htm   key.xhtml
-OPS/p362.htm      OPS/c_87.htm        OPS/c_91.htm
-pn.htm            repeats.htm
-```
-
-`OPS/p362.htm`, `OPS/c_87.htm` and `OPS/c_91.htm` are real content a reader
-would want to reach, and there is no way to navigate to them. These are also
-three of the four documents with no `tocpage` heading, and three of the six in
-A2 — the same three documents keep turning up, which suggests they were added
-to the spine by hand and never finished.
-
-**Fix:** decide for each whether it is content (give it a heading, an NCX
-entry, and the missing links) or apparatus (leave it out of the NCX
-deliberately, and say so in `WORKFLOW.md`).
-
 ### A5. `???` and `TODO` markers remain in the source
 
 Inventoried 2026-09-16. Rendered to the reader that day: 42 — 34 `<dd>TODO</dd>`
@@ -626,7 +608,7 @@ measured in headless Chrome against the built book, not read off the source.
 
 ## Completed
 
-22 items, in the order of the sections they came from. Each keeps its id, its
+23 items, in the order of the sections they came from. Each keeps its id, its
 strikethrough and its closing note.
 
 *From A. The reader sees this today*
@@ -717,6 +699,26 @@ It is the Tibetan title page. It is also the only document in the book that
 declares a language at all — see E1.
 
 **Closed:** Now `lang="bo" xml:lang="bo"`. E1 (tagging the rest of the book) stands.
+
+### A3. ~~Nine spine documents are not in the NCX~~ — RESOLVED 2026-09-16
+
+```
+titlepage.xhtml   OPS/titlepage.htm   acknowledgements.htm   key.xhtml
+OPS/p362.htm      OPS/c_87.htm        OPS/c_91.htm
+pn.htm            repeats.htm
+```
+
+`OPS/p362.htm`, `OPS/c_87.htm` and `OPS/c_91.htm` are real content a reader
+would want to reach, and there is no way to navigate to them. These are also
+three of the four documents with no `tocpage` heading, and three of the six in
+A2 — the same three documents keep turning up, which suggests they were added
+to the spine by hand and never finished.
+
+**Fix:** decide for each whether it is content (give it a heading, an NCX
+entry, and the missing links) or apparatus (leave it out of the NCX
+deliberately, and say so in `WORKFLOW.md`).
+
+**Closed:** `p362`, `c_87`, `c_91` turned out to carry a heading that was not a heading (an `<a>` with the class); made real, listed, arrows joined. `pn.htm` and `repeats.htm` retired (G3). The title page, acknowledgements and key are now listed in the NCX and the English TOC as front matter. The cover page is deliberately not: every reader shows the cover on its own.
 
 *From B. Structural debt*
 
