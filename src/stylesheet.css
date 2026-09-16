@@ -510,14 +510,20 @@ html.yigchung-green .tibyigchungH {
   text-align: center;
   opacity: var(--secondary-strength);
   margin: 0;
-  /** Was 1.2. On iPad (build 157) the lower ~15% of the numerals was cut
-      off. In Chrome the glyphs fit the 1.2 line box with 0.3px to spare, so
-      whatever font Books substitutes for the digits has deeper metrics and
-      the 1.2 box was clipping them. 1.5 matches the heading's own
-      line-height and gives the descent room; the padding is extra insurance.
-      PROBE — confirm on the device, then trim if it now floats. **/
+  /** On iPad the lower half of the numerals was cut off and the digits came
+      out letter-spaced (builds 157 and 195). Widening the line box did not
+      help, so it is not the box: Books draws the digits with the embedded
+      Tibetan font, whose vertical metrics are built for letters hanging from
+      a head line, and the digit glyphs land half outside the line. Chrome
+      falls back to Times for digits, which is why the fault never showed
+      there. Digits are Latin: set them in a Latin face and the metrics are
+      sane. Tabular figures so 1, 3 and 5 sit in equal cells. **/
+  font-family: -apple-system, Helvetica, Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: normal;
   line-height: 1.5;
   padding-bottom: 0.1em;
+  overflow: visible;
 }
 /** Sections whose printed page is not yet known carry '???' in the source as
     a standing TODO. Keep that visible to the editor, never to the reader.
