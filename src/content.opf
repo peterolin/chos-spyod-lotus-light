@@ -34,57 +34,16 @@
     <item href="toc1.htm" id="id1" media-type="application/xhtml+xml"/>
     <item href="cover.xhtml" id="coverpage" media-type="application/xhtml+xml"/>
     <item href="OPS/titlepage.htm" id="titlepage" media-type="application/xhtml+xml"/>
-    <item href="OPS/p1_4_27_30_34_39_48.htm" id="n1" media-type="application/xhtml+xml"/>
-    <item href="OPS/p88_91_104_115.htm" id="n14" media-type="application/xhtml+xml"/>
-    <item href="OPS/p133_135_137_148_154_161_170_175_177_179.htm" id="n20" media-type="application/xhtml+xml"/>
-    <item href="OPS/p219_220_247.htm" id="n30" media-type="application/xhtml+xml"/>
-    <item href="OPS/p257_leu_bdun_ma.htm" id="n35" media-type="application/xhtml+xml"/>
-    <item href="OPS/p319_328_330_bar_chad_lam_sel.htm" id="n38" media-type="application/xhtml+xml"/>
-    <item href="OPS/p334_thugs_sgrub_brgyud_debs.htm" id="n41" media-type="application/xhtml+xml"/>
-    <item href="OPS/p362.htm" id="n45" media-type="application/xhtml+xml"/>
-    <item href="OPS/p378_.htm" id="n46" media-type="application/xhtml+xml"/>
-    <item href="OPS/p418_.htm" id="n50" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_53.htm" id="n52" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_56.htm" id="n55" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_58.htm" id="n57" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_59.htm" id="n58" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_60_468.htm" id="n59" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_64.htm" id="n63" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_66.htm" id="n65" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_67.htm" id="n66" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_68.htm" id="n67" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_71.htm" id="n70" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_72.htm" id="n71" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_73.htm" id="n72" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_74.htm" id="n73" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_75.htm" id="n74" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_76.htm" id="n75" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_77.htm" id="n76" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_78.htm" id="n77" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_79.htm" id="n78" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_80.htm" id="n79" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_81.htm" id="n80" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_82.htm" id="n81" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_83.htm" id="n82" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_84.htm" id="n83" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_85.htm" id="n84" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_86.htm" id="n85" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_87.htm" id="n86" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_88.htm" id="n87" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_89.htm" id="n88" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_90.htm" id="n89" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_91.htm" id="n90" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_92.htm" id="n91" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_93.htm" id="n92" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_95.htm" id="n94" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_101.htm" id="n100" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_102.htm" id="n101" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_103.htm" id="n102" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_104.htm" id="n103" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_105.htm" id="n104" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_106.htm" id="n105" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_107.htm" id="n106" media-type="application/xhtml+xml"/>
-    <item href="OPS/c_extra.htm" id="id" media-type="application/xhtml+xml"/>
+    <item href="OPS/p004-084.htm" id="p004-084" media-type="application/xhtml+xml"/>
+    <item href="OPS/p088-115.htm" id="p088-115" media-type="application/xhtml+xml"/>
+    <item href="OPS/p133-214.htm" id="p133-214" media-type="application/xhtml+xml"/>
+    <item href="OPS/p219-254.htm" id="p219-254" media-type="application/xhtml+xml"/>
+    <item href="OPS/p257-313.htm" id="p257-313" media-type="application/xhtml+xml"/>
+    <item href="OPS/p319-418.htm" id="p319-418" media-type="application/xhtml+xml"/>
+    <item href="OPS/p420-534.htm" id="p420-534" media-type="application/xhtml+xml"/>
+    <item href="OPS/p543-615.htm" id="p543-615" media-type="application/xhtml+xml"/>
+    <item href="OPS/p624-744.htm" id="p624-744" media-type="application/xhtml+xml"/>
+    <item href="OPS/zur-yig.htm" id="zur-yig" media-type="application/xhtml+xml"/>
     <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
     <item href="stylesheet.css" id="css" media-type="text/css"/>
     <item href="toggle.js" id="toggle" media-type="text/javascript"/>
@@ -95,7 +54,6 @@
     <item id="id3" href="acknowledgements.htm" media-type="application/xhtml+xml"/>
     <item id="id4" href="fonts/MonlamUniOuChan2.ttf" media-type="application/x-font-truetype"/>
     <item id="font_about" href="fonts/ABOUT-MonlamUniOuChan2.txt" media-type="text/plain"/>
-    <item id="id6" href="OPS/p60_61_62_64_70_77_84.htm" media-type="application/xhtml+xml"/>
     <item id="id7" href="Buddha.jpeg" media-type="image/jpeg"/>
     <item id="id8" href="Padmasambhava.jpeg" media-type="image/jpeg"/>
     <item id="id12" href="Vajrasattva.jpeg" media-type="image/jpeg"/>
@@ -106,65 +64,23 @@
     <itemref idref="titlepage"/>
     <itemref idref="id3"/>
     <itemref idref="id11"/>
-    <itemref idref="n1"/>
-    <itemref idref="id6"/>
-    <itemref idref="n14"/>
-    <itemref idref="n20"/>
-    <itemref idref="n30"/>
-    <itemref idref="n35"/>
-    <itemref idref="n38"/>
-    <itemref idref="n41"/>
-    <itemref idref="n45"/>
-    <itemref idref="n46"/>
-    <itemref idref="n50"/>
-    <itemref idref="n52"/>
-    <itemref idref="n55"/>
-    <itemref idref="n57"/>
-    <itemref idref="n58"/>
-    <itemref idref="n59"/>
-    <itemref idref="n63"/>
-    <itemref idref="n65"/>
-    <itemref idref="n66"/>
-    <itemref idref="n67"/>
-    <itemref idref="n70"/>
-    <itemref idref="n71"/>
-    <itemref idref="n72"/>
-    <itemref idref="n73"/>
-    <itemref idref="n74"/>
-    <itemref idref="n75"/>
-    <itemref idref="n76"/>
-    <itemref idref="n77"/>
-    <itemref idref="n78"/>
-    <itemref idref="n79"/>
-    <itemref idref="n80"/>
-    <itemref idref="n81"/>
-    <itemref idref="n82"/>
-    <itemref idref="n83"/>
-    <itemref idref="n84"/>
-    <itemref idref="n85"/>
-    <itemref idref="n86"/>
-    <itemref idref="n87"/>
-    <itemref idref="n88"/>
-    <itemref idref="n89"/>
-    <itemref idref="n90"/>
-    <itemref idref="n91"/>
-    <itemref idref="n92"/>
-    <itemref idref="n94"/>
-    <itemref idref="n100"/>
-    <itemref idref="n101"/>
-    <itemref idref="n102"/>
-    <itemref idref="n103"/>
-    <itemref idref="n104"/>
-    <itemref idref="n105"/>
-    <itemref idref="n106"/>
-    <itemref idref="id"/>
+    <itemref idref="p004-084"/>
+    <itemref idref="p088-115"/>
+    <itemref idref="p133-214"/>
+    <itemref idref="p219-254"/>
+    <itemref idref="p257-313"/>
+    <itemref idref="p319-418"/>
+    <itemref idref="p420-534"/>
+    <itemref idref="p543-615"/>
+    <itemref idref="p624-744"/>
+    <itemref idref="zur-yig"/>
     <itemref idref="id1"/>
     <itemref idref="jewels"/>
   </spine>
   <guide>
     <reference href="toc1.htm#calibre_generated_inline_toc" title="Table of Contents" type="toc"/>
     <reference href="cover.xhtml" title="Cover" type="cover"/>
-    <reference type="text" title="Text" href="OPS/p1_4_27_30_34_39_48.htm"/>
+    <reference type="text" title="Text" href="OPS/p004-084.htm#page4"/>
     <reference type="title-page" title="Title page" href="OPS/titlepage.htm"/>
     <reference type="acknowledgements" title="Acknowledgements" href="acknowledgements.htm"/>
 </guide></package>

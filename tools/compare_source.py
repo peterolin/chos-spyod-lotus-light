@@ -10,7 +10,7 @@ Report-only. Method and conventions are written into the top of the report it pr
 import json, re, sys, collections, unicodedata
 new=json.load(open(sys.argv[1],encoding='utf-8')); ours=json.load(open(sys.argv[2],encoding='utf-8'))
 K=16
-EXCL_OURS={'OPS/titlepage.htm','OPS/c_extra.htm'}     # editor-supplied, not in any source pecha
+EXCL_OURS={'OPS/titlepage.htm','OPS/zur-yig.htm'}     # editor-supplied, not in any source pecha
 def norm(t):
     t=unicodedata.normalize('NFC',t)   # new book: precomposed U+0F75; ours: U+0F71 U+0F74
     t=t.replace('\u0f8e','')             # new book's second ditto sign

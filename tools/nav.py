@@ -264,7 +264,7 @@ PRAYER = re.compile(r'<h[1-6][^>]*\bclass="(tocpage[12])(?: [^"]*)?"[^>]*\bid="(
 # Files whose tocpage2 sub-headings are separate texts for the triangle rule:
 # the seven chapters of the ལེའུ་བདུན་མ are read as independent prayers
 # (Peter, 2026-09-15). Elsewhere a tocpage2 heading is a section of one text.
-SUBTEXT_FILES = {"p257_leu_bdun_ma.htm"}
+SUBTEXT_FILES = {"p257-313.htm"}
 SCOPE_ATTR = re.compile(r'\s*\bdata-scope="[^"]*"')   # legacy form, stripped on sight
 
 

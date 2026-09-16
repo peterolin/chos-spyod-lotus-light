@@ -22,7 +22,16 @@ accidental Calibre session can't quietly enter the history.
 
 ## The actual loop
 
-The source of truth is **`src/`** — the unpacked EPUB, 76 plain files.
+The source of truth is **`src/`** — the unpacked EPUB, 32 plain files.
+
+The prayers are ten documents in `src/OPS/`, one per section of the printed
+book, named by the printed pages they cover (`p004-084.htm` … `p624-744.htm`)
+plus `zur-yig.htm`. Merged from 54 files on 2026-09-16 (`tools/merge_docs.py`
+records the grouping): every file boundary forced a page break, and on a phone
+a two-line prayer alone on a page wasted the screen; inside one file the
+prayers run on under their red dividers. Keep a file under ~300 KB — the
+largest is 252 KB — and when a prayer moves, keep the page range in the name
+true.
 
 ```
 edit      src/…                        in VSCode, alongside Claude

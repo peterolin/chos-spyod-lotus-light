@@ -190,27 +190,6 @@ it actually does.
 
 **Status:** Not done 2026-09-16: an editorial decision (publish vs edit view). The yig chung switch built 2026-09-16 shows how a reader-facing toggle would work if that is the answer.
 
-### C7. File naming is two schemes
-
-```
-c_53.htm … c_107.htm                      sequence number, meaning nothing
-p219_220_247.htm                          printed pages, no title
-p334_thugs_sgrub_brgyud_debs.htm          printed pages + Wylie title
-p418_.htm  p378_.htm                      trailing underscore, no title
-c_extra.htm  c_fastjump.htm  c_60_468.htm
-```
-
-A `p*` name lists the printed pages the document covers, which is genuinely
-useful. A `c_*` name is a calibre sequence number and tells you nothing — you
-cannot find the ཆགས་མེད་བདེ་སྨོན། file without grepping. The trailing underscore
-in `p418_.htm` and `p378_.htm` is a truncated title that was never finished.
-
-**Propose:** `p<pages>_<wylie-title>.htm` throughout, which the better half of
-the tree already uses. Renames touch the OPF, the NCX and every cross-document
-link, so this wants a script and one commit.
-
-**Status:** Not done 2026-09-16: renaming 30 files rewrites every href, the NCX, the OPF and the TOC. Mechanical, check.py would prove it, but the names are Peter's to choose.
-
 ---
 
 ## D. Tooling and process
@@ -437,7 +416,7 @@ measured in headless Chrome against the built book, not read off the source.
 
 ## Completed
 
-40 items, in the order of the sections they came from. Each keeps its id, its
+41 items, in the order of the sections they came from. Each keeps its id, its
 strikethrough and its closing note.
 
 *From A. The reader sees this today*
@@ -680,6 +659,29 @@ choice between them tracks nothing.
 within one is `h2` — and let `tocpage1`/`tocpage2` keep doing the styling.
 
 **Closed:** All seven chapters are `<h3 class="tocpage2">` now; measured 2026-09-16.
+
+### C7. ~~File naming is two schemes~~ — RESOLVED 2026-09-16 by the merge
+
+```
+c_53.htm … c_107.htm                      sequence number, meaning nothing
+p219_220_247.htm                          printed pages, no title
+p334_thugs_sgrub_brgyud_debs.htm          printed pages + Wylie title
+p418_.htm  p378_.htm                      trailing underscore, no title
+c_extra.htm  c_fastjump.htm  c_60_468.htm
+```
+
+A `p*` name lists the printed pages the document covers, which is genuinely
+useful. A `c_*` name is a calibre sequence number and tells you nothing — you
+cannot find the ཆགས་མེད་བདེ་སྨོན། file without grepping. The trailing underscore
+in `p418_.htm` and `p378_.htm` is a truncated title that was never finished.
+
+**Propose:** `p<pages>_<wylie-title>.htm` throughout, which the better half of
+the tree already uses. Renames touch the OPF, the NCX and every cross-document
+link, so this wants a script and one commit.
+
+**Status:** Not done 2026-09-16: renaming 30 files rewrites every href, the NCX, the OPF and the TOC. Mechanical, check.py would prove it, but the names are Peter's to choose.
+
+**Closed:** 54 prayer files became 10, named by printed page range (`p004-084.htm` … `p624-744.htm`) plus `zur-yig.htm` — `tools/merge_docs.py`. The calibre `c_NN` names are gone with the files.
 
 *From D. Tooling and process*
 
