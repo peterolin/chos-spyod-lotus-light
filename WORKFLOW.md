@@ -136,7 +136,7 @@ src/              unpacked EPUB — THE SOURCE OF TRUTH
   c_fastjump.htm    quick-jump routes
   stylesheet.css / page_styles.css / fonts.css
   OPS/              53 content documents (c_NN.htm chapters, pNN_…htm merged pages)
-  fonts/            Noto Serif Tibetan (OFL, licence beside it), Courier New
+  fonts/            Noto Serif Tibetan (OFL, licence beside it; ring marks reduced — see MODIFICATIONS-… and tools/font_marks.py), Courier New
   META-INF/
 
 build/            generated .epub (git-ignored)

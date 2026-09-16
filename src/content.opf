@@ -95,6 +95,7 @@
     <item id="id3" href="acknowledgements.htm" media-type="application/xhtml+xml"/>
     <item id="id4" href="fonts/NotoSerifTibetan.ttf" media-type="application/x-font-truetype"/>
     <item id="font_ofl" href="fonts/OFL-NotoSerifTibetan.txt" media-type="text/plain"/>
+    <item id="font_mods" href="fonts/MODIFICATIONS-NotoSerifTibetan.txt" media-type="text/plain"/>
     <item id="id6" href="OPS/p60_61_62_64_70_77_84.htm" media-type="application/xhtml+xml"/>
     <item id="id7" href="Buddha.jpeg" media-type="image/jpeg"/>
     <item id="id8" href="Padmasambhava.jpeg" media-type="image/jpeg"/>

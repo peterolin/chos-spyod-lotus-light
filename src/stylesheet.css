@@ -34,6 +34,11 @@
     Chrome. It is Android's system Tibetan font, and here it travels inside
     the EPUB, so Apple and Android see the same thing. No patching. The
     licence ships beside it as fonts/OFL-NotoSerifTibetan.txt, as the OFL asks.
+    MODIFIED 2026-09-16: the anusvara and candrabindu rings, which Noto draws
+    as a large hollow circle floating clear of the head line, are scaled down
+    about their anchors and set closer — see fonts/MODIFICATIONS-…txt and
+    tools/font_marks.py, which regenerates the file from the pristine font
+    in resources/fonts-original/.
 
     It has no glyphs for U+2002 EN SPACE and U+200A HAIR SPACE either; those
     fall to the reader's fallback, and under WebKit that gave a sane half-em

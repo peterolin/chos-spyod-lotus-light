@@ -1,0 +1,11 @@
+Noto Serif Tibetan 2.103 (Google / the Noto Project, SIL Open Font License 1.1)
+as embedded in this book is MODIFIED:
+
+  the anusvara ཾ (U+0F7E) and candrabindu ྃ ྂ (U+0F83, U+0F82) ring glyphs are
+  scaled down about their mark anchors (0.62 and 0.78) and set a little
+  closer to the head line, to match the small ring of the printed pecha.
+
+Nothing else is changed. The pristine font is kept in the repository at
+resources/fonts-original/, and tools/font_marks.py regenerates this file
+from it. Modification is permitted under the OFL; Noto declares no Reserved
+Font Name. 2026-09-16.
