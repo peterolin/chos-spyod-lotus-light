@@ -104,6 +104,20 @@ reader that makes each build a separate publication rather than an update.
 If Books still shows a stale copy, delete the book from the library and
 re-add it; the identifier only helps on a fresh import.
 
+## Never re-save the embedded font
+
+Measured 2026-09-16 with probe books in Apple Books. A copy of Noto Serif
+Tibetan re-saved by fontTools — glyph outlines changed, everything else
+"equivalent" — drew every anusvara to the RIGHT of its letter in the body
+text: Books stopped applying the font's mark positioning. The GPOS table had
+been re-serialised to different bytes of the same length. Copying the
+original GPOS bytes in verbatim restored the positioning. So: the font file
+in `src/fonts/` is Google's release, untouched; if a glyph ever has to change,
+carry the positioning tables over as raw bytes and test in Books, not only in
+WebKit via `qlmanage`, which positioned the re-saved font correctly and hid
+the fault. The smaller rings tried that day were judged worse than Noto's own
+(Peter), so there is nothing to patch anyway.
+
 ## Apple Books' Night theme repaints text colour
 
 Measured with a probe built into the book, not guessed:
