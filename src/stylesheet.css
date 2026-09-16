@@ -1265,11 +1265,17 @@ img.brdayig {
   width: auto;
   vertical-align: baseline;
 }
-/** Dark themes: black ink would vanish. Where the reader signals a dark
-    scheme (Books' Night does, see the PLATFORM NOTE) the image is swapped
-    for the same signs in white ink. First try was filter: invert(1), which
-    did not take in Books (2026-09-16); `content` on a replaced element is
-    the WebKit way to change an image from CSS. **/
+/** Dark themes: black ink would vanish. Two copies of the signs stand in
+    the markup, black ink and white ink, and the stylesheet shows one. Where
+    the reader signals a dark scheme (Books' Night does, see the PLATFORM
+    NOTE) the white one is shown. Two earlier tries failed in Books
+    (2026-09-16): filter: invert(1) was ignored, and `content: url(…)` on the
+    img drew a broken-image icon — Books loads images from src, not from
+    CSS. The white copy has an empty alt, so a screen reader hears the line
+    once. **/
+img.brdayig.night { display: none; }
 @media (prefers-color-scheme: dark) {
-  img.brdayig { content: url(brda-yig-p88-night.png); }
+  img.brdayig.day   { display: none; }
+  img.brdayig.night { display: inline; }
+}
 }
