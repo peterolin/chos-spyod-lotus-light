@@ -17,7 +17,7 @@ jobs:
       - name: navigation report (must find nothing to fix)
         run: |
           python3 tools/nav.py | tee nav.txt
-          grep -E "^ *(fillable|mismatched|unfillable): 0$" nav.txt | wc -l | grep -qx 3
+          test "$(grep -cE '^ *(fillable|mismatched|unfillable): 0( |$)' nav.txt)" = 3
           grep -E "jump arrows point the wrong way: 0" nav.txt
           grep -E "need restamping: 0" nav.txt
       - name: playOrder is a clean sequence
