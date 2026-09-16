@@ -252,6 +252,18 @@ revisit it, and it is a large piece of work.
   against the pecha**: 468 had lost the `ལ` after `གནས`, and 570 was a
   `repeatFirstOcc` ending in a `༴` with the tail absent.
 
+### E8. The 33 spaced boundaries in A7's mirror case — space, or a large shad? (low priority)
+
+Peter, 2026-09-16. A7's mirror pass put a space between a yig chung span ending
+in ། or ༔ and the large letters following it, 33 places (commit bdbbcb1). A
+space may be the wrong answer in some: the shad might belong to the large run
+instead. Too picky to settle now; the rows are 13 prayer title lines running
+into their first large word, 8 instructions ending in ནི།/ནི༔, and 12 other
+instructions. Two look like something else: `c_53:77` is a small span holding
+a lone shad (a stray?), `c_76:50` reads as one phrase split across the two
+sizes (སྟེང་། then large གཡོན་). Regex to list them again:
+`<span class="tibyigchungH?">[^<]*[།༔]</span><span class="tibnormal"> `.
+
 ---
 
 ## F. Asked for, not yet built
