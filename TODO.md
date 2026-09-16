@@ -566,7 +566,7 @@ shad across a span boundary changes no text, so `extract_text.py` proves each
 batch harmless. Page 40 checked against the print: the small shad there is
 right, so not every row is a fix.
 
-**Closed:** Peter walked the 21 rows, moving the shad where it belonged to the small letters and spacing the rest; the 18 still matching got a space at the start of the small span. The regex finds nothing. `resources/A7-shad-boundaries.md` kept as the record of the method.
+**Closed:** Peter walked the 21 rows, moving the shad where it belonged to the small letters and spacing the rest; the 18 still matching got a space at the start of the small span. The regex finds nothing. The mirror case — a yig chung span ending in a shad with large letters hard against it, `<span class="tibyigchungH?">[^<]*[།༔]</span><span class="tibnormal">[^\s<]` — had 33 hits, mostly title lines; all got a space the same way. `resources/A7-shad-boundaries.md` kept as the record of the method.
 
 *From B. Structural debt*
 
