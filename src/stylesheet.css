@@ -114,23 +114,22 @@
  * Every generated brace in this book — jump link, jump target, repeat, repeat
  * count, expansion — spaces itself the same way:
  *
- *     opening    content "\0F3C\202F"   padding-right: 0.12em
- *     closing    content "\202F\0F3D"   padding-left:  0.12em
+ *     opening    content "\0F3C"   padding-right: 0.28em
+ *     closing    content "\0F3D"   padding-left:  0.28em
  *
- * The thin space always goes on the side FACING THE TEXT the brace encloses.
+ * The padding always goes on the side FACING THE TEXT the brace encloses.
  * Outer air, where a mark needs it, is a MARGIN and stays outside the brace.
  *
- * Two parts because they do different jobs. U+202F NARROW NO-BREAK SPACE is
- * the typographic gap and is non-breaking, so a line break can never strand a
- * brace from its text. The 0.12em of padding is the tuning knob — it can be
- * opened or closed without touching the content string, which is where the
- * escapes live and where an edit is easy to get wrong.
- *
- * This replaced a state where the rules disagreed: some braces had no inside
- * space at all and sat hard against the Tibetan, others carried U+202F, and
- * the repeat pair had an explicit "tight against the text" rule. Opening and
- * closing braces of the SAME pair were spaced differently, which is what made
- * it read as clutter on one side and a gap on the other.
+ * Padding only, no space character. Until 2026-09-16 each string also
+ * carried U+202F NARROW NO-BREAK SPACE, "the typographic gap", with 0.12em of
+ * padding as the tuning knob. Noto Serif Tibetan has no glyph for U+202F, so
+ * the gap came from whatever fallback font the reader chose: a thin space on
+ * macOS, where it looked right, a WIDE one on iPadOS, where the braces stood
+ * a full em clear of their text (Peter, build 198). A gap that a font we do
+ * not control decides is not a convention. Padding is ours. No break can
+ * open where the space was: ༼ is opening punctuation and ༽ closing, and the
+ * triangles and Tibetan letters are all class AL, so UAX #14 forbids a break
+ * on either side without a space character.
  *
  * Marks with nothing inside them — the bare target ༼࿉༽ — take no inside
  * space, because there is nothing to separate.
@@ -245,8 +244,8 @@
 .prefs { margin: 1em 0; }
 .prefs.needsjs { display: none; }
 .prefs .switch { color: revert; text-decoration: none; }
-.prefs .switch:before { content: "\0F3C\202F"; padding-right: 0.12em; }
-.prefs .switch:after  { content: "\202F\0F3D"; padding-left: 0.12em; }
+.prefs .switch:before { content: "\0F3C"; padding-right: 0.28em; }
+.prefs .switch:after  { content: "\0F3D"; padding-left: 0.28em; }
 .prefs .sample { margin-left: 0.75em; }
 
 /** The editor's signature on the acknowledgements page. **/
@@ -407,11 +406,11 @@ dl.legend dd { margin: 0 0 0 1.2em; }
     the book the braces stay. **/
 .jewelrow .inlineAnchor:empty:after            { content: "\0FC9"; }
 .jewelrow .inlineAnchor:not(:empty):before     { content: ""; padding-right: 0; }
-.jewelrow .inlineAnchor:not(:empty):after      { content: "\202F\0FC9"; }
+.jewelrow .inlineAnchor:not(:empty):after      { content: "\0FC9"; padding-left: 0.28em; }
 /** The page sits at the END of the book (2026-09-16), so every jump from it
     leads back: two triangles before the words, since every jewel is in
     another document. **/
-.jewelrow .jumpUp:before                       { content: "\25C2\25C2\202F"; padding-left: 0; }
+.jewelrow .jumpUp:before                       { content: "\25C2\25C2"; padding-left: 0; padding-right: 0.28em; }
 .jewelrow .jumpUp:after                        { content: ""; padding-left: 0; }
 
 /** A divider needs something above it to divide from. 46 of the 53 documents
@@ -600,11 +599,11 @@ html.yigchung-green .tibyigchungH {
     finished. It takes the opening brace in the same string, since an element
     has only one :before — the closing ༽ comes from the shared rule below. **/
 .jumpTODO:before {
-  /* One string, not two adjacent ones: `"\0F3C\202F" "TODO "` is legal CSS
+  /* One string, not two adjacent ones: `"\0F3C" "TODO "` is legal CSS
      but the second string was dropped, and the TODO vanished with it. The
-     \202F escape ends at the T, which is not a hex digit, so the space that
+      escape ends at the T, which is not a hex digit, so the space that
      follows TODO is an ordinary literal one. */
-  content: "\0F3C\202FTODO ";        /* ༼ + NARROW NO-BREAK SPACE + TODO */
+  content: "\0F3CTODO ";        /* ༼ + NARROW NO-BREAK SPACE + TODO */
   color: inherit;
   -webkit-text-fill-color: currentColor;
 }
@@ -723,8 +722,8 @@ a.ipnpx {
 }
 .inlineAnchor:not(:empty):before,
 .inlineAnchorReturn:not(:empty):before {
-  content: "\0F3C\202F";          /* ༼ + NARROW NO-BREAK SPACE */
-  padding-right: 0.12em;
+  content: "\0F3C";          /* ༼ + NARROW NO-BREAK SPACE */
+  padding-right: 0.28em;
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
@@ -732,8 +731,8 @@ a.ipnpx {
 .inlineAnchorReturn:not(:empty):after {
   /** ࿉ then ༽ — the jewel closes the label inside the same brace pair the
       :before opened. **/
-  content: "\202F\0FC9\0F3D";      /* NARROW NO-BREAK SPACE + ࿉༽ */
-  padding-left: 0.12em;
+  content: "\0FC9\0F3D";      /* NARROW NO-BREAK SPACE + ࿉༽ */
+  padding-left: 0.28em;
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
@@ -743,8 +742,8 @@ a.ipnpx {
     .repeatWrap now, which is the point — one visual idiom for "repeat this
     span", whether the span is marked inline or by an anchor and a link. **/
 .repeatAnchor:after {
-  content: "\0F3C\202F";         /* ༼ + NARROW NO-BREAK SPACE */
-  padding-right: 0.12em;
+  content: "\0F3C";         /* ༼ + NARROW NO-BREAK SPACE */
+  padding-right: 0.28em;
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
@@ -756,6 +755,10 @@ a.ipnpx {
     0.75em of the link, which is itself 80%, so about 60% of body text. **/
 .lpn {
   font-size: 0.75em;
+  /* Digits are Latin. Set in the Tibetan face they came out letter-spaced
+     ("4 7 4") on iPad — the Tibetan font's digit cells are wide. Same fix as
+     the heading page numbers. */
+  font-family: -apple-system, Helvetica, Arial, sans-serif;
   font-variant-numeric: tabular-nums;
 }
 
@@ -807,26 +810,26 @@ a.ipnpx {
    rule override .jumpTODO:before and swallow its "TODO " prefix — measured,
    not guessed. No document uses .jumpTodO any more. */
 .jump:before, .jumpUp:before, .jumpDown:before {
-  content: "\0F3C\202F";             /* ༼ + NARROW NO-BREAK SPACE */
+  content: "\0F3C";             /* ༼ + NARROW NO-BREAK SPACE */
   font-size: 0.8em;
   color: inherit;
   -webkit-text-fill-color: currentColor;
-  padding-right: 0.12em;
+  padding-right: 0.28em;
 }
 /* Direction rides inside the brace. Longhand after the shared rule, so it
    overrides only the content and keeps colour, size and padding. */
 .jumpUp:before {
-  content: "\0F3C\25C2\202F";       /* ༼◂ + NARROW NO-BREAK SPACE */
+  content: "\0F3C\25C2";       /* ༼◂ + NARROW NO-BREAK SPACE */
 }
 .jump:after, .jumpUp:after, .jumpDown:after, .jumpTODO:after {
-  content: "\202F\0F3D";             /* NARROW NO-BREAK SPACE + ༽ */
+  content: "\0F3D";             /* NARROW NO-BREAK SPACE + ༽ */
   font-size: 0.8em;
   color: inherit;
   -webkit-text-fill-color: currentColor;
-  padding-left: 0.12em;
+  padding-left: 0.28em;
 }
 .jumpDown:after {
-  content: "\202F\25B8\0F3D";       /* NARROW NO-BREAK SPACE + ▸༽ */
+  content: "\25B8\0F3D";       /* NARROW NO-BREAK SPACE + ▸༽ */
 }
 /** ONE TRIANGLE OR TWO. A jump that stays inside the prayer in front of
     the reader keeps the single triangle; a jump into ANOTHER prayer doubles
@@ -839,10 +842,10 @@ a.ipnpx {
     links that leave; --write keeps the stamps current. Nothing here to edit
     by hand. **/
 .jumpUp.out:before {
-  content: "\0F3C\25C2\25C2\202F";   /* ༼◂◂ + NARROW NO-BREAK SPACE */
+  content: "\0F3C\25C2\25C2";   /* ༼◂◂ + NARROW NO-BREAK SPACE */
 }
 .jumpDown.out:after {
-  content: "\202F\25B8\25B8\0F3D";   /* NARROW NO-BREAK SPACE + ▸▸༽ */
+  content: "\25B8\25B8\0F3D";   /* NARROW NO-BREAK SPACE + ▸▸༽ */
 }
 /** The link that closes a repeated passage and sends you back to its start.
 
@@ -873,23 +876,23 @@ a.ipnpx {
     CSS for the same reason: as element text they would be repainted, and a
     half-red mark reads worse than none. **/
 .jumpRepeat:before, .jumpRepeat3:before {
-  content: "\202F\25C2\0F3D";     /* NARROW NO-BREAK SPACE + ◂༽ */
-  padding-left: 0.12em;
+  content: "\25C2\0F3D";     /* NARROW NO-BREAK SPACE + ◂༽ */
+  padding-left: 0.28em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
 .jumpRepeat3:before {
-  content: "\202F\25C2\0F3D\0F23";   /* NNBSP + ◂༽༣ */
+  content: "\25C2\0F3D\0F23";   /* NNBSP + ◂༽༣ */
 }
 /** A passage recited a different number of times in different practices.
     Numerals joined by tsheg, which is how Tibetan joins such a list
     (ཚར་གཉིས་གསུམ་བདུན་) — no comma, since Tibetan has none. **/
 .jumpRepeat.count237:before {
-  content: "\202F\25C2\0F3D\0F22\0F0B\0F23\0F0B\0F27";  /* NNBSP + ◂༽༢་༣་༧ */
+  content: "\25C2\0F3D\0F22\0F0B\0F23\0F0B\0F27";  /* NNBSP + ◂༽༢་༣་༧ */
 }
 /** Seven times — the ན་མཿསརྦ་ཏ་ཐཱ་ག་ཏ mantra of the white sur (p. 155). **/
 .jumpRepeat.count7:before {
-  content: "\202F\25C2\0F3D\0F27";   /* NNBSP + ◂༽༧ */
+  content: "\25C2\0F3D\0F27";   /* NNBSP + ◂༽༧ */
 }
 /** REPEAT MARKING
  *
@@ -918,14 +921,14 @@ a.ipnpx {
     carries the printed ༴ before it; the brackets mark where the editor's
     expansion begins and ends. **/
 .repeatNextOcc:before {
-  content: "\0F3C\202F";
-  padding-right: 0.12em;
+  content: "\0F3C";
+  padding-right: 0.28em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
 .repeatNextOcc:after {
-  content: "\202F\0F3D";
-  padding-left: 0.12em;
+  content: "\0F3D";
+  padding-left: 0.28em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
@@ -951,10 +954,10 @@ a.ipnpx {
 /** Repeat this span as a unit. **/
 .repeatWrap:before, .repeatWrap3:before,
 .repeatEnd:before, .repeatEnd3:before {
-  content: "\0F3C\202F";         /* ༼ + NARROW NO-BREAK SPACE */
+  content: "\0F3C";         /* ༼ + NARROW NO-BREAK SPACE */
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
-  padding-right: 0.12em;
+  padding-right: 0.28em;
   margin-left: 0.2em;
   margin-right: 0;
 }
