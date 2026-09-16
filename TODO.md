@@ -718,7 +718,7 @@ to the spine by hand and never finished.
 entry, and the missing links) or apparatus (leave it out of the NCX
 deliberately, and say so in `WORKFLOW.md`).
 
-**Closed:** `p362`, `c_87`, `c_91` turned out to carry a heading that was not a heading (an `<a>` with the class); made real, listed, arrows joined. `pn.htm` and `repeats.htm` retired (G3). The title page, acknowledgements and key are now listed in the NCX and the English TOC as front matter. The cover page is deliberately not: every reader shows the cover on its own.
+**Closed:** `p362`, `c_87`, `c_91` turned out to carry a heading that was not a heading (an `<a>` with the class); made real, listed, arrows joined. `pn.htm` and `repeats.htm` retired (G3). The title page, acknowledgements and key are now listed in the NCX and the English TOC as front matter. The cover page too, since Apple Books offers no way to the cover otherwise (checked on the device).
 
 *From B. Structural debt*
 
