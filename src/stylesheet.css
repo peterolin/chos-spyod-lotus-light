@@ -1225,8 +1225,13 @@ img {
   text-decoration: none;
   font-size: 0.8em;
   line-height: 1.5em;
-  vertical-align: 0.118em;    /* head-line alignment, as .tibyigchung */
-  margin: 0 0.25em 0 0.1em;
+  /** A subscript, not a head-line mark. The curve's low left end sits at
+      -0.042 of its own em (Jomolhari); the gter tsheg ༔ reaches -0.135 of
+      the body em. At 0.8em, -0.18em here puts the start of the curve at
+      -0.18 body, just under the foot of the ༔, and the note's head line at
+      about 0.23 body, half the height of the letters (iPad, 2026-09-16). **/
+  vertical-align: -0.18em;
+  margin: 0 0.25em 0 0.05em;
   white-space: nowrap;
 }
 /** The Annotations page. Same shape as the Jewel Jumps page: one entry per
