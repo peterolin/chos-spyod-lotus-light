@@ -265,6 +265,12 @@ PRAYER = re.compile(r'<h[1-6][^>]*\bclass="(tocpage[12])(?: [^"]*)?"[^>]*\bid="(
 # the seven chapters of the ལེའུ་བདུན་མ are read as independent prayers
 # (Peter, 2026-09-15). Elsewhere a tocpage2 heading is a section of one text.
 SUBTEXT_FILES = {"p257-313.htm"}
+# Quiet sub-headings (tocpage2 minor) that open a text of their own, not a
+# part of the text above them: the ན་རག་དོང་སྤྲུགས root text runs on from the
+# ན་རག་སྐང་བཤགས arrangement without a printed TOC entry, but a jump into it is
+# a jump into another text (two triangles). The Thugs sgrub parts and the
+# ཞབས་རྟེན prayers are not listed: no jump crosses them yet.
+SUBTEXT_HEADINGS = {"TOC_NarakDongtruk"}
 SCOPE_ATTR = re.compile(r'\s*\bdata-scope="[^"]*"')   # legacy form, stripped on sight
 
 
@@ -276,6 +282,7 @@ def audit_scope(files, apply=False):
     "Text" means the nearest preceding heading with class tocpage1 — the
     prayer-level heading — not the file: several files hold several prayers.
     In SUBTEXT_FILES the tocpage2 sub-headings count too (the seven chapters).
+    So do the sub-headings named in SUBTEXT_HEADINGS (an embedded root text).
     A link whose target sits under a different such heading (or in another
     file) gets the class token "out"; one that stays loses it. The stylesheet
     draws the doubled triangle from that token alone. (Until 2026-09-16 this
@@ -290,7 +297,8 @@ def audit_scope(files, apply=False):
     for rel in files:
         text = (SRC / rel).read_text(encoding="utf-8")
         prayers[rel] = [(m.start(), m.group(2)) for m in PRAYER.finditer(text)
-                        if m.group(1) == "tocpage1" or Path(rel).name in SUBTEXT_FILES]
+                        if m.group(1) == "tocpage1" or Path(rel).name in SUBTEXT_FILES
+                        or m.group(2) in SUBTEXT_HEADINGS]
 
     def owner(rel, offset):
         last = None
