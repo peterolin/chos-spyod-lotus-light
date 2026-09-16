@@ -53,9 +53,12 @@ already.
 | stamp | value | behaviour |
 | --- | --- | --- |
 | version | `<VERSION>+<build no.>+<hash>` | build no. always increases |
-| identifier | `<base uuid>-b<hash>` | changes **iff** `src/` changed |
+| identifier | a UUID derived from `<base uuid>` + `<hash>` | changes **iff** `src/` changed |
 
-The hash covers every filename and byte in `src/`, so it is content-derived,
+(A suffix on the base UUID, the first design, did not work: Books matched the
+UUID-shaped prefix and treated every dev build as one book, opening its oldest
+cached copy. Found 2026-09-16 with a fresh-UUID probe.) The hash covers every
+filename and byte in `src/`, so the derived UUID is content-derived,
 not random: change a file and the identifier moves, so Books imports it fresh;
 rebuild unchanged content and it stays put, so the library does not fill with
 duplicate copies of an identical book. Revert an edit and the previous

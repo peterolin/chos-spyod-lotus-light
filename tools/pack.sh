@@ -159,7 +159,8 @@ opf = open(path, encoding="utf-8").read()
 # 1. The identifier. A release build leaves it STABLE — that is the whole
 #    point of an identifier, and with dcterms:modified below it forms the
 #    Release Identifier that marks this as a revision of the same book.
-#    Only --dev suffixes it, to force Apple Books past its cache.
+#    Only --dev replaces it (with a content-derived UUID), to force Apple
+#    Books past its cache.
 m = re.search(r'\bunique-identifier="([^"]+)"', opf)
 if not m:
     sys.exit("error: package has no unique-identifier attribute")
@@ -173,15 +174,19 @@ m2 = ident.search(opf)
 if not m2:
     sys.exit(f"error: no <dc:identifier id=\"{uid}\"> to stamp")
 
-# Strip any suffix a previous --dev build left, then re-add only for --dev.
+# A --dev build needs an identifier Books has never seen. Appending a hash
+# to the release UUID ("…-b164e6f3d") did NOT work: Apple Books matched the
+# UUID-shaped prefix and treated every dev build as the same book, opening
+# the copy it had cached first (measured 2026-09-16: a probe with a fresh
+# random UUID opened correctly; the suffixed one did not). So a dev build
+# gets a REAL UUID of its own — uuid5 of the release UUID and the content
+# hash: still content-derived, so an unchanged tree rebuilds to the same
+# identifier and the library does not fill with duplicates, but sharing no
+# prefix with the release identifier or with any other dev build.
+import uuid as _uuid
 base = re.sub(r'-b[0-9a-f]{8}$', '', m2.group(2).strip())
-new_id = f"{base}-b{hash8}" if dev else base
+new_id = str(_uuid.uuid5(_uuid.UUID(base), hash8)) if dev else base
 opf = ident.sub(lambda _m: f"{_m.group(1)}{new_id}{_m.group(3)}", opf, count=1)
-if dev:
-    # The suffix makes it no longer a UUID, and epubcheck warns if the scheme
-    # still says so. A dev build is not a UUID; say what it is.
-    opf = re.sub(r'(<dc:identifier\b[^>]*\bid="%s"[^>]*?)\bopf:scheme="uuid"' % re.escape(uid),
-                 r'\1opf:scheme="dev-build"', opf, count=1)
 
 # 2. dcterms:modified must be ISO 8601 UTC. The value carried in src is
 #    '2023-09-23T11:05:00:00Z' — malformed, an extra :00 — so it is replaced
