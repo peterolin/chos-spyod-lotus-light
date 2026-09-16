@@ -85,7 +85,7 @@ def render(rows):
     for r in rows:
         lab = f'<span class="inlineAnchor">{r["label"]}</span>' if r['label'] else '<span class="inlineAnchor"></span>'
         where = (f'page {r["page"]} in ' if r['page'] else 'in ') + r['prayer']
-        lines.append(f'<p class="jewelrow">{lab} <a class="jumpUp" href="{r["file"]}#{r["id"]}" data-scope="out">{r["incipit"]}</a>'
+        lines.append(f'<p class="jewelrow">{lab} <a class="jumpUp out" href="{r["file"]}#{r["id"]}">{r["incipit"]}</a>'
                      f'<br/><span class="jewelprayer">{where}</span></p>')
     body = '\n'.join(lines)
     return f'''<?xml version='1.0' encoding='utf-8'?>

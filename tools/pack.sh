@@ -164,6 +164,11 @@ if not m2:
 base = re.sub(r'-b[0-9a-f]{8}$', '', m2.group(2).strip())
 new_id = f"{base}-b{hash8}" if dev else base
 opf = ident.sub(lambda _m: f"{_m.group(1)}{new_id}{_m.group(3)}", opf, count=1)
+if dev:
+    # The suffix makes it no longer a UUID, and epubcheck warns if the scheme
+    # still says so. A dev build is not a UUID; say what it is.
+    opf = re.sub(r'(<dc:identifier\b[^>]*\bid="%s"[^>]*?)\bopf:scheme="uuid"' % re.escape(uid),
+                 r'\1opf:scheme="dev-build"', opf, count=1)
 
 # 2. dcterms:modified must be ISO 8601 UTC. The value carried in src is
 #    '2023-09-23T11:05:00:00Z' — malformed, an extra :00 — so it is replaced
@@ -173,13 +178,15 @@ b = os.environ["BUILD"]          # YYYYMMDD.HHMMSS
 now = "%s-%s-%sT%s:%s:%sZ" % (
     b[0:4], b[4:6], b[6:8], b[9:11], b[11:13], b[13:15],
 )
-modified = re.compile(r'(<meta\b[^>]*\bproperty="dcterms:modified"[^>]*>)(.*?)(</meta>)', re.S)
+# Written EPUB 2 style, name/content: the EPUB 3 <meta property=…>text</meta>
+# form is invalid in an EPUB 2 package (epubcheck, 2026-09-16).
+modified = re.compile(r'<meta\b[^>]*\bname="dcterms:modified"[^>]*/>')
 if modified.search(opf):
-    opf = modified.sub(lambda _m: f"{_m.group(1)}{now}{_m.group(3)}", opf, count=1)
+    opf = modified.sub(f'<meta name="dcterms:modified" content="{now}"/>', opf, count=1)
 else:
     opf = opf.replace(
         "</metadata>",
-        f'  <meta property="dcterms:modified">{now}</meta>\n  </metadata>', 1)
+        f'  <meta name="dcterms:modified" content="{now}"/>\n  </metadata>', 1)
 
 # 3. Version metadata, EPUB 2 style (name/content), which EPUB 2 readers
 #    understand — <meta property=...> is an EPUB 3 construct.
@@ -215,6 +222,16 @@ if not plain_title:
     opf = re.sub(r'(<dc:title>)(.*?)(</dc:title>)', retitle, opf, count=1, flags=re.S)
 
 open(path, "w", encoding="utf-8").write(opf)
+
+# 6. The NCX carries the identifier too (dtb:uid) and epubcheck requires the
+#    two to agree — so a --dev build must stamp both, not just the OPF.
+ncx_path = os.path.join(os.path.dirname(path), "toc.ncx")
+if os.path.exists(ncx_path):
+    ncx = open(ncx_path, encoding="utf-8").read()
+    ncx2 = re.sub(r'(<meta\b[^>]*\bname="dtb:uid"[^>]*\bcontent=")[^"]*(")',
+                  lambda _m: f"{_m.group(1)}{new_id}{_m.group(2)}", ncx, count=1)
+    if ncx2 != ncx:
+        open(ncx_path, "w", encoding="utf-8").write(ncx2)
 PY
 
 mkdir -p "$REPO/build"

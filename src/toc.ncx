@@ -767,49 +767,49 @@
       </navLabel>
       <content src="OPS/c_extra.htm#zuryig"/>
     </navPoint>
-    <navPoint id="num_117" playOrder="127">
+    <navPoint id="num_117" playOrder="126">
       <navLabel>
         <text>ཟུར་ཡིག་</text>
       </navLabel>
       <content src="OPS/c_extra.htm#zuryig"/>
-      <navPoint id="num_118" playOrder="128">
+      <navPoint id="num_118" playOrder="127">
         <navLabel>
           <text>བླ་མ་རྒྱང་འབོད།</text>
         </navLabel>
         <content src="OPS/c_extra.htm#TOC_LamaGyangbo"/>
       </navPoint>
-      <navPoint id="num_119" playOrder="129">
+      <navPoint id="num_119" playOrder="128">
         <navLabel>
           <text>སྤྲོས་མེད་དོན་གྱི་བླ་སྒྲུབ།</text>
         </navLabel>
         <content src="OPS/c_extra.htm#TOC_TromeLadrub"/>
       </navPoint>
-      <navPoint id="num_119b" playOrder="130">
+      <navPoint id="num_119b" playOrder="129">
         <navLabel>
           <text>བསྔོ་བ་སྨོན་ལམ།</text>
         </navLabel>
         <content src="OPS/c_extra.htm#TOC_NgowaMonlam"/>
       </navPoint>
-      <navPoint id="num_120" playOrder="131">
+      <navPoint id="num_120" playOrder="130">
         <navLabel>
           <text>ཕུར་པའི་བསྡུ་ལྡང་།</text>
         </navLabel>
         <content src="OPS/c_extra.htm#TOC_PhurpaDuDang"/>
       </navPoint>
-      <navPoint id="num_120c" playOrder="132">
+      <navPoint id="num_120c" playOrder="131">
         <navLabel>
           <text>ཞབས་རྟེན།</text>
         </navLabel>
         <content src="OPS/c_extra.htm#shabten"/>
       </navPoint>
     </navPoint>
-    <navPoint id="num_121" playOrder="133">
+    <navPoint id="num_121" playOrder="132">
       <navLabel>
         <text>Table of Contents in English · དཀར་ཆག</text>
       </navLabel>
       <content src="toc1.htm"/>
     </navPoint>
-    <navPoint id="jewels" playOrder="134">
+    <navPoint id="jewels" playOrder="133">
       <navLabel>
         <text>༼࿉༽ Jewel Jumps</text>
       </navLabel>

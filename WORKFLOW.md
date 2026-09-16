@@ -30,6 +30,8 @@ nav       python3 tools/nav.py         derive prev/next arrows (report only)
 check     python3 tools/check.py       structural QA (links, anchors, manifest)
 stacks    python3 tools/stacks.py      Tibetan stacks that look like slips
 jewels    python3 tools/jewels.py      regenerate the Jewel Jumps page (src/jewels.htm) from every landing jewel; --check to preview
+ncx       python3 tools/ncx_playorder.py  renumber playOrder in toc.ncx after adding or moving an entry (--write to apply)
+validate  epubcheck build/<file>.epub      the EPUB 2 validator; the tree must stay at 0 errors
 preview   tools/preview.sh             builds, then opens the Calibre viewer
 build     tools/pack.sh                -> build/Ka-Nying-Chos-spyod-<version>.epub
 commit    git add src/ && git commit    real, readable, line-level diffs

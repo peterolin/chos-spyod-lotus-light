@@ -417,9 +417,14 @@ dl.legend dd { margin: 0 0 0 1.2em; }
 /** A divider needs something above it to divide from. 46 of the 53 documents
     open with a prayer title, where the rule and the air would be dividing the
     title from nothing. (:first-child ignores whitespace text nodes, so this
-    matches the title even though it sits on its own line after <body>.) **/
+    matches the title even though it sits on its own line after <body>.)
+    Since 2026-09-16 the body's text sits in one <div class="text"> — XHTML 1.1
+    allows no inline content directly in <body>, and epubcheck said so 1,700
+    times — so the rule matches the first child of that div as well. **/
 .calibreBody > .tocpage1:first-child,
-.calibreBody > .tocpage2:first-child {
+.calibreBody > .tocpage2:first-child,
+.text > .tocpage1:first-child,
+.text > .tocpage2:first-child {
   margin-top: 0;
   padding-top: 0;
   border-top: none;
@@ -831,13 +836,13 @@ a.ipnpx {
     the nearest preceding tocpage1 heading, not the file: several files hold
     several prayers, so the href alone cannot tell. The seven chapters of the
     ལེའུ་བདུན་མ count as separate texts (nav.py SUBTEXT_FILES). nav.py's scope audit
-    derives it from heading positions and stamps data-scope="out" on the
+    derives it from heading positions and stamps the class token "out" on the
     links that leave; --write keeps the stamps current. Nothing here to edit
     by hand. **/
-.jumpUp[data-scope="out"]:before {
+.jumpUp.out:before {
   content: "\0F3C\25C2\25C2\202F";   /* ༼◂◂ + NARROW NO-BREAK SPACE */
 }
-.jumpDown[data-scope="out"]:after {
+.jumpDown.out:after {
   content: "\202F\25B8\25B8\0F3D";   /* NARROW NO-BREAK SPACE + ▸▸༽ */
 }
 /** The link that closes a repeated passage and sends you back to its start.

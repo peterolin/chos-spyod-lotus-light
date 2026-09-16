@@ -59,8 +59,11 @@ PAGENO_IN = re.compile(r'<span class="pageno[^"]*">([^<]*)</span>', re.S)
 # and gets no arrow; key.xhtml is the legend, whose rows demonstrate each
 # class BY NAME and so must keep the class they document.
 JUMP = re.compile(
-    r'<a class="(jump|jumpUp|jumpDown|jumpTODO|jumpTodO|easyjump)"'
+    r'<a class="(jump|jumpUp|jumpDown|jumpTODO|jumpTodO|easyjump)(?P<out> out)?"'
     r'((?=[^>]*\bhref="([^"]+)")[^>]*)>')
+# group 1 the class, group "out" the scope token (see audit_scope), then the
+# attribute run and, inside it, the href — numbered 3 and 4 because the named
+# group takes 2.
 CLAIMS = {"jumpUp": "back", "jumpDown": "fwd"}
 LEGEND = "key.xhtml"
 
@@ -213,7 +216,7 @@ def audit_jumps(files, apply=False):
 
         def classify(m):
             nonlocal changed
-            cls, attrs, href = m.group(1), m.group(2), m.group(3)
+            cls, attrs, href = m.group(1), m.group(3), m.group(4)
             if "#" in href:
                 target_file, frag = href.split("#", 1)
                 key = (rel if not target_file else "OPS/" + Path(target_file).name, frag)
@@ -241,7 +244,7 @@ def audit_jumps(files, apply=False):
             turned.append((rel, cls, want, frag))
             if apply:
                 changed = True
-                return f'<a class="{want}"{attrs}>'
+                return f'<a class="{want}{m.group("out") or ""}"{attrs}>'
             return m.group(0)
 
         new = JUMP.sub(classify, text)
@@ -256,7 +259,7 @@ PRAYER = re.compile(r'<h[1-6][^>]*\bclass="(tocpage[12])(?: [^"]*)?"[^>]*\bid="(
 # the seven chapters of the ལེའུ་བདུན་མ are read as independent prayers
 # (Peter, 2026-09-15). Elsewhere a tocpage2 heading is a section of one text.
 SUBTEXT_FILES = {"p257_leu_bdun_ma.htm"}
-SCOPE_ATTR = re.compile(r'\s*\bdata-scope="[^"]*"')
+SCOPE_ATTR = re.compile(r'\s*\bdata-scope="[^"]*"')   # legacy form, stripped on sight
 
 
 def audit_scope(files, apply=False):
@@ -268,8 +271,11 @@ def audit_scope(files, apply=False):
     prayer-level heading — not the file: several files hold several prayers.
     In SUBTEXT_FILES the tocpage2 sub-headings count too (the seven chapters).
     A link whose target sits under a different such heading (or in another
-    file) gets data-scope="out"; one that stays loses the attribute. The
-    stylesheet draws the doubled triangle from that attribute alone. Returns
+    file) gets the class token "out"; one that stays loses it. The stylesheet
+    draws the doubled triangle from that token alone. (Until 2026-09-16 this
+    was a data-scope="out" attribute; XHTML 1.1, which EPUB 2 requires, has no
+    data-* attributes, so it is a class token now. nav.py still strips the old
+    attribute if it meets one.) Returns
     the list of links whose stamp changed; --write applies it.
     """
     pos = id_positions(files)
@@ -299,7 +305,7 @@ def audit_scope(files, apply=False):
 
         def stamp(m):
             nonlocal changed
-            cls, attrs, href = m.group(1), m.group(2), m.group(3)
+            cls, attrs, href = m.group(1), m.group(3), m.group(4)
             if cls not in CLAIMS or "#" not in href:
                 return m.group(0)
             target_file, frag = href.split("#", 1)
@@ -309,17 +315,16 @@ def audit_scope(files, apply=False):
             here = owner(rel, m.start())
             there = owner(trel, pos[(trel, frag)][1])
             want = "out" if here != there else None
-            have = attr(attrs, "data-scope")
-            if have == want:
+            have = "out" if m.group("out") else None
+            legacy = attr(attrs, "data-scope")
+            if have == want and not legacy:
                 return m.group(0)
             changes.append((rel, cls, frag, have, want))
             if not apply:
                 return m.group(0)
             changed = True
             new_attrs = SCOPE_ATTR.sub("", attrs)
-            if want:
-                new_attrs = set_attr(new_attrs, "data-scope", want)
-            return f'<a class="{cls}"{new_attrs}>'
+            return f'<a class="{cls}{" out" if want else ""}"{new_attrs}>'
 
         new = JUMP.sub(stamp, text)
         if apply and changed:

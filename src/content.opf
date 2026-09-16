@@ -12,7 +12,7 @@
     ade42954-c052-4349-9891-9ee5cc357e40
     </dc:identifier>
     <dc:language>bo</dc:language>
-    <meta property="dcterms:modified">2026-09-16T00:00:00Z</meta>
+    <meta name="dcterms:modified" content="2026-09-16T00:00:00Z"/>
     <dc:creator opf:role="aut" opf:file-as="Ka-Nying Shedrup Ling/PO">Peter Olin</dc:creator>
     <dc:date>2026-09-16</dc:date>
     <dc:subject>Ritual</dc:subject>
