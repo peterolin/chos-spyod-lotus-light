@@ -11,9 +11,16 @@
  * it, so `fonts/…` resolves the same from OPS/ as from the root.
  * --------------------------------------------------------------------------- */
 
+/** In @font-face, font-family names ONE family — the name the file is given.
+    Until 2026-09-16 both rules read `"Noto Serif Tibetan", serif`, a fallback
+    list, which is invalid here; strict parsers (Thorium, and evidently Books)
+    dropped the whole rule, the embedded font never loaded, and every Tibetan
+    letter in the book was drawn in the reader's fallback face — Kailasa on
+    Apple — with its misplaced anusvara. Found when three builds embedding
+    three different fonts rendered identically in Thorium. **/
 @font-face {
   src: url(fonts/Courier-New.ttf);
-  font-family: "Courier New", sans-serif;
+  font-family: "Courier New";
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -46,7 +53,7 @@
     step-down. **/
 @font-face {
   src: url(fonts/NotoSerifTibetan.ttf);
-  font-family: "Noto Serif Tibetan", serif;
+  font-family: "Noto Serif Tibetan";
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
