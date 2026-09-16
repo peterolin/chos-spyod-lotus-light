@@ -75,9 +75,11 @@ the other class OPENS with ། or ༔":
 
 Not every one of the 89 is wrong — the pecha itself sometimes sets a shad
 small after large text — so this is a survey and a fix by eye, not a script.
-A script can list them (the regexes are in the measurement); moving a shad
-across a span boundary changes no text, so `extract_text.py` proves each
-batch harmless.
+The list, with printed page, file, line and a plain-text search string unique in
+its file, is `resources/A7-shad-boundaries.md` (81 rows, 2026-09-16). Moving a
+shad across a span boundary changes no text, so `extract_text.py` proves each
+batch harmless. Page 40 checked against the print: the small shad there is
+right, so not every row is a fix.
 
 ---
 
