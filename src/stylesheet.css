@@ -317,10 +317,11 @@ dl.legend dd { margin: 0 0 0 1.2em; }
 
 .calibreBody {
   display: block;
-  /** 1.5em under Monlam. Noto Serif Tibetan's letter body is ~23% taller at
-      the same size (ཀ 1.150em vs 0.933em), so 1.25em keeps the page looking
-      the same size as before. Judge on device; this is the one to tune. **/
-  font-size: 1.5em;
+  /** The reader's own base size, no multiplier (Peter, 2026-09-16): those
+      who see well read at 1em; those who need larger text enlarge in the
+      reader, which every reader offers. Was 1.5em under Monlam and 1.25em
+      under Noto — sizes tuned, it turned out, against a fallback font. **/
+  font-size: 1em;
   line-height: 1.5em;
   padding-left: 0;
   padding-right: 0;
