@@ -21,7 +21,7 @@
   <manifest>
     <item href="jewels.htm" id="jewels" media-type="application/xhtml+xml"/>
     <item href="toc1.htm" id="id1" media-type="application/xhtml+xml"/>
-    <item href="titlepage.xhtml" id="titlepage1" media-type="application/xhtml+xml"/>
+    <item href="cover.xhtml" id="coverpage" media-type="application/xhtml+xml"/>
     <item href="OPS/titlepage.htm" id="titlepage" media-type="application/xhtml+xml"/>
     <item href="OPS/p1_4_27_30_34_39_48.htm" id="n1" media-type="application/xhtml+xml"/>
     <item href="OPS/p88_91_104_115.htm" id="n14" media-type="application/xhtml+xml"/>
@@ -91,8 +91,7 @@
     <item id="id13" href="page1.jpeg" media-type="image/jpeg"/>
   </manifest>
   <spine toc="ncx">
-    <itemref idref="titlepage1"/>
-    <itemref idref="jewels"/>
+    <itemref idref="coverpage"/>
     <itemref idref="titlepage"/>
     <itemref idref="id3"/>
     <itemref idref="id11"/>
@@ -149,11 +148,12 @@
     <itemref idref="n106"/>
     <itemref idref="id"/>
     <itemref idref="id1"/>
+    <itemref idref="jewels"/>
   </spine>
   <guide>
     <reference href="toc1.htm#calibre_generated_inline_toc" title="Table of Contents" type="toc"/>
-    <reference href="titlepage.xhtml" title="Cover" type="cover"/>
+    <reference href="cover.xhtml" title="Cover" type="cover"/>
     <reference type="text" title="Text" href="OPS/p1_4_27_30_34_39_48.htm"/>
-    <reference type="title-page" title="Title page" href="titlepage.xhtml"/>
+    <reference type="title-page" title="Title page" href="OPS/titlepage.htm"/>
     <reference type="acknowledgements" title="Acknowledgements" href="acknowledgements.htm"/>
 </guide></package>

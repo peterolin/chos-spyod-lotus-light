@@ -408,9 +408,11 @@ dl.legend dd { margin: 0 0 0 1.2em; }
 .jewelrow .inlineAnchor:empty:after            { content: "\0FC9"; }
 .jewelrow .inlineAnchor:not(:empty):before     { content: ""; padding-right: 0; }
 .jewelrow .inlineAnchor:not(:empty):after      { content: "\202F\0FC9"; }
-.jewelrow .jumpDown:before                     { content: ""; padding-right: 0; }
-.jewelrow .jumpDown:after                      { content: "\202F\25B8"; }
-.jewelrow .jumpDown[data-scope="out"]:after    { content: "\202F\25B8\25B8"; }
+/** The page sits at the END of the book (2026-09-16), so every jump from it
+    leads back: two triangles before the words, since every jewel is in
+    another document. **/
+.jewelrow .jumpUp:before                       { content: "\25C2\25C2\202F"; padding-left: 0; }
+.jewelrow .jumpUp:after                        { content: ""; padding-left: 0; }
 
 /** A divider needs something above it to divide from. 46 of the 53 documents
     open with a prayer title, where the rule and the air would be dividing the

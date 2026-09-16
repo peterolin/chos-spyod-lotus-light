@@ -68,7 +68,7 @@ tools/pack.sh --dev           # dev build — identifier busted per content
 tools/pack.sh --plain-title   # leave the version off the title
 ```
 
-The version is in the filename as well as on both title pages:
+The version is in the filename as well as on the title page:
 
 | | file |
 | --- | --- |

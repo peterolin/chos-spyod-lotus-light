@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the Jewel Jumps page: every landing jewel in the book, in reading order.
 
-    python3 tools/jewels.py            # (re)write src/jewels.htm, register it first in spine, NCX and TOC page
+    python3 tools/jewels.py            # (re)write src/jewels.htm, register it last in spine, NCX and TOC page
     python3 tools/jewels.py --check    # list what would be written, touch nothing
 
 A jewel is a <span class="inlineAnchor"> (or inlineAnchorReturn) with an id in
@@ -85,7 +85,7 @@ def render(rows):
     for r in rows:
         lab = f'<span class="inlineAnchor">{r["label"]}</span>' if r['label'] else '<span class="inlineAnchor"></span>'
         where = (f'page {r["page"]} in ' if r['page'] else 'in ') + r['prayer']
-        lines.append(f'<p class="jewelrow">{lab} <a class="jumpDown" href="{r["file"]}#{r["id"]}" data-scope="out">{r["incipit"]}</a>'
+        lines.append(f'<p class="jewelrow">{lab} <a class="jumpUp" href="{r["file"]}#{r["id"]}" data-scope="out">{r["incipit"]}</a>'
                      f'<br/><span class="jewelprayer">{where}</span></p>')
     body = '\n'.join(lines)
     return f'''<?xml version='1.0' encoding='utf-8'?>
@@ -109,11 +109,11 @@ def register():
     opf_p = SRC / 'content.opf'; opf = opf_p.read_text(encoding='utf-8')
     if 'href="jewels.htm"' not in opf:
         opf = opf.replace('<item href="toc1.htm"', '<item href="jewels.htm" id="jewels" media-type="application/xhtml+xml"/>\n    <item href="toc1.htm"', 1)
-        opf = opf.replace('    <itemref idref="titlepage1"/>\n', '    <itemref idref="titlepage1"/>\n    <itemref idref="jewels"/>\n', 1)
+        opf = opf.replace('    <itemref idref="id1"/>\n', '    <itemref idref="id1"/>\n    <itemref idref="jewels"/>\n', 1)
         opf_p.write_text(opf, encoding='utf-8')
     ncx_p = SRC / 'toc.ncx'; ncx = ncx_p.read_text(encoding='utf-8')
     if 'jewels.htm' not in ncx:
-        ncx = ncx.replace('  <navMap>\n', '  <navMap>\n    <navPoint id="num_0" playOrder="0">\n      <navLabel>\n        <text>༼࿉༽ Jewel Jumps</text>\n      </navLabel>\n      <content src="jewels.htm"/>\n    </navPoint>\n', 1)
+        ncx = ncx.replace('  </navMap>\n', '    <navPoint id="num_0" playOrder="0">\n      <navLabel>\n        <text>༼࿉༽ Jewel Jumps</text>\n      </navLabel>\n      <content src="jewels.htm"/>\n    </navPoint>\n  </navMap>\n')
         k = [0]
         def renum(m):
             k[0] += 1; return f'<navPoint id="num_{k[0]}" playOrder="{k[0]}">'
@@ -121,7 +121,7 @@ def register():
         ncx_p.write_text(ncx, encoding='utf-8')
     toc_p = SRC / 'toc1.htm'; toc = toc_p.read_text(encoding='utf-8')
     if 'jewels.htm' not in toc:
-        toc = toc.replace('  <dl class="toctib1">\n', '  <dl class="toctib1">\n\n  <dt><a href="jewels.htm">༼࿉༽ Jewel Jumps</a></dt>\n\n  <dd>Every landing point in the book</dd>\n', 1)
+        toc = toc.replace('  </dl>\n</dl>\n', '  </dl>\n\n'+'  <dt><a href="jewels.htm">༼࿉༽ Jewel Jumps</a></dt>\n  <dd>Every landing point in the book</dd>'+'</dl>\n')
         toc_p.write_text(toc, encoding='utf-8')
 
 def main():
