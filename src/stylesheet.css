@@ -1268,6 +1268,7 @@ img {
     and a second white-ink <img> shown under prefers-color-scheme: dark
     appeared for a moment and was then repainted away. A glyph takes the
     reader's ink like every letter around it, in every theme, at every size.
-    The glyph's own metrics carry the height (0.6 em from the head line) and
-    the side bearings; nothing to size here. **/
+    The glyph's own metrics carry the size — scaled so its closing ༔ matches
+    Monlam's gter tsheg (Peter, iPad, 2026-09-16) — and the side bearings;
+    nothing to size here. **/
 .brdayig { font-family: "Brda yig p88", serif; }
