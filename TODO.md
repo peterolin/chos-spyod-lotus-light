@@ -22,6 +22,10 @@ the list needs to know about. Closed items are moved out of their section to
 is still open; the ids do not change, and cross-references such as "see B4"
 still resolve there.
 
+Since 2026-09-16 the built EPUB validates with epubcheck at 0 errors and 0
+warnings, and CI (`.github/workflows/check.yml`) keeps it there. Anything that
+breaks that is an A-severity item by definition.
+
 ---
 
 ## A. The reader sees this today
@@ -49,6 +53,7 @@ Still standing, and each needs a decision, not just work:
 - One `???` page placeholder, `p1_4:265`, hidden by `.pageno-unknown`.
 - Two HTML comments: `p1_4:312` (the stubs above), `p60:263` (verify against
   the printed text).
+- Two jump labels corrected from impossible values to the target heading's page, not verified against the pecha: བཟང་སྤྱོད། ཕྱག་འཚལ་བ་དང་སོགས། 577 (was 263, `p1_4`) and ཕྱི་མཆོད། 346 (was 344, twice, `p334`).
 
 ---
 
@@ -88,18 +93,7 @@ which case the note should say so, or it does nothing and should come out.
 
 **Fix:** determine which, then make the code and the comment agree.
 
-### B3. 88 ids are duplicated across documents
-
-Mostly `page<N>` colliding between a content document and `pn.htm`. Ids are
-per-document in EPUB so nothing is technically broken, but:
-
-- `pp9` is duplicated between `p88_91_104_115.htm` and
-  `p1_4_27_30_34_39_48.htm` — two *content* documents
-- `example6b` is in both `p88_91_104_115.htm` and `key.xhtml`
-
-and more practically, `#page543` is ambiguous to a human reading a link and to
-any tool that does not track which document it is in. `check.py` already
-catches duplicates *within* a document; it does not flag these.
+**Status:** Not done 2026-09-16: needs the device. The PLATFORM NOTE says the declaration does nothing in Books; removing it must be checked on Books, not assumed.
 
 ### B7. Twenty-nine anchors nothing links to
 
@@ -120,6 +114,8 @@ place no link goes.
 > Fastjump was retired, and they are exactly the ones a future Fastjump needs.
 > Deleting them would throw away the curated list that was the point of that
 > page. Check an anchor against `retired/c_fastjump.htm` before removing it.
+
+**Status:** Not touched 2026-09-16, on purpose: these are landing spots kept for a future Fastjump (A1) or page markers kept by decision (E2). Deleting is the wrong reflex here.
 
 ---
 
@@ -145,6 +141,8 @@ anchors are landing spots, not table-of-contents entries.
 one scheme, ideally one that says what the id *is* — `jump-<slug>` for a
 landing spot, `sec-<slug>` for a section. Mechanical, and `nav.py` +
 `check.py` can verify nothing broke.
+
+**Status:** Not done 2026-09-16: same reason as C7 — a convention to choose first, then a script.
 
 ### C2. Class naming is four styles at once
 
@@ -190,38 +188,7 @@ that text does not appear in the book. It does.
 **Fix:** make the decision, then either delete the class or rename it to what
 it actually does.
 
-### C5. Four classes used with no rule, seven rules with no element
-
-```
-used, undeclared:   eh2   just   line191   margin_eh2_ee
-declared, unused:   jumpTodO  nextlink  pagenumber  pn  pnh  prevlink  unit
-```
-
-Both halves are dead weight. `jumpTodO` is worse than dead — it differs from
-`jumpTODO` only in case, and a reading system that matches classes
-case-insensitively will apply one rule to the other. That already bit once
-(commit `3df8d67`), and it will bite again while the selector exists.
-
-### C6. Heading levels are arbitrary within one series
-
-The seven chapters of the ལེའུ་བདུན་མ། are one series at one depth, and they are
-marked up at two:
-
-```
-p257_leu_bdun_ma.htm   leu1 h2   leu2 h2   leu3 h3   leu4 h3
-                       leu5 h2   leu6 h3   leu7 h2
-```
-
-All seven carry `class="tocpage2"`, so they look identical and behave
-identically — the level is doing no work, which is exactly why it drifted.
-It does work for a screen reader, which builds its document outline from the
-levels and will report this series as jumping in and out of a subsection.
-
-Elsewhere the same is true across the book: 106 `h1`, 18 `h2`, 8 `h3`, and the
-choice between them tracks nothing.
-
-**Fix:** pick the level from the structure — a prayer is `h1`, a chapter
-within one is `h2` — and let `tocpage1`/`tocpage2` keep doing the styling.
+**Status:** Not done 2026-09-16: an editorial decision (publish vs edit view). The yig chung switch built 2026-09-16 shows how a reader-facing toggle would work if that is the answer.
 
 ### C7. File naming is two schemes
 
@@ -242,129 +209,15 @@ in `p418_.htm` and `p378_.htm` is a truncated title that was never finished.
 the tree already uses. Renames touch the OPF, the NCX and every cross-document
 link, so this wants a script and one commit.
 
+**Status:** Not done 2026-09-16: renaming 30 files rewrites every href, the NCX, the OPF and the TOC. Mechanical, check.py would prove it, but the names are Peter's to choose.
+
 ---
 
 ## D. Tooling and process
 
-### D1. No tests, no CI
-
-```
-tools/check.py   264 lines
-tools/nav.py     386 lines
-tools/pack.sh    266 lines
-tools/preview.sh  14 lines
-tools/unpack.sh   30 lines
-```
-
-960 lines of tooling, no test for any of it, no CI. `nav.py --write` rewrites
-123+ links across 40 files in one run; its only safety net is that the tree is
-in git. The `link_to` bug fixed in `1a1ddac` had been latent since the tool was
-written and was only found because a new section happened to link across a
-directory — a fixture with one document in `OPS/` and one at the root would
-have caught it on day one.
-
-**Fix:** a `tests/` directory with a small fixture book and a handful of
-round-trip assertions. `check.py` on a known-bad fixture should report exactly
-the expected errors; `nav.py --write` on a known fixture should produce a known
-output.
-
-### D3. The build cannot fail on a bad tree
-
-`pack.sh` uses `set -euo pipefail` and traps its staging directory, which is
-good. But it does not run `check.py`, so a build with dangling links succeeds
-silently.
-
-**Fix:** `pack.sh` runs `check.py` first and refuses to build on errors, with
-an explicit `--force` for when you know better.
-
-### D7. `nav.py` cannot tell that document order disagrees with the book
-
-A6 is invisible to every tool the project has. `nav.py` already reads the
-printed page number out of each heading — it puts it in the tooltips — so it
-has both numbers in hand and never compares them.
-
-**Fix:** when the next section in document order has a LOWER printed page than
-the current one, report it. It must stay a report: whether the fix is to move
-the section or to correct its page number is a judgement about the printed
-pecha, and reordering a document automatically is exactly the kind of thing a
-tool should never do. But a five-page backward step should not be something
-only a reader can find.
-
-Cheap, too — the data is already collected, it just needs one comparison and a
-line in the report.
-
-### D8. Nothing checks a jump link's page number against its target
-
-A jump link carries a printed page in its `.lpn` — `གསང་ཐིག་རྡོར་སེམས། 92` — and
-nothing has ever compared that number with where the link actually goes. One
-such link pointed at `c_78.htm`, which is page **546**, and only a reader
-following it found out.
-
-The check that works is one-sided, and that is what makes it usable. A target
-deep inside a long section legitimately sits on a later printed page than its
-heading, so "label ≠ heading page" is mostly noise — 49 hits, nearly all
-correct. But a target can never sit on an **earlier** page than the heading it
-falls under, so "label page < heading page" is impossible by construction.
-That test returns 3.
-
-**Fix:** add it to `nav.py`, which already parses every heading's printed page
-and every link. Report only, like the tooltip audit — deciding whether the
-label or the target is wrong is a reading of the pecha.
-
 ---
 
 ## E. Recorded, not being done now
-
-### E1. Language tagging
-
-`dc:language` is `bo`; not one content document declares a language, and the
-sole exception is wrong (A4). Costs: VoiceOver reads Tibetan with an English
-voice, the OS's language-aware font fallback gets no hint, and Tibetan
-line-breaking heuristics get nothing. Fix is mechanical — `xml:lang="bo"
-lang="bo"` on the Tibetan documents, `lang="en"` on the English runs.
-
-### E2. The page-list exists, is in the wrong file, and is 7/64 done
-
-Correcting what an earlier draft of this list said. There *is* a page-list —
-it is just not reachable by anything:
-
-```
-src/toc.ncx:682   <nav epub:type="page-list">   ← EPUB 3 markup inside an NCX
-src/toc.ncx:690   ?</ol>                        ← stray character
-                  7 <li> entries (pp4–pp10) of 64 available anchors
-                  0 <pageTarget> elements, which is what EPUB 2 reads
-```
-
-An EPUB 3 `<nav>` cannot live inside `toc.ncx`; a nav document is a separate
-XHTML file declared in the manifest with `properties="nav"`, and there isn't
-one. So EPUB 2 readers look for `<pageList>` and find nothing, EPUB 3 readers
-look for a nav document and find nothing, and this element is dead in both
-directions. It also covers pages 4–10 of a ~700-page book.
-
-The underlying opportunity stands, and it is a good one:
-
-```
-137  printed page numbers rendered in headings
- 64  distinct  id="ppNNN"  anchors already in the content
-```
-
-A real page-list is what makes "go to page" follow the *printed* book — for a
-text where the umdze calls "page 319", that is the difference between finding
-it and scrolling. Decide EPUB 2 `<pageList>` or an EPUB 3 nav document, build
-it from the anchors that already exist, and delete the thing in the NCX either
-way. Books' support for NCX `pageList` is uneven, so probe before committing.
-
-**2026-09-16:** the dead `<nav epub:type="page-list">` block, stray `?` included, is deleted from `toc.ncx`. The real page-list is still to build.
-
-### E3. Accessibility metadata
-
-No `schema:accessMode`, `accessibilityFeature` or `accessibilitySummary`. Books
-will not behave differently; accessibility-aware catalogues read them.
-
-### E4. Two weak alt texts
-
-Six images. Three carry proper Tibetan alt. `page1.jpeg` has `alt="Image"` and
-the cover has `alt="cover"`.
 
 ### E5. `.pageno` at `0.4em`
 
@@ -437,19 +290,6 @@ U+0F75) and expect its ditto marks in place of our `༴` + written-out refrain.
 Regenerate the report with the three commands at the top of
 `tools/compare_source.py`.
 
-### F11. ཁོར་བ་དོང་སྤྲུག has no prev/next arrows — and nav.py cannot see that
-
-Peter, 2026-09-15. The heading at `c_80.htm#page558` carries no `<a class="left">`
-/ `<a class="right">` at all, so the section has no prev/next. `nav.py` only
-fills arrows that exist as placeholders; a heading with none is silently
-skipped, so "0 fillable, 0 unfillable" was true and still hid this. The survey
-below lists every heading in the same state (some are deliberate: ཟུར་ཡིག and
-the ཞབས་རྟེན། sub-collection headings). Fix: insert the two placeholder anchors
-into the heading and run `python3 tools/nav.py --write`; and teach nav.py to
-report linkable headings that have no arrows, so this cannot hide again.
-
-**2026-09-16:** arrows inserted and filled by `nav.py --write` (← 557 ལུས་སྤྱིན… lineage prayer, → 578 པད་གཙུག་ལྷུང་བཤགས།). Teaching nav.py to report arrow-less headings is still open.
-
 ### F12. Split the refuge-and-bodhicitta repeat in the ཐུགས་སྒྲུབ་ཟུར་འདེབས
 
 Peter, 2026-09-15. In the zur 'debs (`p334_thugs_sgrub_brgyud_debs.htm`,
@@ -458,14 +298,6 @@ the `repeat5` span under སྐྱབས་སེམས་དང་བགེག�
 bodhicitta are to be split into two repeats. Needs the pecha for where the
 break falls and what each part's count is; the jump to the Trinley Nyingpo
 refuge at 346 sits inside the span and must keep working.
-
-### F13. Relabel the ཟུར། 159 link — བསྔོ་བ་སྨོན་ལམ། or the like
-
-Peter, 2026-09-15. In `p133_…htm` (the གསུར section, line ~260) a jump reads
-`ཟུར། 159` and points at `#dedications`. "zur" alone says nothing to the
-reader; the label should name what is there — the dedication and aspiration
-verses, བསྔོ་བ་སྨོན་ལམ། or wording of Peter's choice. Lift the words from
-the destination's own text rather than typing them.
 
 ---
 
@@ -476,21 +308,6 @@ by what it buys: G1–G4 change what a reader or the next editor meets; G5–G9
 are hygiene that a script can do in an afternoon; G10–G12 are conventions to
 adopt going forward rather than retrofit.
 
-### G1. The TOC page styling never applies
-
-`.toctib1` and `.toctib2` are written as `ul .toctib1` / `ul .toctib2`, but
-`toc1.htm` has no `<ul>`: the lists are `<dl class="toctib1">`. Both rules are
-dead, and the TOC page renders at raw browser defaults. Fix: `dl.toctib1`,
-`dl.toctib2`, and while there give `dt`/`dd` the sizes the rule intended.
-
-### G5. Ninety-six ids duplicated across documents (B3, measured again)
-
-64 are `page N` / `ppN` pairs that exist in both a prayer file and `pn.htm`
-— gone with G3. The rest are `repeat1…repeat13` reused in 15 files: a
-same-document link, so harmless today, and a landmine the day two files are
-merged (which G7 and the page-break question both point toward). Rename to
-`repeat-<page>-<n>` or prefix with the file's first page.
-
 ### G6. Six id conventions, one of them a typed accident
 
 `page420` (650), `TOC_CamelCase` (58), `return_from_…_p52` (16),
@@ -500,6 +317,8 @@ convention worth having: `p<page>-<slug>` for everything a jump can land on
 (`p340-refuge-tree`), `h<page>` for headings, `rep<page>-<n>` for repeats.
 Rename with a script that rewrites every `href` and `id` together and runs
 check.py; nav.py's tooltips derive from headings, not ids, so they survive.
+
+**Status:** Not done 2026-09-16: see C1.
 
 ### G9. Two `:root` blocks and one long comment-to-code ratio
 
@@ -515,6 +334,8 @@ one-line banner: tokens → page/body → titles (all `tocpage*` rules together)
 jump links (all direction/scope rules together) → repeats → TOC/key/jewels
 pages → images → legacy (empty after G2). Pure reordering; diff it with the
 extracted-CSSOM trick used for the font check to prove nothing changed.
+
+**Status:** Not done 2026-09-16: a reorder changes cascade order wherever two rules of equal specificity meet, and proving equivalence needs a rendered comparison, not a text diff. Worth doing with the device at hand.
 
 ### G10. Class names: two vocabularies
 
@@ -546,10 +367,6 @@ with `extract_text.py`.
   from the source with a script.
 - One concern per commit (today's four-way split by hunk was needed because
   three concerns shared files).
-
-### G7b. Break long lines at span boundaries
-
-The second half of G7: 449 lines exceed 400 characters. Break after every `</span>` and before every `<span class=`, never inside Tibetan, as one commit with nothing else in it, verified with `extract_text.py`.
 
 ---
 
@@ -608,7 +425,7 @@ measured in headless Chrome against the built book, not read off the source.
 
 ## Completed
 
-23 items, in the order of the sections they came from. Each keeps its id, its
+39 items, in the order of the sections they came from. Each keeps its id, its
 strikethrough and its closing note.
 
 *From A. The reader sees this today*
@@ -767,6 +584,60 @@ it currently guesses.
 
 **Closed:** The C2/C3/C5 references and the stray EPUB 3 `<nav epub:type="toc">` that sat between spine and guide are gone. The `type="text"` reference already existed.
 
+### B3. ~~88 ids are duplicated across documents~~ — RESOLVED 2026-09-16
+
+Mostly `page<N>` colliding between a content document and `pn.htm`. Ids are
+per-document in EPUB so nothing is technically broken, but:
+
+- `pp9` is duplicated between `p88_91_104_115.htm` and
+  `p1_4_27_30_34_39_48.htm` — two *content* documents
+- `example6b` is in both `p88_91_104_115.htm` and `key.xhtml`
+
+and more practically, `#page543` is ambiguous to a human reading a link and to
+any tool that does not track which document it is in. `check.py` already
+catches duplicates *within* a document; it does not flag these.
+
+**Closed:** The four real cross-document duplicates fixed: `pp9` in the köljang was a mistyped `pp97`; `TOC_ChangchubSemchog` in the ཟུར་ཡིག renamed; `toc_1` on the title page renamed; a commented-out duplicate `TN_Tsog` removed. Repeat ids are unique book-wide (G5). check.py still checks within a document only; a cross-document check is cheap to add if the habit returns.
+
+*From C. Naming and convention*
+
+### C5. ~~Four classes used with no rule, seven rules with no element~~ — RESOLVED 2026-09-16, bar `line191`
+
+```
+used, undeclared:   eh2   just   line191   margin_eh2_ee
+declared, unused:   jumpTodO  nextlink  pagenumber  pn  pnh  prevlink  unit
+```
+
+Both halves are dead weight. `jumpTodO` is worse than dead — it differs from
+`jumpTODO` only in case, and a reading system that matches classes
+case-insensitively will apply one rule to the other. That already bit once
+(commit `3df8d67`), and it will bite again while the selector exists.
+
+**Closed:** All dead rules gone (G2 took most; `.ppnp`, `.easyjump` today). `eh2`/`just`/`margin_eh2_ee` left with `pn.htm`. `line191` in the köljang file still needs Peter: jewel or plain class?
+
+### C6. ~~Heading levels are arbitrary within one series~~ — RESOLVED before 2026-09-16
+
+The seven chapters of the ལེའུ་བདུན་མ། are one series at one depth, and they are
+marked up at two:
+
+```
+p257_leu_bdun_ma.htm   leu1 h2   leu2 h2   leu3 h3   leu4 h3
+                       leu5 h2   leu6 h3   leu7 h2
+```
+
+All seven carry `class="tocpage2"`, so they look identical and behave
+identically — the level is doing no work, which is exactly why it drifted.
+It does work for a screen reader, which builds its document outline from the
+levels and will report this series as jumping in and out of a subsection.
+
+Elsewhere the same is true across the book: 106 `h1`, 18 `h2`, 8 `h3`, and the
+choice between them tracks nothing.
+
+**Fix:** pick the level from the structure — a prayer is `h1`, a chapter
+within one is `h2` — and let `tocpage1`/`tocpage2` keep doing the styling.
+
+**Closed:** All seven chapters are `<h3 class="tocpage2">` now; measured 2026-09-16.
+
 *From D. Tooling and process*
 
 ### D4. ~~No check for what only a reader can see~~ — RESOLVED, and it found one
@@ -806,6 +677,140 @@ only in a commit message.
 **Fix:** state it at the top of both tools.
 
 **Closed:** Stated in both module docstrings.
+
+### D1. ~~No tests, no CI~~ — CI RESOLVED 2026-09-16; unit tests not written
+
+```
+tools/check.py   264 lines
+tools/nav.py     386 lines
+tools/pack.sh    266 lines
+tools/preview.sh  14 lines
+tools/unpack.sh   30 lines
+```
+
+960 lines of tooling, no test for any of it, no CI. `nav.py --write` rewrites
+123+ links across 40 files in one run; its only safety net is that the tree is
+in git. The `link_to` bug fixed in `1a1ddac` had been latent since the tool was
+written and was only found because a new section happened to link across a
+directory — a fixture with one document in `OPS/` and one at the root would
+have caught it on day one.
+
+**Fix:** a `tests/` directory with a small fixture book and a handful of
+round-trip assertions. `check.py` on a known-bad fixture should report exactly
+the expected errors; `nav.py --write` on a known fixture should produce a known
+output.
+
+**Closed:** `.github/workflows/check.yml` runs check.py, nav.py (which must find nothing to fill, turn or restamp), ncx_playorder.py, a build, and epubcheck on every push. No unit tests for the tools yet; the CI run is the regression net.
+
+### D3. ~~The build cannot fail on a bad tree~~ — RESOLVED 2026-09-16
+
+`pack.sh` uses `set -euo pipefail` and traps its staging directory, which is
+good. But it does not run `check.py`, so a build with dangling links succeeds
+silently.
+
+**Fix:** `pack.sh` runs `check.py` first and refuses to build on errors, with
+an explicit `--force` for when you know better.
+
+**Closed:** `pack.sh` runs `check.py --quiet` first and exits 1 on errors; `--force` builds anyway.
+
+### D7. ~~`nav.py` cannot tell that document order disagrees with the book~~ — RESOLVED 2026-09-16
+
+A6 is invisible to every tool the project has. `nav.py` already reads the
+printed page number out of each heading — it puts it in the tooltips — so it
+has both numbers in hand and never compares them.
+
+**Fix:** when the next section in document order has a LOWER printed page than
+the current one, report it. It must stay a report: whether the fix is to move
+the section or to correct its page number is a judgement about the printed
+pecha, and reordering a document automatically is exactly the kind of thing a
+tool should never do. But a five-page backward step should not be something
+only a reader can find.
+
+Cheap, too — the data is already collected, it just needs one comparison and a
+line in the report.
+
+**Closed:** nav.py reports "sections out of printed-page order within a file". Report only. Currently 0.
+
+### D8. ~~Nothing checks a jump link's page number against its target~~ — RESOLVED 2026-09-16
+
+A jump link carries a printed page in its `.lpn` — `གསང་ཐིག་རྡོར་སེམས། 92` — and
+nothing has ever compared that number with where the link actually goes. One
+such link pointed at `c_78.htm`, which is page **546**, and only a reader
+following it found out.
+
+The check that works is one-sided, and that is what makes it usable. A target
+deep inside a long section legitimately sits on a later printed page than its
+heading, so "label ≠ heading page" is mostly noise — 49 hits, nearly all
+correct. But a target can never sit on an **earlier** page than the heading it
+falls under, so "label page < heading page" is impossible by construction.
+That test returns 3.
+
+**Fix:** add it to `nav.py`, which already parses every heading's printed page
+and every link. Report only, like the tooltip audit — deciding whether the
+label or the target is wrong is a reading of the pecha.
+
+**Closed:** nav.py reports "jump labels with a page below their target's heading". It found the three: 263 → 577 (the བཟང་སྤྱོད seven-branch jump into ལྟུང་བ་བཤགས), 344 → 346 twice (ཕྱི་མཆོད in the Thugs sgrub). 577 and 346 are the heading pages, not verified against the pecha — see A5.
+
+*From E. Recorded, not being done now*
+
+### E1. ~~Language tagging~~ — RESOLVED 2026-09-16
+
+`dc:language` is `bo`; not one content document declares a language, and the
+sole exception is wrong (A4). Costs: VoiceOver reads Tibetan with an English
+voice, the OS's language-aware font fallback gets no hint, and Tibetan
+line-breaking heuristics get nothing. Fix is mechanical — `xml:lang="bo"
+lang="bo"` on the Tibetan documents, `lang="en"` on the English runs.
+
+**Closed:** `xml:lang="bo"` on every Tibetan document, `en` on the key and acknowledgements pages with their Tibetan runs tagged `bo`. XHTML 1.1 has `xml:lang` only, so no `lang`.
+
+### E2. ~~The page-list exists, is in the wrong file, and is 7/64 done~~ — RETIRED 2026-09-16
+
+Correcting what an earlier draft of this list said. There *is* a page-list —
+it is just not reachable by anything:
+
+```
+src/toc.ncx:682   <nav epub:type="page-list">   ← EPUB 3 markup inside an NCX
+src/toc.ncx:690   ?</ol>                        ← stray character
+                  7 <li> entries (pp4–pp10) of 64 available anchors
+                  0 <pageTarget> elements, which is what EPUB 2 reads
+```
+
+An EPUB 3 `<nav>` cannot live inside `toc.ncx`; a nav document is a separate
+XHTML file declared in the manifest with `properties="nav"`, and there isn't
+one. So EPUB 2 readers look for `<pageList>` and find nothing, EPUB 3 readers
+look for a nav document and find nothing, and this element is dead in both
+directions. It also covers pages 4–10 of a ~700-page book.
+
+The underlying opportunity stands, and it is a good one:
+
+```
+137  printed page numbers rendered in headings
+ 64  distinct  id="ppNNN"  anchors already in the content
+```
+
+A real page-list is what makes "go to page" follow the *printed* book — for a
+text where the umdze calls "page 319", that is the difference between finding
+it and scrolling. Decide EPUB 2 `<pageList>` or an EPUB 3 nav document, build
+it from the anchors that already exist, and delete the thing in the NCX either
+way. Books' support for NCX `pageList` is uneven, so probe before committing.
+
+**2026-09-16:** the dead `<nav epub:type="page-list">` block, stray `?` included, is deleted from `toc.ncx`. The real page-list is still to build.
+
+**Closed:** Decision (Peter, 2026-09-16): no page list. Different printings paginate differently, so a "go to page" that is right for one pecha is silently wrong for another; making it edition-aware is not worth it. The dead `<nav>` is out of the NCX. **The 64 `ppNNN` markers stay in the text on purpose** — they are the only durable record of where the pages fall and would be the basis of any future page list; do not treat them as dead weight under B7.
+
+### E3. ~~Accessibility metadata~~ — RESOLVED 2026-09-16
+
+No `schema:accessMode`, `accessibilityFeature` or `accessibilitySummary`. Books
+will not behave differently; accessibility-aware catalogues read them.
+
+**Closed:** schema.org accessMode, accessModeSufficient, accessibilityFeature, accessibilityHazard and accessibilitySummary in the OPF, EPUB 2 name/content form.
+
+### E4. ~~Two weak alt texts~~ — RESOLVED 2026-09-16
+
+Six images. Three carry proper Tibetan alt. `page1.jpeg` has `alt="Image"` and
+the cover has `alt="cover"`.
+
+**Closed:** The cover reads "ཆོས་སྤྱོད། cover"; the first folio image names itself in Tibetan and English; the QR image has an alt.
 
 *From F. Asked for, not yet built*
 
@@ -985,6 +990,31 @@ against the printed book — 1.25em is a computed guess; the jump-brace spacing;
 the yig chung head-line alignment; and the ༔ gaps, which now come from the
 reader's fallback font again (sane under WebKit in the test).
 
+### F11. ~~ཁོར་བ་དོང་སྤྲུག has no prev/next arrows — and nav.py cannot see that~~ — RESOLVED 2026-09-16
+
+Peter, 2026-09-15. The heading at `c_80.htm#page558` carries no `<a class="left">`
+/ `<a class="right">` at all, so the section has no prev/next. `nav.py` only
+fills arrows that exist as placeholders; a heading with none is silently
+skipped, so "0 fillable, 0 unfillable" was true and still hid this. The survey
+below lists every heading in the same state (some are deliberate: ཟུར་ཡིག and
+the ཞབས་རྟེན། sub-collection headings). Fix: insert the two placeholder anchors
+into the heading and run `python3 tools/nav.py --write`; and teach nav.py to
+report linkable headings that have no arrows, so this cannot hide again.
+
+**2026-09-16:** arrows inserted and filled by `nav.py --write` (← 557 ལུས་སྤྱིན… lineage prayer, → 578 པད་གཙུག་ལྷུང་བཤགས།). Teaching nav.py to report arrow-less headings is still open.
+
+**Closed:** Arrows filled earlier; nav.py now reports "headings without arrows" (quiet sub-headings and the ཟུར་ཡིག head excepted). The sweep it enabled found three more arrow-less prayers that were also fake headings — see A3.
+
+### F13. ~~Relabel the ཟུར། 159 link~~ — RESOLVED 2026-09-16
+
+Peter, 2026-09-15. In `p133_…htm` (the གསུར section, line ~260) a jump reads
+`ཟུར། 159` and points at `#dedications`. "zur" alone says nothing to the
+reader; the label should name what is there — the dedication and aspiration
+verses, བསྔོ་བ་སྨོན་ལམ། or wording of Peter's choice. Lift the words from
+the destination's own text rather than typing them.
+
+**Closed:** Now `ཧོཿ ཆོས་དབྱིངས་རྣམ་པར་དག་པ། 159`, the destination's own opening words.
+
 *From G. Markup and stylesheet review — 2026-09-15*
 
 ### G3. ~~`pn.htm` and `repeats.htm` are spine pages nobody can reach~~ — RETIRED 2026-09-15 to `retired/`; the 64 in-word page anchors keep their ids and lose their dead href
@@ -1048,3 +1078,28 @@ are the only defensible ones. Also three empty `tibyigchung(H)` spans
 the four helper pages.
 
 **Closed:** The hidden `#TODO` jewel deleted and jewels.htm regenerated (97 jewels); the last empty yig chung span deleted; the two inline styles became classes (`.signature`, `.coverimg`); `acknowledgements.htm` got `calibreBody`. The `???` page placeholder in p1_4 now carries `pageno-unknown`, so it is hidden from the reader as A5 always claimed.
+
+### G1. ~~The TOC page styling never applies~~ — RESOLVED 2026-09-16
+
+`.toctib1` and `.toctib2` are written as `ul .toctib1` / `ul .toctib2`, but
+`toc1.htm` has no `<ul>`: the lists are `<dl class="toctib1">`. Both rules are
+dead, and the TOC page renders at raw browser defaults. Fix: `dl.toctib1`,
+`dl.toctib2`, and while there give `dt`/`dd` the sizes the rule intended.
+
+**Closed:** `dl.toctib1` / `dl.toctib2`; dt/dd spaced; nested lists inherit size and opacity instead of shrinking twice.
+
+### G5. ~~Ninety-six ids duplicated across documents~~ — RESOLVED 2026-09-16
+
+64 are `page N` / `ppN` pairs that exist in both a prayer file and `pn.htm`
+— gone with G3. The rest are `repeat1…repeat13` reused in 15 files: a
+same-document link, so harmless today, and a landmine the day two files are
+merged (which G7 and the page-break question both point toward). Rename to
+`repeat-<page>-<n>` or prefix with the file's first page.
+
+**Closed:** `repeat<n>` → `rep<page>-<n>`, 62 renamed with their hrefs. Nothing is duplicated across documents now (B3).
+
+### G7b. ~~Break long lines at span boundaries~~ — RESOLVED 2026-09-16
+
+The second half of G7: 449 lines exceed 400 characters. Break after every `</span>` and before every `<span class=`, never inside Tibetan, as one commit with nothing else in it, verified with `extract_text.py`.
+
+**Closed:** Broken only where whitespace already stood (a space between tags, an ASCII space after a shad on a long line); extracted text byte-identical. Longest line 1,957 → 703; the rest is Tibetan whose only breaks are en-space entities.

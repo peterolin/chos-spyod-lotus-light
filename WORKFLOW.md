@@ -33,8 +33,9 @@ jewels    python3 tools/jewels.py      regenerate the Jewel Jumps page (src/jewe
 ncx       python3 tools/ncx_playorder.py  renumber playOrder in toc.ncx after adding or moving an entry (--write to apply)
 validate  epubcheck build/<file>.epub      the EPUB 2 validator; the tree must stay at 0 errors
 preview   tools/preview.sh             builds, then opens the Calibre viewer
-build     tools/pack.sh                -> build/Ka-Nying-Chos-spyod-<version>.epub
+build     tools/pack.sh                -> build/Ka-Nying-Chos-spyod-<version>.epub (runs check.py first; --force to build anyway)
 commit    git add src/ && git commit    real, readable, line-level diffs
+CI        .github/workflows/check.yml  every push: check.py, nav.py (must find nothing), ncx_playorder.py, build, epubcheck
 ```
 
 `build/` is generated output and is git-ignored. Never edit anything in it;
