@@ -463,6 +463,16 @@ dl.legend dd { margin: 0 0 0 1.2em; }
     a glance. Everywhere else verses run on inline, as the pecha does. **/
 .verse { display: block; }
 
+/** THE TIBETAN FACE IS THE DEFAULT INSIDE THE TEXT. Jump links, landing
+    jewels and repeat marks often stand between spans, not inside one, and
+    a link's Tibetan label then inherited the body's default face and fell
+    back to the system's Tibetan (Kailasa on Apple) — visibly lighter and
+    slanted beside Noto, as if italic. Found 2026-09-16 on the key page,
+    where the examples had the same fault. The wrapper carries the face, so
+    everything inside inherits it unless a rule says otherwise. **/
+.text, dl.legend dt { font-family: "Noto Serif Tibetan", serif; }
+dl.legend dt .en, dl.legend dt i { font-family: -apple-system, Helvetica, Arial, sans-serif; }
+
 /** Yig-chung small letters — the instruction layer.
     Same ink as the body, one degree quieter. No colour of its own, so it
     stays right in every reader theme. */
