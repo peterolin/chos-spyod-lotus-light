@@ -75,8 +75,11 @@ the other class OPENS with ། or ༔":
 
 Not every one of the 89 is wrong — the pecha itself sometimes sets a shad
 small after large text — so this is a survey and a fix by eye, not a script.
-The list, with printed page, file, line and a plain-text search string unique in
-its file, is `resources/A7-shad-boundaries.md` (81 rows, 2026-09-16). Moving a
+Narrowed 2026-09-16 to the one pattern that is a mismatch by construction: a
+`tibnormal` span ENDING in a shad, followed by a yig chung span with no
+whitespace between the tags. The list, with printed page, file, line and a
+search string unique in its file, is `resources/A7-shad-boundaries.md`
+(21 rows). Regex: `<span class="tibnormal">[^<]*[།༔]</span><span class="tibyigchungH?">`. Moving a
 shad across a span boundary changes no text, so `extract_text.py` proves each
 batch harmless. Page 40 checked against the print: the small shad there is
 right, so not every row is a fix.
