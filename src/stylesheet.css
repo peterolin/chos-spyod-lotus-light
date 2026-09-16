@@ -248,6 +248,22 @@
 .prefs .switch:after  { content: "\0F3D"; padding-left: 0.28em; }
 .prefs .sample { margin-left: 0.75em; }
 
+/** THE ENGLISH PAGES (key, acknowledgements). Two things went wrong on iPad
+    (build 198): Books applies its own full justification to text that
+    declares no alignment, and on a page of English prose that opened gaps
+    of a word's width between words; and the hyphen came from the Tibetan
+    face, an em-dash wide. So: left-aligned, and a Latin face for the run,
+    which the Tibetan spans override with their own font-family as always.
+    The 1.25em body size is tuned for Tibetan letter bodies; English at that
+    size is oversized, so it steps back to the reader's base size. **/
+.english {
+  text-align: left;
+  font-family: -apple-system, Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  hyphens: manual;
+}
+.english p, .english dd, .english dt, .english h1, .english h2 { text-align: left; }
+
 /** The editor's signature on the acknowledgements page. **/
 .signature { text-align: right; font-style: italic; }
 
