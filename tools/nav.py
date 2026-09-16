@@ -132,10 +132,11 @@ def collect(files):
         text = path.read_text(encoding="utf-8")
         found = []
         for m in HEADING.finditer(text):
-            # Quiet sub-headings (tocpage2 minor) carry no arrows by design
-            # (2026-09-16) and are not links in the prev/next chain, so they
-            # are not sections here; the prayer-level arrows step over them.
-            if " minor" in m.group(0).split(">", 1)[0]:
+            # A quiet sub-heading (tocpage2 minor) is in the prev/next chain
+            # only if it carries arrows: the Thugs sgrub parts do, the ཞབས་རྟེན
+            # and ན་རག་དོང་སྤྲུགས ones do not (2026-09-16), and an arrow-less
+            # heading is stepped over by its neighbours' arrows.
+            if " minor" in m.group(0).split(">", 1)[0] and 'class="left"' not in m.group(0):
                 continue
             inner = m.group(2)
             pm = PAGENO_IN.search(inner)
