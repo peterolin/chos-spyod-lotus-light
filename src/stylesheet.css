@@ -528,12 +528,6 @@ html.yigchung-green .tibyigchungH {
   display: none;
 }
 
-/** The page number that used to sit between the arrows. Retired in favour of
-    the title line above; markup left in place. **/
-.ppnp {
-  display: none;
-}
-
 /** Jump links inside the text.
 
     NO UNDERLINE: Tibetan carries vowel signs and subjoined letters below the
@@ -549,7 +543,7 @@ html.yigchung-green .tibyigchungH {
     ground >= 0.228.) Where `revert` is unsupported the declaration is dropped
     and links stay quiet ink — a safe failure. **/
 .jumpTODO, .jumpRepeat, .jumpRepeat3, .jumpUp, .jumpDown,
-.jump, .easyjump {
+.jump {
   color: revert;
   padding: 0;
   text-decoration: none;
@@ -806,7 +800,7 @@ a.ipnpx {
    a reading system that matches classes case-insensitively would let this
    rule override .jumpTODO:before and swallow its "TODO " prefix — measured,
    not guessed. No document uses .jumpTodO any more. */
-.jump:before, .jumpUp:before, .jumpDown:before, .easyjump:before {
+.jump:before, .jumpUp:before, .jumpDown:before {
   content: "\0F3C\202F";             /* ༼ + NARROW NO-BREAK SPACE */
   font-size: 0.8em;
   color: inherit;
@@ -818,8 +812,7 @@ a.ipnpx {
 .jumpUp:before {
   content: "\0F3C\25C2\202F";       /* ༼◂ + NARROW NO-BREAK SPACE */
 }
-.jump:after, .jumpUp:after, .jumpDown:after, .easyjump:after,
-.jumpTODO:after {
+.jump:after, .jumpUp:after, .jumpDown:after, .jumpTODO:after {
   content: "\202F\0F3D";             /* NARROW NO-BREAK SPACE + ༽ */
   font-size: 0.8em;
   color: inherit;
@@ -995,15 +988,22 @@ dt.extra {
   margin-top: 1.2em;
   padding-top: 0.8em;
 }
-ul .toctib1 {
+/** The English TOC. These were written `ul .toctib1` and never matched: the
+    page has no <ul>, the lists are <dl> (G1, fixed 2026-09-16). **/
+dl.toctib1 {
   opacity: var(--secondary-strength);
   font-size: 0.7em;
   line-height: 1.7em;
   line-break: auto;
 }
-ul .toctib2 {
-  opacity: var(--secondary-strength);
-  font-size: 0.7em;
+dl.toctib1 dt { margin-top: 0.7em; }
+dl.toctib1 dd { margin: 0 0 0 1.6em; font-family: -apple-system, Helvetica, sans-serif; font-size: 0.85em; line-height: 1.4em; }
+/* The nested lists (the seven chapters, the Thugs sgrub parts, the ཟུར་ཡིག):
+   inherit size and opacity from the outer list rather than shrinking and
+   fading a second time. */
+dl.toctib2 {
+  margin: 0.2em 0 0.4em 1.2em;
+  font-size: 1em;
   line-height: 1.7em;
   line-break: auto;
 }

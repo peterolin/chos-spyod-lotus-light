@@ -17,6 +17,17 @@
     <dc:date>2026-09-16</dc:date>
     <dc:subject>Ritual</dc:subject>
     <meta name="cover" content="cover"/>
+    <!-- Accessibility metadata (schema.org vocabulary, EPUB 2 name/content
+         form). Books ignores it; accessibility-aware catalogues read it. -->
+    <meta name="schema:accessMode" content="textual"/>
+    <meta name="schema:accessMode" content="visual"/>
+    <meta name="schema:accessModeSufficient" content="textual"/>
+    <meta name="schema:accessibilityFeature" content="structuralNavigation"/>
+    <meta name="schema:accessibilityFeature" content="tableOfContents"/>
+    <meta name="schema:accessibilityFeature" content="readingOrder"/>
+    <meta name="schema:accessibilityFeature" content="alternativeText"/>
+    <meta name="schema:accessibilityHazard" content="none"/>
+    <meta name="schema:accessibilitySummary" content="Tibetan liturgical text with embedded font, language tagging, a full table of contents and per-prayer navigation. The cover and deity images carry alternative text. Colour marks editorial additions but is never the only signal: braces and marks carry the meaning as well."/>
   </metadata>
   <manifest>
     <item href="jewels.htm" id="jewels" media-type="application/xhtml+xml"/>

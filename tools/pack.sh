@@ -44,20 +44,33 @@
 #   tools/pack.sh                 release build — stable identifier
 #   tools/pack.sh --dev           dev build — identifier busted per content
 #   tools/pack.sh --plain-title    leave the title without the version
+#   tools/pack.sh --force          build even though check.py reports errors
 set -euo pipefail
 
 PLAIN_TITLE=0
 DEV=0
+FORCE=0
 for arg in "$@"; do
   case "$arg" in
     --plain-title) PLAIN_TITLE=1 ;;
     --dev) DEV=1 ;;
-    *) echo "usage: pack.sh [--dev] [--plain-title]" >&2; exit 2 ;;
+    --force) FORCE=1 ;;
+    *) echo "usage: pack.sh [--dev] [--plain-title] [--force]" >&2; exit 2 ;;
   esac
 done
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="$REPO/src"
+
+# The tree is checked before it is packed: a build with a dangling link or a
+# manifest that disagrees with the disk used to succeed silently (TODO D3).
+# --force builds anyway, for when you know better.
+if [ "$FORCE" != 1 ]; then
+  if ! python3 "$REPO/tools/check.py" --quiet; then
+    echo "pack.sh: check.py reports errors — fix them, or build with --force" >&2
+    exit 1
+  fi
+fi
 NAME="Ka-Nying-Chos-spyod"
 STABLE="$REPO/build/$NAME.epub"
 

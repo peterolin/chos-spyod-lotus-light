@@ -332,6 +332,78 @@ def audit_scope(files, apply=False):
     return changes
 
 
+# --- three reports, added 2026-09-16 (TODO F11, D7, D8) -----------------------
+# All three REPORT. Whether to move a section, correct a page number or
+# retarget a link is a judgement about the printed pecha, never the tool's.
+
+LPN = re.compile(r'<span class="lpn">\s*(\d+)\s*</span>')
+
+
+def audit_arrowless(per_file):
+    """Prayer headings that carry no prev/next arrows at all.
+
+    nav.py fills arrows that exist as placeholders; a heading with none was
+    silently skipped, which is how ཁོར་བ་དོང་སྤྲུག (558) hid for a month. Quiet
+    sub-headings (tocpage2 minor) and the ཟུར་ཡིག collection head are
+    deliberately arrow-less and are not reported.
+    """
+    out = []
+    for rel, (text, found) in per_file.items():
+        for m in HEADING.finditer(text):
+            head = m.group(0)
+            if " minor" in head.split(">", 1)[0] or 'id="zuryig"' in head:
+                continue
+            if 'class="left"' not in head or 'class="right"' not in head:
+                out.append((rel.split("/")[-1], clean_title(m.group(2))[:40]))
+    return out
+
+
+def audit_page_order(sections):
+    """A section whose printed page is LOWER than the section before it in
+    the same file — document order and the book disagree (A6 was one)."""
+    out = []
+    prev = None
+    for sec in sections:
+        if prev and prev["file"] == sec["file"]:
+            a, b = prev["page"].strip(), sec["page"].strip()
+            if a.isdigit() and b.isdigit() and int(b) < int(a):
+                out.append((sec["file"].split("/")[-1], prev["id"], a, sec["id"], b))
+        prev = sec
+    return out
+
+
+def audit_lpn(files, sections):
+    """A jump link's page label that is LOWER than the printed page of the
+    heading its target falls under — impossible, so certainly wrong. (A label
+    HIGHER than the heading's page is normal: the target sits deep inside.)"""
+    pos = id_positions(files)
+    heads = {}
+    for sec in sections:
+        heads.setdefault(sec["file"], []).append((sec["start"], sec["page"].strip()))
+    out = []
+    for rel in files:
+        text = (SRC / rel).read_text(encoding="utf-8")
+        for m in re.finditer(r'<a class="jump(?:Up|Down)(?: out)?"[^>]*\bhref="([^"]+)"[^>]*>(.*?)</a>', text, re.S):
+            href, inner = m.group(1), m.group(2)
+            lm = LPN.search(inner)
+            if not lm or "#" not in href:
+                continue
+            tf, frag = href.split("#", 1)
+            trel = rel if not tf else "OPS/" + Path(tf).name
+            if (trel, frag) not in pos:
+                continue
+            toff = pos[(trel, frag)][1]
+            page = None
+            for off, pg in heads.get(trel, []):
+                if off <= toff and pg.isdigit():
+                    page = int(pg)
+                elif off > toff:
+                    break
+            if page is not None and int(lm.group(1)) < page:
+                out.append((rel.split("/")[-1], frag, lm.group(1), page))
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--write", action="store_true", help="apply the changes")
@@ -444,6 +516,9 @@ def main():
 
     turned, arrowless = audit_jumps(files, apply=args.write)
     rescoped = audit_scope(files, apply=args.write)
+    no_arrows = audit_arrowless(per_file)
+    misordered = audit_page_order(sections)
+    bad_lpn = audit_lpn(files, sections)
 
     print(f"{len(sections)} linkable sections across {len(per_file)} files\n")
     for n in notes:
@@ -475,10 +550,19 @@ def main():
         for rel, cls, want, frag in arrowless:
             print(f"  - {Path(rel).name}: {cls}, goes {want[4:]}  (#{frag})")
 
+    print(f"\nheadings without arrows: {len(no_arrows)}   (ཟུར་ཡིག head and quiet sub-headings excepted)")
+    for f, t in no_arrows:
+        print(f"  - {f}: {t}")
+    print(f"\nsections out of printed-page order within a file: {len(misordered)}")
+    for f, a, pa, b, pb in misordered:
+        print(f"  - {f}: {a} ({pa}) is followed by {b} ({pb})")
+    print(f"\njump labels with a page below their target's heading: {len(bad_lpn)}")
+    for f, frag, lpn, page in bad_lpn:
+        print(f"  - {f}: -> #{frag} labelled {lpn}, heading page {page}")
+
     if not args.write:
         print("\nreport only; re-run with --write to apply")
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())
