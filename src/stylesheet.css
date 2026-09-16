@@ -363,8 +363,12 @@ dl.legend dd { margin: 0 0 0 1.2em; }
       well clear of the text above it rather than dividing two things. This is
       a starting point, not a settled value. The 0.15em below is deliberately
       tight and is what groups the title with its own text. **/
-  margin: 1.1em 0 0.15em 0;
-  border-top: 1px solid var(--accent-rule);
+  /** No rule and little air (Peter, 2026-09-16, after the merge put the
+      prayers end to end): the red title and a modest gap are enough to
+      separate a heading from the verse before it. Was 1.1em above a 1px
+      hairline and 0.9em below it. **/
+  margin: 0.7em 0 0.15em 0;
+  border-top: none;
   /** A title's divider is a border, and a border is drawn in normal flow — so
       anything floated beside it cuts straight through the red rule. That is
       what the three deity images used to do to the heading below them.
@@ -382,7 +386,7 @@ dl.legend dd { margin: 0 0 0 1.2em; }
       gutters are reserved on every line — a title that wraps to two or three
       lines still clears them. **/
   position: relative;
-  padding: 0.9em 2.4em 0 2.4em;
+  padding: 0.1em 2.4em 0 2.4em;
   /** Never leave a title stranded at the foot of a page, split from the
       prayer it names. **/
   page-break-after: avoid;
