@@ -55,35 +55,6 @@ Still standing, and each needs a decision, not just work:
   the printed text).
 - Two jump labels corrected from impossible values to the target heading's page, not verified against the pecha: བཟང་སྤྱོད། ཕྱག་འཚལ་བ་དང་སོགས། 577 (was 263, `p1_4`) and ཕྱི་མཆོད། 346 (was 344, twice, `p334`).
 
-### A7. Shads at a size boundary carry the wrong size
-
-Peter, 2026-09-16. Where large letters (`tibnormal`) and yig chung meet, the
-shad that closes one run often sits inside the span of the other, so it is
-drawn at the wrong size — a yig chung sentence ends in a full-size shad, or a
-large-letter line ends in a small one. The rule: a shad takes the size of the
-letters it is aligned with and touches. A shad that closes a yig chung
-instruction is yig chung; a shad that closes a large-letter line is large.
-
-Measured 2026-09-16, the pattern "span of one class ends, the next span of
-the other class OPENS with ། or ༔":
-
-```
-74   ། or ༔ opening a yig chung span straight after tibnormal text
-15   ། or ༔ opening a tibnormal span straight after yig chung text
- 5   spans holding nothing but shads and spaces
-```
-
-Not every one of the 89 is wrong — the pecha itself sometimes sets a shad
-small after large text — so this is a survey and a fix by eye, not a script.
-Narrowed 2026-09-16 to the one pattern that is a mismatch by construction: a
-`tibnormal` span ENDING in a shad, followed by a yig chung span with no
-whitespace between the tags. The list, with printed page, file, line and a
-search string unique in its file, is `resources/A7-shad-boundaries.md`
-(21 rows). Regex: `<span class="tibnormal">[^<]*[།༔]</span><span class="tibyigchungH?">`. Moving a
-shad across a span boundary changes no text, so `extract_text.py` proves each
-batch harmless. Page 40 checked against the print: the small shad there is
-right, so not every row is a fix.
-
 ---
 
 ## B. Structural debt
@@ -454,7 +425,7 @@ measured in headless Chrome against the built book, not read off the source.
 
 ## Completed
 
-39 items, in the order of the sections they came from. Each keeps its id, its
+40 items, in the order of the sections they came from. Each keeps its id, its
 strikethrough and its closing note.
 
 *From A. The reader sees this today*
@@ -565,6 +536,37 @@ entry, and the missing links) or apparatus (leave it out of the NCX
 deliberately, and say so in `WORKFLOW.md`).
 
 **Closed:** `p362`, `c_87`, `c_91` turned out to carry a heading that was not a heading (an `<a>` with the class); made real, listed, arrows joined. `pn.htm` and `repeats.htm` retired (G3). The title page, acknowledgements and key are now listed in the NCX and the English TOC as front matter. The cover page too, since Apple Books offers no way to the cover otherwise (checked on the device).
+
+### A7. ~~Shads at a size boundary carry the wrong size~~ — RESOLVED 2026-09-16
+
+Peter, 2026-09-16. Where large letters (`tibnormal`) and yig chung meet, the
+shad that closes one run often sits inside the span of the other, so it is
+drawn at the wrong size — a yig chung sentence ends in a full-size shad, or a
+large-letter line ends in a small one. The rule: a shad takes the size of the
+letters it is aligned with and touches. A shad that closes a yig chung
+instruction is yig chung; a shad that closes a large-letter line is large.
+
+Measured 2026-09-16, the pattern "span of one class ends, the next span of
+the other class OPENS with ། or ༔":
+
+```
+74   ། or ༔ opening a yig chung span straight after tibnormal text
+15   ། or ༔ opening a tibnormal span straight after yig chung text
+ 5   spans holding nothing but shads and spaces
+```
+
+Not every one of the 89 is wrong — the pecha itself sometimes sets a shad
+small after large text — so this is a survey and a fix by eye, not a script.
+Narrowed 2026-09-16 to the one pattern that is a mismatch by construction: a
+`tibnormal` span ENDING in a shad, followed by a yig chung span with no
+whitespace between the tags. The list, with printed page, file, line and a
+search string unique in its file, is `resources/A7-shad-boundaries.md`
+(21 rows). Regex: `<span class="tibnormal">[^<]*[།༔]</span><span class="tibyigchungH?">`. Moving a
+shad across a span boundary changes no text, so `extract_text.py` proves each
+batch harmless. Page 40 checked against the print: the small shad there is
+right, so not every row is a fix.
+
+**Closed:** Peter walked the 21 rows, moving the shad where it belonged to the small letters and spacing the rest; the 18 still matching got a space at the start of the small span. The regex finds nothing. `resources/A7-shad-boundaries.md` kept as the record of the method.
 
 *From B. Structural debt*
 
