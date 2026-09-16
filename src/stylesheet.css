@@ -138,8 +138,8 @@
  * Every generated brace in this book — jump link, jump target, repeat, repeat
  * count, expansion — spaces itself the same way:
  *
- *     opening    content "\0F3C"   padding-right: 0.28em
- *     closing    content "\0F3D"   padding-left:  0.28em
+ *     opening    content "\0F3C"   padding-right: 0.22em
+ *     closing    content "\0F3D"   padding-left:  0.22em
  *
  * The padding always goes on the side FACING THE TEXT the brace encloses.
  * Outer air, where a mark needs it, is a MARGIN and stays outside the brace.
@@ -268,8 +268,8 @@
 .prefs { margin: 1em 0; }
 .prefs.needsjs { display: none; }
 .prefs .switch { color: revert; text-decoration: none; }
-.prefs .switch:before { content: "\0F3C"; padding-right: 0.28em; }
-.prefs .switch:after  { content: "\0F3D"; padding-left: 0.28em; }
+.prefs .switch:before { content: "\0F3C"; padding-right: 0.22em; }
+.prefs .switch:after  { content: "\0F3D"; padding-left: 0.22em; }
 .prefs .sample { margin-left: 0.75em; }
 
 /** THE ENGLISH PAGES (key, acknowledgements). Two things went wrong on iPad
@@ -451,11 +451,11 @@ dl.legend dd { margin: 0 0 0 1.2em; }
     the book the braces stay. **/
 .jewelrow .inlineAnchor:empty:after            { content: "\0FC9"; }
 .jewelrow .inlineAnchor:not(:empty):before     { content: ""; padding-right: 0; }
-.jewelrow .inlineAnchor:not(:empty):after      { content: "\0FC9"; padding-left: 0.28em; }
+.jewelrow .inlineAnchor:not(:empty):after      { content: "\0FC9"; padding-left: 0.22em; }
 /** The page sits at the END of the book (2026-09-16), so every jump from it
     leads back: two triangles before the words, since every jewel is in
     another document. **/
-.jewelrow .jumpUp:before                       { content: "\25C2\25C2"; padding-left: 0; padding-right: 0.28em; }
+.jewelrow .jumpUp:before                       { content: "\25C2\25C2"; padding-left: 0; padding-right: 0.22em; }
 .jewelrow .jumpUp:after                        { content: ""; padding-left: 0; }
 
 /** A divider needs something above it to divide from. 46 of the 53 documents
@@ -778,7 +778,7 @@ a.ipnpx {
 .inlineAnchor:not(:empty):before,
 .inlineAnchorReturn:not(:empty):before {
   content: "\0F3C";          /* ༼ + NARROW NO-BREAK SPACE */
-  padding-right: 0.28em;
+  padding-right: 0.22em;
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
@@ -787,7 +787,7 @@ a.ipnpx {
   /** ࿉ then ༽ — the jewel closes the label inside the same brace pair the
       :before opened. **/
   content: "\0FC9\0F3D";      /* NARROW NO-BREAK SPACE + ࿉༽ */
-  padding-left: 0.28em;
+  padding-left: 0.22em;
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
@@ -798,7 +798,7 @@ a.ipnpx {
     span", whether the span is marked inline or by an anchor and a link. **/
 .repeatAnchor:after {
   content: "\0F3C";         /* ༼ + NARROW NO-BREAK SPACE */
-  padding-right: 0.28em;
+  padding-right: 0.22em;
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
 }
@@ -869,7 +869,7 @@ a.ipnpx {
   font-size: 0.8em;
   color: inherit;
   -webkit-text-fill-color: currentColor;
-  padding-right: 0.28em;
+  padding-right: 0.22em;
 }
 /* Direction rides inside the brace. Longhand after the shared rule, so it
    overrides only the content and keeps colour, size and padding. */
@@ -881,7 +881,7 @@ a.ipnpx {
   font-size: 0.8em;
   color: inherit;
   -webkit-text-fill-color: currentColor;
-  padding-left: 0.28em;
+  padding-left: 0.22em;
 }
 .jumpDown:after {
   content: "\25B8\0F3D";       /* NARROW NO-BREAK SPACE + ▸༽ */
@@ -932,7 +932,7 @@ a.ipnpx {
     half-red mark reads worse than none. **/
 .jumpRepeat:before, .jumpRepeat3:before {
   content: "\25C2\0F3D";     /* NARROW NO-BREAK SPACE + ◂༽ */
-  padding-left: 0.28em;
+  padding-left: 0.22em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
@@ -977,13 +977,13 @@ a.ipnpx {
     expansion begins and ends. **/
 .repeatNextOcc:before {
   content: "\0F3C";
-  padding-right: 0.28em;
+  padding-right: 0.22em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
 .repeatNextOcc:after {
   content: "\0F3D";
-  padding-left: 0.28em;
+  padding-left: 0.22em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
@@ -1002,8 +1002,20 @@ a.ipnpx {
   padding: 0;
   text-decoration: none;
   display: inline;
+  /** Yig chung size, and raised like yig chung so the head lines meet: the
+      written-out line is the editor's gloss, not the printed text, and at
+      full size it read as if it were (iPad review, 2026-09-16). Same
+      numbers as .tibyigchung; change them together. **/
+  font-size: 0.8em;
+  line-height: 1.5em;
+  vertical-align: 0.118em;
+}
+/** Inside yig chung the refrain is already at that size — no second step
+    down, no second raise. **/
+.tibyigchung .repeatNextOcc, .tibyigchungH .repeatNextOcc {
   font-size: 100%;
-  line-height: 100%;
+  line-height: inherit;
+  vertical-align: 0;
 }
 
 /** Repeat this span as a unit. **/
@@ -1012,7 +1024,7 @@ a.ipnpx {
   content: "\0F3C";         /* ༼ + NARROW NO-BREAK SPACE */
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
-  padding-right: 0.28em;
+  padding-right: 0.22em;
   margin-left: 0.2em;
   margin-right: 0;
 }
