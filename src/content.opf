@@ -58,6 +58,7 @@
     <item id="font_mchan" href="fonts/Jomolhari-mchan.ttf" media-type="application/x-font-truetype"/>
     <item id="font_mchan_about" href="fonts/ABOUT-Jomolhari-mchan.txt" media-type="text/plain"/>
     <item id="brdayig" href="brda-yig-p88.png" media-type="image/png"/>
+    <item id="brdayig_night" href="brda-yig-p88-night.png" media-type="image/png"/>
     <item id="id7" href="Buddha.jpeg" media-type="image/jpeg"/>
     <item id="id8" href="Padmasambhava.jpeg" media-type="image/jpeg"/>
     <item id="id12" href="Vajrasattva.jpeg" media-type="image/jpeg"/>
