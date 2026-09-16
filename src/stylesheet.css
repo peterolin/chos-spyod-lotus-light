@@ -12,7 +12,7 @@
  * --------------------------------------------------------------------------- */
 
 /** In @font-face, font-family names ONE family — the name the file is given.
-    Until 2026-09-16 both rules read `"Noto Serif Tibetan", serif`, a fallback
+    Until 2026-09-16 both rules read `"Monlam Uni OuChan2", serif`, a fallback
     list, which is invalid here; strict parsers (Thorium, and evidently Books)
     dropped the whole rule, the embedded font never loaded, and every Tibetan
     letter in the book was drawn in the reader's fallback face — Kailasa on
@@ -26,7 +26,24 @@
   font-stretch: normal;
 }
 
-/** THE TIBETAN FONT — Noto Serif Tibetan (Google / the Noto Project, SIL Open
+/** THE TIBETAN FONT — Monlam Uni OuChan2, since 2026-09-16, chosen by Peter
+    for on-screen readability after a bake-off of 22 faces in Apple Books
+    (Jomolhari and Tibetan Chogyal read as more beautiful; Monlam reads
+    better at body size). Metrics this file's numbers now use (fontTools):
+    UPM 1020, head line 0.472em above the baseline (ཀ top 481), so the yig
+    chung raise at 0.8em is 0.472 × 0.25 = 0.118em and the jewel marks' at
+    0.7em is 0.472 × 0.429 = 0.202em; body size back to 1.5em. The font has
+    no glyphs for U+2002 EN SPACE or U+200A HAIR SPACE, so the text now uses
+    plain spaces after ༔ (5,096 en spaces converted 2026-09-16).
+
+    HISTORY. The paragraph below records why Noto Serif Tibetan replaced
+    Monlam on 2026-09-15. Its claim that Monlam has "no mark positioning at
+    all" was measured through Quick Look's WebKit, and the Books bake-off of
+    2026-09-16 showed Monlam positioning the anusvara correctly in Books —
+    and showed that the @font-face rule had been malformed all along, so
+    neither font had ever actually rendered in a reader before that day. The
+    numbers below are Noto's and are superseded by the ones above. **/
+/** (superseded) THE TIBETAN FONT — Noto Serif Tibetan (Google / the Noto Project, SIL Open
     Font License, v2.103). Chosen 2026-09-15 after two others failed under
     CoreText, the engine Apple Books uses:
       Monlam Uni OuChan2 — no mark positioning at all; the anusvara sat right
@@ -52,8 +69,8 @@
     Monlam's at the same size (ཀ 1.150em vs 0.933em) — hence the body size
     step-down. **/
 @font-face {
-  src: url(fonts/NotoSerifTibetan.ttf);
-  font-family: "Noto Serif Tibetan";
+  src: url(fonts/MonlamUniOuChan2.ttf);
+  font-family: "Monlam Uni OuChan2";
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
@@ -303,7 +320,7 @@ dl.legend dd { margin: 0 0 0 1.2em; }
   /** 1.5em under Monlam. Noto Serif Tibetan's letter body is ~23% taller at
       the same size (ཀ 1.150em vs 0.933em), so 1.25em keeps the page looking
       the same size as before. Judge on device; this is the one to tune. **/
-  font-size: 1.25em;
+  font-size: 1.5em;
   line-height: 1.5em;
   padding-left: 0;
   padding-right: 0;
@@ -456,7 +473,7 @@ dl.legend dd { margin: 0 0 0 1.2em; }
 .tibnormal {
   font-size: 1em;
   line-height: 1.5em;
-  font-family: "Noto Serif Tibetan", serif;
+  font-family: "Monlam Uni OuChan2", serif;
 }
 /** A verse that stands on its own line — the བསྔོ་བ་སྨོན་ལམ verses in the
     ཟུར་ཡིག, each opening with its jewel and a ༈, so a reader can find one at
@@ -470,7 +487,7 @@ dl.legend dd { margin: 0 0 0 1.2em; }
     slanted beside Noto, as if italic. Found 2026-09-16 on the key page,
     where the examples had the same fault. The wrapper carries the face, so
     everything inside inherits it unless a rule says otherwise. **/
-.text, dl.legend dt { font-family: "Noto Serif Tibetan", serif; }
+.text, dl.legend dt { font-family: "Monlam Uni OuChan2", serif; }
 dl.legend dt .en, dl.legend dt i { font-family: -apple-system, Helvetica, Arial, sans-serif; }
 
 /** Yig-chung small letters — the instruction layer.
@@ -486,21 +503,21 @@ dl.legend dt .en, dl.legend dt i { font-family: -apple-system, Helvetica, Arial,
     Change the font or the font-size and this number changes: H × (1/s − 1).
     (Monlam had H = 0.472, giving 0.118em.) **/
 .tibyigchung {
-  font-family: "Noto Serif Tibetan", serif;
+  font-family: "Monlam Uni OuChan2", serif;
   opacity: var(--secondary-strength);
   font-size: 0.8em;
   line-height: 1.5em;
-  vertical-align: 0.170em;
+  vertical-align: 0.118em;
 }
 /** The in-line title line (༄༅། །…བཞུགས་སོ།།). It used to be set at 1.5em to
     act as the prayer's heading; the red centred title does that job now, so
     it goes back to ordinary yig chung size and stops competing with it. **/
 .tibyigchungH {
-  font-family: "Noto Serif Tibetan", serif;
+  font-family: "Monlam Uni OuChan2", serif;
   opacity: var(--secondary-strength);
   font-size: 0.8em;
   line-height: 1.5em;
-  vertical-align: 0.170em;    /* head-line alignment, see .tibyigchung */
+  vertical-align: 0.118em;    /* head-line alignment, see .tibyigchung */
   margin: 0 1em 0 0;
 }
 /** The green preference. toggle.js puts .yigchung-green on <html> when the
@@ -611,7 +628,7 @@ html.yigchung-green .tibyigchungH {
   font-size: 70%;
   /** Head-line alignment, same reasoning as .tibyigchung:
       H × (1/0.7 − 1) = 0.678 × 0.429 = 0.291em of this element's em. **/
-  vertical-align: 0.291em;
+  vertical-align: 0.202em;
   margin-right: 0.3em;
   margin-left: 0.3em;
   border: none;
@@ -1156,7 +1173,7 @@ img {
   /** Was 3.5cm — WIDER than the 3cm image, so the caption, not the picture,
       decided how wide the box was, and pushed it past the column edge. **/
   max-width: 100%;
-  font-family: "Noto Serif Tibetan", serif;
+  font-family: "Monlam Uni OuChan2", serif;
   font-size: 0.5em;
   line-height: 0.9em;
   display: block;
