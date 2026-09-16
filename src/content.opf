@@ -30,6 +30,7 @@
     <meta name="schema:accessibilitySummary" content="Tibetan liturgical text with embedded font, language tagging, a full table of contents and per-prayer navigation. The cover and deity images carry alternative text. Colour marks editorial additions but is never the only signal: braces and marks carry the meaning as well."/>
   </metadata>
   <manifest>
+    <item href="mchan.htm" id="mchan" media-type="application/xhtml+xml"/>
     <item href="jewels.htm" id="jewels" media-type="application/xhtml+xml"/>
     <item href="toc1.htm" id="id1" media-type="application/xhtml+xml"/>
     <item href="cover.xhtml" id="coverpage" media-type="application/xhtml+xml"/>
@@ -54,6 +55,8 @@
     <item id="id3" href="acknowledgements.htm" media-type="application/xhtml+xml"/>
     <item id="id4" href="fonts/MonlamUniOuChan2.ttf" media-type="application/x-font-truetype"/>
     <item id="font_about" href="fonts/ABOUT-MonlamUniOuChan2.txt" media-type="text/plain"/>
+    <item id="font_mchan" href="fonts/Jomolhari-mchan.ttf" media-type="application/x-font-truetype"/>
+    <item id="font_mchan_about" href="fonts/ABOUT-Jomolhari-mchan.txt" media-type="text/plain"/>
     <item id="id7" href="Buddha.jpeg" media-type="image/jpeg"/>
     <item id="id8" href="Padmasambhava.jpeg" media-type="image/jpeg"/>
     <item id="id12" href="Vajrasattva.jpeg" media-type="image/jpeg"/>
@@ -75,6 +78,7 @@
     <itemref idref="p624-744"/>
     <itemref idref="zur-yig"/>
     <itemref idref="id1"/>
+    <itemref idref="mchan"/>
     <itemref idref="jewels"/>
   </spine>
   <guide>

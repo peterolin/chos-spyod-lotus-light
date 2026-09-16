@@ -1,0 +1,12 @@
+Jomolhari-mchan.ttf
+
+A two-glyph subset of Jomolhari-ID (alpha 0.003d), Christopher J. Fynn,
+copyright 2006-2009, released under the SIL Open Font License 1.1
+(http://scripts.sil.org/OFL). It carries only U+0FD9 TIBETAN MARK LEADING
+MCHAN RTAGS and U+0FDA TIBETAN MARK TRAILING MCHAN RTAGS, the dotted curves
+that open and close an annotation. Monlam Uni OuChan2, the book's Tibetan
+face, has no glyph for either; every letter falls through to Monlam.
+
+Made 2026-09-16 with pyftsubset --unicodes=U+0FD9,U+0FDA --no-hinting.
+Under the OFL a modified font may not use the Reserved Font Name; the
+family is therefore called "Jomolhari mchan" in stylesheet.css.

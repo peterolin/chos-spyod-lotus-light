@@ -809,7 +809,13 @@
       </navLabel>
       <content src="toc1.htm"/>
     </navPoint>
-    <navPoint id="jewels" playOrder="132">
+    <navPoint id="mchan" playOrder="132">
+      <navLabel>
+        <text>࿙ Annotations</text>
+      </navLabel>
+      <content src="mchan.htm"/>
+    </navPoint>
+    <navPoint id="jewels" playOrder="133">
       <navLabel>
         <text>༼࿉༽ Jewel Jumps</text>
       </navLabel>

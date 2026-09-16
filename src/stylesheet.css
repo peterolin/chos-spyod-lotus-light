@@ -18,6 +18,16 @@
     letter in the book was drawn in the reader's fallback face — Kailasa on
     Apple — with its misplaced anusvara. Found when three builds embedding
     three different fonts rendered identically in Thorium. **/
+/** THE ANNOTATION MARK — a two-glyph subset of Jomolhari (see
+    fonts/ABOUT-Jomolhari-mchan.txt). Monlam has no ࿙, the leading mchan
+    rtags, so the mark comes from here and every letter that follows it
+    falls through to Monlam, because this face has no letters to catch them. **/
+@font-face {
+  src: url(fonts/Jomolhari-mchan.ttf);
+  font-family: "Jomolhari mchan";
+  font-weight: normal;
+  font-style: normal;
+}
 @font-face {
   src: url(fonts/Courier-New.ttf);
   font-family: "Courier New";
@@ -1195,4 +1205,40 @@ img {
   line-height: 0.9em;
   display: block;
   text-align: center;
+}
+
+/** ANNOTATIONS — the editor's marginal notes (མཆན་), 2026-09-16.
+
+    The idiom is the one settled for the annotated Lamrim Yeshe Nyingpo:
+    a dotted curve ࿙ (U+0FD9, the leading mchan rtags) leaves the letter it
+    glosses, and what follows the curve is the note. There the note is a
+    number; here it is a very short reading in yig chung, the thing an
+    editor writes between the lines of a pecha. Red, like every other mark
+    the editor supplied. The whole mark is a link to the Annotations page
+    (src/mchan.htm), where a longer note stands with a jump back.
+
+    Placed after a tsheg or a shad, never inside a syllable. **/
+.mchan {
+  font-family: "Jomolhari mchan", "Monlam Uni OuChan2", serif;
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+  text-decoration: none;
+  font-size: 0.8em;
+  line-height: 1.5em;
+  vertical-align: 0.118em;    /* head-line alignment, as .tibyigchung */
+  margin: 0 0.25em 0 0.1em;
+  white-space: nowrap;
+}
+/** The Annotations page. Same shape as the Jewel Jumps page: one entry per
+    note, the passage it hangs on, the jump back, then the note itself in
+    the Latin face. **/
+.mchanrow { margin: 0.45em 0 0.9em; line-height: 1.6; }
+.mchanrow .mchan { margin-left: 0; }
+.mchannote {
+  display: block;
+  font-family: -apple-system, Helvetica, sans-serif;
+  font-size: 0.6em;
+  line-height: 1.4;
+  margin: 0.2em 0 0 2.2em;
+  text-align: left;
 }
