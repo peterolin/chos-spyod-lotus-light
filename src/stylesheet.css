@@ -1223,14 +1223,15 @@ img {
   color: var(--accent);
   -webkit-text-fill-color: var(--accent);
   text-decoration: none;
-  font-size: 0.8em;
+  font-size: 0.6em;
   line-height: 1.5em;
   /** A subscript, not a head-line mark. The curve's low left end sits at
       -0.042 of its own em (Jomolhari); the gter tsheg ༔ reaches -0.135 of
-      the body em. At 0.8em, -0.18em here puts the start of the curve at
+      the body em. At 0.6em, -0.26em here puts the start of the curve at
       -0.18 body, just under the foot of the ༔, and the note's head line at
-      about 0.23 body, half the height of the letters (iPad, 2026-09-16). **/
-  vertical-align: -0.18em;
+      about 0.13 body, a quarter of the letters' height (iPad, 2026-09-16:
+      first 0.8em and -0.18em, then a quarter smaller). **/
+  vertical-align: -0.26em;
   margin: 0 0.25em 0 0.05em;
   white-space: nowrap;
 }
