@@ -55,6 +55,30 @@ Still standing, and each needs a decision, not just work:
   the printed text).
 - Two jump labels corrected from impossible values to the target heading's page, not verified against the pecha: བཟང་སྤྱོད། ཕྱག་འཚལ་བ་དང་སོགས། 577 (was 263, `p1_4`) and ཕྱི་མཆོད། 346 (was 344, twice, `p334`).
 
+### A7. Shads at a size boundary carry the wrong size
+
+Peter, 2026-09-16. Where large letters (`tibnormal`) and yig chung meet, the
+shad that closes one run often sits inside the span of the other, so it is
+drawn at the wrong size — a yig chung sentence ends in a full-size shad, or a
+large-letter line ends in a small one. The rule: a shad takes the size of the
+letters it is aligned with and touches. A shad that closes a yig chung
+instruction is yig chung; a shad that closes a large-letter line is large.
+
+Measured 2026-09-16, the pattern "span of one class ends, the next span of
+the other class OPENS with ། or ༔":
+
+```
+74   ། or ༔ opening a yig chung span straight after tibnormal text
+15   ། or ༔ opening a tibnormal span straight after yig chung text
+ 5   spans holding nothing but shads and spaces
+```
+
+Not every one of the 89 is wrong — the pecha itself sometimes sets a shad
+small after large text — so this is a survey and a fix by eye, not a script.
+A script can list them (the regexes are in the measurement); moving a shad
+across a span boundary changes no text, so `extract_text.py` proves each
+batch harmless.
+
 ---
 
 ## B. Structural debt
