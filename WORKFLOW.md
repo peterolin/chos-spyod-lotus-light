@@ -150,7 +150,7 @@ src/              unpacked EPUB — THE SOURCE OF TRUTH
   c_fastjump.htm    quick-jump routes
   stylesheet.css / page_styles.css / fonts.css
   OPS/              53 content documents (c_NN.htm chapters, pNN_…htm merged pages)
-  fonts/            Monlam Uni OuChan2 (see ABOUT-… beside it; licence terms to confirm with Monlam), Courier New
+  fonts/            Monlam Uni OuChan2 (free to use, confirmed 2026-09-16; see ABOUT-… beside it), Courier New
   META-INF/
 
 build/            generated .epub (git-ignored)

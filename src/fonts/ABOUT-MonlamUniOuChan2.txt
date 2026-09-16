@@ -3,8 +3,8 @@ Centre, www.monlambodyig.com. Embedded unmodified.
 
 The font file carries no licence text, only "All rights reserved" and the
 Monlam trademark notice. The Monlam Unicode fonts are distributed by the
-Monlam IT Research Centre free of charge for use; the terms for embedding in a
-document should be confirmed with them. This e-book is a non-commercial
-edition of a liturgical text. Chosen 2026-09-16 for its on-screen readability,
+Monlam IT Research Centre free of charge; that the font is free to use,
+embedding included, was confirmed by the editor on 2026-09-16. This e-book is
+a non-commercial edition of a liturgical text. Chosen 2026-09-16 for its on-screen readability,
 over Jomolhari and Tibetan Chogyal, which read as more beautiful, and over Noto
 Serif Tibetan, which had been embedded since 2026-09-15.
