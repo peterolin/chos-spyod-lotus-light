@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <package xmlns="http://www.idpf.org/2007/opf" xmlns:epub="http://www.idpf.org/2007/ops" unique-identifier="uuid_id" version="2.0">
-  <metadata xmlns:calibre="http://calibre.kovidgoyal.net/2009/metadata" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <!-- Must have metadata: 
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <!-- Must have metadata:
     title
     ID
     Language
@@ -12,18 +12,11 @@
     ade42954-c052-4349-9891-9ee5cc357e40
     </dc:identifier>
     <dc:language>bo</dc:language>
-    <meta property="dcterms:modified">
-    2023-09-23T11:05:00:00Z
-    </meta>
+    <meta property="dcterms:modified">2026-09-16T00:00:00Z</meta>
     <dc:creator opf:role="aut" opf:file-as="Ka-Nying Shedrup Ling/PO">Peter Olin</dc:creator>
-    <dc:contributor opf:role="bkp">calibre (3.7.0) [https://calibre-ebook.com]</dc:contributor>
-    <dc:date>0101-01-01T00:00:00+00:00</dc:date>
+    <dc:date>2026-09-16</dc:date>
     <dc:subject>Ritual</dc:subject>
-    <dc:identifier opf:scheme="calibre">e5eb13dc-41ca-420d-8892-1fd68232c699</dc:identifier>
-    <meta name="calibre:title_sort" content="Chos spyod ཆོས་སྤྱོད་"/>
-    <meta name="calibre:timestamp" content="2017-09-28T15:24:43+00:00"/>
     <meta name="cover" content="cover"/>
-    <meta name="calibre:author_link_map" content="{&quot;Ka-Nying Shedrup Ling/PO&quot;: &quot;&quot;}"/>
   </metadata>
   <manifest>
     <item href="jewels.htm" id="jewels" media-type="application/xhtml+xml"/>
@@ -157,17 +150,9 @@
     <itemref idref="id"/>
     <itemref idref="id1"/>
   </spine>
-  <nav epub:type="toc"> <ol> <li><a href="OPS/p1_4_27_30_34_39_48.htm">C2</a> <ol> <li><a href="OPS/p1_4_27_30_34_39_48.htm#page27">C3</a></li> </ol> </li> <li><a href="OPS/p1_4_27_30_34_39_48.htm#page34">C5</a></li> </ol></nav>
   <guide>
     <reference href="toc1.htm#calibre_generated_inline_toc" title="Table of Contents" type="toc"/>
     <reference href="titlepage.xhtml" title="Cover" type="cover"/>
-    
-    <reference href="OPS/p1_4_27_30_34_39_48.htm" title="C2"/>
-    <reference href="OPS/p1_4_27_30_34_39_48.htm#page27" title="C3"/>
-    <reference href="OPS/p1_4_27_30_34_39_48.htm#page34" title="C5">
-    
-    
-  </reference>
     <reference type="text" title="Text" href="OPS/p1_4_27_30_34_39_48.htm"/>
     <reference type="title-page" title="Title page" href="titlepage.xhtml"/>
     <reference type="acknowledgements" title="Acknowledgements" href="acknowledgements.htm"/>

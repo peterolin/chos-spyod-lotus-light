@@ -13,6 +13,11 @@ Checks, in order of how much they actually bite this book:
 
 Usage:  python3 tools/check.py [--quiet]
 Exit 0 if no errors (warnings alone do not fail).
+
+Boundary with nav.py: this tool asks only whether a path RESOLVES — the file
+exists, the fragment is an id in it. It cannot see meaning: a link to a
+wrong-but-existing anchor passes here. What a link SHOULD point at, and
+whether the prev/next arrows agree with the book, is nav.py's job.
 """
 
 import os

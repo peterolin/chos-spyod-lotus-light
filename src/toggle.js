@@ -38,7 +38,7 @@
   function wire() {
     var sw = document.getElementById('yigchungGreen');
     if (!sw) { return; }
-    function show() { sw.innerHTML = read() ? 'green ink' : "reader's ink"; }
+    function show() { sw.innerHTML = read() ? 'green ink' : "eBook reader's ink"; }
     show();
     sw.onclick = function (ev) {
       var on = !read();

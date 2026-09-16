@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Fill the prev/next arrows in src/ from spine + document order.
 
+Boundary with check.py: check.py asks whether a link RESOLVES; this tool
+decides what a prev/next link SHOULD point at, from spine and document order,
+and reports where the two disagree. Neither does the other's job.
+
 Every practice in the book sits under a heading like
 
     <h1 class="tocpage1" id="page420">བརྗོད་མེད་དོན་བཤགས།</h1><span class="pageno">420</span>

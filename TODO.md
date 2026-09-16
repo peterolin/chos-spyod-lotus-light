@@ -17,45 +17,14 @@ Severity is about the reader, not about tidiness:
 
 Items are struck through and marked RESOLVED as they close, with what was
 actually done — a closed item often leaves something behind that the rest of
-the list needs to know about.
+the list needs to know about. Closed items are moved out of their section to
+**Completed** at the end of this file, so the sections above it hold only what
+is still open; the ids do not change, and cross-references such as "see B4"
+still resolve there.
 
 ---
 
 ## A. The reader sees this today
-
-### A1. ~~`c_fastjump.htm` has no `<head>`~~ — RESOLVED by retiring the page
-
-The Fastjump page had no `<head>` at all: no stylesheet, no font, no title.
-Every reading of it was browser defaults, which is why it looked nothing like
-the book. Retired 2026-09-11 rather than repaired — rarely used, and fixing it
-properly meant a head, valid markup (it was 22 `<ul>` elements holding bare
-text with no `<li>`), a layout, and an editorial pass. Out of the manifest,
-spine and NCX; the file lives in `retired/` with a note.
-
-**Two traps it left behind, both live:**
-
-1. Those 22 entries were the only inbound links to roughly twenty anchors —
-   `TOC_KunzangDorjeChang`, `TOC_37Mandala`, `TOC_Mahakala`, `TN_Tsog` and the
-   rest. They are now anchors nothing links to, which is exactly what **B7**
-   says to delete. **Do not.** The curated list is the valuable part of that
-   page; a future Fastjump needs those anchors to exist.
-2. `pack.sh` copies all of `src/` into the book *regardless of the manifest*,
-   so the retired file still shipped as an unreferenced resource until it was
-   moved out of `src/`. See **D5**.
-
-### A2. ~~Six documents link `stylesheet.css` but not `fonts.css`~~ — RESOLVED
-
-`c_87`, `c_91`, `p362`, `OPS/titlepage.htm`, `pn.htm` and `repeats.htm` linked
-no file containing an `@font-face`, so they asked for Monlam and were handed
-whatever the reading system substituted. Fixed by removing the cause rather
-than the symptom — see B4. Verified through the CSSOM of the built book: every
-document now reports exactly one stylesheet carrying both `@font-face` rules.
-
-The check that matters here is the CSSOM one, not `document.fonts.check()`.
-That returned `true` for every document even before the merge, because Monlam
-is installed system-wide on this machine — a false positive of exactly the kind
-that made the ཏངྱ hunt take a morning. Ask whether the RULE reached the
-document, not whether the FONT is available.
 
 ### A3. Nine spine documents are not in the NCX
 
@@ -75,64 +44,29 @@ to the spine by hand and never finished.
 entry, and the missing links) or apparatus (leave it out of the NCX
 deliberately, and say so in `WORKFLOW.md`).
 
-### A4. `titlepage.xhtml` declares itself English
+### A5. `???` and `TODO` markers remain in the source
 
-```
-src/titlepage.xhtml:2   xml:lang="en"
-```
+Inventoried 2026-09-16. Rendered to the reader that day: 42 — 34 `<dd>TODO</dd>`
+glosses in the English TOC, 7 `.jumpTODO` links (the class prints a literal
+`TODO ` prefix by design), and the hidden `#TODO` jewel listed on the Jewel
+Jumps page (G8). Worked down the same day: 30 glosses filled in and 4 links
+finished (two into the ཟུར་ཡིག, labelled `ཟུར་ཡིག` in place of a page number since
+the supplement has none; one within Thubchok, where the skip over དགེ་བ་འདི་ཡིས is
+the intended order; one from the ཟུར་ཡིག back to page 30).
 
-It is the Tibetan title page. It is also the only document in the book that
-declares a language at all — see E1.
+Still standing, and each needs a decision, not just work:
 
-### A6. ~~Pages 142 and 137 are out of order, and the arrows follow~~ — RESOLVED 2026-09-15: section moved to its place between 137 and 148, NCX and TOC-page entries added, arrows re-derived
-
-In `p133_135_137_148_154_161_170_175_177_179.htm`, the section for printed
-page **142 sits between 135 and 137**:
-
-```
-line  18   page133   ཡི་དྭགས་ཆུ་སྦྱིན།
-line  38   page135   ཆུ་སྦྱིན་སྤྱད་གྲོལ།
-line  57   page142   ལྷ་རྣམས་མཉེས་བྱེད་བསང་མཆོད་     ← out of order
-line 102   page137   ཛམྦྷ་ལའི་ཆུ་སྦྱིན།
-line 150   page148   ཆ་གསུམ།
-```
-
-This is not cosmetic. `nav.py` derives the prev/next chain from **document
-order**, which is the right rule and gives the wrong answer here:
-
-```
-page135  right → #page142    "ལྷ་རྣམས་མཉེས་བྱེད་བསང་མཆོད་ 142"
-page137  left  → #page142
-```
-
-So stepping forward from 135 lands on 142, and stepping forward again goes to
-137 — five printed pages backwards. `nav.py` reports zero problems, correctly:
-document order is exactly what it was told to follow.
-
-**Fix:** move the 142 section to its place after 137, then re-derive with
-`nav.py --write`. Moving content in a 700-page liturgy is not something to do
-blind — confirm against the printed pecha which order is right first, since it
-is also possible the section belongs where it is and the heading's page number
-is wrong.
-
-Three more faults are visible in the same document while you are in there:
-
-- the `page142` heading text begins `142ལྷ་རྣམས་…` — the page number is in the
-  title *as well as* in its `pageno` span
-- `page142` and `page148` carry no arrows at all (part of D6)
-- ~~`page157` has an empty `pageno`~~ — fixed 2026-09-12. It had no `pageno`
-  span at all; given `157`, which the book already asserted twice (the id,
-  and `page161`'s left tooltip `དམར་གསུར། 157`). Tooltip disagreements 30 → 29.
-- `chos_rnams_thams_cad` has `???` and a literal `TODO phys page` in its
-  heading text — see F3
-
-### A5. Seven `???` and 70 `TODO` markers remain in the source
-
-`.jumpTODO` renders a literal `TODO ` prefix to the reader, by design, so 11 of
-these are visible in the book. The `???` are `pageno-unknown` placeholders,
-hidden from the reader by CSS but still standing work.
-
-**Fix:** work them down. They are tracked; they are not forgotten.
+- `toc1.htm` — glosses for 254 གང་སེར་མ།, 474 མ་དག་མ།, 699 ནོར་བུ་ལས་བདེ་བ་ཅན་དུ་སྐྱེ་བའི་སྨོན་ལམ།
+  (which ནོར་བུ). Need the texts, not the titles.
+- `c_79.htm` བྱིན་རླབས་མཁའ་ལ → `c_80.htm#line76` — a working link missing its
+  printed page; c_80 carries no page anchors past 558 to read it from.
+- `p1_4:314–315` — two `href`-less stubs, "Medium/Long 7 branch in bzang spyod".
+  The pecha says རྒྱས་བསྡུས, two grades not three; the extensive one is this
+  prayer's own seven branches (pp. 4–27). Replace with one link, or delete.
+- `p1_4:51` — the hidden `#TODO` jewel (G8). Delete and regenerate jewels.htm.
+- One `???` page placeholder, `p1_4:265`, hidden by `.pageno-unknown`.
+- Two HTML comments: `p1_4:312` (the stubs above), `p60:263` (verify against
+  the printed text).
 
 ---
 
@@ -184,47 +118,6 @@ per-document in EPUB so nothing is technically broken, but:
 and more practically, `#page543` is ambiguous to a human reading a link and to
 any tool that does not track which document it is in. `check.py` already
 catches duplicates *within* a document; it does not flag these.
-
-### B4. ~~`fonts.css` is a separate file for no reason~~ — RESOLVED
-
-The three stylesheets are one. `fonts.css` (two `@font-face` blocks) and
-`page_styles.css` (six lines of `@page`) are folded into `stylesheet.css` and
-deleted; 58 documents lost their redundant `<link>` elements and the manifest
-lost two items. The book ships 72 files where it shipped 74.
-
-A document can no longer be half-configured, which was the whole argument: the
-split bought nothing and cost A2.
-
-`@font-face` `src` is relative to the stylesheet, not to the document that
-links it, so `fonts/…` resolves identically from `OPS/` and from the root. No
-path needed changing.
-
-### B5. calibre residue in the package metadata
-
-```
-src/content.opf:19   <dc:contributor opf:role="bkp">calibre (3.7.0) …
-src/content.opf:22   <dc:identifier opf:scheme="calibre">e5eb13dc-…
-src/content.opf:23   <meta name="calibre:title_sort" …
-src/content.opf:24   <meta name="calibre:timestamp" content="2017-09-28…"/>
-src/content.opf:26   <meta name="calibre:author_link_map" …
-src/content.opf:20   <dc:date>0101-01-01T00:00:00+00:00</dc:date>
-```
-
-`pack.sh` repairs `dc:date` at build time, which means the source carries a
-value that is known-wrong and is fixed downstream — the repair belongs in the
-source. The rest is a record of which program touched the file in 2017.
-
-### B6. The `<guide>` is calibre debris
-
-```
-src/content.opf:169   <reference href="OPS/p1_…htm" title="C2"/>
-src/content.opf:170   <reference href="OPS/p1_…htm#page27" title="C3"/>
-src/content.opf:171   <reference href="OPS/p1_…htm#page34" title="C5">
-```
-
-`C2`, `C3`, `C5` are meaningless. There is also no `type="text"` reference,
-which is what a reading system uses to decide where "Start Reading" lands — so
-it currently guesses.
 
 ### B7. Twenty-nine anchors nothing links to
 
@@ -393,15 +286,6 @@ round-trip assertions. `check.py` on a known-bad fixture should report exactly
 the expected errors; `nav.py --write` on a known fixture should produce a known
 output.
 
-### D2. `check.py` cannot see meaning, and that boundary is not written down
-
-A link to `#todo` resolves, so `check.py` passes it. `nav.py` exists because of
-this. The division is real and sound — `nav.py` decides what a link should
-point *at*, `check.py` decides whether the path *resolves* — but it is recorded
-only in a commit message.
-
-**Fix:** state it at the top of both tools.
-
 ### D3. The build cannot fail on a bad tree
 
 `pack.sh` uses `set -euo pipefail` and traps its staging directory, which is
@@ -410,33 +294,6 @@ silently.
 
 **Fix:** `pack.sh` runs `check.py` first and refuses to build on errors, with
 an explicit `--force` for when you know better.
-
-### D4. ~~No check for what only a reader can see~~ — RESOLVED, and it found one
-
-`tools/stacks.py`. 180 distinct base+subjoined stacks across 36,285
-occurrences; it reports the ones that occur twice or fewer, on the argument
-that a one-letter slip almost always produces a stack found nowhere else while
-every real stack in a liturgy recurs.
-
-**36 stacks are outstanding for your review**, and one group is not Sanskrit:
-
-```
-ངྣ  ངྒྱ  ཌྒྱ      all three in  src/OPS/p88_91_104_115.htm:23
-                 ངྣདྨངྒྱཌྒྱ༔ སྤྲོས་མེད་དོན་གྱི་རྣལ་འབྱོར་པས༔
-```
-
-Three singleton stacks in one eight-syllable run, sitting exactly where the
-opening line of རྒྱུན་གྱི་བཀོལ་བྱང་། should be, and containing a recognisable `དྨ`.
-That is what an encoding accident looks like. The other 33 are all in plain
-mantra context and are almost certainly correct Sanskrit — `ཛྷ` is in the
-Sanskrit alphabet recitation `ཀ་ཁ་ག་གྷ་ང་། ཙ་ཚ་ཛ་ཛྷ་ཉ།`, `ཁྭ` is the ordinary
-Tibetan word for crow — but that is a judgement, so the tool reports and does
-not decide.
-
-Accepted stacks go in `tools/stacks-known.txt`, which ships empty, so the
-report shrinks to what is new once you have been through these.
-
-D4 is closed as tooling. **The ངྣདྨངྒྱཌྒྱ run is open as content — see E7.**
 
 ### D7. `nav.py` cannot tell that document order disagrees with the book
 
@@ -515,6 +372,8 @@ it and scrolling. Decide EPUB 2 `<pageList>` or an EPUB 3 nav document, build
 it from the anchors that already exist, and delete the thing in the NCX either
 way. Books' support for NCX `pageList` is uneven, so probe before committing.
 
+**2026-09-16:** the dead `<nav epub:type="page-list">` block, stray `?` included, is deleted from `toc.ncx`. The real page-list is still to build.
+
 ### E3. Accessibility metadata
 
 No `schema:accessMode`, `accessibilityFeature` or `accessibilitySummary`. Books
@@ -564,6 +423,389 @@ revisit it, and it is a large piece of work.
 
 Not findings from the review — work requested since. Kept here so the whole
 backlog is in one place.
+
+### F6. Jump links through the refuge sequence: red → white → red → ཆོས་རྣམས་ཐམས་ཅད།
+
+Requested 2026-09-12. Three jumps to build:
+
+1. from the red refuge to the white refuge;
+2. from the white refuge onward to the red;
+3. from the red to the teaching of `ཆོས་རྣམས་ཐམས་ཅད།` (p154 — already a
+   divider after F3, and already a link target from several places; see F1
+   for the `ཆོས་རྣམས་ཐམས་ཅད། 154` links that exist).
+
+Build as round trips where the reader comes back, following the four already
+in place (dkar sur ↔ dmar sur, ཨེ་མ་ཧོ p378↔p418, མདུན་བསྐྱེད p88, ཐུགས་སྒྲུབ་ refuge
+p334). Survey every refuge occurrence first — there are several refuge verses
+in the book and the link must anchor on the one Peter means, not the first one
+that greps. Confirm the two sections with Peter before wiring them.
+
+### F9. Adjudicate the variants between the 3rd and 4th printing
+
+Added 2026-09-12. The newer source EPUB (`resources/…ཞལ་འདོན།.epub`, a Pages
+export of the **fourth** printing; ours follows the third) has the same 101
+texts as ours and nothing we lack. The two differ in about 50 small readings
+seen from its side and 34 from ours, all listed with context in
+`resources/extracted/comparison-2026-09-12.md` (sections C1, C2), with a
+findings summary at the top. Each needs the pecha, not a guess. Two look like
+errors on our side (a `ཏུ` for `དུ`, a swapped `ཤོ`/`ཤྭ` in a mantra); one where the
+new book is probably wrong appears ten times in the Tārā sadhana. When lifting
+text from that EPUB: NFC-normalise (it uses the deprecated precomposed vowel
+U+0F75) and expect its ditto marks in place of our `༴` + written-out refrain.
+Regenerate the report with the three commands at the top of
+`tools/compare_source.py`.
+
+### F11. ཁོར་བ་དོང་སྤྲུག has no prev/next arrows — and nav.py cannot see that
+
+Peter, 2026-09-15. The heading at `c_80.htm#page558` carries no `<a class="left">`
+/ `<a class="right">` at all, so the section has no prev/next. `nav.py` only
+fills arrows that exist as placeholders; a heading with none is silently
+skipped, so "0 fillable, 0 unfillable" was true and still hid this. The survey
+below lists every heading in the same state (some are deliberate: ཟུར་ཡིག and
+the ཞབས་རྟེན། sub-collection headings). Fix: insert the two placeholder anchors
+into the heading and run `python3 tools/nav.py --write`; and teach nav.py to
+report linkable headings that have no arrows, so this cannot hide again.
+
+**2026-09-16:** arrows inserted and filled by `nav.py --write` (← 557 ལུས་སྤྱིན… lineage prayer, → 578 པད་གཙུག་ལྷུང་བཤགས།). Teaching nav.py to report arrow-less headings is still open.
+
+### F12. Split the refuge-and-bodhicitta repeat in the ཐུགས་སྒྲུབ་ཟུར་འདེབས
+
+Peter, 2026-09-15. In the zur 'debs (`p334_thugs_sgrub_brgyud_debs.htm`,
+the `repeat5` span under སྐྱབས་སེམས་དང་བགེགས་གཏོར།) the abbreviated ན་མོཿ བདག་དང་
+… སོགས་ནས་ … བསྒྲུབ་པར་བགྱི༔ is wrapped as one three-fold repeat. Refuge and
+bodhicitta are to be split into two repeats. Needs the pecha for where the
+break falls and what each part's count is; the jump to the Trinley Nyingpo
+refuge at 346 sits inside the span and must keep working.
+
+### F13. Relabel the ཟུར། 159 link — བསྔོ་བ་སྨོན་ལམ། or the like
+
+Peter, 2026-09-15. In `p133_…htm` (the གསུར section, line ~260) a jump reads
+`ཟུར། 159` and points at `#dedications`. "zur" alone says nothing to the
+reader; the label should name what is there — the dedication and aspiration
+verses, བསྔོ་བ་སྨོན་ལམ། or wording of Peter's choice. Lift the words from
+the destination's own text rather than typing them.
+
+---
+
+## G. Markup and stylesheet review — 2026-09-15
+
+A second pass over `src/`, measured, after a month of navigation work. Graded
+by what it buys: G1–G4 change what a reader or the next editor meets; G5–G9
+are hygiene that a script can do in an afternoon; G10–G12 are conventions to
+adopt going forward rather than retrofit.
+
+### G1. The TOC page styling never applies
+
+`.toctib1` and `.toctib2` are written as `ul .toctib1` / `ul .toctib2`, but
+`toc1.htm` has no `<ul>`: the lists are `<dl class="toctib1">`. Both rules are
+dead, and the TOC page renders at raw browser defaults. Fix: `dl.toctib1`,
+`dl.toctib2`, and while there give `dt`/`dd` the sizes the rule intended.
+
+### G5. Ninety-six ids duplicated across documents (B3, measured again)
+
+64 are `page N` / `ppN` pairs that exist in both a prayer file and `pn.htm`
+— gone with G3. The rest are `repeat1…repeat13` reused in 15 files: a
+same-document link, so harmless today, and a landmine the day two files are
+merged (which G7 and the page-break question both point toward). Rename to
+`repeat-<page>-<n>` or prefix with the file's first page.
+
+### G6. Six id conventions, one of them a typed accident
+
+`page420` (650), `TOC_CamelCase` (58), `return_from_…_p52` (16),
+`snake_case` (28), `TN_`/`tn_` (4 + 4, same section, two cases), `leu1`,
+`line142`, `toc_1`, `TODO`, `example6b`. Only `page N` is systematic. A
+convention worth having: `p<page>-<slug>` for everything a jump can land on
+(`p340-refuge-tree`), `h<page>` for headings, `rep<page>-<n>` for repeats.
+Rename with a script that rewrites every `href` and `id` together and runs
+check.py; nav.py's tooltips derive from headings, not ids, so they survive.
+
+### G9. Two `:root` blocks and one long comment-to-code ratio
+
+The stylesheet is 1,072 lines of which 77% is comment. The comments are
+good — they are the design record — but the file has no section headers
+and the rules are not in reading order: `.left:before` (the ← glyph) is at
+line 924, 350 lines after the arrow layout rules; `.center`, `.unit`, the
+`div.pn*` family and `ul`/`li` sit between the repeat marks and the table
+styles. `:root` is declared twice (light at 61 within COLOUR SYSTEM, dark at
+217), which is fine, but a reader has to know. Proposed order, each under a
+one-line banner: tokens → page/body → titles (all `tocpage*` rules together)
+→ body text (`tibnormal`, `tibyigchung*`) → page numbers → landing marks →
+jump links (all direction/scope rules together) → repeats → TOC/key/jewels
+pages → images → legacy (empty after G2). Pure reordering; diff it with the
+extracted-CSSOM trick used for the font check to prove nothing changed.
+
+### G10. Class names: two vocabularies
+
+Marks the editor added read as what they *do*: `jumpDown`, `inlineAnchor`,
+`repeatWrap3`, `lpn`. Body text reads as what it *is*: `tibnormal`,
+`tibyigchung`, `tibyigchungH`. Both fine; the seam is `lpn` (linked page
+number), `ppnp`, `ipnpx` (C3), `tibyigchungH` (the H means "heading line",
+not heading), `inlineAnchorReturn` (identical to `inlineAnchor` in every
+rule — merge), `repeatEnd`/`repeatEnd3` (3 uses, styled only by a shared
+`:before`). Rename on the same script as G6.
+
+### G11. `<span>` is doing `<p>`'s job (B1, still)
+
+748 `tibnormal` and 729 `tibyigchung` spans, the whole liturgy inline, with
+line structure carried by raw newlines inside spans. It works because the
+stylesheet never asks for block behaviour from them — until it does (the
+h3-inside-span overprint in `c_106` today was exactly this). Not a retrofit
+to do by hand; if ever, generate it: each top-level `tibnormal` span → `<p
+class="recite">`, each `tibyigchung` → `<p class="note">`, verified again
+with `extract_text.py`.
+
+### G12. Conventions to adopt from now on
+
+- New headings: pick the tag by G4's mapping; always arrows as placeholders
+  and let nav.py fill; always a page number or none, never `???`.
+- New jewels: `p<page>-<slug>` id; run `tools/jewels.py` after.
+- New links: never a file-only `href`; always a fragment.
+- Never type Tibetan into a shell heredoc (five failures on record); lift
+  from the source with a script.
+- One concern per commit (today's four-way split by hunk was needed because
+  three concerns shared files).
+
+### G7b. Break long lines at span boundaries
+
+The second half of G7: 449 lines exceed 400 characters. Break after every `</span>` and before every `<span class=`, never inside Tibetan, as one commit with nothing else in it, verified with `extract_text.py`.
+
+---
+
+## What is already right
+
+Worth stating, so a future pass does not "fix" it:
+
+- **Zero `!important` declarations.** The only occurrence in the tree is inside
+  a comment describing a technique that failed.
+- **Zero hard-coded colours outside `:root`.** Every colour is a token with a
+  light/dark pair and a measured contrast ratio in the comment beside it.
+- **Seven inline `style=` attributes in 60 documents**, all of them widths on
+  the key-page table and the cover image.
+- **No deprecated presentational tags** — no `<font>`, `<center>`, `<b>`,
+  `<u>`, `<big>`, `<tt>`.
+- `pack.sh` has `set -euo pipefail` and cleans up its staging directory on exit.
+- The PLATFORM NOTE records platform behaviour that was *measured with a probe
+  in the book*, not guessed, and says which techniques failed. That is the
+  single best thing in this codebase and the reason several of the fixes above
+  are even possible to reason about.
+
+---
+
+## How this was measured
+
+```bash
+# element and class census
+python3 - <<'PY'
+import glob, re, collections
+files = glob.glob('src/OPS/*.htm')+glob.glob('src/*.htm')+glob.glob('src/*.xhtml')
+tags = collections.Counter()
+for p in files:
+    for m in re.finditer(r'<([a-zA-Z][a-zA-Z0-9]*)[\s/>]', open(p,encoding='utf-8').read()):
+        tags[m.group(1).lower()] += 1
+print(tags.most_common())
+PY
+
+# dead CSS both ways
+# (defined selectors minus used classes, and the reverse)
+
+# documents missing a stylesheet or the font link
+for f in src/OPS/*.htm src/*.htm src/*.xhtml; do
+  grep -q "stylesheet.css" "$f" || echo "no stylesheet: $f"
+done
+
+# spine documents absent from the NCX
+# orphan anchors: every id, minus every href fragment
+# computed display/colour: headless Chrome against the built EPUB
+```
+
+`.tibnormal` being `display: inline`, the `--jump` contrast ratios, the
+`content` string truncation and the `.jumpTodO` case collision were all
+measured in headless Chrome against the built book, not read off the source.
+
+---
+
+## Completed
+
+22 items, in the order of the sections they came from. Each keeps its id, its
+strikethrough and its closing note.
+
+*From A. The reader sees this today*
+
+### A1. ~~`c_fastjump.htm` has no `<head>`~~ — RESOLVED by retiring the page
+
+The Fastjump page had no `<head>` at all: no stylesheet, no font, no title.
+Every reading of it was browser defaults, which is why it looked nothing like
+the book. Retired 2026-09-11 rather than repaired — rarely used, and fixing it
+properly meant a head, valid markup (it was 22 `<ul>` elements holding bare
+text with no `<li>`), a layout, and an editorial pass. Out of the manifest,
+spine and NCX; the file lives in `retired/` with a note.
+
+**Two traps it left behind, both live:**
+
+1. Those 22 entries were the only inbound links to roughly twenty anchors —
+   `TOC_KunzangDorjeChang`, `TOC_37Mandala`, `TOC_Mahakala`, `TN_Tsog` and the
+   rest. They are now anchors nothing links to, which is exactly what **B7**
+   says to delete. **Do not.** The curated list is the valuable part of that
+   page; a future Fastjump needs those anchors to exist.
+2. `pack.sh` copies all of `src/` into the book *regardless of the manifest*,
+   so the retired file still shipped as an unreferenced resource until it was
+   moved out of `src/`. See **D5**.
+
+### A2. ~~Six documents link `stylesheet.css` but not `fonts.css`~~ — RESOLVED
+
+`c_87`, `c_91`, `p362`, `OPS/titlepage.htm`, `pn.htm` and `repeats.htm` linked
+no file containing an `@font-face`, so they asked for Monlam and were handed
+whatever the reading system substituted. Fixed by removing the cause rather
+than the symptom — see B4. Verified through the CSSOM of the built book: every
+document now reports exactly one stylesheet carrying both `@font-face` rules.
+
+The check that matters here is the CSSOM one, not `document.fonts.check()`.
+That returned `true` for every document even before the merge, because Monlam
+is installed system-wide on this machine — a false positive of exactly the kind
+that made the ཏངྱ hunt take a morning. Ask whether the RULE reached the
+document, not whether the FONT is available.
+
+### A6. ~~Pages 142 and 137 are out of order, and the arrows follow~~ — RESOLVED 2026-09-15: section moved to its place between 137 and 148, NCX and TOC-page entries added, arrows re-derived
+
+In `p133_135_137_148_154_161_170_175_177_179.htm`, the section for printed
+page **142 sits between 135 and 137**:
+
+```
+line  18   page133   ཡི་དྭགས་ཆུ་སྦྱིན།
+line  38   page135   ཆུ་སྦྱིན་སྤྱད་གྲོལ།
+line  57   page142   ལྷ་རྣམས་མཉེས་བྱེད་བསང་མཆོད་     ← out of order
+line 102   page137   ཛམྦྷ་ལའི་ཆུ་སྦྱིན།
+line 150   page148   ཆ་གསུམ།
+```
+
+This is not cosmetic. `nav.py` derives the prev/next chain from **document
+order**, which is the right rule and gives the wrong answer here:
+
+```
+page135  right → #page142    "ལྷ་རྣམས་མཉེས་བྱེད་བསང་མཆོད་ 142"
+page137  left  → #page142
+```
+
+So stepping forward from 135 lands on 142, and stepping forward again goes to
+137 — five printed pages backwards. `nav.py` reports zero problems, correctly:
+document order is exactly what it was told to follow.
+
+**Fix:** move the 142 section to its place after 137, then re-derive with
+`nav.py --write`. Moving content in a 700-page liturgy is not something to do
+blind — confirm against the printed pecha which order is right first, since it
+is also possible the section belongs where it is and the heading's page number
+is wrong.
+
+Three more faults are visible in the same document while you are in there:
+
+- the `page142` heading text begins `142ལྷ་རྣམས་…` — the page number is in the
+  title *as well as* in its `pageno` span
+- `page142` and `page148` carry no arrows at all (part of D6)
+- ~~`page157` has an empty `pageno`~~ — fixed 2026-09-12. It had no `pageno`
+  span at all; given `157`, which the book already asserted twice (the id,
+  and `page161`'s left tooltip `དམར་གསུར། 157`). Tooltip disagreements 30 → 29.
+- `chos_rnams_thams_cad` has `???` and a literal `TODO phys page` in its
+  heading text — see F3
+
+### A4. ~~`titlepage.xhtml` declares itself English~~ — RESOLVED 2026-09-16
+
+```
+src/titlepage.xhtml:2   xml:lang="en"
+```
+
+It is the Tibetan title page. It is also the only document in the book that
+declares a language at all — see E1.
+
+**Closed:** Now `lang="bo" xml:lang="bo"`. E1 (tagging the rest of the book) stands.
+
+*From B. Structural debt*
+
+### B4. ~~`fonts.css` is a separate file for no reason~~ — RESOLVED
+
+The three stylesheets are one. `fonts.css` (two `@font-face` blocks) and
+`page_styles.css` (six lines of `@page`) are folded into `stylesheet.css` and
+deleted; 58 documents lost their redundant `<link>` elements and the manifest
+lost two items. The book ships 72 files where it shipped 74.
+
+A document can no longer be half-configured, which was the whole argument: the
+split bought nothing and cost A2.
+
+`@font-face` `src` is relative to the stylesheet, not to the document that
+links it, so `fonts/…` resolves identically from `OPS/` and from the root. No
+path needed changing.
+
+### B5. ~~calibre residue in the package metadata~~ — RESOLVED 2026-09-16
+
+```
+src/content.opf:19   <dc:contributor opf:role="bkp">calibre (3.7.0) …
+src/content.opf:22   <dc:identifier opf:scheme="calibre">e5eb13dc-…
+src/content.opf:23   <meta name="calibre:title_sort" …
+src/content.opf:24   <meta name="calibre:timestamp" content="2017-09-28…"/>
+src/content.opf:26   <meta name="calibre:author_link_map" …
+src/content.opf:20   <dc:date>0101-01-01T00:00:00+00:00</dc:date>
+```
+
+`pack.sh` repairs `dc:date` at build time, which means the source carries a
+value that is known-wrong and is fixed downstream — the repair belongs in the
+source. The rest is a record of which program touched the file in 2017.
+
+**Closed:** Contributor, calibre identifier, title_sort, timestamp, author_link_map and the calibre namespace removed. `dc:date` is 2026-09-16 and `dcterms:modified` a valid ISO stamp; `pack.sh` still restamps both at build.
+
+### B6. ~~The `<guide>` is calibre debris~~ — RESOLVED 2026-09-16
+
+```
+src/content.opf:169   <reference href="OPS/p1_…htm" title="C2"/>
+src/content.opf:170   <reference href="OPS/p1_…htm#page27" title="C3"/>
+src/content.opf:171   <reference href="OPS/p1_…htm#page34" title="C5">
+```
+
+`C2`, `C3`, `C5` are meaningless. There is also no `type="text"` reference,
+which is what a reading system uses to decide where "Start Reading" lands — so
+it currently guesses.
+
+**Closed:** The C2/C3/C5 references and the stray EPUB 3 `<nav epub:type="toc">` that sat between spine and guide are gone. The `type="text"` reference already existed.
+
+*From D. Tooling and process*
+
+### D4. ~~No check for what only a reader can see~~ — RESOLVED, and it found one
+
+`tools/stacks.py`. 180 distinct base+subjoined stacks across 36,285
+occurrences; it reports the ones that occur twice or fewer, on the argument
+that a one-letter slip almost always produces a stack found nowhere else while
+every real stack in a liturgy recurs.
+
+**36 stacks are outstanding for your review**, and one group is not Sanskrit:
+
+```
+ངྣ  ངྒྱ  ཌྒྱ      all three in  src/OPS/p88_91_104_115.htm:23
+                 ངྣདྨངྒྱཌྒྱ༔ སྤྲོས་མེད་དོན་གྱི་རྣལ་འབྱོར་པས༔
+```
+
+Three singleton stacks in one eight-syllable run, sitting exactly where the
+opening line of རྒྱུན་གྱི་བཀོལ་བྱང་། should be, and containing a recognisable `དྨ`.
+That is what an encoding accident looks like. The other 33 are all in plain
+mantra context and are almost certainly correct Sanskrit — `ཛྷ` is in the
+Sanskrit alphabet recitation `ཀ་ཁ་ག་གྷ་ང་། ཙ་ཚ་ཛ་ཛྷ་ཉ།`, `ཁྭ` is the ordinary
+Tibetan word for crow — but that is a judgement, so the tool reports and does
+not decide.
+
+Accepted stacks go in `tools/stacks-known.txt`, which ships empty, so the
+report shrinks to what is new once you have been through these.
+
+D4 is closed as tooling. **The ངྣདྨངྒྱཌྒྱ run is open as content — see E7.**
+
+### D2. ~~`check.py` cannot see meaning, and that boundary is not written down~~ — RESOLVED 2026-09-16
+
+A link to `#todo` resolves, so `check.py` passes it. `nav.py` exists because of
+this. The division is real and sound — `nav.py` decides what a link should
+point *at*, `check.py` decides whether the path *resolves* — but it is recorded
+only in a commit message.
+
+**Fix:** state it at the top of both tools.
+
+**Closed:** Stated in both module docstrings.
+
+*From F. Asked for, not yet built*
 
 ### F1. ~~A jump link for "incipit … སོགས"~~ — DONE, eleven of them
 
@@ -681,22 +923,6 @@ its head, and a jump to it from the end of ཚེ་རིང་མ (`c_68.htm`)
 `ཕུར་པའི་བསྡུ་ལྡང་།` is mine, built from the passage's own words — rename if
 the book has a better one. Not yet read on device.
 
-### F6. Jump links through the refuge sequence: red → white → red → ཆོས་རྣམས་ཐམས་ཅད།
-
-Requested 2026-09-12. Three jumps to build:
-
-1. from the red refuge to the white refuge;
-2. from the white refuge onward to the red;
-3. from the red to the teaching of `ཆོས་རྣམས་ཐམས་ཅད།` (p154 — already a
-   divider after F3, and already a link target from several places; see F1
-   for the `ཆོས་རྣམས་ཐམས་ཅད། 154` links that exist).
-
-Build as round trips where the reader comes back, following the four already
-in place (dkar sur ↔ dmar sur, ཨེ་མ་ཧོ p378↔p418, མདུན་བསྐྱེད p88, ཐུགས་སྒྲུབ་ refuge
-p334). Survey every refuge occurrence first — there are several refuge verses
-in the book and the link must anchor on the one Peter means, not the first one
-that greps. Confirm the two sections with Peter before wiring them.
-
 ### F7. ~~Add: the ultimate guru sadhana of simplicity~~ — PLACED 2026-09-12, awaiting Peter's read
 
 Requested 2026-09-12. Tulku Urgyen Rinpoche's short guru sadhana, 51 lines in
@@ -728,21 +954,6 @@ syllable against the surviving skeleton. Placed first in the ཟུར་ཡི�
 (`c_extra.htm#TOC_LamaGyangbo`), NCX entry under ཟུར་ཡིག, row on the TOC page.
 Peter to confirm this is the version Ka-Nying recites. Not yet read on device.
 
-### F9. Adjudicate the variants between the 3rd and 4th printing
-
-Added 2026-09-12. The newer source EPUB (`resources/…ཞལ་འདོན།.epub`, a Pages
-export of the **fourth** printing; ours follows the third) has the same 101
-texts as ours and nothing we lack. The two differ in about 50 small readings
-seen from its side and 34 from ours, all listed with context in
-`resources/extracted/comparison-2026-09-12.md` (sections C1, C2), with a
-findings summary at the top. Each needs the pecha, not a guess. Two look like
-errors on our side (a `ཏུ` for `དུ`, a swapped `ཤོ`/`ཤྭ` in a mantra); one where the
-new book is probably wrong appears ten times in the Tārā sadhana. When lifting
-text from that EPUB: NFC-normalise (it uses the deprecated precomposed vowel
-U+0F75) and expect its ditto marks in place of our `༴` + written-out refrain.
-Regenerate the report with the three commands at the top of
-`tools/compare_source.py`.
-
 ### F10. ~~The embedded Monlam font is patched~~ — SUPERSEDED: the book now embeds Noto Serif Tibetan
 
 2026-09-15. Two rendering faults were traced to Monlam Uni OuChan2 itself: no
@@ -772,58 +983,7 @@ against the printed book — 1.25em is a computed guess; the jump-brace spacing;
 the yig chung head-line alignment; and the ༔ gaps, which now come from the
 reader's fallback font again (sane under WebKit in the test).
 
-### F11. ཁོར་བ་དོང་སྤྲུག has no prev/next arrows — and nav.py cannot see that
-
-Peter, 2026-09-15. The heading at `c_80.htm#page558` carries no `<a class="left">`
-/ `<a class="right">` at all, so the section has no prev/next. `nav.py` only
-fills arrows that exist as placeholders; a heading with none is silently
-skipped, so "0 fillable, 0 unfillable" was true and still hid this. The survey
-below lists every heading in the same state (some are deliberate: ཟུར་ཡིག and
-the ཞབས་རྟེན། sub-collection headings). Fix: insert the two placeholder anchors
-into the heading and run `python3 tools/nav.py --write`; and teach nav.py to
-report linkable headings that have no arrows, so this cannot hide again.
-
-### F12. Split the refuge-and-bodhicitta repeat in the ཐུགས་སྒྲུབ་ཟུར་འདེབས
-
-Peter, 2026-09-15. In the zur 'debs (`p334_thugs_sgrub_brgyud_debs.htm`,
-the `repeat5` span under སྐྱབས་སེམས་དང་བགེགས་གཏོར།) the abbreviated ན་མོཿ བདག་དང་
-… སོགས་ནས་ … བསྒྲུབ་པར་བགྱི༔ is wrapped as one three-fold repeat. Refuge and
-bodhicitta are to be split into two repeats. Needs the pecha for where the
-break falls and what each part's count is; the jump to the Trinley Nyingpo
-refuge at 346 sits inside the span and must keep working.
-
-### F13. Relabel the ཟུར། 159 link — བསྔོ་བ་སྨོན་ལམ། or the like
-
-Peter, 2026-09-15. In `p133_…htm` (the གསུར section, line ~260) a jump reads
-`ཟུར། 159` and points at `#dedications`. "zur" alone says nothing to the
-reader; the label should name what is there — the dedication and aspiration
-verses, བསྔོ་བ་སྨོན་ལམ། or wording of Peter's choice. Lift the words from
-the destination's own text rather than typing them.
-
-## G. Markup and stylesheet review — 2026-09-15
-
-A second pass over `src/`, measured, after a month of navigation work. Graded
-by what it buys: G1–G4 change what a reader or the next editor meets; G5–G9
-are hygiene that a script can do in an afternoon; G10–G12 are conventions to
-adopt going forward rather than retrofit.
-
-### G1. The TOC page styling never applies
-
-`.toctib1` and `.toctib2` are written as `ul .toctib1` / `ul .toctib2`, but
-`toc1.htm` has no `<ul>`: the lists are `<dl class="toctib1">`. Both rules are
-dead, and the TOC page renders at raw browser defaults. Fix: `dl.toctib1`,
-`dl.toctib2`, and while there give `dt`/`dd` the sizes the rule intended.
-
-### G2. Ten CSS classes with no element, four elements with no rule
-
-Never used: `.center` (and its `(` `)` pseudo-content), `.invisiblec`,
-`.jumpTodO`, `.nextlink`, `.prevlink`, `.pagenumber`, `div.pn`, `div.pnh`,
-`.unit`, `.ttf`, plus `.pageno-unknown` as a bare class (`div#pagenumberlist`
-is used once, in `pn.htm`, and goes with it in G3).
-Used but unstyled: `eh2`, `just`, `margin_eh2_ee` (calibre residue in
-`pn.htm`) and `line191` — a jewel id typed into the class slot in
-`p88_…:380`, so that "anchor" has never been a jewel. Delete the ten,
-fix the one, drop the three with `pn.htm` (G3).
+*From G. Markup and stylesheet review — 2026-09-15*
 
 ### G3. ~~`pn.htm` and `repeats.htm` are spine pages nobody can reach~~ — RETIRED 2026-09-15 to `retired/`; the 64 in-word page anchors keep their ids and lose their dead href
 
@@ -849,25 +1009,20 @@ both key on the class. Decide one mapping and apply it mechanically: prayer
 prayer = `h3.tocpage2` (chapters) or `h3.tocpage2.minor` (quiet). Screen
 readers and the NCX depth both benefit; nothing visual changes.
 
-### G5. Ninety-six ids duplicated across documents (B3, measured again)
+### G2. ~~Ten CSS classes with no element, four elements with no rule~~ — RESOLVED 2026-09-16, bar `line191`
 
-64 are `page N` / `ppN` pairs that exist in both a prayer file and `pn.htm`
-— gone with G3. The rest are `repeat1…repeat13` reused in 15 files: a
-same-document link, so harmless today, and a landmine the day two files are
-merged (which G7 and the page-break question both point toward). Rename to
-`repeat-<page>-<n>` or prefix with the file's first page.
+Never used: `.center` (and its `(` `)` pseudo-content), `.invisiblec`,
+`.jumpTodO`, `.nextlink`, `.prevlink`, `.pagenumber`, `div.pn`, `div.pnh`,
+`.unit`, `.ttf`, plus `.pageno-unknown` as a bare class (`div#pagenumberlist`
+is used once, in `pn.htm`, and goes with it in G3).
+Used but unstyled: `eh2`, `just`, `margin_eh2_ee` (calibre residue in
+`pn.htm`) and `line191` — a jewel id typed into the class slot in
+`p88_…:380`, so that "anchor" has never been a jewel. Delete the ten,
+fix the one, drop the three with `pn.htm` (G3).
 
-### G6. Six id conventions, one of them a typed accident
+**Closed:** The ten dead rules deleted (`.invisiblec`, `.center` ×3, `.unit`, `div#pagenumberlist`, `div.pn`, `div.pnh`, `div.pagenumber`, `.prevlink`, `.nextlink`) and `.jumpTodO` dropped from the shared selector. `.pageno-unknown` kept and put to use (G8). Still open: `line191` in `p88_…:380` — jewel or plain class? Needs intent.
 
-`page420` (650), `TOC_CamelCase` (58), `return_from_…_p52` (16),
-`snake_case` (28), `TN_`/`tn_` (4 + 4, same section, two cases), `leu1`,
-`line142`, `toc_1`, `TODO`, `example6b`. Only `page N` is systematic. A
-convention worth having: `p<page>-<slug>` for everything a jump can land on
-(`p340-refuge-tree`), `h<page>` for headings, `rep<page>-<n>` for repeats.
-Rename with a script that rewrites every `href` and `id` together and runs
-check.py; nav.py's tooltips derive from headings, not ids, so they survive.
-
-### G7. Whitespace and line shape
+### G7. ~~Whitespace and line shape~~ — trailing whitespace RESOLVED 2026-09-16; line-breaking not done
 
 1,551 lines end in trailing whitespace; 449 lines exceed 400 characters
 (several over 2,000). Neither affects rendering, both make diffs unreadable
@@ -878,7 +1033,9 @@ make future diffs show what changed. Do it as one commit with nothing else
 in it, and verify with `extract_text.py` that the extracted text is
 byte-identical before and after.
 
-### G8. Three inline `style=` and one hidden jewel
+**Closed:** 268 trailing-space lines stripped across 53 files; `extract_text.py` output byte-identical before and after. The second half (breaking long lines at span boundaries) is a separate one-commit job and stays open here as G7b.
+
+### G8. ~~Three inline `style=` and one hidden jewel~~ — RESOLVED 2026-09-16
 
 `p1_4_…:50` — `<span id="TODO" style="display:none" class="inlineAnchor">`,
 a jewel named TODO, hidden by an inline style, and listed on the Jewel Jumps
@@ -888,101 +1045,4 @@ are the only defensible ones. Also three empty `tibyigchung(H)` spans
 (`c_56:20`, `p1_4:538`, `p219:305`) and one `.calibreBody`-less body among
 the four helper pages.
 
-### G9. Two `:root` blocks and one long comment-to-code ratio
-
-The stylesheet is 1,072 lines of which 77% is comment. The comments are
-good — they are the design record — but the file has no section headers
-and the rules are not in reading order: `.left:before` (the ← glyph) is at
-line 924, 350 lines after the arrow layout rules; `.center`, `.unit`, the
-`div.pn*` family and `ul`/`li` sit between the repeat marks and the table
-styles. `:root` is declared twice (light at 61 within COLOUR SYSTEM, dark at
-217), which is fine, but a reader has to know. Proposed order, each under a
-one-line banner: tokens → page/body → titles (all `tocpage*` rules together)
-→ body text (`tibnormal`, `tibyigchung*`) → page numbers → landing marks →
-jump links (all direction/scope rules together) → repeats → TOC/key/jewels
-pages → images → legacy (empty after G2). Pure reordering; diff it with the
-extracted-CSSOM trick used for the font check to prove nothing changed.
-
-### G10. Class names: two vocabularies
-
-Marks the editor added read as what they *do*: `jumpDown`, `inlineAnchor`,
-`repeatWrap3`, `lpn`. Body text reads as what it *is*: `tibnormal`,
-`tibyigchung`, `tibyigchungH`. Both fine; the seam is `lpn` (linked page
-number), `ppnp`, `ipnpx` (C3), `tibyigchungH` (the H means "heading line",
-not heading), `inlineAnchorReturn` (identical to `inlineAnchor` in every
-rule — merge), `repeatEnd`/`repeatEnd3` (3 uses, styled only by a shared
-`:before`). Rename on the same script as G6.
-
-### G11. `<span>` is doing `<p>`'s job (B1, still)
-
-748 `tibnormal` and 729 `tibyigchung` spans, the whole liturgy inline, with
-line structure carried by raw newlines inside spans. It works because the
-stylesheet never asks for block behaviour from them — until it does (the
-h3-inside-span overprint in `c_106` today was exactly this). Not a retrofit
-to do by hand; if ever, generate it: each top-level `tibnormal` span → `<p
-class="recite">`, each `tibyigchung` → `<p class="note">`, verified again
-with `extract_text.py`.
-
-### G12. Conventions to adopt from now on
-
-- New headings: pick the tag by G4's mapping; always arrows as placeholders
-  and let nav.py fill; always a page number or none, never `???`.
-- New jewels: `p<page>-<slug>` id; run `tools/jewels.py` after.
-- New links: never a file-only `href`; always a fragment.
-- Never type Tibetan into a shell heredoc (five failures on record); lift
-  from the source with a script.
-- One concern per commit (today's four-way split by hunk was needed because
-  three concerns shared files).
-
----
-
-## What is already right
-
-Worth stating, so a future pass does not "fix" it:
-
-- **Zero `!important` declarations.** The only occurrence in the tree is inside
-  a comment describing a technique that failed.
-- **Zero hard-coded colours outside `:root`.** Every colour is a token with a
-  light/dark pair and a measured contrast ratio in the comment beside it.
-- **Seven inline `style=` attributes in 60 documents**, all of them widths on
-  the key-page table and the cover image.
-- **No deprecated presentational tags** — no `<font>`, `<center>`, `<b>`,
-  `<u>`, `<big>`, `<tt>`.
-- `pack.sh` has `set -euo pipefail` and cleans up its staging directory on exit.
-- The PLATFORM NOTE records platform behaviour that was *measured with a probe
-  in the book*, not guessed, and says which techniques failed. That is the
-  single best thing in this codebase and the reason several of the fixes above
-  are even possible to reason about.
-
----
-
-## How this was measured
-
-```bash
-# element and class census
-python3 - <<'PY'
-import glob, re, collections
-files = glob.glob('src/OPS/*.htm')+glob.glob('src/*.htm')+glob.glob('src/*.xhtml')
-tags = collections.Counter()
-for p in files:
-    for m in re.finditer(r'<([a-zA-Z][a-zA-Z0-9]*)[\s/>]', open(p,encoding='utf-8').read()):
-        tags[m.group(1).lower()] += 1
-print(tags.most_common())
-PY
-
-# dead CSS both ways
-# (defined selectors minus used classes, and the reverse)
-
-# documents missing a stylesheet or the font link
-for f in src/OPS/*.htm src/*.htm src/*.xhtml; do
-  grep -q "stylesheet.css" "$f" || echo "no stylesheet: $f"
-done
-
-# spine documents absent from the NCX
-# orphan anchors: every id, minus every href fragment
-# computed display/colour: headless Chrome against the built EPUB
-```
-
-`.tibnormal` being `display: inline`, the `--jump` contrast ratios, the
-`content` string truncation and the `.jumpTodO` case collision were all
-measured in headless Chrome against the built book, not read off the source.
+**Closed:** The hidden `#TODO` jewel deleted and jewels.htm regenerated (97 jewels); the last empty yig chung span deleted; the two inline styles became classes (`.signature`, `.coverimg`); `acknowledgements.htm` got `calibreBody`. The `???` page placeholder in p1_4 now carries `pageno-unknown`, so it is hidden from the reader as A5 always claimed.

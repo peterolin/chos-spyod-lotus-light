@@ -249,6 +249,15 @@
 .prefs .switch:after  { content: "\202F\0F3D"; padding-left: 0.12em; }
 .prefs .sample { margin-left: 0.75em; }
 
+/** The editor's signature on the acknowledgements page. **/
+.signature { text-align: right; font-style: italic; }
+
+/** The legend on the key page: a definition list, the example as the term
+    and the explanation beneath it, so neither side is squeezed into a column
+    (a two-column table wrapped the Tibetan badly). **/
+dl.legend dt { margin: 1.1em 0 0.25em; }
+dl.legend dd { margin: 0 0 0 1.2em; }
+
 /** Build stamp on the key page. Quiet, but present: when a reader reports a
     dead link, this is what tells you which build they have. **/
 .colophon {
@@ -257,13 +266,7 @@
   font-family: Courier New, monospace;
 }
 
-/** Editing aids. Shown on the key page, hidden in the running text. **/
-.invisiblec {
-  display: inline;
-  /** TODO Set to "inline" or "none" depending on editing or publishing.*/
-  font-family: Courier New, sans-serif;
-  color: var(--accent);
-}
+/** Editing aids, hidden in the running text (C4: the publish/edit switch). **/
 .invisible {
   display: none;
   /* TODO Set to "none" or "inline" */
@@ -397,7 +400,17 @@
 .jewelsintro { font-family: -apple-system, Helvetica, sans-serif; font-size: 0.6em; opacity: var(--secondary-strength); text-align: center; margin: 0 0 1.2em; }
 .jewelrow { margin: 0.25em 0; line-height: 1.6; }
 .jewelrow .inlineAnchor { margin-left: 0; }
-.jewelprayer { font-size: 0.7em; opacity: var(--secondary-strength); margin-left: 0.6em; }
+.jewelprayer { display: inline-block; font-family: -apple-system, Helvetica, sans-serif; font-size: 0.55em; opacity: var(--secondary-strength); margin-left: 2.2em; line-height: 1.2; }
+.jewelrow { margin: 0.45em 0 0.6em; }
+/** On this page alone the marks drop their braces (Peter, 2026-09-15): the
+    jewel is a bare ࿉ and the link ends in its triangles. Everywhere else in
+    the book the braces stay. **/
+.jewelrow .inlineAnchor:empty:after            { content: "\0FC9"; }
+.jewelrow .inlineAnchor:not(:empty):before     { content: ""; padding-right: 0; }
+.jewelrow .inlineAnchor:not(:empty):after      { content: "\202F\0FC9"; }
+.jewelrow .jumpDown:before                     { content: ""; padding-right: 0; }
+.jewelrow .jumpDown:after                      { content: "\202F\25B8"; }
+.jewelrow .jumpDown[data-scope="out"]:after    { content: "\202F\25B8\25B8"; }
 
 /** A divider needs something above it to divide from. 46 of the 53 documents
     open with a prayer title, where the rule and the air would be dividing the
@@ -416,6 +429,11 @@
   line-height: 1.5em;
   font-family: "Noto Serif Tibetan", serif;
 }
+/** A verse that stands on its own line — the བསྔོ་བ་སྨོན་ལམ verses in the
+    ཟུར་ཡིག, each opening with its jewel and a ༈, so a reader can find one at
+    a glance. Everywhere else verses run on inline, as the pecha does. **/
+.verse { display: block; }
+
 /** Yig-chung small letters — the instruction layer.
     Same ink as the body, one degree quieter. No colour of its own, so it
     stays right in every reader theme. */
@@ -446,6 +464,15 @@
   vertical-align: 0.170em;    /* head-line alignment, see .tibyigchung */
   margin: 0 1em 0 0;
 }
+/** The green preference. toggle.js puts .yigchung-green on <html> when the
+    reader has asked for it, in every document, before paint. Books' Night
+    theme will repaint this white like all element text; there the yig chung
+    simply falls back to the quiet-ink reading it has anyway. **/
+html.yigchung-green .tibyigchung,
+html.yigchung-green .tibyigchungH {
+  color: var(--yigchung-green);
+  opacity: var(--yigchung-green-strength);
+}
 
 /** The printed-book page number.
     It belongs to the prayer, not to the navigation: one number, on the title
@@ -456,15 +483,6 @@
     title shows (111 of them), while the 30 that stand alone mid-text stay
     hidden with the rest of the page-marker clutter. **/
 .pageno {
-/** The green preference. toggle.js puts .yigchung-green on <html> when the
-    reader has asked for it, in every document, before paint. Books' Night
-    theme will repaint this white like all element text; there the yig chung
-    simply falls back to the quiet-ink reading it has anyway. **/
-html.yigchung-green .tibyigchung,
-html.yigchung-green .tibyigchungH {
-  color: var(--yigchung-green);
-  opacity: var(--yigchung-green-strength);
-}
   display: none;
   padding: 0 0.2em;
   /** 0.4em, down from 0.5em — it was competing with the text around it. **/
@@ -485,7 +503,14 @@ html.yigchung-green .tibyigchungH {
   text-align: center;
   opacity: var(--secondary-strength);
   margin: 0;
-  line-height: 1.2;
+  /** Was 1.2. On iPad (build 157) the lower ~15% of the numerals was cut
+      off. In Chrome the glyphs fit the 1.2 line box with 0.3px to spare, so
+      whatever font Books substitutes for the digits has deeper metrics and
+      the 1.2 box was clipping them. 1.5 matches the heading's own
+      line-height and gives the descent room; the padding is extra insurance.
+      PROBE — confirm on the device, then trim if it now floats. **/
+  line-height: 1.5;
+  padding-bottom: 0.1em;
 }
 /** Sections whose printed page is not yet known carry '???' in the source as
     a standing TODO. Keep that visible to the editor, never to the reader.
@@ -516,7 +541,7 @@ html.yigchung-green .tibyigchungH {
     can: clearing 4.5:1 on white needs luminance <= 0.183 and on the night
     ground >= 0.228.) Where `revert` is unsupported the declaration is dropped
     and links stay quiet ink — a safe failure. **/
-.jumpTODO, .jumpTodO, .jumpRepeat, .jumpRepeat3, .jumpUp, .jumpDown,
+.jumpTODO, .jumpRepeat, .jumpRepeat3, .jumpUp, .jumpDown,
 .jump, .easyjump {
   color: revert;
   padding: 0;
@@ -856,6 +881,10 @@ a.ipnpx {
 .jumpRepeat.count237:before {
   content: "\202F\25C2\0F3D\0F22\0F0B\0F23\0F0B\0F27";  /* NNBSP + ◂༽༢་༣་༧ */
 }
+/** Seven times — the ན་མཿསརྦ་ཏ་ཐཱ་ག་ཏ mantra of the white sur (p. 155). **/
+.jumpRepeat.count7:before {
+  content: "\202F\25C2\0F3D\0F27";   /* NNBSP + ◂༽༧ */
+}
 /** REPEAT MARKING
  *
  * The MARKS are red; the Tibetan is not. Colouring the repeated text itself
@@ -951,6 +980,13 @@ a {
   text-decoration: none;
 }
 /** For translated TOC*/
+/** The ཟུར་ཡིག entry in the English TOC opens below a rule: everything above
+    it is the printed book, everything from it on is the editor's supplement. **/
+dt.extra {
+  border-top: 1px solid var(--ui-border);
+  margin-top: 1.2em;
+  padding-top: 0.8em;
+}
 ul .toctib1 {
   opacity: var(--secondary-strength);
   font-size: 0.7em;
@@ -973,41 +1009,6 @@ ul .toctib2 {
   }
 
 
-.center {
-  display: inline;
-}
-.center:before {
-  content: "(";
-  }
-.center:after {
-  content: ")";
-  }
-.unit {
-  page-break-inside: avoid;
-}
-
-/** The nav block. No rule of its own — the divider above the title does that
-    job now. overflow contains the floated arrows, which previously escaped
-    the div. **/
-div#pagenumberlist {
-  margin: 2em;
-}
-div.pn {
-  margin-top: -1.8em;
-}
-div.pnh {
-  margin-top: -2.3em;
-  margin-bottom: 0.4em;
-}
-div.pagenumber {
-  text-align: center;
-}
-.prevlink {
-  float: left;
-}
-.nextlink {
-  float: right;
-}
 table, th, td {
   border: 1px solid var(--ui-border);
   border-collapse: collapse;

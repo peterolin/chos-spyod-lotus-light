@@ -15,7 +15,7 @@
 
      Spaces the source uses, for reference when editing:
        U+2002 EN SPACE          &#8194;  after a gter tsheg ༔
-       U+200A HAIR SPACE        &#8202;  after a visarga ཿ, so the next letter does not collide
+       (no space after a visarga ཿ — the hair spaces once inserted there were removed 2026-09-16, the gap read too wide on iPad)
        U+202F NARROW NO-BREAK   &#8239;  inside the braces, set by the stylesheet
        U+00A0 NO-BREAK SPACE    &#160;   between a lone seed syllable and its text            -->
 
@@ -27,88 +27,63 @@
 
 <h2>What is printed</h2>
 
-<table>
-  <colgroup>
-    <col span="1" style="width: 38%;"/>
-    <col span="1" style="width: 62%;"/>
-  </colgroup>
-  <tbody>
-    <tr>
-      <td><span class="tibnormal">སྐྱབས་སུ་མཆིའོ། །</span></td>
-      <td><b>Text to recite.</b> The large letters of the <i>pecha</i>, in the reader's own ink.</td>
-    </tr>
-    <tr>
-      <td><span class="tibyigchung">ཞེས་ལན་གསུམ།</span></td>
-      <td><b>Small letters, <i>yig chung</i>.</b> Instructions, colophons and notes, printed small in the <i>pecha</i> and set small here, one degree quieter, hanging from the same head line as the large letters.</td>
-    </tr>
-  </tbody>
-</table>
+<dl class="legend">
+  <dt><span class="tibnormal">སྐྱབས་སུ་མཆིའོ། །</span></dt>
+  <dd><b>Text to recite.</b> The large letters of the <i>pecha</i>, in the eBook reader's own ink. By <i>eBook reader</i> this page means the app the book is open in, such as Apple Books, Google Play Books or Kobo, not the person reading.</dd>
+
+  <dt><span class="tibyigchung">ཞེས་ལན་གསུམ།</span></dt>
+  <dd><b>Small letters, <i>yig chung</i>.</b> Instructions, colophons and notes, printed small in the <i>pecha</i> and set small here, one degree quieter, hanging from the same head line as the large letters.</dd>
+</dl>
 
 <h2>What the editor added</h2>
 
-<p>Two colours carry the whole system. <b>Red</b> marks what the editor supplied: landing points, repeat braces, and refrains written out where the print abbreviates. <b>Blue</b>, the reader's own link colour, marks what can be tapped. Black is the <i>pecha</i>.</p>
+<p>Two colours carry the whole system. <b>Red</b> marks what the editor supplied: landing points, repeat braces, and refrains written out where the print abbreviates. <b>Blue</b>, the eBook reader's own link colour, marks what can be tapped. Black is the <i>pecha</i>.</p>
 
-<table>
-  <colgroup>
-    <col span="1" style="width: 38%;"/>
-    <col span="1" style="width: 62%;"/>
-  </colgroup>
-  <tbody>
-    <tr>
-      <td>ལ་སོགས་པ།<span id="k_target" class="inlineAnchor"></span>ལ་སོགས་པ།</td>
-      <td><b>Landing point.</b> A red jewel in braces marks a place that links elsewhere bring you to, usually the first line to recite after a jump. With a short label when several sit close together:<br/>
-      ལ་སོགས་པ།<span id="k_target2" class="inlineAnchor">མཆོད་པ།</span>ལ་སོགས་པ།</td>
-    </tr>
-    <tr>
-      <td>ལ་སོགས་པ། <a class="jumpDown" href="#k_target">ཨོཾ་རྗེ་བཙུན་མ། <span class="lpn">114</span></a> ལ་སོགས་པ།</td>
-      <td><b>Jump.</b> A blue link in braces leads to the text that follows in actual recitation. The label is the opening words or title of the destination, the number its page in the printed book, and the triangle points forward or back through the book:<br/>
-      <a class="jumpUp" href="#k_target">ཨོཾ་རྗེ་བཙུན་མ། <span class="lpn">114</span></a> back &#160; <a class="jumpDown" href="#k_target">ཨོཾ་རྗེ་བཙུན་མ། <span class="lpn">114</span></a> forward</td>
-    </tr>
-    <tr>
-      <td><a class="jumpDown" href="#k_target" data-scope="out">ཐུགས་སྒྲུབ་ཟུར་འདེབས། <span class="lpn">340</span></a></td>
-      <td><b>Jump to another text.</b> Two triangles mean the jump leaves the prayer you are in for a different one; one triangle stays within it.</td>
-    </tr>
-    <tr>
-      <td><span id="k_rep1" class="repeatWrap">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ་ཧྲཱིཿ</span><a class="jumpRepeat" href="#k_rep1"></a><br/>
-          <span id="k_rep3" class="repeatWrap3">ཨོཾ་མུ་ནི་མུ་ནི་མ་ཧཱ་མུ་ན་ཡེ་སྭཱཧཱ།</span><a class="jumpRepeat3" href="#k_rep3"></a></td>
-      <td><b>Repeat.</b> Red braces enclose a passage to be repeated; a number after the closing brace says how many times, none means as many as the practice requires. The closing brace is itself a link back to the opening one, for long passages.</td>
-    </tr>
-    <tr>
-      <td>ལ་སོགས་པ༴<span class="repeatNextOcc">ཕྱག་འཚལ་ལོ།</span></td>
-      <td><b>Written-out refrain.</b> Where the <i>pecha</i> abbreviates a repeated line with the mark ༴, the editor has written the line out after it in red, so it can be read without turning back. The black text and the mark are printed; the red is not.</td>
-    </tr>
-    <tr>
-      <td><span class="tibnormal">༼ ཞལ་འདོན། ▸༽</span></td>
-      <td><b>To the recitation.</b> In the seven-chapter prayer each chapter opens with narrative in small letters; this link skips to its first line to recite.</td>
-    </tr>
-    <tr>
-      <td><i>Heading, page number, arrows</i></td>
-      <td><b>Titles.</b> Every prayer carries a red title with the page on which it starts in the printed book and arrows to the previous and next prayer. The titles are those of the printed table of contents. Sections within one practice have smaller, quieter titles with small triangles flush to the name.</td>
-    </tr>
-    <tr>
-      <td><i>Page numbers</i></td>
-      <td><b>Printed pages.</b> Page breaks that fall mid-sentence in the <i>pecha</i> are not shown; the page number of each prayer stands under its title, and the table of contents at the end lists them all.</td>
-    </tr>
-  </tbody>
-</table>
+<dl class="legend">
+  <dt>ལ་སོགས་པ།<span id="k_target" class="inlineAnchor"></span>ལ་སོགས་པ།</dt>
+  <dd><b>Landing point.</b> A red jewel in braces marks a place that links elsewhere bring you to, usually the first line to recite after a jump. With a short label when several sit close together:<br/> ལ་སོགས་པ།<span id="k_target2" class="inlineAnchor">མཆོད་པ།</span>ལ་སོགས་པ།</dd>
+
+  <dt>ལ་སོགས་པ། <a class="jumpDown" href="#k_target">ཨོཾ་རྗེ་བཙུན་མ། <span class="lpn">114</span></a> ལ་སོགས་པ།</dt>
+  <dd><b>Jump.</b> A blue link in braces leads to the text that follows in actual recitation. The label is the opening words or title of the destination, the number its page in the printed book, and the triangle points forward or back through the book:<br/> <a class="jumpUp" href="#k_target">ཨོཾ་རྗེ་བཙུན་མ། <span class="lpn">114</span></a> back &#160; <a class="jumpDown" href="#k_target">ཨོཾ་རྗེ་བཙུན་མ། <span class="lpn">114</span></a> forward</dd>
+
+  <dt><a class="jumpDown" href="#k_target" data-scope="out">ཐུགས་སྒྲུབ་ཟུར་འདེབས། <span class="lpn">340</span></a></dt>
+  <dd><b>Jump to another text.</b> Two triangles mean the jump leaves the prayer you are in for a different one; one triangle stays within it.</dd>
+
+  <dt><span id="k_rep1" class="repeatWrap">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ་ཧྲཱིཿ</span><a class="jumpRepeat" href="#k_rep1"></a><br/> <span id="k_rep3" class="repeatWrap3">ཨོཾ་མུ་ནི་མུ་ནི་མ་ཧཱ་མུ་ན་ཡེ་སྭཱཧཱ།</span><a class="jumpRepeat3" href="#k_rep3"></a></dt>
+  <dd><b>Repeat.</b> Red braces enclose a passage to be repeated; a number after the closing brace says how many times, none means as many as the practice requires. The closing brace is itself a link back to the opening one, for long passages.</dd>
+
+  <dt>ལ་སོགས་པ༴<span class="repeatNextOcc">ཕྱག་འཚལ་ལོ།</span></dt>
+  <dd><b>Written-out refrain.</b> Where the <i>pecha</i> abbreviates a repeated line with the mark ༴, the editor has written the line out after it in red, so it can be read without turning back. The black text and the mark are printed; the red is not.</dd>
+
+  <dt><span class="tibnormal">༼ ཞལ་འདོན། ▸༽</span></dt>
+  <dd><b>To the recitation.</b> Where a prayer opens with a long passage in small letters, an instruction, a narrative or a colophon, this link skips past it to the first line to recite. The seven-chapter prayer has one at the head of each chapter.</dd>
+
+  <dt><i>Heading, page number, arrows</i></dt>
+  <dd><b>Titles.</b> Every prayer carries a red title with the page on which it starts in the printed book and arrows to the previous and next prayer. The titles are those of the printed table of contents. Sections within one practice have smaller, quieter titles with small triangles flush to the name.</dd>
+
+  <dt><i>Page numbers</i></dt>
+  <dd><b>Printed pages.</b> Page breaks that fall mid-sentence in the <i>pecha</i> are not shown; the page number of each prayer stands under its title, and the table of contents at the end lists them all.</dd>
+</dl>
+
+<p>The jumps and the order they suggest come from the editor's own experience of practice at Ka-Nying Shedrub Ling and at Gomde centres around the world. They are admittedly incomplete, and somewhat arbitrary: prayers are recited in different orders at different places and on different occasions. If there are jumps or guidance you would find useful in a coming version, please reach out to the editor.</p>
 
 <h2>Reading preferences</h2>
 
 <!-- Revealed by toggle.js, which also remembers the choice across the whole
      book (localStorage). Stays hidden where scripts do not run. -->
 <div id="prefs" class="prefs needsjs">
-  <p><b>Small letters, <i>yig chung</i>:</b> <a id="yigchungGreen" class="switch" href="#prefs">reader's ink</a>
+  <p><b>Small letters, <i>yig chung</i>:</b> <a id="yigchungGreen" class="switch" href="#prefs">eBook reader's ink</a>
   <span class="sample"><span class="tibnormal">སྐྱབས་སུ་མཆིའོ། །</span><span class="tibyigchung">ཞེས་ལན་གསུམ།</span></span></p>
-  <p>Tap the blue word to switch between the reader's ink and green ink. The choice is kept for the whole book, on this device, until you change it here. In a dark theme some readers repaint all text in their own ink and the green will not show.</p>
+  <p>Tap the blue word to switch between the eBook reader's ink and green ink. The choice is kept for the whole book, on this device, until you change it here. In a dark theme some eBook readers repaint all text in their own ink and the green will not show.</p>
 </div>
 
 <h2>Typography</h2>
 
-<p>The Tibetan is set in <b>Noto Serif Tibetan</b>, an <i>uchen</i> face released under the SIL Open Font License and embedded in the book, so it reads the same on Apple and Android. It was chosen for correctness rather than looks: its vowel signs, <i>anusvāra</i> and <i>visarga</i> are positioned by the font itself on every letter, which older Tibetan fonts leave to the reading system and often get wrong.</p>
+<p>The Tibetan is set in <b>Noto Serif Tibetan</b>, an <i>uchen</i> face released under the SIL Open Font License and embedded in the book, so it reads the same on Apple and Android. It was chosen for correctness rather than looks: its vowel signs, <i>anusvāra</i> and <i>visarga</i> are positioned by the font itself on every letter, which older Tibetan fonts leave to the eBook reader and often get wrong.</p>
 
 <p>Tibetan hangs from a head line rather than sitting on a baseline. Where small letters share a line with large ones they are raised so that the head lines meet, as they do on the printed page. All added marks, the braces ༼ ༽, the jewel ࿉, the abbreviation mark ༴ and the numerals, are letters of the Tibetan Unicode block drawn from the same font, not symbols borrowed from elsewhere, so they match the text in weight and colour. The only exceptions are the small triangles, which are arrows and not Tibetan.</p>
 
-<p>Colour follows the convention above wherever the reading system allows. In a dark theme some readers repaint all text in their own ink; the braces, jewels and title rules keep their colour, the words do not.</p>
+<p>Colour follows the convention above wherever the eBook reader allows. In a dark theme some eBook readers repaint all text in their own ink; the braces, jewels and title rules keep their colour, the words do not.</p>
 
 <!-- Colophon. {{VERSION}}, {{BUILD}} and {{YEAR}} are filled in by
      tools/pack.sh. Quote the build when reporting a problem. -->
