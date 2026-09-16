@@ -1,0 +1,13 @@
+BrdaYig-p88.ttf
+
+A one-glyph font. The köljang (chos spyod p. 88) opens with a short line of
+ḍākinī script (བརྡ་ཡིག), a few stacked signs that are not Tibetan letters and
+that Unicode cannot spell. The signs are traced from the Rinchen Terdzö,
+where the same line stands clean, and mapped to U+E000 (Private Use Area).
+Set as text they take the reader's ink in every theme, which no image can
+do in Apple Books' Night theme (it repaints text, and leaves images alone).
+
+Height 0.6 em hung from the head line (472/1000), as in the pecha, where the
+signs stand as tall as the letters without their vowel signs. Made
+2026-09-16 with fontTools from a pixel-edge trace of the bitmap; free to use
+with the book.

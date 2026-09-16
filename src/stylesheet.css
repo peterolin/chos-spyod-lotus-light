@@ -29,6 +29,12 @@
   font-style: normal;
 }
 @font-face {
+  src: url(fonts/BrdaYig-p88.ttf);
+  font-family: "Brda yig p88";
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
   src: url(fonts/Courier-New.ttf);
   font-family: "Courier New";
   font-weight: normal;
@@ -1252,29 +1258,16 @@ img {
 /** SYMBOLIC SCRIPT (བརྡ་ཡིག). The köljang (p. 88) opens with a short line of
     ḍākinī script between its title and སྤྲོས་མེད་: a few stacked signs that
     are not Tibetan letters and that Unicode cannot spell. The 2561 EPUB had
-    typed a garbled stack there (ངྣདྨངྒྱཌྒྱ) that rendered as nonsense; since
-    2026-09-16 the line is a transparent PNG of the signs, black ink, so it
-    takes the page's ground in every light theme. The chos spyod's own print
-    is coarse; the signs are reproduced from the Rinchen Terdzö, where the
-    same line stands clean. The gter tsheg
-    that follows the signs is part of the image, since in print it touches
-    them. Sized against the yig chung it sits in: in the scan the signs stand
-    half as tall as the full letters with vowels, about 0.7 of the em. **/
-img.brdayig {
-  height: 0.7em;
-  width: auto;
-  vertical-align: baseline;
-}
-/** Dark themes: black ink would vanish. Two copies of the signs stand in
-    the markup, black ink and white ink, and the stylesheet shows one. Where
-    the reader signals a dark scheme (Books' Night does, see the PLATFORM
-    NOTE) the white one is shown. Two earlier tries failed in Books
-    (2026-09-16): filter: invert(1) was ignored, and `content: url(…)` on the
-    img drew a broken-image icon — Books loads images from src, not from
-    CSS. The white copy has an empty alt, so a screen reader hears the line
-    once. **/
-img.brdayig.night { display: none; }
-@media (prefers-color-scheme: dark) {
-  img.brdayig.day   { display: none; }
-  img.brdayig.night { display: inline; }
-}
+    typed a garbled stack there (ངྣདྨངྒྱཌྒྱ) that rendered as nonsense.
+
+    The signs are TEXT: one glyph at U+E000 in a one-glyph font traced from
+    the Rinchen Terdzö (fonts/ABOUT-BrdaYig-p88.txt), where the same line
+    stands clean. Three image forms were tried on 2026-09-16 and every one
+    lost in Books' Night theme, which repaints text but leaves images alone:
+    filter: invert(1) was ignored, content: url(…) drew a broken-image icon,
+    and a second white-ink <img> shown under prefers-color-scheme: dark
+    appeared for a moment and was then repainted away. A glyph takes the
+    reader's ink like every letter around it, in every theme, at every size.
+    The glyph's own metrics carry the height (0.6 em from the head line) and
+    the side bearings; nothing to size here. **/
+.brdayig { font-family: "Brda yig p88", serif; }

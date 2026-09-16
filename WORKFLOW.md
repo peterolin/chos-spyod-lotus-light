@@ -168,7 +168,8 @@ src/              unpacked EPUB — THE SOURCE OF TRUTH
   fonts/            Monlam Uni OuChan2 (free to use, confirmed 2026-09-16; see
                     ABOUT-… beside it); Jomolhari-mchan.ttf, a two-glyph OFL
                     subset carrying only the mchan rtags ࿙ ࿚ that Monlam lacks;
-                    Courier New
+                    BrdaYig-p88.ttf, one glyph (U+E000): the line of symbolic
+                    script that opens the köljang; Courier New
   META-INF/
 
 build/            generated .epub (git-ignored)
