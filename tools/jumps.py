@@ -13,6 +13,13 @@ the text (same classes, same href, so it is live), then in small type where
 it stands and where it lands: prayer and page on both sides, and the target
 id. Built for the label review of 2026-09-17 (Peter: "let me review every
 single one"); a reader who finds it useful may keep it.
+
+LANDMARKS. A landing jewel may carry a short name — the step of the liturgy
+it begins (མཆོད་པ, མཎྜལ, བཤགས་པ, རྗེས་སུ་ཡི་རང, བསྔོ་སྨོན…), taken from the yig
+chung that announces it. Every link into a named jewel uses the same name as
+its first words, so the reader lands on the word they tapped. Links whose
+words differ from their target's label are listed when the page is written
+and flagged ≠ on it.
 """
 import re
 import sys
@@ -58,8 +65,18 @@ def collect():
                     trel = "OPS/" + tf.split("/")[-1]
             tp = pos.get((trel, frag))
             to = prayer_at(sections, trel, tp[1]) if tp else ("", "")
+            # the target jewel's label, if it has one: link words should equal it
+            target_label = ""
+            if tp:
+                ttext = per_file[trel][0]
+                # id_positions points at the id attribute; back up to the tag's '<'
+                start = ttext.rfind("<", 0, tp[1])
+                lm = re.match(r'<span id="[^"]+" class="(?:inlineAnchor|inlineAnchorReturn|repeatAnchor)">([^<]*)</span>', ttext[start:])
+                if lm:
+                    target_label = lm.group(1).strip()
+            mismatch = bool(target_label) and words.split(" ")[0].rstrip("།་") != target_label.rstrip("།་") and cls != "jumpTODO"
             rows.append(dict(file=rel, cls=cls, out=out, href=href, inner=inner, words=words, page=page,
-                             frm=frm, to=to, frag=frag, todo=(cls == "jumpTODO")))
+                             frm=frm, to=to, frag=frag, todo=(cls == "jumpTODO"), target_label=target_label, mismatch=mismatch))
     def key(r):
         p = r["page"]
         return (2, 0, r["words"]) if p == "ཟུར་ཡིག" else ((1, 0, r["words"]) if not p.isdigit() else (0, int(p), r["words"]))
@@ -85,6 +102,8 @@ def render(rows):
         frm = f'{esc(r["frm"][0])} {r["frm"][1]}'.strip()
         to = f'{esc(r["to"][0])} {r["to"][1]}'.strip() or "?"
         flag = ' <span class="flag">TODO</span>' if r["todo"] else ""
+        if r["mismatch"]:
+            flag += f' <span class="flag">≠ {esc(r["target_label"])}</span>'   # words differ from the landmark
         lines.append(f'<p class="jumprow">{link}{flag}<br/><span class="jumpmeta">from {frm} · to {to} · <span class="id">#{esc(r["frag"])}</span></span></p>')
     return f'''<?xml version='1.0' encoding='utf-8'?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -110,7 +129,11 @@ def main(argv):
         print("jumps.htm up to date" if new == old else "jumps.htm would change")
         return 0 if new == old else 1
     OUT.write_text(new, encoding="utf-8")
-    print(f"wrote {OUT.name}: {new.count('<p class=')} jumps")
+    rows = collect()
+    mism = [r for r in rows if r["mismatch"]]
+    print(f"wrote {OUT.name}: {len(rows)} jumps; {len(mism)} whose words differ from the target's landmark label")
+    for r in mism:
+        print(f"    {r['file'].split('/')[-1]:14} “{r['words']}” → label “{r['target_label']}”  #{r['frag']}")
     return 0
 
 
