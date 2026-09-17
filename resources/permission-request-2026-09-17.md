@@ -36,6 +36,16 @@ recited at Ka-Nying that are not in the printed book, taken from the Lumbini
    link — at present six places in the Zabtik Drolchok, which are marked in
    the book itself.
 
+**Why a store listing.** The eBook is free either way, but a listing in the
+free section of the bookstores would serve the sangha in five ways: the book
+is easy to find, by searching the store rather than knowing a web address; it
+brings the monastery's chant book a little publicity among practitioners
+elsewhere; everyone who downloads it holds the same version, which matters
+when a room recites together; when a correction is made, the stores update
+every copy by themselves, where a downloaded file stays as it was; and a
+listing under the monastery's name looks official, which is good for the
+book and for the gompa.
+
 **What I undertake in return.** The title page will name Ka-Nying Shedrub
 Ling and state that the edition is authorised. Anything the monastery asks me
 to change or remove, I will change or remove. Every future version will be
@@ -79,6 +89,14 @@ Editor of the eBook; translator, Khyentse Vision Project
 དོགས་གནད་ཆུང་ངུ་འགའ་ཡོད་པ་དེ་དག་ལ་བླ་མ་ཞིག་གིས་ཞལ་བཀོད་གནང་བར་ཞུ། ད་ལྟ་ཟབ་ཏིག་སྒྲོལ་ཆོག་གི་ནང་དུ་
 ས་ཚིགས་དྲུག་ཡོད་པ་དེ་དག་དེབ་རང་གི་ནང་དུ་རྟགས་བཀོད་ཟིན།
 
+**དྲ་ཐོག་དཔེ་དེབ་ཁང་དུ་འགོད་དགོས་པའི་རྒྱུ་མཚན།** གློག་རྡུལ་དེབ་འདི་གང་ལྟར་ཡང་རིན་མེད་ཡིན་མོད།
+དཔེ་དེབ་ཁང་གི་རིན་མེད་སྡེ་ཚན་དུ་བཀོད་ཐུབ་ཚེ་དགེ་འདུན་དང་ཆོས་གྲོགས་ཚོར་ཕན་ཐོགས་ལྔ་ཡོད་པ་སྟེ།
+དྲ་ཚིགས་ཀྱི་ཁ་བྱང་ཤེས་མི་དགོས་པར་དཔེ་དེབ་ཁང་དུ་འཚོལ་བ་ཙམ་གྱིས་འཕྲལ་དུ་རྙེད་ཐུབ་པ། དགོན་པའི་ཆོས་སྤྱོད་འདི་
+ཕྱོགས་གཞན་གྱི་ཉམས་ལེན་པ་ཚོའི་ཁྲོད་དུའང་ཅུང་ཟད་ཁྱབ་སྤེལ་ཡོང་བ། ཕབ་ལེན་བྱེད་མཁན་ཐམས་ཅད་ལ་པར་གཞི་གཅིག་
+མཚུངས་ཡོད་པས་ཚོགས་ཁང་དུ་མཉམ་དུ་ཁ་ཏོན་བྱེད་སྐབས་མཐུན་པ། ནོར་བཅོས་བྱས་མ་ཐག་དཔེ་དེབ་ཁང་རང་ནས་ཀུན་གྱི་
+དེབ་རང་འགུལ་གྱིས་གསར་བསྒྱུར་བྱེད་པ་སྟེ། ཕབ་ལེན་བྱས་པའི་ཡིག་ཆ་ནི་སྔར་བཞིན་ལུས་པ་ལས་མི་འགྲོ་བ། དགོན་པའི་མཚན་
+ཐོག་ཏུ་བཀོད་ཡོད་ཚེ་གཞུང་འབྲེལ་གྱི་རྣམ་པ་ཡོད་པས་དེབ་ལ་ཡང་དགོན་པ་ལ་ཡང་མཛེས་བཟོ་ཡིན་པ་བཅས་ལགས།
+
 **ཁོ་བོས་ཁས་འཆེ་བ།** མཚན་བྱང་ཤོག་ངོས་སུ་བཀའ་རྙིང་བཤད་སྒྲུབ་གླིང་གི་མཚན་བཀོད་ནས་བཀའ་འཁྲོལ་ཐོབ་པའི་
 དཔར་མ་ཞེས་གསལ་བར་འགོད་རྒྱུ། དགོན་པ་ནས་བསྒྱུར་བཅོས་བྱ་དགོས་པའམ་འདོར་དགོས་པ་གང་བཀའ་གནང་བ་དེ་ལྟར་
 སྒྲུབ་རྒྱུ། མ་འོངས་པའི་པར་གཞི་གསར་པ་རེ་རེ་འགྲེམ་སྤེལ་མ་བྱས་སྔོན་དུ་ཞིབ་བཤེར་གྲུབ་ཐུབ་པར་ཕུལ་རྒྱུ་དང་།
@@ -106,5 +124,7 @@ Editor of the eBook; translator, Khyentse Vision Project
 - "Third printing" is པར་གཞི་གསུམ་པ; "authorised edition" བཀའ་འཁྲོལ་ཐོབ་པའི་དཔར་མ.
 - The two numbered requests use the Tibetan enumeration ༡༏ ༢༏ so the reader
   sees at once that there are exactly two.
+- "Store listing" is དྲ་ཐོག་དཔེ་དེབ་ཁང་དུ་འགོད་པ; "updates automatically" རང་འགུལ་གྱིས་གསར་བསྒྱུར;
+  "official-looking" གཞུང་འབྲེལ་གྱི་རྣམ་པ; "good optics" is rendered as མཛེས་བཟོ, an ornament.
 - Peter to check the rendering of the KVP name (མཁྱེན་བརྩེའི་གཟིགས་སྣང་ལས་འཆར་) against
   the project's own Tibetan name before sending.
