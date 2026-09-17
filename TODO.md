@@ -280,20 +280,6 @@ refuge at 346 sits inside the span and must keep working.
 
 ### F14. Prayer titles on a portrait phone: the arrows leave the title a slot
 
-**BUILT 2026-09-17, awaiting the phone test.** Not option 1 or 2 as sketched
-below: working the CSS through showed that flex alone cannot keep the arrows
-flanking on one line AND move them together to another — flex places items one
-by one, so the left arrow lands alone on the first line before the title wraps.
-So the decision is measured: toggle.js compares each title's natural one-line
-width with the room beside its arrows (on load, when the fonts arrive, on
-resize/rotation) and sets class `wrapped`, which puts the arrows in a row ABOVE
-the title at full width. Where no script runs, `@media (max-width: 30em)` under
-`html:not(.js)` applies the same layout to every big heading. Every heading's
-title text is now `<span class="title">…</span>` (135 headings); nav.py, jewels.py
-and fmt.py unaffected. Test on a phone in portrait at the default size and one
-step larger, and once in landscape; then move this to Completed.
-
-
 Asked 2026-09-17 (Peter, iPad and phone). The prev/next arrows are absolutely
 positioned at `left: 0` / `right: 0`, vertically centred on the heading
 (`.tocpage1 > .left/.right`, stylesheet ~713). On a wide screen that is right:
