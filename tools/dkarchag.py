@@ -65,8 +65,12 @@ def rows():
         else:
             g = gl.get(src, "")
             gloss = f'<span class="gloss">{esc(g)}</span>' if g else ""
-            body.append(f'  <li class="d{depth}"><a href="{src}"><span class="title">{esc(title)}</span>'
-                        f'<span class="pg">{page}</span></a>{gloss}</li>')
+            # The <a> holds the bare title and nothing else: Apple Books builds
+            # its contents panel from the page the OPF guide names as "toc" and
+            # reads each link's own text — spans inside the link came out blank
+            # (build 261, 2026-09-17). The page number stands beside the link.
+            body.append(f'  <li class="d{depth}"><a href="{src}">{esc(title)}</a>'
+                        f'<span class="pg">{page}</span>{gloss}</li>')
         for child in np.findall("n:navPoint", NS):
             walk(child, depth + 1)
 
