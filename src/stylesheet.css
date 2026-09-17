@@ -1399,6 +1399,7 @@ html.toc-gloss .dkarchag .gloss { display: block; }
 .dkarchag .dkarhint .bo { font-family: "Monlam Uni OuChan2", serif; font-size: 1.25em; }   /* ཤོག་གྲངས་པར་མ་ལྟར། — page numbers as in the printed edition */
 .dkarchag .dkarhint .prefs { font-size: inherit; }
 .dkarchag .dkarhint .switch { text-decoration: none; }
+.dkarchag .dkarhint .switch:before, .dkarchag .dkarhint .switch:after { content: none; padding: 0; }   /* no braces here: a plain link in a hint line */
 
 /** TITLE PAGE — src/OPS/titlepage.htm (2026-09-17). Tibetan first, in the
     book's own face and the titles' red; the house in Tibetan, then in the
