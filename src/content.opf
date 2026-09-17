@@ -89,5 +89,5 @@
     <reference href="cover.xhtml" title="Cover" type="cover"/>
     <reference type="text" title="Text" href="OPS/p004-084.htm#page4"/>
     <reference type="title-page" title="Title page" href="OPS/titlepage.htm"/>
-    <reference type="acknowledgements" title="Acknowledgements" href="acknowledgements.htm"/>
+    <reference type="colophon" title="Colophon" href="acknowledgements.htm"/>
 </guide></package>

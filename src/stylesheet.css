@@ -1384,3 +1384,45 @@ html.toc-gloss .dkarchag .gloss { display: block; }
 .dkarchag .dkartail li { font-family: inherit; }
 .dkarchag .dkartail li a { padding: 0.2em 0; opacity: var(--secondary-strength); }
 .dkarchag .prefs { margin-top: 1em; font-family: -apple-system, Helvetica, sans-serif; font-size: 0.75em; text-align: center; }
+
+/** TITLE PAGE — src/OPS/titlepage.htm (2026-09-17). Tibetan first, in the
+    book's own face and the titles' red; the house in Tibetan, then in the
+    Latin face; then a quiet edition line. Nothing else: the URL, the QR code
+    and the report link belong to the colophon at the back, where a Tibetan
+    book keeps its printer's note. The block sits a third of the way down. **/
+.titlepage .tp { text-align: center; padding-top: 22%; }
+.titlepage .tp-title {
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+  font-family: "Monlam Uni OuChan2", serif;
+  font-size: 1.45em;
+  font-weight: normal;
+  line-height: 1.7;
+  margin: 0 0.5em 1.4em;
+}
+.titlepage .tp-house { font-family: "Monlam Uni OuChan2", serif; font-size: 1.1em; line-height: 1.6; margin: 0; }
+.titlepage .tp-house-en {
+  font-family: -apple-system, Helvetica, Arial, sans-serif;
+  font-size: 0.7em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: var(--secondary-strength);
+  margin: 0.2em 0 2.4em;
+}
+.titlepage .tp-edition {
+  font-family: -apple-system, Helvetica, Arial, sans-serif;
+  font-size: 0.65em;
+  line-height: 1.6;
+  opacity: var(--secondary-strength);
+  margin: 0;
+}
+
+/** COLOPHON — src/acknowledgements.htm (the file keeps its name so old links
+    hold). English prose, the version stamp, the URL and QR, the report link. **/
+.colophonpage h1 { font-size: 1.1em; font-weight: normal; text-align: center; color: var(--accent); -webkit-text-fill-color: var(--accent); margin: 0.6em 0 1em; }
+.colophonpage h1 span { font-family: "Monlam Uni OuChan2", serif; margin-right: 0.4em; }
+.colophonpage p { font-size: 0.85em; line-height: 1.5; }
+.colophonpage .colophon { text-align: center; margin: 1.6em 0 0.4em; }
+.colophonpage .colophon-links { text-align: center; }
+.colophonpage .colophon-links p { margin: 0.3em 0; }
+.colophonpage .qr { width: 7em; height: auto; margin: 0.6em auto; display: block; }

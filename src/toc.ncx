@@ -799,7 +799,7 @@
     </navPoint>
     <navPoint id="front_3" playOrder="130">
       <navLabel>
-        <text>Notes from the Editor</text>
+        <text>How to read this book</text>
       </navLabel>
       <content src="key.xhtml"/>
     </navPoint>
@@ -823,7 +823,7 @@
     </navPoint>
     <navPoint id="front_2" playOrder="134">
       <navLabel>
-        <text>Acknowledgements</text>
+        <text>པར་བྱང་། Colophon</text>
       </navLabel>
       <content src="acknowledgements.htm"/>
     </navPoint>
