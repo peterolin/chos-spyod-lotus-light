@@ -744,7 +744,8 @@ html.yigchung-green .tibyigchungH {
 }
 /** The row sits tight on the title: the arrows lose their vertical padding
     here, the row's line box is 1, and the title pulls up by a third of an
-    em (iPad, 2026-09-17: the first cut left the row floating). **/
+    em, then a tenth (iPad, 2026-09-17: the first cut left the row floating,
+    the second set it too tight). **/
 .tocpage1 > .left,  .tocpage2:not(.minor) > .left  { order: 1; padding-top: 0; padding-bottom: 0; line-height: 1; }
 .tocpage1 > .pageno, .tocpage2:not(.minor) > .pageno { order: 2; display: inline; line-height: 1; font-size: 0.55em; padding-bottom: 0; }
 .tocpage1 > .right, .tocpage2:not(.minor) > .right { order: 3; padding-top: 0; padding-bottom: 0; line-height: 1; }
@@ -752,7 +753,7 @@ html.yigchung-green .tibyigchungH {
   flex: 0 0 100%;
   order: 4;
   text-align: center;
-  margin-top: -0.35em;
+  margin-top: -0.1em;     /* -0.35 was a shade too tight (iPad, build 258) */
 }
 .tocpage1 > .left, .tocpage2 > .left,
 .tocpage1 > .right, .tocpage2 > .right {
