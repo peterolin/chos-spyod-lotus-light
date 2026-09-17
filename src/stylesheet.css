@@ -1396,6 +1396,7 @@ html.toc-gloss .dkarchag .gloss { display: block; }
 /** The English-titles switch rides in the hint line under the heading, where
     a reader sees it before scrolling (Peter, 2026-09-17). Same size, same
     quiet grey; only the link colour says it can be tapped. **/
+.dkarchag .dkarhint .bo { font-family: "Monlam Uni OuChan2", serif; font-size: 1.25em; }   /* ཤོག་གྲངས་པར་མ་ལྟར། — page numbers as in the printed edition */
 .dkarchag .dkarhint .prefs { font-size: inherit; }
 .dkarchag .dkarhint .switch { text-decoration: none; }
 
