@@ -313,3 +313,8 @@ it proves the two versions identical once whitespace is collapsed, and
 refuses otherwise. So: edit freely, run `python3 tools/fmt.py`, commit.
 Reflows of the whole tree go in a commit of their own, so `git blame` on the
 Tibetan stays useful.
+
+`.vscode/settings.json` turns off every HTML/XML formatter for this repo
+(format on save, paste and type; Prettier) — an editor formatter would put
+gaps between letters — and highlights invisible characters so a U+00A0 can be
+seen. Trimming trailing whitespace stays on: it is render-safe.

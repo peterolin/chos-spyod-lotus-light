@@ -1,0 +1,38 @@
+{
+  // Tibetan has no word spaces: every space or line break in src/ is a visible
+  // gap on the page. An HTML formatter inserts whitespace between tags and
+  // would put gaps between letters in every file it touched. So: no formatter
+  // for the book's files, ever. Layout is tools/fmt.py's job (WORKFLOW.md,
+  // "Source layout"), and it exchanges whitespace only where it already is.
+  "[html]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.defaultFormatter": null
+  },
+  "[xml]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.defaultFormatter": null
+  },
+  "html.format.enable": false,
+  "prettier.enable": false,
+  "files.associations": {
+    "*.htm": "html",
+    "*.xhtml": "html",
+    "*.opf": "xml",
+    "*.ncx": "xml"
+  },
+  // These two are safe: a trailing space before a newline collapses with it.
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  // Show the two whitespace characters that matter: ordinary space and U+00A0.
+  "editor.renderWhitespace": "boundary",
+  "editor.unicodeHighlight.nonBasicASCII": false,
+  "editor.unicodeHighlight.invisibleCharacters": true,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "files.exclude": {
+    "**/*.out": true
+  }
+}
