@@ -407,6 +407,58 @@ dl.legend dd { margin: 0 0 0 1.2em; }
   page-break-inside: avoid;
   break-inside: avoid;
 }
+/** TITLE AND ARROWS ON A NARROW SCREEN (F14, 2026-09-17). The arrows are
+    pinned to the heading's edges and the title lives in the 2.4em-padded
+    slot between them. On a phone in portrait a long title wrapped to three
+    or four short lines in that slot. Wanted: the title is never squeezed —
+    where it fits on one line beside the arrows it stays there; where it
+    does not, it takes the whole width and the arrows move to a row of their
+    own above it.
+
+    CSS alone cannot do this: flex places items one at a time, so the left
+    arrow would land alone on the first line before the title wrapped. The
+    decision is therefore MEASURED by toggle.js — each title's natural
+    single-line width against the space beside the arrows, on load, after
+    the fonts arrive, and on every resize/rotation — and recorded as the
+    class `wrapped` on the heading. Where scripts do not run (the html
+    element then lacks the class `js`) a plain width query below applies the
+    same layout to every heading on a narrow screen. Quiet sub-headings are
+    excluded: their triangles already sit flush against the title. **/
+.tocpage1 > .title, .tocpage2 > .title {
+  display: inline-block;
+  max-width: 100%;
+}
+.tocpage1.wrapped, .tocpage2.wrapped {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 1.6em;
+  padding-left: 0;
+  padding-right: 0;
+}
+.tocpage1.wrapped > .left,  .tocpage2.wrapped > .left,
+.tocpage1.wrapped > .right, .tocpage2.wrapped > .right {
+  position: static;
+  margin-top: 0;
+  order: -1;                 /* the arrow row stands above the title */
+}
+.tocpage1.wrapped > .title,  .tocpage2.wrapped > .title  { flex: 0 0 100%; order: 0; }
+.tocpage1.wrapped > .pageno, .tocpage2.wrapped > .pageno { flex: 0 0 100%; order: 1; }
+/* The same layout, for every big heading, where no script can measure. */
+@media (max-width: 30em) {
+  html:not(.js) .tocpage1, html:not(.js) .tocpage2:not(.minor) {
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+    column-gap: 1.6em; padding-left: 0; padding-right: 0;
+  }
+  html:not(.js) .tocpage1 > .left,  html:not(.js) .tocpage2:not(.minor) > .left,
+  html:not(.js) .tocpage1 > .right, html:not(.js) .tocpage2:not(.minor) > .right {
+    position: static; margin-top: 0; order: -1;
+  }
+  html:not(.js) .tocpage1 > .title,  html:not(.js) .tocpage2:not(.minor) > .title  { flex: 0 0 100%; order: 0; }
+  html:not(.js) .tocpage1 > .pageno, html:not(.js) .tocpage2:not(.minor) > .pageno { flex: 0 0 100%; order: 1; }
+}
+
 /** QUIET SUB-HEADINGS — class="tocpage2 minor". Same heading level as the
     seven-chapter sub-headings, a different voice: for the sections inside one
     practice (the Trinley Nyingpo zur 'debs: opening the mantra mansion,

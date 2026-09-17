@@ -11,6 +11,11 @@
  *
  * Preferences, one class each:
  *   yigchung-green   yig chung in green ink instead of the body ink.
+ *
+ * It also marks <html> with the class `js` (so the stylesheet knows a script
+ * runs) and, for every big prayer title, measures whether the title fits on
+ * one line beside its arrows; where it does not, the heading gets the class
+ * `wrapped` and the arrows move to a row above the title (stylesheet, F14).
  */
 (function () {
   var KEY = 'chosspyod.yigchungGreen';
@@ -29,6 +34,39 @@
   }
 
   apply(read());
+  root.className = (root.className ? root.className + ' ' : '') + 'js';
+
+  /* TITLE FIT (F14). A title is never squeezed between its arrows: measure
+     its natural one-line width against the room beside them; if it does not
+     fit, class `wrapped` moves the arrows to their own row. Measured with
+     white-space:nowrap so the width is the whole title on one line, then
+     restored. Runs when the DOM is ready, again when the embedded fonts have
+     arrived (widths change with the face), and on resize and rotation. */
+  function fitTitles() {
+    var heads = document.querySelectorAll('.tocpage1, .tocpage2');
+    for (var i = 0; i < heads.length; i++) {
+      var h = heads[i];
+      if (/\bminor\b/.test(h.className)) { continue; }
+      var title = h.querySelector('.title'), left = h.querySelector('.left'), right = h.querySelector('.right');
+      if (!title || !left || !right) { continue; }
+      h.className = h.className.replace(/(^|\s)wrapped(?=\s|$)/g, '');
+      var prev = title.style.whiteSpace;
+      title.style.whiteSpace = 'nowrap';
+      var need = title.getBoundingClientRect().width;
+      title.style.whiteSpace = prev;
+      var room = h.clientWidth - left.offsetWidth - right.offsetWidth - 16;
+      if (need > room) { h.className += ' wrapped'; }
+    }
+  }
+  var fitTimer = null;
+  function fitSoon() { if (fitTimer) { clearTimeout(fitTimer); } fitTimer = setTimeout(fitTitles, 60); }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fitTitles, false);
+  } else { fitTitles(); }
+  window.addEventListener('load', fitTitles, false);
+  window.addEventListener('resize', fitSoon, false);
+  window.addEventListener('orientationchange', fitSoon, false);
+  if (document.fonts && document.fonts.ready && document.fonts.ready.then) { document.fonts.ready.then(fitTitles); }
 
   /* The control lives on the key page only. It is a LINK, not a checkbox:
      Apple Books gives taps on form controls to its page turner, so a
