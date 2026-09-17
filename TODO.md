@@ -278,6 +278,49 @@ refuge at 346 sits inside the span and must keep working.
 
 ---
 
+### F14. Prayer titles on a portrait phone: the arrows leave the title a slot
+
+Asked 2026-09-17 (Peter, iPad and phone). The prev/next arrows are absolutely
+positioned at `left: 0` / `right: 0`, vertically centred on the heading
+(`.tocpage1 > .left/.right`, stylesheet ~713). On a wide screen that is right:
+title and arrows share one line. On a phone in portrait the arrows eat both
+margins and a long title is squeezed into the slot between them and wraps to
+three or four lines, each short.
+
+Wanted: a layout that keeps arrows and title on one horizontal level where
+there is room, and gives the title the full width where there is not — the
+arrows then flow under the title, or sit above it as a small nav line.
+
+Techniques, in order of robustness in Books' WebKit:
+
+1. **A width media query.** `@media (max-width: 30em)` (or `26em`; measure)
+   switches the arrows from `position: absolute` to `position: static;
+   display: inline-block` and gives the heading `display: flex; flex-wrap:
+   wrap; justify-content: center` with the title text wrapped in a span that
+   takes `flex: 1 1 100%` so it sits on its own line and the two arrows drop to
+   a line beneath (or, with `order: -1`, above). Media queries fire in Books —
+   `prefers-color-scheme` already does. The heading markup has the title as
+   bare text between the arrow anchors and the page number; wrapping it in
+   `<span class="title">` is a mechanical edit across 128 headings and nav.py
+   must keep matching (PRAYER regex is on the `<h1 … id>` tag, unaffected).
+2. **Flex without a media query.** Heading as `display: flex; flex-wrap:
+   wrap; align-items: baseline`; arrows as flex items with fixed width; title
+   span with `flex: 1 1 auto; min-width: 12em`. When the title cannot get its
+   minimum beside the arrows it wraps to its own line automatically, no
+   breakpoint to tune. Elegant, but `min-width` on Tibetan of varying length
+   needs care, and the arrows land under the title, never above.
+3. **Arrows above the title everywhere** — one layout for all widths, a small
+   nav line `◂ prev · next ▸` over the red title. Simplest and most predictable;
+   costs a line of height on every screen, and on the iPad it would look like
+   a change for the phone's sake.
+
+Whatever is chosen: keep the arrows in the reader's link colour and at 85%,
+keep `nav.py`'s arrow rules untouched (they check hrefs, not layout), and
+test on a phone in portrait at the reader's default size and at one step
+larger — the breakpoint must not sit between those two. The `.tocpage2.minor`
+quiet sub-headings already use flex `order` for their triangles; that is the
+precedent to extend rather than a second mechanism.
+
 ## G. Markup and stylesheet review — 2026-09-15
 
 A second pass over `src/`, measured, after a month of navigation work. Graded
