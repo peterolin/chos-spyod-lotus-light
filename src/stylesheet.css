@@ -380,7 +380,10 @@ dl.legend dd { margin: 0 0 0 1.2em; }
       prayers end to end): the red title and a modest gap are enough to
       separate a heading from the verse before it. Was 1.1em above a 1px
       hairline and 0.9em below it. **/
-  margin: 0.7em 0 0.15em 0;
+  /** 1.2em above: with the arrow row on top (TITLE ROW below) this is the
+      gap between prayers, and it must outweigh the 0.1em between row and
+      title. Was 0.7em when the title itself stood first. **/
+  margin: 1.2em 0 0.15em 0;
   border-top: none;
   /** A title's divider is a border, and a border is drawn in normal flow — so
       anything floated beside it cuts straight through the red rule. That is
@@ -713,32 +716,41 @@ html.yigchung-green .tibyigchungH {
     to the heading's edges with the title in a padded slot between them; on a
     phone in portrait a long title wrapped to three or four short lines in
     that slot. Now the title has the whole width, always, and the arrows
-    stand in one row UNDER it with the page number between them:
+    stand in one row ABOVE it with the page number between them:
 
+                        ← 137 →
                     ཛམྦྷ་ལའི་ཆུ་སྦྱིན།
-                      ←  137  →
 
-    One layout at every size: on a narrow screen the row simply closes up.
-    No measuring, no breakpoint (a measured version was tried the same day
-    and was slow to render in Books). The heading is a wrapping flex row; the
-    title span takes the full line, and `order` puts the arrows, which
-    precede the title in the markup (nav.py writes them so), after it around
-    the page number. Quiet sub-headings keep their own inline layout. **/
+    The row is a header and a divider: it marks where a prayer begins in
+    every theme, Night included, where the title's red is repainted away; and
+    the title sits directly on its own text, as on the printed page. The
+    space ABOVE the row is the section gap and must be clearly larger than
+    the space between row and title, or the row reads as the previous
+    prayer's tail. The row stays compact — arrows near the number, not at the
+    edges — so it reads as one unit. One layout at every size; on a narrow
+    screen nothing needs to move. No measuring, no breakpoint (a measured
+    version was tried the same day and was slow in Books). The heading is a
+    wrapping flex row; `order` puts the arrows, which precede the title in
+    the markup (nav.py writes them so), around the page number, and the title
+    span takes the full line after them. Quiet sub-headings keep their own
+    inline layout. **/
 .tocpage1, .tocpage2:not(.minor) {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: baseline;
-  column-gap: 1.4em;
-}
-.tocpage1 > .title, .tocpage2:not(.minor) > .title {
-  flex: 0 0 100%;
-  order: 0;
-  text-align: center;
+  column-gap: 0.9em;
+  row-gap: 0;
 }
 .tocpage1 > .left,  .tocpage2:not(.minor) > .left  { order: 1; }
-.tocpage1 > .pageno, .tocpage2:not(.minor) > .pageno { order: 2; display: inline; line-height: 1.2; }
+.tocpage1 > .pageno, .tocpage2:not(.minor) > .pageno { order: 2; display: inline; line-height: 1.2; font-size: 0.55em; }
 .tocpage1 > .right, .tocpage2:not(.minor) > .right { order: 3; }
+.tocpage1 > .title, .tocpage2:not(.minor) > .title {
+  flex: 0 0 100%;
+  order: 4;
+  text-align: center;
+  margin-top: 0.1em;
+}
 .tocpage1 > .left, .tocpage2 > .left,
 .tocpage1 > .right, .tocpage2 > .right {
   position: static;
