@@ -166,7 +166,9 @@ def check_opf(files):
 # --- 4/5. links -------------------------------------------------------------
 
 LINK_ATTRS = ("href", "src")
-SKIP_SCHEME = re.compile(r"^(https?:|mailto:|data:|tel:|#?javascript:)", re.I)
+# Any href with a URI scheme is external and not ours to check: http(s),
+# mailto, tel, sms (the colophon's share links), data, javascript.
+SKIP_SCHEME = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", re.I)
 
 
 def check_links():

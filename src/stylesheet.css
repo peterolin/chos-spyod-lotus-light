@@ -1415,3 +1415,5 @@ html.toc-gloss .dkarchag .gloss { display: block; }
 .colophonpage .colophon-links { text-align: center; }
 .colophonpage .colophon-links p { margin: 0.3em 0; }
 .colophonpage .qr { width: 7em; height: auto; margin: 0.6em auto; display: block; }
+.colophonpage .share { margin-top: 1em; }
+.colophonpage .share a { white-space: nowrap; }
