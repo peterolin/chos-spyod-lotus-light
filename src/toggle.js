@@ -11,6 +11,7 @@
  *
  * Preferences, one class each:
  *   yigchung-green   yig chung in green ink instead of the body ink.
+ *   toc-gloss        English titles shown under the Tibetan on the dkar chag.
  */
 (function () {
   var KEY = 'chosspyod.yigchungGreen';
@@ -30,12 +31,34 @@
 
   apply(read());
 
+  /* Second preference, same shape: the English glosses on the dkar chag. */
+  var KEY2 = 'chosspyod.tocGloss', CLASS2 = 'toc-gloss';
+  function read2() { try { return localStorage.getItem(KEY2) === '1'; } catch (e) { return false; } }
+  function write2(on) { try { localStorage.setItem(KEY2, on ? '1' : '0'); } catch (e) {} }
+  function apply2(on) {
+    var rest = root.className.replace(new RegExp('(^|\\s)' + CLASS2 + '(?=\\s|$)', 'g'), '').replace(/^\s+/, '');
+    root.className = on ? (rest ? rest + ' ' : '') + CLASS2 : rest;
+  }
+  apply2(read2());
+
   /* The control lives on the key page only. It is a LINK, not a checkbox:
      Apple Books gives taps on form controls to its page turner, so a
      checkbox there can be seen but never ticked. Taps on links do arrive.
      Reveal it, show the stored state as its text, and store + apply on
      every tap. */
   function wire() {
+    var sw2 = document.getElementById('tocGloss');
+    if (sw2) {
+      var show2 = function () { sw2.innerHTML = read2() ? 'Hide English titles' : 'Show English titles'; };
+      show2();
+      sw2.onclick = function (ev) {
+        var on = !read2(); write2(on); apply2(on); show2();
+        if (ev && ev.preventDefault) { ev.preventDefault(); }
+        return false;
+      };
+      var host2 = sw2.parentNode.parentNode;
+      if (host2) { host2.className = host2.className.replace(/(^|\s)needsjs(?=\s|$)/g, ''); }
+    }
     var sw = document.getElementById('yigchungGreen');
     if (!sw) { return; }
     function show() { sw.innerHTML = read() ? 'green ink' : "eBook reader's ink"; }
