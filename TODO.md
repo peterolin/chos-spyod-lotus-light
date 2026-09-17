@@ -280,6 +280,16 @@ refuge at 346 sits inside the span and must keep working.
 
 ### F14. Prayer titles on a portrait phone: the arrows leave the title a slot
 
+**DONE 2026-09-17, Peter's design, awaiting the phone look.** Not any of the
+three options below. A measured variant (toggle.js deciding per title whether
+the arrows fit beside it) was built first and reverted the same day: slow to
+render in Books and not reliable. The design that landed: the title always has
+the full width, and the arrows stand in one row under it with the page number
+between them, `← 137 →`, at every size — on a narrow screen the row just
+closes up. Plain flex with `order`; the title text is `<span class="title">`
+(135 headings). Options and cautions below kept for the record.
+
+
 Asked 2026-09-17 (Peter, iPad and phone). The prev/next arrows are absolutely
 positioned at `left: 0` / `right: 0`, vertically centred on the heading
 (`.tocpage1 > .left/.right`, stylesheet ~713). On a wide screen that is right:

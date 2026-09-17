@@ -399,7 +399,9 @@ dl.legend dd { margin: 0 0 0 1.2em; }
       gutters are reserved on every line — a title that wraps to two or three
       lines still clears them. **/
   position: relative;
-  padding: 0.1em 2.4em 0 2.4em;
+  /** No side padding any more: the arrows no longer flank the title (see
+      TITLE ROW below), so the title has the full width. Was 2.4em a side. **/
+  padding: 0.1em 0 0 0;
   /** Never leave a title stranded at the foot of a page, split from the
       prayer it names. **/
   page-break-after: avoid;
@@ -707,16 +709,41 @@ html.yigchung-green .tibyigchungH {
   line-height: 1.2;
   cursor: pointer;
 }
+/** TITLE ROW (F14, Peter, 2026-09-17). Until today the arrows were pinned
+    to the heading's edges with the title in a padded slot between them; on a
+    phone in portrait a long title wrapped to three or four short lines in
+    that slot. Now the title has the whole width, always, and the arrows
+    stand in one row UNDER it with the page number between them:
+
+                    ཛམྦྷ་ལའི་ཆུ་སྦྱིན།
+                      ←  137  →
+
+    One layout at every size: on a narrow screen the row simply closes up.
+    No measuring, no breakpoint (a measured version was tried the same day
+    and was slow to render in Books). The heading is a wrapping flex row; the
+    title span takes the full line, and `order` puts the arrows, which
+    precede the title in the markup (nav.py writes them so), after it around
+    the page number. Quiet sub-headings keep their own inline layout. **/
+.tocpage1, .tocpage2:not(.minor) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  column-gap: 1.4em;
+}
+.tocpage1 > .title, .tocpage2:not(.minor) > .title {
+  flex: 0 0 100%;
+  order: 0;
+  text-align: center;
+}
+.tocpage1 > .left,  .tocpage2:not(.minor) > .left  { order: 1; }
+.tocpage1 > .pageno, .tocpage2:not(.minor) > .pageno { order: 2; display: inline; line-height: 1.2; }
+.tocpage1 > .right, .tocpage2:not(.minor) > .right { order: 3; }
 .tocpage1 > .left, .tocpage2 > .left,
 .tocpage1 > .right, .tocpage2 > .right {
-  position: absolute;
-  /** Vertically centred on the heading, so a multi-line title keeps the
-      arrows beside its middle rather than pinned to its first line. **/
-  top: 50%;
-  margin-top: -0.1em;
+  position: static;
+  margin-top: 0;
 }
-.tocpage1 > .left, .tocpage2 > .left { left: 0; }
-.tocpage1 > .right, .tocpage2 > .right { right: 0; }
 
 /** Floats are for the one nav block still standing on its own, mid-text in
     p88_91_104_115.htm, where there is no heading to pin the arrows to. The
