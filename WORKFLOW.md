@@ -41,6 +41,7 @@ fmt       python3 tools/fmt.py         reflow src/OPS/*.htm so the source reads 
 stacks    python3 tools/stacks.py      Tibetan stacks that look like slips
 jewels    python3 tools/jewels.py      regenerate the Jewel Jumps page (src/jewels.htm) from every landing jewel; --check to preview
 dkarchag  python3 tools/dkarchag.py    regenerate the Tibetan contents page (src/dkarchag.htm) from toc.ncx; --check in CI
+jumps     python3 tools/jumps.py       regenerate the Jump Index (src/jumps.htm): every jump link by destination page; --check in CI
 ncx       python3 tools/ncx_playorder.py  renumber playOrder in toc.ncx after adding or moving an entry (--write to apply)
 validate  epubcheck build/<file>.epub      the EPUB 2 validator; the tree must stay at 0 errors
 preview   tools/preview.sh             builds, then opens the Calibre viewer

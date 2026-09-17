@@ -66,6 +66,11 @@ JUMP = re.compile(
 # group takes 2.
 CLAIMS = {"jumpUp": "back", "jumpDown": "fwd"}
 LEGEND = "key.xhtml"
+# Pages whose jump links are COPIES or SAMPLES, not navigation to audit: the
+# legend (rows demonstrate each class by name) and the generated Jump Index
+# (every link of the book reproduced verbatim, so every direction and scope
+# would be "wrong" from the back of the book).
+SKIP_FILES = {LEGEND, "jumps.htm"}
 
 # A left/right arrow inside a nav block.
 ARROW = re.compile(r'<a\s+class="(left|right)"\s+([^>]*?)(/?)>')
@@ -214,7 +219,7 @@ def audit_jumps(files, apply=False):
     turned, arrowless = [], []
 
     for i, rel in enumerate(files):
-        if Path(rel).name == LEGEND:
+        if Path(rel).name in SKIP_FILES:
             continue
         path = SRC / rel
         text = path.read_text(encoding="utf-8")
@@ -311,7 +316,7 @@ def audit_scope(files, apply=False):
 
     changes = []
     for rel in files:
-        if Path(rel).name == LEGEND:
+        if Path(rel).name in SKIP_FILES:
             continue
         path = SRC / rel
         text = path.read_text(encoding="utf-8")

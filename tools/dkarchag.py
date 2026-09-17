@@ -31,7 +31,7 @@ NS = {"n": "http://www.daisy.org/z3986/2005/ncx/"}
 # content.opf carries no such reference (2026-09-17).
 FRONT_BACK = {"cover.xhtml": "མདུན་ཤོག Cover", "OPS/titlepage.htm": "མཚན་བྱང་། Title page", "dkarchag.htm": "དཀར་ཆག Contents",
               "key.xhtml": "How to read this book", "mchan.htm": "࿙ Annotations",
-              "jewels.htm": "༼࿉༽ Jewel Jumps", "acknowledgements.htm": "པར་བྱང་། Colophon"}
+              "jewels.htm": "༼࿉༽ Jewel Jumps", "jumps.htm": "༼▸༽ Jump Index", "acknowledgements.htm": "པར་བྱང་། Colophon"}
 LABEL = re.compile(r"^(.*?)\s*(\d+)?\s*$", re.S)
 
 

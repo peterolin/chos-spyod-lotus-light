@@ -815,7 +815,13 @@
       </navLabel>
       <content src="jewels.htm"/>
     </navPoint>
-    <navPoint id="front_2" playOrder="133">
+    <navPoint id="jumps" playOrder="133">
+      <navLabel>
+        <text>༼▸༽ Jump Index</text>
+      </navLabel>
+      <content src="jumps.htm"/>
+    </navPoint>
+    <navPoint id="front_2" playOrder="134">
       <navLabel>
         <text>པར་བྱང་། Colophon</text>
       </navLabel>
