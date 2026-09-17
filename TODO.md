@@ -331,6 +331,31 @@ larger — the breakpoint must not sit between those two. The `.tocpage2.minor`
 quiet sub-headings already use flex `order` for their triangles; that is the
 precedent to extend rather than a second mechanism.
 
+### F15. A WhatsApp link in the colophon — once the kind of communication is decided
+
+Asked 2026-09-17. The colophon (`src/acknowledgements.htm`) carries the
+download URL, the QR code and the GitHub issues link. Peter wants a WhatsApp
+contact beside them but has not yet decided what it is for: a way to reach
+the editor, or a sangha group around the book.
+
+What is known:
+
+- A link to a person is `https://wa.me/<number>` (international format, digits
+  only; `?text=…` prefills a message). It publishes a phone number for the
+  life of every copy of the book, and dies with the number.
+- A group invite link is `https://chat.whatsapp.com/<code>` from the group's
+  "Invite via link". It does not expire; it dies only if an admin resets it,
+  the group is deleted, or the group is full (1,024). With the group set to
+  **admin approval for joins**, the link can stay in the book forever and
+  still be gated — that is the right setting for a distributed link.
+- Either kind is a plain `<a href>`; Books hands it to the system, which
+  opens WhatsApp where installed and the web otherwise. Books shows a
+  confirmation the first time a link leaves the book.
+
+To do, once decided: add the link to the colophon's links block, with the
+date it was issued, and note here which kind and where the group's admin
+list is kept.
+
 ## G. Markup and stylesheet review — 2026-09-15
 
 A second pass over `src/`, measured, after a month of navigation work. Graded
