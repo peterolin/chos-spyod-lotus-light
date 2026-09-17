@@ -83,7 +83,10 @@
     <itemref idref="id3"/>
   </spine>
   <guide>
-    <reference href="dkarchag.htm" title="དཀར་ཆག Table of Contents" type="toc"/>
+    <!-- No type="toc" reference on purpose: Apple Books hides the pages the
+         guide marks as cover and toc from its Contents panel, and the reader
+         wants the དཀར་ཆག reachable there (build 270, 2026-09-17). The NCX is
+         the panel's source; the dkar chag is its first entry. -->
     <reference href="cover.xhtml" title="Cover" type="cover"/>
     <reference type="text" title="Text" href="OPS/p004-084.htm#page4"/>
     <reference type="title-page" title="Title page" href="OPS/titlepage.htm"/>

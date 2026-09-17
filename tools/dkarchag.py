@@ -25,10 +25,10 @@ from xml.etree import ElementTree as ET
 SRC = Path(__file__).resolve().parent.parent / "src"
 OUT = SRC / "dkarchag.htm"
 NS = {"n": "http://www.daisy.org/z3986/2005/ncx/"}
-# The page lists itself too (and its heading is a link to itself): Apple
-# Books builds its contents panel from this page (the OPF guide's "toc") and
-# from the NCX; either way དཀར་ཆག must come first, for easy access (Peter,
-# 2026-09-17). In the NCX it is the first navPoint, before the cover.
+# The page lists itself too, so the front matter reads complete. Apple Books
+# builds its Contents panel from the NCX, where the དཀར་ཆག is the first
+# navPoint — and hides any page the OPF guide marks as "toc", which is why
+# content.opf carries no such reference (2026-09-17).
 FRONT_BACK = {"cover.xhtml": "མདུན་ཤོག Cover", "OPS/titlepage.htm": "མཚན་བྱང་། Title page", "dkarchag.htm": "དཀར་ཆག Contents",
               "key.xhtml": "How to read this book", "mchan.htm": "࿙ Annotations",
               "jewels.htm": "༼࿉༽ Jewel Jumps", "acknowledgements.htm": "པར་བྱང་། Colophon"}
