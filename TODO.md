@@ -53,6 +53,13 @@ Still standing, and each needs a decision, not just work:
 - One `???` page placeholder, `p1_4:265`, hidden by `.pageno-unknown`.
 - Two HTML comments: `p1_4:312` (the stubs above), `p60:263` (verify against
   the printed text).
+- `p088-115.htm` — six `lama:` stubs in the ཟབ་ཏིག་སྒྲོལ་ཆོག (2026-09-17), each a
+  visible `.jumpTODO` beside the spot, to be verified with a lama and then
+  removed: the added third-round offerings jump; the ཚར་བདུན་རྫོགས return moved
+  after the benefits; the jump removed after the dissolution; the
+  སྒྲོལ་ཆོག་རྫོགས link's target; the possibly redundant jump after the long
+  supplication; the abbreviated ཨོཾ་ཨ་ཀཱ་རོ mantra with no expansion. See commit
+  ab32f7b for the reasoning.
 - Two jump labels corrected from impossible values to the target heading's page, not verified against the pecha: བཟང་སྤྱོད། ཕྱག་འཚལ་བ་དང་སོགས། 577 (was 263, `p1_4`) and ཕྱི་མཆོད། 346 (was 344, twice, `p334`).
 
 ---
