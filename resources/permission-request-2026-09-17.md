@@ -58,7 +58,7 @@ glad to come and show it, and to answer any question.
 With respect and gratitude,
 
 Peter Olin
-Editor of the eBook; translator, Khyentse Vision Project
+Editor of the eBook
 [place, date] · chosspyod.wordpress.com · [email]
 
 ---
@@ -108,7 +108,7 @@ Editor of the eBook; translator, Khyentse Vision Project
 གུས་ཞབས་དང་བཀའ་དྲིན་རྗེས་དྲན་བཅས།
 
 པེ་ཏར་ཨོ་ལིན། (Peter Olin)
-གློག་རྡུལ་དེབ་ཀྱི་རྩོམ་སྒྲིག་པ། མཁྱེན་བརྩེའི་གཟིགས་སྣང་ལས་འཆར་ (Khyentse Vision Project) གྱི་ལོ་ཙཱ་བ།
+གློག་རྡུལ་དེབ་ཀྱི་རྩོམ་སྒྲིག་པ།
 [ས་གནས། ཟླ་ཚེས།] · chosspyod.wordpress.com · [གློག་འཕྲིན།]
 
 ---
@@ -126,5 +126,4 @@ Editor of the eBook; translator, Khyentse Vision Project
   sees at once that there are exactly two.
 - "Store listing" is དྲ་ཐོག་དཔེ་དེབ་ཁང་དུ་འགོད་པ; "updates automatically" རང་འགུལ་གྱིས་གསར་བསྒྱུར;
   "official-looking" གཞུང་འབྲེལ་གྱི་རྣམ་པ; "good optics" is rendered as མཛེས་བཟོ, an ornament.
-- Peter to check the rendering of the KVP name (མཁྱེན་བརྩེའི་གཟིགས་སྣང་ལས་འཆར་) against
-  the project's own Tibetan name before sending.
+- This is Peter's personal project; no affiliation appears in the signature.
