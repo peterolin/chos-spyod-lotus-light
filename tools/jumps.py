@@ -2,7 +2,9 @@
 """Generate src/jumps.htm — the Jump Index: every jump link in the book, by page.
 
     python3 tools/jumps.py            write src/jumps.htm
-    python3 tools/jumps.py --check    exit 1 if it would change (CI)
+    python3 tools/jumps.py --check    exit 1 if it would change, or if any
+                                      link's words differ from its target's
+                                      landmark label (CI)
 
 One row per jump link in the running text (jumpDown / jumpUp / jump; the
 TODO stubs too, flagged; repeat braces are not links with words and are left
@@ -18,8 +20,9 @@ LANDMARKS. A landing jewel may carry a short name — the step of the liturgy
 it begins (མཆོད་པ, མཎྜལ, བཤགས་པ, རྗེས་སུ་ཡི་རང, བསྔོ་སྨོན…), taken from the yig
 chung that announces it. Every link into a named jewel uses the same name as
 its first words, so the reader lands on the word they tapped. Links whose
-words differ from their target's label are listed when the page is written
-and flagged ≠ on it.
+words differ from their target's label are listed when the page is written,
+flagged ≠ on it, and fail --check: since 2026-09-17 the count is zero and
+stays there.
 """
 import re
 import sys
@@ -122,18 +125,25 @@ def render(rows):
 '''
 
 
+def report_mismatches(rows):
+    mism = [r for r in rows if r["mismatch"]]
+    for r in mism:
+        print(f"    {r['file'].split('/')[-1]:14} “{r['words']}” → label “{r['target_label']}”  #{r['frag']}")
+    return len(mism)
+
+
 def main(argv):
-    new = render(collect())
+    rows = collect()
+    new = render(rows)
     old = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
     if "--check" in argv:
         print("jumps.htm up to date" if new == old else "jumps.htm would change")
-        return 0 if new == old else 1
+        n = report_mismatches(rows)
+        print(f"{n} links whose words differ from the target's landmark label")
+        return 0 if new == old and n == 0 else 1
     OUT.write_text(new, encoding="utf-8")
-    rows = collect()
-    mism = [r for r in rows if r["mismatch"]]
-    print(f"wrote {OUT.name}: {len(rows)} jumps; {len(mism)} whose words differ from the target's landmark label")
-    for r in mism:
-        print(f"    {r['file'].split('/')[-1]:14} “{r['words']}” → label “{r['target_label']}”  #{r['frag']}")
+    print(f"wrote {OUT.name}: {len(rows)} jumps; {sum(1 for r in rows if r['mismatch'])} whose words differ from the target's landmark label")
+    report_mismatches(rows)
     return 0
 
 

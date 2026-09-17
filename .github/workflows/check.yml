@@ -18,7 +18,7 @@ jobs:
         run: python3 tools/fmt.py --check
       - name: dkar chag is regenerated (tools/dkarchag.py)
         run: python3 tools/dkarchag.py --check
-      - name: jump index is regenerated (tools/jumps.py)
+      - name: jump index is regenerated and every link opens with its landmark label (tools/jumps.py)
         run: python3 tools/jumps.py --check
       - name: navigation report (must find nothing to fix)
         run: |
