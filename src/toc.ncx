@@ -11,23 +11,23 @@
     <text>ཆོས་སྤྱོད། (chos spyod)</text>
   </docTitle>
   <navMap>
-    <navPoint id="front_0" playOrder="1">
+    <navPoint id="dkarchag" playOrder="1">
+      <navLabel>
+        <text>༄༅། །དཀར་ཆག Contents</text>
+      </navLabel>
+      <content src="dkarchag.htm"/>
+    </navPoint>
+    <navPoint id="front_0" playOrder="2">
       <navLabel>
         <text>མདུན་ཤོག Cover</text>
       </navLabel>
       <content src="cover.xhtml"/>
     </navPoint>
-    <navPoint id="front_1" playOrder="2">
+    <navPoint id="front_1" playOrder="3">
       <navLabel>
         <text>མཚན་བྱང་། Title page</text>
       </navLabel>
       <content src="OPS/titlepage.htm"/>
-    </navPoint>
-    <navPoint id="dkarchag" playOrder="3">
-      <navLabel>
-        <text>དཀར་ཆག Contents</text>
-      </navLabel>
-      <content src="dkarchag.htm"/>
     </navPoint>
     <navPoint id="num_2" playOrder="4">
       <navLabel>
@@ -803,25 +803,19 @@
       </navLabel>
       <content src="key.xhtml"/>
     </navPoint>
-    <navPoint id="num_121" playOrder="131">
-      <navLabel>
-        <text>Table of Contents in English · དཀར་ཆག</text>
-      </navLabel>
-      <content src="toc1.htm"/>
-    </navPoint>
-    <navPoint id="mchan" playOrder="132">
+    <navPoint id="mchan" playOrder="131">
       <navLabel>
         <text>࿙ Annotations</text>
       </navLabel>
       <content src="mchan.htm"/>
     </navPoint>
-    <navPoint id="jewels" playOrder="133">
+    <navPoint id="jewels" playOrder="132">
       <navLabel>
         <text>༼࿉༽ Jewel Jumps</text>
       </navLabel>
       <content src="jewels.htm"/>
     </navPoint>
-    <navPoint id="front_2" playOrder="134">
+    <navPoint id="front_2" playOrder="133">
       <navLabel>
         <text>པར་བྱང་། Colophon</text>
       </navLabel>

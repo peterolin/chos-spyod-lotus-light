@@ -1086,7 +1086,9 @@ a.ipnpx {
 }
 /** …three times. The numeral is the whole point of the variant, and the old
     marker did not carry it. **/
-/** Formatting for the Table of Contents file toc1.xhtml **/
+/** Formatting for the retired English contents page (toc1.htm, retired
+    2026-09-17 to retired/); the rules stay for the nested lists the key
+    page and colophon share. **/
 ul {
   padding-left: 0.3em;
   margin-left: 0;
@@ -1319,7 +1321,8 @@ img {
     printed page right, the whole row a link in the reader's ink (a table of
     contents is understood to be tappable, and a page of link-blue is
     unreadable). Sub-sections indent one step at yig chung size. The ཟུར་ཡིག
-    divider is a small red group heading. English glosses, from toc1.htm,
+    divider is a small red group heading. English glosses, from
+    resources/glosses.tsv,
     are present in the markup and shown only when the reader asks
     (html.toc-gloss, a preference toggle.js remembers). **/
 .dkarchag .dkartitle {
@@ -1331,6 +1334,7 @@ img {
   font-weight: normal;
   margin: 0.4em 0 0.2em;
 }
+.dkarchag .dkartitle a { color: inherit; -webkit-text-fill-color: currentColor; text-decoration: none; }
 .dkarchag .dkarhint {
   text-align: center;
   font-family: -apple-system, Helvetica, sans-serif;

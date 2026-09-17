@@ -108,8 +108,8 @@ def register():
     """spine: first after the cover; NCX: first navPoint; TOC page: first row. Idempotent."""
     opf_p = SRC / 'content.opf'; opf = opf_p.read_text(encoding='utf-8')
     if 'href="jewels.htm"' not in opf:
-        opf = opf.replace('<item href="toc1.htm"', '<item href="jewels.htm" id="jewels" media-type="application/xhtml+xml"/>\n    <item href="toc1.htm"', 1)
-        opf = opf.replace('    <itemref idref="id1"/>\n', '    <itemref idref="id1"/>\n    <itemref idref="jewels"/>\n', 1)
+        opf = opf.replace('<item href="dkarchag.htm"', '<item href="jewels.htm" id="jewels" media-type="application/xhtml+xml"/>\n    <item href="dkarchag.htm"', 1)
+        opf = opf.replace('    <itemref idref="mchan"/>\n', '    <itemref idref="mchan"/>\n    <itemref idref="jewels"/>\n', 1)
         opf_p.write_text(opf, encoding='utf-8')
     ncx_p = SRC / 'toc.ncx'; ncx = ncx_p.read_text(encoding='utf-8')
     if 'jewels.htm' not in ncx:
@@ -119,10 +119,8 @@ def register():
             k[0] += 1; return f'<navPoint id="num_{k[0]}" playOrder="{k[0]}">'
         ncx = re.sub(r'<navPoint id="num_[^"]*" playOrder="\d+">', renum, ncx)
         ncx_p.write_text(ncx, encoding='utf-8')
-    toc_p = SRC / 'toc1.htm'; toc = toc_p.read_text(encoding='utf-8')
-    if 'jewels.htm' not in toc:
-        toc = toc.replace('  </dl>\n</dl>\n', '  </dl>\n\n'+'  <dt><a href="jewels.htm">༼࿉༽ Jewel Jumps</a></dt>\n  <dd>Every landing point in the book</dd>'+'</dl>\n')
-        toc_p.write_text(toc, encoding='utf-8')
+    # (The English contents page, toc1.htm, was retired 2026-09-17; the dkar
+    # chag is generated from the NCX and lists jewels.htm by itself.)
 
 def main():
     rows = collect()
