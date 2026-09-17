@@ -66,27 +66,6 @@ Still standing, and each needs a decision, not just work:
 
 ## B. Structural debt
 
-### B1. The whole liturgy is inline `<span>`. There are no paragraphs.
-
-```
-span  2702        p  20        div  8
-```
-
-`.tibnormal` computes to `display: inline` — measured, not assumed. Every verse
-in the book is an inline run, so consecutive verses flow together as one
-continuous text and separation comes from source newlines collapsing to spaces.
-
-This is arguably right for a pecha, which is continuous text, and it should not
-be "fixed" reflexively. But it has costs worth naming:
-
-- there is no paragraph structure for a screen reader to navigate by
-- `page-break-inside` and orphan/widow control have nothing to apply to
-- every piece of vertical rhythm has to be reconstructed by hand, which is
-  exactly the work the unbreakable-heading box had to do
-
-**Decide deliberately**, and write the decision down. If it stays, it stays for
-a stated reason.
-
 ### B2. `-webkit-text-fill-color` is declared 21 times and the PLATFORM NOTE says it does not work
 
 The note at the top of `stylesheet.css` records that
@@ -345,15 +324,7 @@ not heading), `inlineAnchorReturn` (identical to `inlineAnchor` in every
 rule — merge), `repeatEnd`/`repeatEnd3` (3 uses, styled only by a shared
 `:before`). Rename on the same script as G6.
 
-### G11. `<span>` is doing `<p>`'s job (B1, still)
-
-748 `tibnormal` and 729 `tibyigchung` spans, the whole liturgy inline, with
-line structure carried by raw newlines inside spans. It works because the
-stylesheet never asks for block behaviour from them — until it does (the
-h3-inside-span overprint in `c_106` today was exactly this). Not a retrofit
-to do by hand; if ever, generate it: each top-level `tibnormal` span → `<p
-class="recite">`, each `tibyigchung` → `<p class="note">`, verified again
-with `extract_text.py`.
+### G11. ~~`<span>` is doing `<p>`'s job~~ — DECIDED with B1, 2026-09-17: it stays a span; see B1 under Completed
 
 ### G12. Conventions to adopt from now on
 
@@ -430,6 +401,29 @@ measured in headless Chrome against the built book, not read off the source.
 ---
 
 ## Completed
+
+### B1. ~~The whole liturgy is inline `<span>`. There are no paragraphs~~ — DECIDED 2026-09-17: the continuous flow stays
+
+The question was "decide deliberately, and write the decision down". Decided:
+the liturgy stays one continuous inline flow inside `.text`, as the pecha
+runs. Tried on branch `paragraphs` (tools/paragraphs.py wrapped the text in
+1,274 `<p class="recite|note">`, text verified identical, dev build 251) and
+dropped the same day. Reasons, Peter's and mine:
+
+- Accessibility gains are nil: no assistive tool speaks Tibetan usefully, and
+  nobody will navigate a liturgy by paragraph.
+- Source readability was already won by `tools/fmt.py` (G7); paragraphs added
+  nothing visible in the editor.
+- No tool in the chain needs paragraphs.
+- The only real change would have been the layout — chant-book lines in place
+  of the pecha's run-on text — and that was never wanted.
+- 1,274 heuristic breaks, some visibly wrong, each needing a read-through.
+
+So the costs named above stand, knowingly: no paragraph for a screen reader,
+no `page-break-inside` to lean on, vertical rhythm by hand. G11 is the same
+question and closes with this. The branch was deleted; the converter lives in
+its history (commits 4bc1878, aeb75cc) if it is ever wanted.
+
 
 41 items, in the order of the sections they came from. Each keeps its id, its
 strikethrough and its closing note.
