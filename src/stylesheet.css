@@ -1389,7 +1389,11 @@ html.toc-gloss .dkarchag .gloss { display: block; }
 }
 .dkarchag .dkartail li { font-family: inherit; }
 .dkarchag .dkartail li { padding: 0.2em 0; opacity: var(--secondary-strength); }
-.dkarchag .prefs { margin-top: 1em; font-family: -apple-system, Helvetica, sans-serif; font-size: 0.75em; text-align: center; }
+/** The English-titles switch rides in the hint line under the heading, where
+    a reader sees it before scrolling (Peter, 2026-09-17). Same size, same
+    quiet grey; only the link colour says it can be tapped. **/
+.dkarchag .dkarhint .prefs { font-size: inherit; }
+.dkarchag .dkarhint .switch { text-decoration: none; }
 
 /** TITLE PAGE — src/OPS/titlepage.htm (2026-09-17). Tibetan first, in the
     book's own face and the titles' red; the house in Tibetan, then in the

@@ -56,7 +56,7 @@
         if (ev && ev.preventDefault) { ev.preventDefault(); }
         return false;
       };
-      var host2 = sw2.parentNode.parentNode;
+      var host2 = sw2.parentNode;   /* the span that wraps the switch in the hint line */
       if (host2) { host2.className = host2.className.replace(/(^|\s)needsjs(?=\s|$)/g, ''); }
     }
     var sw = document.getElementById('yigchungGreen');
