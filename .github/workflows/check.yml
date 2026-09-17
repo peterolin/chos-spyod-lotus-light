@@ -14,6 +14,8 @@ jobs:
         with: { distribution: temurin, java-version: "17" }
       - name: structural QA
         run: python3 tools/check.py
+      - name: source layout (tools/fmt.py)
+        run: python3 tools/fmt.py --check
       - name: navigation report (must find nothing to fix)
         run: |
           python3 tools/nav.py | tee nav.txt

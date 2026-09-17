@@ -37,6 +37,7 @@ true.
 edit      src/…                        in VSCode, alongside Claude
 nav       python3 tools/nav.py         derive prev/next arrows (report only)
 check     python3 tools/check.py       structural QA (links, anchors, manifest)
+fmt       python3 tools/fmt.py         reflow src/OPS/*.htm so the source reads like the page (render-identical, proven); --check in CI
 stacks    python3 tools/stacks.py      Tibetan stacks that look like slips
 jewels    python3 tools/jewels.py      regenerate the Jewel Jumps page (src/jewels.htm) from every landing jewel; --check to preview
 ncx       python3 tools/ncx_playorder.py  renumber playOrder in toc.ncx after adding or moving an entry (--write to apply)
@@ -44,7 +45,7 @@ validate  epubcheck build/<file>.epub      the EPUB 2 validator; the tree must s
 preview   tools/preview.sh             builds, then opens the Calibre viewer
 build     tools/pack.sh                -> build/Ka-Nying-Chos-spyod-<version>.epub (runs check.py first; --force to build anyway)
 commit    git add src/ && git commit    real, readable, line-level diffs
-CI        .github/workflows/check.yml  every push: check.py, nav.py (must find nothing), ncx_playorder.py, build, epubcheck
+CI        .github/workflows/check.yml  every push: check.py, fmt.py --check, nav.py (must find nothing), ncx_playorder.py, build, epubcheck
 ```
 
 `build/` is generated output and is git-ignored. Never edit anything in it;
@@ -292,3 +293,23 @@ git config core.hooksPath .githooks
 
 (Git hooks are not transferred by `clone`; this points git at the tracked
 `.githooks/` directory.)
+
+## Source layout — tools/fmt.py
+
+The prayer documents are kept in the layout `tools/fmt.py` produces, and CI
+fails if they drift from it. The rules, in short: block elements (headings,
+comments, divs) on their own line with a blank line before; every inline
+element that is preceded by whitespace starts a line; a span whose text opens
+with ༈ gets a blank line before it; content wraps at an existing space past
+column 90, continuation lines indented two spaces; a register switch glued
+inside a run (`…མཆོད་པར་</span><span class="tibyigchung">བསམ༔`) breaks at the
+space before the closing tag once the line is past column 40, so the switch
+opens the next line — the only legal break in such a chain.
+
+The one hard rule the tool obeys: it exchanges one run of ASCII whitespace for
+another and never adds or removes whitespace outright, because in Tibetan
+every space is a visible gap. U+00A0 is not whitespace to it. Before writing
+it proves the two versions identical once whitespace is collapsed, and
+refuses otherwise. So: edit freely, run `python3 tools/fmt.py`, commit.
+Reflows of the whole tree go in a commit of their own, so `git blame` on the
+Tibetan stays useful.

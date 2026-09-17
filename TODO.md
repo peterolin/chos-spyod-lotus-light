@@ -1114,7 +1114,7 @@ fix the one, drop the three with `pn.htm` (G3).
 
 **Closed:** The ten dead rules deleted (`.invisiblec`, `.center` ×3, `.unit`, `div#pagenumberlist`, `div.pn`, `div.pnh`, `div.pagenumber`, `.prevlink`, `.nextlink`) and `.jumpTodO` dropped from the shared selector. `.pageno-unknown` kept and put to use (G8). Still open: `line191` in `p88_…:380` — jewel or plain class? Needs intent.
 
-### G7. ~~Whitespace and line shape~~ — trailing whitespace RESOLVED 2026-09-16; line-breaking not done
+### G7. ~~Whitespace and line shape~~ — trailing whitespace RESOLVED 2026-09-16; line-breaking RESOLVED 2026-09-17 by tools/fmt.py (render-identical reflow, enforced in CI)
 
 1,551 lines end in trailing whitespace; 449 lines exceed 400 characters
 (several over 2,000). Neither affects rendering, both make diffs unreadable
