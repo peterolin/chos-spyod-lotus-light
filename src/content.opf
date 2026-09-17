@@ -51,7 +51,6 @@
     <item href="cover.jpeg" id="cover" media-type="image/jpeg"/>
     <item id="id10" href="chosspyod_qr.png" media-type="image/png"/>
     <item id="id11" href="key.xhtml" media-type="application/xhtml+xml"/>
-    <item id="font1" href="fonts/Courier-New.ttf" media-type="application/x-font-truetype"/>
     <item id="id3" href="acknowledgements.htm" media-type="application/xhtml+xml"/>
     <item id="id4" href="fonts/MonlamUniOuChan2.ttf" media-type="application/x-font-truetype"/>
     <item id="font_about" href="fonts/ABOUT-MonlamUniOuChan2.txt" media-type="text/plain"/>
