@@ -24,7 +24,9 @@ from xml.etree import ElementTree as ET
 SRC = Path(__file__).resolve().parent.parent / "src"
 OUT = SRC / "dkarchag.htm"
 NS = {"n": "http://www.daisy.org/z3986/2005/ncx/"}
-FRONT_BACK = {"cover.xhtml": "མདུན་ཤོག Cover", "OPS/titlepage.htm": "མཚན་བྱང་། Title page", "dkarchag.htm": None,
+# The page lists itself too: Books builds its contents panel from this page
+# (the OPF guide's "toc"), so a link here is what puts དཀར་ཆག in that panel.
+FRONT_BACK = {"cover.xhtml": "མདུན་ཤོག Cover", "OPS/titlepage.htm": "མཚན་བྱང་། Title page", "dkarchag.htm": "དཀར་ཆག Contents",
               "key.xhtml": "How to read this book", "toc1.htm": "Contents in English", "mchan.htm": "࿙ Annotations",
               "jewels.htm": "༼࿉༽ Jewel Jumps", "acknowledgements.htm": "པར་བྱང་། Colophon"}
 LABEL = re.compile(r"^(.*?)\s*(\d+)?\s*$", re.S)
