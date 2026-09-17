@@ -917,6 +917,13 @@ a.ipnpx {
 .jumpDown:after {
   content: "\25B8\0F3D";       /* NARROW NO-BREAK SPACE + ▸༽ */
 }
+/** THE PRAYER'S NAME INSIDE A JUMP LABEL. A jump that leaves its prayer
+    names the prayer it lands in, after the words and before the page —
+    ཡན་ལག་བདུན། བཟང་སྤྱོད། 581 — at yig chung size, so the words lead and
+    the name qualifies (Peter, 2026-09-17). Inside one prayer the label is
+    the words alone. **/
+.jump .prayer, .jumpUp .prayer, .jumpDown .prayer { font-size: 0.8em; }
+
 /** ONE TRIANGLE OR TWO. A jump that stays inside the prayer in front of
     the reader keeps the single triangle; a jump into ANOTHER prayer doubles
     it — ▸▸ / ◂◂ — so the reader knows before tapping whether they are
