@@ -331,6 +331,25 @@ larger — the breakpoint must not sit between those two. The `.tocpage2.minor`
 quiet sub-headings already use flex `order` for their triangles; that is the
 precedent to extend rather than a second mechanism.
 
+### F16. Sharing the book: Books' Share sheet and a store listing
+
+Tested 2026-09-17 (build 275): for a sideloaded EPUB, Apple Books' Share
+produces only the title and author — "ཆོས་སྤྱོད། (chos spyod) 1.1+275 / Peter
+Olin". A second `dc:identifier` with `opf:scheme="URI"` holding the WordPress
+address changed nothing; removed. No metadata field is known to feed the
+share sheet for a sideloaded book. The only way Share becomes useful is a
+store listing, where it sends the store link — and where a new version
+reaches readers' copies by itself.
+
+A free listing is possible (Apple Books for Authors, Google Play Books,
+Kobo Writing Life; not Kindle). Apple wants EPUB 3 in practice, so the
+package would need a nav document beside the NCX. **The blocker is rights:**
+the colophon calls this an independent, unofficial edition of Ka-Nying
+Shedrub Ling's book, and every store makes the uploader assert distribution
+rights. First step is the monastery's blessing, ideally listing under their
+name with Peter as editor. Until then the WordPress link in the colophon and
+on the QR code is the way the book travels.
+
 ### F15. A WhatsApp link in the colophon — once the kind of communication is decided
 
 Asked 2026-09-17. The colophon (`src/acknowledgements.htm`) carries the
