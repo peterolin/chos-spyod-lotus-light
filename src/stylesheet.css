@@ -1341,9 +1341,9 @@ img {
 .dkarchag ul { list-style: none; margin: 0; padding: 0; }
 .dkarchag li {
   margin: 0;
-  padding: 0.25em 0;
+  padding: 0.05em 0;
   font-family: "Monlam Uni OuChan2", serif;
-  line-height: 1.5;
+  line-height: 1.25;   /* 1.5 and 0.25em padding read as air between entries (iPad, build 262) */
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -1367,7 +1367,7 @@ img {
   min-width: 2.2em;
   text-align: right;
 }
-.dkarchag li.d2 { padding: 0.15em 0 0.15em 1.6em; font-size: 0.85em; opacity: var(--secondary-strength); }
+.dkarchag li.d2 { padding: 0.05em 0 0.05em 1.6em; font-size: 0.85em; opacity: var(--secondary-strength); }
 .dkarchag li.group { margin: 1.2em 0 0.2em; color: var(--accent); -webkit-text-fill-color: var(--accent); justify-content: flex-start; }
 .dkarchag li.group .title { font-size: 1.1em; }
 .dkarchag .gloss {
