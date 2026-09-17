@@ -46,6 +46,8 @@ Still standing, and each needs a decision, not just work:
   (which ནོར་བུ). Need the texts, not the titles.
 - `c_79.htm` བྱིན་རླབས་མཁའ་ལ → `c_80.htm#line76` — a working link missing its
   printed page; c_80 carries no page anchors past 558 to read it from.
+  2026-09-17: the link's words now end in a shad, and a visible `pecha:` stub
+  stands beside it (p543-615.htm) until Peter reads the page off the pecha.
 - `p1_4:314–315` — two `href`-less stubs, "Medium/Long 7 branch in bzang spyod".
   The pecha says རྒྱས་བསྡུས, two grades not three; the extensive one is this
   prayer's own seven branches (pp. 4–27). Replace with one link, or delete.
