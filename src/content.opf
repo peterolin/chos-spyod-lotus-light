@@ -11,6 +11,11 @@
     <dc:identifier id="uuid_id" opf:scheme="uuid">
     ade42954-c052-4349-9891-9ee5cc357e40
     </dc:identifier>
+    <!-- EXPERIMENT 2026-09-17: a second identifier carrying the book's home
+         address. The UUID above keys the reading system's library and must
+         not change; this one asks whether Apple Books' Share sheet will use
+         a URI identifier for a sideloaded book. Remove if it does nothing. -->
+    <dc:identifier opf:scheme="URI">https://chosspyod.wordpress.com</dc:identifier>
     <dc:language>bo</dc:language>
     <meta name="dcterms:modified" content="2026-09-16T00:00:00Z"/>
     <dc:creator opf:role="aut" opf:file-as="Ka-Nying Shedrup Ling/PO">Peter Olin</dc:creator>
