@@ -368,6 +368,14 @@ with `extract_text.py`.
 
 ---
 
+## Verified in practice
+
+Sections whose sequence — jumps, repeats, landing points — has been recited
+through and confirmed. A section listed here needs no lama check unless its
+text changes.
+
+- **རྒྱུན་གྱི་བཀོལ་བྱང་ 88–91** — Peter, in actual practice, 2026-09-17.
+
 ## What is already right
 
 Worth stating, so a future pass does not "fix" it:
