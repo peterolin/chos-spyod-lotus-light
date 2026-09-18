@@ -1474,10 +1474,19 @@ offerings, which is what the lama's note said. The koljang lost its
 སྐྱབས་སེམས། ཟུར་འདེབས། 340 link and its opening jewel's name, and its guru mantra
 and the ten-syllable mantra took the open repeat brace.
 
-**Open.** Whether the two forms should coexist in one book at all — the
-argument for it is that an inline jump is the book's OWN instruction made
-tappable, while a label is our addition where the book gives no instruction.
-Whether the page inside the brace should be in Tibetan numerals. Whether a
-long blue run invites stray taps in a book held during recitation. And the
-page 48 offering citation, which lost its return when the return moved to the
-third sloka and page 23.
+**Settled 2026-09-18 (Peter).** THE TWO FORMS BOTH STAY. Some jumps have no
+instruction to ride on, so a label is the only thing they can carry; the
+mixture is the distinction, not untidiness — an inline jump is the book's own
+instruction made tappable, a label is ours where the book gives none. And the
+PAGE STAYS IN ARABIC FIGURES: the printed pecha numbers its pages that way,
+so the marker matches the book it points into, and no Tibetan numerals are
+needed here (which also answers that line in the 2026-09-17 assessment, for
+the jump markers at least).
+
+**Open.** Whether a long blue run invites stray taps in a book held during
+recitation — the thing to watch on the device. And the offering citation in
+the གནས་བརྟན་ཕྱག་མཆོད (printed 57), which lost its return when that return moved
+to the third sloka and page 23; if it should come back, its landing point
+`return_from_bzang_spyod_7branches_metok_p57` is still in place just before
+ན་མོ་རཏྣ་ཏྲ་ཡཱ་ཡ།, and a second marker beside the page 23 one is all it needs —
+at which point both gain their prayer names, two markers standing together.
