@@ -266,6 +266,17 @@ are refuge and bodhicitta, the seven branches, and the dedication and
 aspiration at the end; Peter decides which, and from where. Verify in
 practice afterwards and add it to "Verified in practice" below.
 
+### F18. One-handed use on a phone — low priority, next release
+
+Requested 2026-09-18. A reader holding a phone in one hand during practice
+reaches only the lower half of the screen with the thumb, and only one edge
+comfortably. Look at what that means for this book: jump links and repeat
+braces that fall near the top of a page, the arrow row above every title,
+the rails on the right edge, and whether the tap targets are large enough
+for a thumb. Books' own page-turn zones take the edges, so nothing of ours
+should depend on them. Not for this release; note findings here first,
+then decide what, if anything, the markup or stylesheet should do.
+
 ### F9. Adjudicate the variants between the 3rd and 4th printing
 
 Added 2026-09-12. The newer source EPUB (`resources/…ཞལ་འདོན།.epub`, a Pages
