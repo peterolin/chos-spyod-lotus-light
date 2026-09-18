@@ -1114,16 +1114,23 @@ a.ipnpx, span.ipnpx {
   padding-left: 0;
   padding-right: 0;
 }
-/* the page is braced; its colour comes from the link, like the rest of the run */
-.inline .lpn {
+/* THE MARKER. Everything braced at the end of an inline jump lives in one
+   .mark: the page, and — where several returns stand together and the page
+   alone cannot tell them apart — the prayer's name before it. The braces sit
+   on .mark rather than on the page, so the name falls INSIDE them, and
+   nowrap keeps brace, name, arrows and page on one line. Colour is the
+   link's, inherited like the rest of the run. */
+.inline .mark {
   font-size: 0.6em;                /* what a page reads at inside a labelled link */
+  white-space: nowrap;
 }
-.jump.inline .lpn:before,     .jumpDown.inline .lpn:before { content: "\0F3C"; padding-right: 0.22em; }
-.jump.inline .lpn:after,      .jumpDown.inline .lpn:after  { content: "\25B8\0F3D"; padding-left: 0.22em; }
-.jumpDown.inline.out .lpn:after                            { content: "\25B8\25B8\0F3D"; }
-.jumpUp.inline .lpn:before                                 { content: "\0F3C\25C2"; padding-right: 0.22em; }
-.jumpUp.inline.out .lpn:before                             { content: "\0F3C\25C2\25C2"; }
-.jumpUp.inline .lpn:after                                  { content: "\0F3D"; padding-left: 0.22em; }
+.inline .mark .lpn, .inline .mark .prayer { font-size: 100%; }
+.jump.inline .mark:before,     .jumpDown.inline .mark:before { content: "\0F3C"; padding-right: 0.22em; }
+.jump.inline .mark:after,      .jumpDown.inline .mark:after  { content: "\25B8\0F3D"; padding-left: 0.22em; }
+.jumpDown.inline.out .mark:after                             { content: "\25B8\25B8\0F3D"; }
+.jumpUp.inline .mark:before                                  { content: "\0F3C\25C2"; padding-right: 0.22em; }
+.jumpUp.inline.out .mark:before                              { content: "\0F3C\25C2\25C2"; }
+.jumpUp.inline .mark:after                                   { content: "\0F3D"; padding-left: 0.22em; }
 /** The link that closes a repeated passage and sends you back to its start.
 
     EVERY repeat in the book now ends in one of these — 62 of them. The span

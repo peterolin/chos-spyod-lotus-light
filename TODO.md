@@ -1457,14 +1457,27 @@ instruction named as the stopping point — with the braced page after them.
     before   །འདྲེན་པའི་དཔལ་དུ་བདག་གྱུར་ཅིག ། ༼མཆོད་པ་བྱིན་རླབས། སྒྲོལ་ཆོག 105◂◂༽
     after    །འདྲེན་པའི་དཔལ་དུ་བདག་གྱུར་ཅིག ། ༼◂◂105༽
 
-Eight of the sixteen return links in the running text are converted: p92 ×3,
-p115 ×2, p395, p581 ×2. Eight are not, and all for one reason — they are
-STACKED, two or three returns at one spot, because the same passage is
-entered from several places. Only the first of a stack can absorb the closing
-words, and the labels that remain (ཚར་གཉིས་མཐར། ཚར་གསུམ་མཐར། ཚར་བདུན་མཐར།) are
-what tells the reader WHICH repetition they are returning from, so dropping
-them would lose the distinction. One of those spots also carries the repeat
-brace of the 21 praises, which must not fall inside a link. Peter's call.
+Eight of the sixteen return links in the running text carry the closing
+words: p92 ×3, p115 ×2, p395, p581 ×2.
+
+WHERE SEVERAL RETURNS STAND TOGETHER, only the first takes the words; the
+rest shrink to a braced marker of prayer name and page, which is all that is
+needed to tell them apart, and the label words go (Peter, 2026-09-18):
+
+    །བདེ་བར་གཤེགས་པ་ཐམས་ཅད་བདག་གིས་བསྟོད། ༼◂◂ སྐྱབས་སེམས་རྒྱས་པ། 19༽ ༼◂◂ གནས་བརྟན་ཕྱག་མཆོད། 52༽
+        ༼◂◂ སྒྲོལ་ཆོག 106༽ ༼◂◂ ཁྲུས་ཆོག 240༽
+
+So everything braced at the end of an inline jump now lives in one `.mark`,
+and the braces sit on THAT rather than on the page, so a prayer name falls
+inside them. A single return keeps the page alone, with no name: there is
+nothing to tell it apart from.
+
+Three stacks are done — p581 (four), p583 (two), p115 (two). ONE IS NOT: the
+offerings and mandala pairs on p110 both return to the same page in the same
+prayer, so two markers would read `༼110▸༽ ༼110▸༽` and the reader could not
+tell the second round from the third. Their labels stay until that is
+settled. The p115 pair also sits behind the repeat brace of the 21 praises,
+which must not fall inside a link, so its first marker carries no words.
 
 **Open:** the ~22 links that are NOT citation formulas — a link at the close
 of a recitation, or an onward link after a colophon — have no instruction to
