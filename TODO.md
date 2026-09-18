@@ -302,9 +302,10 @@ your choice"). The remaining 18 fall in three groups; the first is decided, two 
 1. **The eight offering words, abbreviated ཨརྒྷཾ་ སོགས/ནས … ཤབྡ, nine times** —
    DECIDED 2026-09-18, Peter: **out.** Not to be completed or linked. Every
    practitioner knows them by heart and writing them out only makes the
-   text wordy. The same goes for the Tsog's ཨོཾ་ཨ་ཀ་རོ་ སོགས on 170. (The
-   Tara's ཨ་ཀཱ་རོ on 111 stays completed: there the print gives an opening
-   that is not the mantra's common form, and the completion was asked for.)
+   text wordy. The ཨ་ཀཱ་རོ mantra is the exception: its two other
+   abbreviations, the Tsog on 170 and the protectors' torma on 445, were
+   completed in red the same day, in the refrain style of the Tara's on 111
+   (Peter: "we need the refrain style for the two shortened occurrences").
 2. **Texts that stand elsewhere in the book, link candidates:** the
    Drolchog daily version on 113 (མདུན་གྱི་ནམ་མཁར་ སོགས → the Drolchog's own
    start on 105, whose jewel was removed 2026-09-18; a labelled jewel would
