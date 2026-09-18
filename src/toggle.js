@@ -245,6 +245,23 @@
     window.addEventListener('hashchange', fromHash, false);
     window.addEventListener('storage', function (ev) { if (!ev.key || ev.key === KEY) fromStore(); }, false);
     window.addEventListener('pageshow', fromStore, false);
+    /* A DOCUMENT THAT IS ALREADY OPEN gets none of the above. Everything so
+       far assumed the destination is loaded fresh, so start() picks the id out
+       of the store on the way in. But a reading system keeps documents alive:
+       jump from the refuge OUT to the Bzang spyod and that document is new, so
+       it marks; jump BACK and the refuge has been open all along, no load, no
+       pageshow, and a storage event that reaches other documents only where
+       the system puts them in one context. That is the whole of it — the
+       return from a jump is exactly the case where the destination is the
+       document you just came from (Peter, build 28: the way out flashes, the
+       way back does not).
+
+       So the store is also read on the way back into view, and on a slow
+       tick while visible. The read is one getItem against a key that is
+       almost always absent, and the entry expires after TTL either way. */
+    document.addEventListener('visibilitychange', fromStore, false);
+    window.addEventListener('focus', fromStore, false);
+    setInterval(function () { if (!document.hidden) fromStore(); }, 400);
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start, false);
