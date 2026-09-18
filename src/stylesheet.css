@@ -374,7 +374,6 @@ dl.legend dd { margin: 0 0 0 1.2em; }
     landing shows across a page of many jewels and much text (Peter, build
     327: a hairline ring in red was too subtle). **/
 .inlineAnchor.landed, .inlineAnchorReturn.landed, .repeatAnchor.landed,
-.landedmark,
 .tocpage1.landed > .title, .tocpage2.landed > .title {
   background: #FFE08A;
   outline: 2px solid #B8860B;
@@ -384,16 +383,8 @@ dl.legend dd { margin: 0 0 0 1.2em; }
 /** …and the first line of text to recite after it, on the same ground
     without the ring (toggle.js wraps it for the same 2.5 s). **/
 .landedtext { background: #EDE9E2; border-radius: 0.2em; }   /* warm grey, no hue: the jewel is the only coloured mark (Peter, build 330) */
-/** …and .landedmark, the SAME amber, for a landing whose jewel carries no
-    name. An unnamed jewel is an empty span: a ring around it has no width
-    and never showed. toggle.js gives the ring to the first few syllables of
-    the text instead and the grey to the line after them, so every landing
-    shows the same two marks in the same order, named or not (Peter, build
-    21 of the inline branch: "there is always a jewel to circle and a first
-    line of text to make grey"). **/
 @media (prefers-color-scheme: dark) {
   .inlineAnchor.landed, .inlineAnchorReturn.landed, .repeatAnchor.landed,
-  .landedmark,
   .tocpage1.landed > .title, .tocpage2.landed > .title {
     background: #6B5200;
     outline-color: #FFD24D;
