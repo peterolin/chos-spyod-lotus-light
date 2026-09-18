@@ -97,24 +97,36 @@
   function isLabelLink(n) {
     return n.nodeName === 'A' && !/(^|\s)inline(\s|$)/.test(n.className || '');
   }
+  function skipSubtree(n) {
+    return isLabelLink(n) ||
+      /(^|\s)(pageno|ipnpx|lpn|tibyigchung|inlineAnchor|repeatAnchor)(\s|$)/.test(n.className || '');
+  }
+  /* The next text in document order, leaving out the subtrees above. The walk
+     is a plain pre-order one: into this node, else past it, else up and past
+     its parent. It used to step to a firstChild and, when that child was an
+     ELEMENT rather than text, move on to the child's SIBLING — so it never
+     looked two levels down. That was invisible while the text after a jewel
+     was a flat <span>text</span>; an INLINE jump keeps its words in spans
+     inside the <a>, two levels down, and the walk stepped straight over the
+     whole link and lit a line far below (Peter, build 29: landing before
+     སླར་ཡང་། greyed ཕྱག་གཡས་ instead of the ཨོཾ༔ དངོས་འབྱོར་ run). */
   function nextText(from) {
     var n = from, hops = 0;
-    while (n && hops++ < 400) {
-      if (n.nextSibling) { n = n.nextSibling; }
-      else { n = n.parentNode; while (n && !n.nextSibling) n = n.parentNode; if (!n) return null; n = n.nextSibling; }
+    while (n && hops++ < 800) {
+      var nxt = null;
+      if (n.nodeType === 1 && n !== from && !skipSubtree(n) && n.firstChild) {
+        nxt = n.firstChild;
+      } else {
+        var m = n;
+        while (m && !m.nextSibling) m = m.parentNode;
+        nxt = m ? m.nextSibling : null;
+      }
+      n = nxt;
       if (!n) return null;
-      if (n.nodeType === 1) {
-        if (isLabelLink(n) || /(^|\s)(pageno|ipnpx|lpn|tibyigchung|inlineAnchor|repeatAnchor)(\s|$)/.test(n.className || '')) {
-          /* skip this subtree */
-          while (n && !n.nextSibling) n = n.parentNode;
-          if (!n) return null;
-          continue;
-        }
-        if (n.firstChild) { n = n.firstChild; if (n.nodeType === 3 && TIB.test(n.nodeValue)) return n; continue; }
-      } else if (n.nodeType === 3 && TIB.test(n.nodeValue)) {
-        var p = n.parentNode;
-        while (p && p.nodeType === 1 && !isLabelLink(p)) p = p.parentNode;
-        if (!p || p.nodeType !== 1) return n;
+      if (n.nodeType === 3 && TIB.test(n.nodeValue)) {
+        var p = n.parentNode, blocked = false;
+        while (p && p.nodeType === 1) { if (skipSubtree(p)) { blocked = true; break; } p = p.parentNode; }
+        if (!blocked) return n;
       }
     }
     return null;
