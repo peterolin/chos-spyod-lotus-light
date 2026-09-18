@@ -852,6 +852,13 @@ zero-width box in the flow, so the anchors stay reachable.
 
 To bring them back: restore font-size: 0.7em and the background/padding below. **/
 a.ipnpx {
+  /** Excluded from copy-and-paste (Peter, 2026-09-18): a zero-size number
+      is still text, and a copied verse came out with a "4" inside a word.
+      user-select: none keeps it out of the selection in WebKit; where a
+      reader ignores that, the text now reads "[4]" so at least it is
+      recognisable as a page number. **/
+  -webkit-user-select: none;
+  user-select: none;
   font-size: 0;
   background: none;
   padding: 0;
@@ -1288,54 +1295,98 @@ img {
     Removed with the float: `margin: auto 0` (auto vertical margins compute to
     zero, so it never did anything), and justify-content/align-items, which
     are flex properties on a box that was never a flex container. **/
+/** THE TITLE BLOCK under the photograph of the first folio (2026-09-18).
+    Two lines — the Sanskrit title in Tibetan transliteration, then the
+    Tibetan title — centred as a block. Each line is made of SEGMENTS that
+    cannot break inside (nowrap): a narrow screen breaks the Tibetan title
+    before ཞེས་བྱ་བ་བཞུགས་སོ and the Sanskrit after ནཱ་མ, never mid-phrase,
+    and the closing shad is bound to its word with U+00A0. Until build 338
+    the lines were loose text with a <br/> before each: left-aligned, and on
+    a phone the final shad fell onto a line of its own (Peter). One size
+    step down under 30em so the Tibetan title still tends to one line. **/
+.frontispiece { text-align: center; margin: 1.2em 0 1.4em; }
+/** Title weight (Peter, build 339): at least the body's size, and in full
+    ink — the yig chung classes carry 0.8em and 85% opacity, both dropped
+    here. Monlam has one weight, so no bold: a synthetic bold would only
+    smear the outlines. The Tibetan title a step above the body, the
+    Sanskrit line at body size. **/
+.frontispiece .ftitle { display: block; margin: 0.35em 0; font-size: 1em; opacity: 1; vertical-align: 0; line-height: 1.6; }
+.frontispiece .ftitle.bo { font-size: 1.1em; }
+.frontispiece .seg { white-space: nowrap; display: inline-block; }
+@media (max-width: 30em) {
+  .frontispiece .ftitle { font-size: 0.9em; }
+  .frontispiece .ftitle.bo { font-size: 1em; }
+}
+
+/** THE THREE DEITY DRAWINGS that open the book (2026-09-18). One flex row
+    that NEVER wraps, three equal boxes, the image filling its box, so the
+    drawings grow with the screen and the frames match. Until build 334 the
+    image was 3cm wide and each box took its width from its caption: three
+    sizes, and small on an iPad.
+
+    THE ROW MUST ALWAYS FIT ON ONE PAGE (Peter). Books ignores both a vh
+    height cap and break-inside: avoid on a stacked box (build 336, iPhone:
+    a full-width drawing cut in two). So the guarantee is geometric: three
+    abreast at every width, each image capped at 10em tall — on the
+    narrowest page the row is a third of the width per drawing, on a wide
+    one 10em, and either way the row is well under half a page, so it fits
+    wherever it falls. No stacking on phones: three small drawings beat one
+    cut in two. **/
 .imagerow {
-  text-align: center;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.6em;
   clear: both;
   margin: 0.8em 0;
-  }
-.imagebox {
-  padding: 0.1em;
-  display: inline-block;
-  vertical-align: top;
-  margin: 0.3em;
   page-break-inside: avoid;
   break-inside: avoid;
+  /** stretch: the three boxes take the height of the tallest, and the
+      frame fills its box, so the three frames are one size although the
+      drawings' proportions differ a little (Peter, build 337). **/
+  align-items: stretch;
+}
+.imagebox {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 13em;
+  padding: 0;
+  margin: 0;
   text-align: center;
-  }
+  display: flex;
+}
 .imageframe {
-  padding: 0.5em 0.5em 0.5em 0.5em;
-  margin: auto 3px;
-  border-style: solid;
-  border-color: var(--ui-border);
-  border-width: 3px;
-  display: block;
+  padding: 0.5em;
+  margin: 0;
+  border: 3px solid var(--ui-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 1 auto;
+  box-sizing: border-box;
   text-align: center;
-
-  }
-
+}
 .image {
-  padding: 0.2em 0.2em 0.2em 0.2em;
-  /** A cap, not a size: max-width lets the image shrink with the column
-      instead of overflowing it, which is what the fixed 3cm did. **/
-  width: 3cm;
+  padding: 0.2em;
+  display: block;
+  margin: 0 auto;
+  width: auto;
   max-width: 100%;
   height: auto;
-  border-style: solid;
-  border-color: var(--ui-border);
-  border-width: 3px;
-  display: inline-block;
-  text-align: center;
-  }
-
+  max-height: 10em;
+  border: 3px solid var(--ui-border);
+  box-sizing: border-box;
+}
 .caption {
-  /** Was 3.5cm — WIDER than the 3cm image, so the caption, not the picture,
-      decided how wide the box was, and pushed it past the column edge. **/
   max-width: 100%;
   font-family: "Monlam Uni OuChan2", serif;
-  font-size: 0.5em;
-  line-height: 0.9em;
+  font-size: 0.7em;      /* was 0.5em: barely readable (Peter, build 337) */
+  line-height: 1.3;
   display: block;
   text-align: center;
+  margin-top: 0.5em;
 }
 
 /** ANNOTATIONS — the editor's marginal notes (མཆན་), 2026-09-16.
