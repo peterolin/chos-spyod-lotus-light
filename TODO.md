@@ -46,11 +46,18 @@ Still standing, and each needs a decision, not just work:
   (which ནོར་བུ). Need the texts, not the titles.
 - `c_79.htm` བྱིན་རླབས་མཁའ་ལ → `c_80.htm#line76` — a working link missing its
   printed page; c_80 carries no page anchors past 558 to read it from.
-  2026-09-17: the link's words now end in a shad, and a visible `pecha:` stub
-  stands beside it (p543-615.htm) until Peter reads the page off the pecha.
-- `p1_4:314–315` — two `href`-less stubs, "Medium/Long 7 branch in bzang spyod".
-  The pecha says རྒྱས་བསྡུས, two grades not three; the extensive one is this
-  prayer's own seven branches (pp. 4–27). Replace with one link, or delete.
+  2026-09-18: the link is now an ordinary numberless jump and the return
+  likewise; the note asking for the two pages is a hidden `.edNote` in
+  p543-615.htm (Peter: a working link with no number is not a reader-facing
+  TODO; only lama questions stay visible and searchable as "TODO").
+- ~~`p1_4:314–315` — two `href`-less stubs, "Medium/Long 7 branch in bzang spyod"~~
+  — RESOLVED 2026-09-18 (Peter): both grades link into the Bzang spyod —
+  ཡན་ལག་བདུན། 581 for the extensive, and ཕྱག་འཚལ་བ་དང་སོགས། 583 for the concise,
+  the single stanza at the end of the seven branches (new jewel
+  `bzang_spyod_7branches_short`). The concise link had pointed at the copy
+  of that stanza on 577 in the ལྟུང་བ་བཤགས (`TOC_7BranchShort`, now an orphan
+  jewel — see B7). One return སྐྱབས་སེམས། from the end of the seven branches
+  serves both. The HTML comment went with the stubs.
 - `p1_4:51` — the hidden `#TODO` jewel (G8). Delete and regenerate jewels.htm.
 - One `???` page placeholder, `p1_4:265`, hidden by `.pageno-unknown`.
 - Two HTML comments: `p1_4:312` (the stubs above), `p60:263` (verify against

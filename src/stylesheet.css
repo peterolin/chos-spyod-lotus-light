@@ -346,6 +346,13 @@ dl.legend dd { margin: 0 0 0 1.2em; }
       h3.tocpage2.minor  a quiet sub-heading inside one practice
     nav.py and every rule here key on the class, so the tag is free to say
     what the heading IS. Keep it that way for new headings. **/
+/** PENDING — a link or jewel the editor proposes to REMOVE, kept faded
+    until a lama has confirmed (Peter, 2026-09-18: the offerings→110→mandala
+    detour in the Tara sadhana). The element still works; it just reads as
+    provisional, and a jumpTODO beside it says why. Opacity, so it fades in
+    Night too. Remove the wrapper, or the element, once decided. **/
+.pending { opacity: 0.35; }
+
 /** THE LANDING MARK (2026-09-18). The jewel — or title — a jump has just
     brought the reader to wears a thin red ring for two and a half seconds,
     so the eye finds the landing point on a page of look-alike verses
@@ -741,6 +748,25 @@ dl.legend dt .en, dl.legend dt i { font-family: -apple-system, Helvetica, Arial,
 /** .jumpTODO renders a literal "TODO " so unfinished work cannot pass for
     finished. It takes the opening brace in the same string, since an element
     has only one :before — the closing ༽ comes from the shared rule below. **/
+/** EDITOR'S NOTE, hidden (2026-09-18, Peter). Two kinds of open item live
+    in the text. A .jumpTODO is a QUESTION ABOUT THE TEXT — a lama check —
+    and the reader may see it and search the book for "TODO". An .edNote is
+    the editor's bookkeeping — a page number still to be read off the pecha
+    for a link that already works — and no reader should see it. display:
+    none also keeps it out of the reader's search. grep for it in src. **/
+.edNote { display: none; }
+
+/** A jump link INSIDE yig chung (2026-09-18). Links are 80% of their
+    surroundings; inside a 0.8em yig chung that made them 0.64em — the two
+    seven-branch links at the head of the Sems bskyed were the case (Peter).
+    At 100% of the yig chung they render at 0.8em, the size of every other
+    link in the book. **/
+.tibyigchung .jumpUp, .tibyigchung .jumpDown, .tibyigchung .jump, .tibyigchung .jumpTODO,
+.tibyigchungH .jumpUp, .tibyigchungH .jumpDown, .tibyigchungH .jump, .tibyigchungH .jumpTODO {
+  font-size: 100%;
+  line-height: 100%;
+  vertical-align: 0;
+}
 .jumpTODO:before {
   /* One string, not two adjacent ones: `"\0F3C" "TODO "` is legal CSS
      but the second string was dropped, and the TODO vanished with it. The
