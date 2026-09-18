@@ -445,6 +445,9 @@ through and confirmed. A section listed here needs no lama check unless its
 text changes.
 
 - **རྒྱུན་གྱི་བཀོལ་བྱང་ 88–91** — Peter, in actual practice, 2026-09-17.
+- **གསང་ཐིག་ཕུར་བ 430–440** (lineage prayer and sadhana) — Peter, in actual practice, 2026-09-17, on the tree before the landmark relabelling and the rails (i.e. before `93069c8`).
+- **དཀར་གསུར 154–156** — Peter, in actual practice, 2026-09-17, same tree.
+- **དམར་གསུར 157–160** — Peter, in actual practice, 2026-09-17, same tree.
 
 ## What is already right
 
