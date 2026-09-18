@@ -32,6 +32,14 @@ RAIL_OPEN = re.compile(r'<div class="rail (hue-\w+ pat-\w+)"')
 
 RAIL_CLOSE = re.compile(r"</div>\n</div>\n</div>")
 
+# A link may open with a word other than its target's label when it recites
+# only PART of what the jewel names: the reader taps the part, lands on the
+# whole, and the instruction beside the link says where to stop. Recorded
+# here with the reason; anything else that differs still fails --check.
+PART_OK = {
+    ("bzang_spyod_7branches", "ཕྱག་བསྟོད"): "the refuge prayer (18) and Neten chagchö (52) recite only the first branch, through བདག་གིས་བསྟོད — ཡན་ལག་བདུན names the whole (Peter, 2026-09-18)",
+}
+
 
 def rail_at(text, pos):
     """The rail classes in force at pos. A heading stands between two rails;
@@ -94,7 +102,9 @@ def collect():
                 lm = re.match(r'<span id="[^"]+" class="(?:inlineAnchor|inlineAnchorReturn|repeatAnchor)">([^<]*)</span>', ttext[start:])
                 if lm:
                     target_label = lm.group(1).strip()
-            mismatch = bool(target_label) and words.split(" ")[0].rstrip("།་") != target_label.rstrip("།་") and cls != "jumpTODO"
+            first = words.split(" ")[0].rstrip("།་")
+            mismatch = (bool(target_label) and first != target_label.rstrip("།་") and cls != "jumpTODO"
+                        and (frag, first) not in PART_OK)
             rail_from = rail_at(text, m.start())
             rail_to = rail_at(per_file[trel][0], tp[1]) if tp else ""
             same_rail = bool(rail_to) and rail_from == rail_to and trel != rel and cls != "jumpTODO"
