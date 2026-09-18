@@ -110,8 +110,20 @@
     }
     return null;
   }
-  function lightText(from) {
-    var tn = nextText(from);
+  /* Inside a repeat span the first text node is the passage's own start. */
+  function firstTextInside(el) {
+    var n = el.firstChild, hops = 0;
+    while (n && hops++ < 200) {
+      if (n.nodeType === 3 && TIB.test(n.nodeValue)) return n;
+      if (n.nodeType === 1 && n.nodeName !== 'A' && n.firstChild) { n = n.firstChild; continue; }
+      while (n && !n.nextSibling && n !== el) n = n.parentNode;
+      if (!n || n === el) return null;
+      n = n.nextSibling;
+    }
+    return null;
+  }
+  function lightText(from, inside) {
+    var tn = inside ? firstTextInside(from) : nextText(from);
     if (!tn) return null;
     var s = tn.nodeValue, i = s.search(TIB), cut = -1;
     if (i < 0) return null;
@@ -135,10 +147,16 @@
 
   function mark(el, how) {
     if (!el) return;
-    var cls = el.className.replace(/(^|\s)landed(?=\s|$)/g, '').replace(/^\s+/, '');
-    el.className = (cls ? cls + ' ' : '') + 'landed';
+    /* A repeat brace sends the reader back to the START of its own passage:
+       light the passage's first line, inside the braces, and put no ring on
+       the span (build 332 lit the text after the closing brace instead). */
+    var isRepeat = /(^|\s)repeat(Wrap|End)3?(\s|$)/.test(el.className || '');
+    if (!isRepeat) {
+      var cls = el.className.replace(/(^|\s)landed(?=\s|$)/g, '').replace(/^\s+/, '');
+      el.className = (cls ? cls + ' ' : '') + 'landed';
+    }
     var undo = null;
-    try { undo = lightText(el); } catch (e) { undo = null; }
+    try { undo = lightText(el, isRepeat); } catch (e) { undo = null; }
     note('landed ' + how);
     setTimeout(function () {
       el.className = el.className.replace(/(^|\s)landed(?=\s|$)/g, '').replace(/^\s+/, '');

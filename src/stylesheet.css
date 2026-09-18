@@ -385,6 +385,14 @@ dl.legend dd { margin: 0 0 0 1.2em; }
   .landedtext { background: #3A3733; }
 }
 
+/** The rails' sample on the key page: nine short upright pieces of rail,
+    made of spans so they stand in a row. Same classes as the real thing;
+    only the box is different. **/
+.railkey { display: inline-block; white-space: nowrap; }
+.railkey .rail, .railkey .rail-m, .railkey .rail-i { display: inline-block; height: 2.2em; margin: 0 0.9em 0 0; padding-top: 0; vertical-align: middle; }
+.railkey .rail-m, .railkey .rail-i { margin: 0; }
+.railkey .rail-i { width: 0; }
+
 /** THE RAILS (2026-09-18; tools/rails.py writes the wrappers). Every prayer
     is wrapped in three nested divs whose RIGHT borders draw a rail down the
     page edge: a hairline, a band, a hairline. Borders, not text, so the rail
