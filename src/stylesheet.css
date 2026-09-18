@@ -428,9 +428,13 @@ dl.legend dd { margin: 0 0 0 1.2em; }
     drew the first verse over the title). The same amount comes back as
     padding: the text stands where it did, and the border, which spans the
     padding, reaches up to the title. **/
+/** The same pull-up on ALL THREE wrappers: with it on the outer one alone
+    only the outer hairline reached the title and the band and inner line
+    began 1.65em lower (build 357, Peter). Each inner wrapper climbs back
+    over its parent's padding and pads its own content down again. **/
 .rail   { border-right: 1px solid var(--rail); padding: 1.65em 2px 0 0; margin: -1.65em 0 0 0; }
-.rail-m { border-right: 3px solid var(--rail); padding: 0.01em 2px 0 0; }
-.rail-i { border-right: 1px solid var(--rail); padding: 0.01em 3px 0 0; }
+.rail-m { border-right: 3px solid var(--rail); padding: 1.65em 2px 0 0; margin: -1.65em 0 0 0; }
+.rail-i { border-right: 1px solid var(--rail); padding: 1.65em 3px 0 0; margin: -1.65em 0 0 0; }
 /* bands */
 .pat-scaffold > .rail-m { border-right-color: transparent; }
 .pat-insert   > .rail-m { border-right-style: dotted; }

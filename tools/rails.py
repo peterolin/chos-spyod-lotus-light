@@ -49,7 +49,7 @@ DEFAULT = ("slate", "root")
 RED_SCAFFOLD = ("page319", "page328", "page330", "page334", "page339", "page340",
                 "page60", "page61", "page62", "page64", "page70", "page77", "page84",
                 "page257", "page654", "page691",
-                "TOC_LamaGyangbo", "TOC_TromeLadrub")
+                "TOC_LamaGyangbo", "TOC_TromeLadrub", "TOC_TsogDus")
 RED_ROOT = ("page88", "page336", "page346", "page357", "page362", "page378", "toc_1", "page395", "toc_3", "page420")
 OCHRE_ROOT = ("page133", "page135", "page137", "page142", "page148", "page154", "page157", "page170", "page175", "page177",
               "page546", "page441", "page445", "page468", "page472", "page474", "page477", "page481", "page487",
@@ -62,7 +62,7 @@ PLUM_ROOT = ("page596", "page603", "page615", "page624", "page630", "page638", "
              "page650", "page658", "page662", "page699", "page701", "page702", "page704", "page710", "page713",
              "page716", "page723", "page735", "page744", "page695", "TOC_NgowaMonlam")
 PLUM_INSERT = ("page581",)   # བཟང་སྤྱོད alone wears plum beads — colour AND pattern its own (Peter, build 311)
-SLATE_SCAFFOLD = ("page557", "shabten")   # བཀྲ་ཤིས་བརྒྱད་པ (page30) is root (Peter, build 312)
+SLATE_SCAFFOLD = ("page557", "shabten", "TOC_AliKali")   # བཀྲ་ཤིས་བརྒྱད་པ (page30) is root (Peter, build 312)
 
 RAIL = {
     **{k: ("red", "scaffold") for k in RED_SCAFFOLD},
