@@ -1450,6 +1450,22 @@ carry it through, and an inline jump is exempt from the landmark-label check
 since its words are the instruction, not a label. One hidden page marker
 (`pp19`) became a `<span>`, XHTML forbidding an anchor inside an anchor.
 
+**Return links** take the same form from the other side: where a borrowed
+prayer ends, the link is its CLOSING words — the very words the outbound
+instruction named as the stopping point — with the braced page after them.
+
+    before   །འདྲེན་པའི་དཔལ་དུ་བདག་གྱུར་ཅིག ། ༼མཆོད་པ་བྱིན་རླབས། སྒྲོལ་ཆོག 105◂◂༽
+    after    །འདྲེན་པའི་དཔལ་དུ་བདག་གྱུར་ཅིག ། ༼◂◂105༽
+
+Eight of the sixteen return links in the running text are converted: p92 ×3,
+p115 ×2, p395, p581 ×2. Eight are not, and all for one reason — they are
+STACKED, two or three returns at one spot, because the same passage is
+entered from several places. Only the first of a stack can absorb the closing
+words, and the labels that remain (ཚར་གཉིས་མཐར། ཚར་གསུམ་མཐར། ཚར་བདུན་མཐར།) are
+what tells the reader WHICH repetition they are returning from, so dropping
+them would lose the distinction. One of those spots also carries the repeat
+brace of the 21 praises, which must not fall inside a link. Peter's call.
+
 **Open:** the ~22 links that are NOT citation formulas — a link at the close
 of a recitation, or an onward link after a colophon — have no instruction to
 ride on and keep their labels; they stay where `master` moved them. Whether
