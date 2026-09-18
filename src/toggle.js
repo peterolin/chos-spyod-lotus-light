@@ -88,6 +88,12 @@
      from here". The next text node in document order that is not inside a
      link (links follow many jewels) and holds Tibetan letters. */
   var TIB = /[\u0f40-\u0fbc]/;
+  /* A LABEL link repeats words the reader already has, so the mark steps over
+     it. An INLINE link IS the instruction — the very thing worth lighting —
+     so it is walked into like ordinary text. */
+  function isLabelLink(n) {
+    return n.nodeName === 'A' && !/(^|\s)inline(\s|$)/.test(n.className || '');
+  }
   function nextText(from) {
     var n = from, hops = 0;
     while (n && hops++ < 400) {
@@ -95,7 +101,7 @@
       else { n = n.parentNode; while (n && !n.nextSibling) n = n.parentNode; if (!n) return null; n = n.nextSibling; }
       if (!n) return null;
       if (n.nodeType === 1) {
-        if (n.nodeName === 'A' || /(^|\s)(pageno|ipnpx|lpn|tibyigchung|inlineAnchor|repeatAnchor)(\s|$)/.test(n.className || '')) {
+        if (isLabelLink(n) || /(^|\s)(pageno|ipnpx|lpn|tibyigchung|inlineAnchor|repeatAnchor)(\s|$)/.test(n.className || '')) {
           /* skip this subtree */
           while (n && !n.nextSibling) n = n.parentNode;
           if (!n) return null;
@@ -104,7 +110,7 @@
         if (n.firstChild) { n = n.firstChild; if (n.nodeType === 3 && TIB.test(n.nodeValue)) return n; continue; }
       } else if (n.nodeType === 3 && TIB.test(n.nodeValue)) {
         var p = n.parentNode;
-        while (p && p.nodeType === 1 && p.nodeName !== 'A') p = p.parentNode;
+        while (p && p.nodeType === 1 && !isLabelLink(p)) p = p.parentNode;
         if (!p || p.nodeType !== 1) return n;
       }
     }
@@ -122,27 +128,47 @@
     }
     return null;
   }
-  function lightText(from, inside) {
-    var tn = inside ? firstTextInside(from) : nextText(from);
+  /* Wrap a run of Tibetan — from its first letter to the first tsheg or shad
+     past MIN, or MIN characters if none comes before MAX — in a span of the
+     given class. Returns what is left after it and an undo. */
+  function wrapRun(tn, cls, min, max) {
     if (!tn) return null;
     var s = tn.nodeValue, i = s.search(TIB), cut = -1;
     if (i < 0) return null;
-    for (var k = i + 28; k < s.length && k < i + 60; k++) {
-      if (s.charAt(k) === '\u0f0b' || s.charAt(k) === '\u0f0d' || s.charAt(k) === '\u0f14') { cut = k + 1; break; }
+    for (var k = i + min; k < s.length && k < i + max; k++) {
+      var c = s.charAt(k);
+      if (c === '\u0f0b' || c === '\u0f0d' || c === '\u0f14') { cut = k + 1; break; }
     }
-    if (cut < 0) cut = Math.min(s.length, i + 40);
+    if (cut < 0) cut = Math.min(s.length, i + min);
     var head = tn.splitText(i), tail = head.splitText(cut - i);
     var w = document.createElement('span');
-    w.className = 'landedtext';
+    w.className = cls;
     head.parentNode.insertBefore(w, head);
     w.appendChild(head);
-    return function () {
+    return { rest: tail, undo: function () {
       var parent = w.parentNode;
       if (!parent) return;
       parent.insertBefore(head, w);
       parent.removeChild(w);
       parent.normalize();
-    };
+    } };
+  }
+  /* RING is true when the landing point has no words of its own. An unnamed
+     jewel is an empty span and a ring around it has no width to show, so the
+     first few syllables of the text stand in for the jewel and take the ring,
+     and the line after them takes the grey — the same two marks a named
+     jewel gives, in the same order. */
+  function lightText(from, inside, ring) {
+    var tn = inside ? firstTextInside(from) : nextText(from);
+    if (!tn) return null;
+    if (!ring) {
+      var one = wrapRun(tn, 'landedtext', 28, 60);
+      return one ? one.undo : null;
+    }
+    var a = wrapRun(tn, 'landedmark', 6, 18);
+    if (!a) return null;
+    var b = wrapRun(a.rest, 'landedtext', 22, 50);
+    return function () { if (b) b.undo(); a.undo(); };
   }
 
   function mark(el, how) {
@@ -151,12 +177,13 @@
        light the passage's first line, inside the braces, and put no ring on
        the span (build 332 lit the text after the closing brace instead). */
     var isRepeat = /(^|\s)repeat(Wrap|End)3?(\s|$)/.test(el.className || '');
-    if (!isRepeat) {
+    var bare = !isRepeat && !TIB.test(el.textContent || el.innerText || '');
+    if (!isRepeat && !bare) {
       var cls = el.className.replace(/(^|\s)landed(?=\s|$)/g, '').replace(/^\s+/, '');
       el.className = (cls ? cls + ' ' : '') + 'landed';
     }
     var undo = null;
-    try { undo = lightText(el, isRepeat); } catch (e) { undo = null; }
+    try { undo = lightText(el, isRepeat, bare); } catch (e) { undo = null; }
     note('landed ' + how);
     setTimeout(function () {
       el.className = el.className.replace(/(^|\s)landed(?=\s|$)/g, '').replace(/^\s+/, '');
