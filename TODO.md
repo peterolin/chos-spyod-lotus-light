@@ -292,6 +292,43 @@ would see the accent. Revisit when Rañjanā is encoded and a Tibetan-style
 Lantsa font exists under a free licence; until then the photograph stands.
 The transliteration line beneath it gives the text to set.
 
+### F20. Incipit instructions without a jump — a future release
+
+Surveyed 2026-09-18: every yig chung instruction that names an incipit with
+སོགས or ནས ("from X …") was checked for a jump beside it. 46 found; 23 have
+one. Of the rest, five need nothing (syllables, a colophon, "a dedication of
+your choice"). The remaining 18 fall in three groups, each wanting one
+decision:
+
+1. **The eight offering words, abbreviated ཨརྒྷཾ་ སོགས/ནས … ཤབྡ, nine times:**
+   Khrus chog 226 (twice), Rnam sras 490, Lha chen 487, Jampal Tsenjö 179,
+   Mgon po legs ldan 441, Srung ma spyi'i gtor 445, Gter srung ma'i gtor
+   bsngo 494 — and the Tsog's ཨོཾ་ཨ་ཀ་རོ་ སོགས on 170, whose full form stands
+   in the ཆ་གསུམ on 148. The full offering list stands in the Sang on 142
+   and the Trinley Nyingpo on 356. One treatment for all nine: the red
+   inline completion inside the mantra, as the Tara's ཨ་ཀཱ་རོ on 111 (key
+   page, "Completed mantra"), or a link to the full list with a return.
+   The inline form keeps the reciter in place, which is the stated
+   preference for short mantras.
+2. **Texts that stand elsewhere in the book, link candidates:** the
+   Drolchog daily version on 113 (མདུན་གྱི་ནམ་མཁར་ སོགས → the Drolchog's own
+   start on 105, whose jewel was removed 2026-09-18; a labelled jewel would
+   come back); Könchog Jedren 168 (འདི་བསྒྲུབས་པ་ལས་བྱུང་ ཞེས་སོགས → the verse
+   a few lines earlier); the Trinley Nyingpo's closing instruction on 355
+   (five incipits: བླ་མ་ཡི་དམ → 468, ཧོཿ རང་གི་ཐུགས་ཀའི, ཕྱི་མཆོད་འདོད་ཡོན →
+   the མཆོད་པ། jewel, ངོ་བོ་འོད་གསལ, སྙིང་པོ་བྱང་ཆུབ་སེམས → the prayer's own
+   passages); Narak 417 (ཡོན་ཏན་ཕུན་ཚོགས → the kangwa on 400, བླ་མ་ཡི་དམ →
+   468); Lüjin 546 (དཔལ་ལྡན་རྩ་བའི་བླ་མ → the verse on 704; part of F17);
+   Khorwa Dongtruk 558 (འབྱུང་པོ་གང་དག → the dismissal verse on 135, 157,
+   735).
+3. **A round trip inside one prayer:** Jampal Tsenjö 179, སྟོང་པའི་ངང་ལས་
+   … ཞེས་པ་ནས … གསལ་བར་གྱུར་ ཅེས་པའི་བར་གོང་བཞིན — the prayer's own
+   visualisation "as above", a few pages earlier. Build as the seven-branch
+   chain is built: a jewel at the start, a jump there, a return jewel after.
+
+The survey is a one-liner to rerun: yig chung spans containing སོགས or
+opening with ནས/ཞེས་པ་ནས, with no `class="jump` within 300 characters.
+
 ### F9. Adjudicate the variants between the 3rd and 4th printing
 
 Added 2026-09-12. The newer source EPUB (`resources/…ཞལ་འདོན།.epub`, a Pages
