@@ -378,6 +378,38 @@ triples the markup in the terma texts. Not (3) a wider space character:
 Monlam has no glyph for the thin or en spaces, so they fall to another font.
 Decided 2026-09-18: not now.
 
+### F23. The pecha PDF converted to Unicode — a reference text, 95% and rising
+
+Started 2026-09-18. Peter obtained the pecha-shaped chos spyod as a PDF
+(`resources/cover+karchag+chojod All in One.pdf`, 832 pages, 65 MB, kept out
+of git) set in Tony Duff's TibetanChogyal fonts, an 8-bit TCC encoding. It
+is now readable Unicode: `tools/pecha2uni.py` reads the PDF span by span
+with PyMuPDF and maps (font, code) through Jskad's `tibwn.ini` (THDL; copy
+in `resources/pecha-unicode/`), since the Tibetan Machine encoding is the TCC
+one. Output: `resources/pecha-unicode/pecha-unicode.txt`, one block per PDF
+page, 508k Tibetan characters, 4 unmapped glyph occurrences left.
+
+Purpose: a second, independent witness of the text — the "second Tibetan
+reader" the assessment asked for, in machine form. Diffing it against src/
+page by page will surface typing slips on either side (the 25 shaping slips
+of 2026-09-18 were found by a lesser method), and it settles F9 (3rd vs 4th
+printing) if this PDF is the later printing.
+
+Still to do, in order:
+1. Verify the Sanskrit sub-fonts Skt1–4 glyph by glyph: the mapping is the
+   Tibetan Machine one, and on PDF page 300 དྷ་ན་ཀོ་ཤ came out ངྷ. Contact
+   sheets of every Skt glyph used, labelled with their codes, are in
+   `resources/pecha-unicode/skt-sheets/`; read each and correct the table
+   entries that differ (a small override dict in pecha2uni.py).
+2. Map the one Skt3 character PyMuPDF returns as U+E005 (3 occurrences,
+   probably ༀ or a variant ཨོཾ) and the lone byte 0x02 on the cover.
+3. Strip the marginal folio words (བརྒྱ༌ཞེ༌བདུན༌) and Latin page numbers into
+   their own field, so the running text is clean, then align PDF pages to
+   the printed page numbers.
+4. Diff against the book: a tool that takes a printed page, pulls our text
+   between its page markers and the PDF's text, and shows the differences.
+   Record every difference in F9 with a decision.
+
 ### F9. Adjudicate the variants between the 3rd and 4th printing
 
 Added 2026-09-12. The newer source EPUB (`resources/…ཞལ་འདོན།.epub`, a Pages
