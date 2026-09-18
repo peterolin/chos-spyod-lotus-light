@@ -1125,6 +1125,10 @@ a.ipnpx, span.ipnpx {
   white-space: nowrap;
 }
 .inline .mark .lpn, .inline .mark .prayer { font-size: 100%; }
+/** Air between the name and the page. In a labelled link a newline in the
+    source supplied it; the marker is built as one unbroken run, so it has to
+    be declared. Same 0.22em the braces take on either side. **/
+.inline .mark .prayer { padding-right: 0.22em; }
 .jump.inline .mark:before,     .jumpDown.inline .mark:before { content: "\0F3C"; padding-right: 0.22em; }
 .jump.inline .mark:after,      .jumpDown.inline .mark:after  { content: "\25B8\0F3D"; padding-left: 0.22em; }
 .jumpDown.inline.out .mark:after                             { content: "\25B8\25B8\0F3D"; }
