@@ -325,6 +325,31 @@ your choice"). The remaining 18 fall in three groups; the first is decided, two 
 The survey is a one-liner to rerun: yig chung spans containing སོགས or
 opening with ནས/ཞེས་པ་ནས, with no `class="jump` within 300 characters.
 
+### F21. The Trinley Nyingpo tsog conclusion as a walkable chain — and the same tail for the chö
+
+Requested 2026-09-18 (Peter). After the Trinley Nyingpo's tsog the practice
+runs through a fixed sequence of texts that stand scattered through the
+book, and the reader should be able to jump through it and back:
+
+1. **བསྐང་བ་གཡུ་ཞལ་མ**, the Turquoise Chamber kangwa, 357 (heading exists).
+2. **ཡེ་ཤེས་སྐུ་མཆོག**, the tsog dedication verse — locate it in the book
+   (not yet found by title; it may stand inside another text).
+3. A link to **བླ་མ་ཡི་དམ**, the torma dedication, 468 (`TOC_LamaYidamStart`).
+4. **ཞབས་བརྟན** — the long-life prayers, 543 and the ཟུར་ཡིག's set.
+5. The standard "fairly long" **བསྔོ་སྨོན** run: ཕྱོགས་བཅུ་དུས་བཞི་མ 695
+   (`TOC_ChokchuDushi`), པདྨ་འོད་དུ་བགྲོད་པའི་སྨོན་ལམ 703, "döme shidang"
+   (identify: which text Peter means), རིག་པ་ཀ་དག (`rigpa_kadag`, in the
+   aspirations file), དུས་གསུམ་སངས་རྒྱས 327 (`dusum_sangs_rgyas`), and more
+   to be listed with Peter.
+6. All of it ends with **སྣང་གྲགས་རིག་གསུམ** (`TOC_NangdragRigsum`).
+
+Build it as the seven-branch chain is built: a labelled jewel at each
+landing, links whose first words are the jewel's label, a return where the
+chain comes back, the rail changing at each hop. The same conclusion, from
+the བསྔོ་སྨོན run to སྣང་གྲགས་རིག་གསུམ, closes the chö (F17), so build the tail
+once and let both practices link into it. Walk it with Peter first: order,
+what is optional, where the returns go. Then verify in practice.
+
 ### F9. Adjudicate the variants between the 3rd and 4th printing
 
 Added 2026-09-12. The newer source EPUB (`resources/…ཞལ་འདོན།.epub`, a Pages
