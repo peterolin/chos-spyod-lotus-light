@@ -254,6 +254,18 @@ p334). Survey every refuge occurrence first — there are several refuge verses
 in the book and the link must anchor on the one Peter means, not the first one
 that greps. Confirm the two sections with Peter before wiring them.
 
+### F17. Complete the ལུས་སྦྱིན་བསྡུས་པ practice sequence
+
+Requested 2026-09-18. The chö text on pp. 546–556 is not yet walkable as a
+practice: its sequence has gaps where prayers the practice needs are not in
+the text, and where the reader is expected to know what to insert. Walk it
+through with Peter and, for each gap, either link to the prayer where it
+already stands in the book (with a return jewel, following the seven-branch
+and sur round trips) or add what is missing. Candidates for what is needed
+are refuge and bodhicitta, the seven branches, and the dedication and
+aspiration at the end; Peter decides which, and from where. Verify in
+practice afterwards and add it to "Verified in practice" below.
+
 ### F9. Adjudicate the variants between the 3rd and 4th printing
 
 Added 2026-09-12. The newer source EPUB (`resources/…ཞལ་འདོན།.epub`, a Pages
