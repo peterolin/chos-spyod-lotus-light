@@ -332,8 +332,9 @@ runs through a fixed sequence of texts that stand scattered through the
 book, and the reader should be able to jump through it and back:
 
 1. **བསྐང་བ་གཡུ་ཞལ་མ**, the Turquoise Chamber kangwa, 357 (heading exists).
-2. **ཡེ་ཤེས་སྐུ་མཆོག**, the tsog dedication verse — locate it in the book
-   (not yet found by title; it may stand inside another text).
+2. **ཡེ་ཤེས་སྐུ་མཆོག**, the tsog confession — it is the བརྗོད་མེད་དོན་བཤགས, 420,
+   whose text opens ཨོཾ། ཡེ་ཤེས་སྐུ་མཆོག་རང་བཞིན་དཀྱིལ་འཁོར་ནི (heading exists; it
+   already wears the Trinley Nyingpo's red rail as part of this practice).
 3. A link to **བླ་མ་ཡི་དམ**, the torma dedication, 468 (`TOC_LamaYidamStart`).
 4. **ཞབས་བརྟན** — the long-life prayers, 543 and the ཟུར་ཡིག's set.
 5. The standard "fairly long" **བསྔོ་སྨོན** run: ཕྱོགས་བཅུ་དུས་བཞི་མ 695
