@@ -62,6 +62,10 @@ Still standing, and each needs a decision, not just work:
 - One `???` page placeholder, `p1_4:265`, hidden by `.pageno-unknown`.
 - Two HTML comments: `p1_4:312` (the stubs above), `p60:263` (verify against
   the printed text).
+- 2026-09-18: the Tara stubs were taken to the lama but the walk did not
+  happen; Peter will instead listen to a recording of him doing the sadhana
+  and settle the five open spots (and the faded offerings→mandala detour on
+  109–110) from that. Nothing to do until then.
 - `p088-115.htm` — six `lama:` stubs in the ཟབ་ཏིག་སྒྲོལ་ཆོག (2026-09-17), each a
   visible `.jumpTODO` beside the spot, to be verified with a lama and then
   removed: the added third-round offerings jump; the ཚར་བདུན་རྫོགས return moved
