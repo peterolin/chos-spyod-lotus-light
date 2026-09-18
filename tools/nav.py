@@ -59,7 +59,7 @@ PAGENO_IN = re.compile(r'<span class="pageno[^"]*">([^<]*)</span>', re.S)
 # and gets no arrow; key.xhtml is the legend, whose rows demonstrate each
 # class BY NAME and so must keep the class they document.
 JUMP = re.compile(
-    r'<a class="(jump|jumpUp|jumpDown|jumpTODO|jumpTodO|easyjump)(?P<out> out)?"'
+    r'<a class="(jump|jumpUp|jumpDown|jumpTODO|jumpTodO|easyjump)(?P<out> out)?(?P<inline> inline)?"'
     r'((?=[^>]*\bhref="([^"]+)")[^>]*)>')
 # group 1 the class, group "out" the scope token (see audit_scope), then the
 # attribute run and, inside it, the href — numbered 3 and 4 because the named
@@ -255,7 +255,7 @@ def audit_jumps(files, apply=False):
             turned.append((rel, cls, want, frag))
             if apply:
                 changed = True
-                return f'<a class="{want}{m.group("out") or ""}"{attrs}>'
+                return f'<a class="{want}{m.group("out") or ""}{m.group("inline") or ""}"{attrs}>'
             return m.group(0)
 
         new = JUMP.sub(classify, text)
@@ -343,7 +343,7 @@ def audit_scope(files, apply=False):
                 return m.group(0)
             changed = True
             new_attrs = SCOPE_ATTR.sub("", attrs)
-            return f'<a class="{cls}{" out" if want else ""}"{new_attrs}>'
+            return f'<a class="{cls}{" out" if want else ""}{m.group("inline") or ""}"{new_attrs}>'
 
         new = JUMP.sub(stamp, text)
         if apply and changed:
@@ -402,7 +402,7 @@ def audit_lpn(files, sections):
     out = []
     for rel in files:
         text = (SRC / rel).read_text(encoding="utf-8")
-        for m in re.finditer(r'<a class="jump(?:Up|Down)(?: out)?"[^>]*\bhref="([^"]+)"[^>]*>(.*?)</a>', text, re.S):
+        for m in re.finditer(r'<a class="jump(?:Up|Down)(?: out)?(?: inline)?"[^>]*\bhref="([^"]+)"[^>]*>(.*?)</a>', text, re.S):
             href, inner = m.group(1), m.group(2)
             lm = LPN.search(inner)
             if not lm or "#" not in href:

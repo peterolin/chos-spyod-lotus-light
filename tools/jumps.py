@@ -59,7 +59,7 @@ import nav  # noqa: E402
 
 SRC = HERE.parent / "src"
 OUT = SRC / "jumps.htm"
-JUMP = re.compile(r'<a class="(jump|jumpUp|jumpDown|jumpTODO)( out)?"([^>]*)>(.*?)</a>', re.S)
+JUMP = re.compile(r'<a class="(jump|jumpUp|jumpDown|jumpTODO)( out)?( inline)?"([^>]*)>(.*?)</a>', re.S)
 HREF = re.compile(r'\bhref="([^"]*)"')
 LPN = re.compile(r'<span class="lpn">([^<]*)</span>')
 
@@ -79,7 +79,7 @@ def collect():
             continue
         text = per_file[rel][0]
         for m in JUMP.finditer(text):
-            cls, out, attrs, inner = m.group(1), m.group(2) or "", m.group(3), m.group(4)
+            cls, out, inline, attrs, inner = m.group(1), m.group(2) or "", m.group(3) or "", m.group(4), m.group(5)
             h = HREF.search(attrs)
             href = h.group(1) if h else ""
             lpn = LPN.search(inner)
@@ -103,12 +103,13 @@ def collect():
                 if lm:
                     target_label = lm.group(1).strip()
             first = words.split(" ")[0].rstrip("།་")
-            mismatch = (bool(target_label) and first != target_label.rstrip("།་") and cls != "jumpTODO"
+            # an inline jump has no label of its own — its words ARE the instruction
+            mismatch = (bool(target_label) and not inline and first != target_label.rstrip("།་") and cls != "jumpTODO"
                         and (frag, first) not in PART_OK)
             rail_from = rail_at(text, m.start())
             rail_to = rail_at(per_file[trel][0], tp[1]) if tp else ""
             same_rail = bool(rail_to) and rail_from == rail_to and trel != rel and cls != "jumpTODO"
-            rows.append(dict(file=rel, cls=cls, out=out, href=href, inner=inner, words=words, page=page,
+            rows.append(dict(file=rel, cls=cls, out=out, inline=inline, href=href, inner=inner, words=words, page=page,
                              frm=frm, to=to, frag=frag, todo=(cls == "jumpTODO"), target_label=target_label, mismatch=mismatch,
                              rail_from=rail_from, rail_to=rail_to, same_rail=same_rail))
     def key(r):
@@ -132,7 +133,7 @@ def render(rows):
         elif href.startswith("#"):
             href = r["file"] + href
         attrs = f' href="{href}"' if href else ""
-        link = f'<a class="{r["cls"]}{r["out"]}"{attrs}>{r["inner"]}</a>'
+        link = f'<a class="{r["cls"]}{r["out"]}{r["inline"]}"{attrs}>{r["inner"]}</a>'
         frm = f'{esc(r["frm"][0])} {r["frm"][1]}'.strip()
         to = f'{esc(r["to"][0])} {r["to"][1]}'.strip() or "?"
         flag = ' <span class="flag">TODO</span>' if r["todo"] else ""

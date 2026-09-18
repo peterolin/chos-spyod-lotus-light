@@ -881,7 +881,10 @@ them that way would silently break exactly that navigation. font-size:0 keeps a
 zero-width box in the flow, so the anchors stay reachable.
 
 To bring them back: restore font-size: 0.7em and the background/padding below. **/
-a.ipnpx {
+a.ipnpx, span.ipnpx {
+  /** span form (2026-09-18): a marker that falls INSIDE an inline jump
+      cannot stay an <a>, since XHTML forbids an anchor inside an anchor.
+      Same class, same hiding, and the id stays a reachable target. **/
   /** Excluded from copy-and-paste (Peter, 2026-09-18): a zero-size number
       is still text, and a copied verse came out with a "4" inside a word.
       user-select: none keeps it out of the selection in WebKit; where a
@@ -1072,6 +1075,56 @@ a.ipnpx {
 .jumpDown.out:after {
   content: "\25B8\25B8\0F3D";   /* NARROW NO-BREAK SPACE + ▸▸༽ */
 }
+
+/** INLINE JUMPS — THE INSTRUCTION IS THE LINK (experiment, 2026-09-18).
+
+    Where the yig chung already quotes the passage — "recite X … and so on,
+    up to Y" — a labelled link repeats words the reader has in front of them,
+    and it arrives before the instruction has finished saying what the jump is
+    for. Watching a lama read, that premature blue was what threw him. Here
+    the quoted instruction itself carries the href: nothing is repeated, and
+    the only mark added is the braced page at its end.
+
+    THE BRACE DOES NOT WRAP THE INSTRUCTION. The instruction is the chos
+    spyod's own words, and the braces exist to mark what is OURS. So the
+    anchor's own ༼ ༽ are suppressed and the pair rides on the page number
+    instead, arrows and all — ༼◂ back, ▸༽ forward, doubled where the jump
+    leaves the prayer, exactly as on a labelled link (Peter, 2026-09-18).
+
+    The run keeps the size and the colour of the text it is made of: font-size
+    100%, so the .tibnormal and .tibyigchung spans inside size themselves
+    against the body and not against a 0.8em link; colour inherited, so the
+    words stay ink. Only the page takes the reading system's link colour,
+    through the system keyword LinkText — a <span> cannot `revert` to it the
+    way an <a> can. Where LinkText is not understood the declaration drops
+    and the page is ink like the rest, which the PLATFORM NOTE allows: the
+    signal is the brace SHAPE, and Night cannot touch that. **/
+.jump.inline, .jumpUp.inline, .jumpDown.inline {
+  font-size: 100%;
+  line-height: inherit;
+  vertical-align: 0;
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
+  text-decoration: none;
+}
+.jump.inline:before, .jumpUp.inline:before, .jumpDown.inline:before,
+.jump.inline:after,  .jumpUp.inline:after,  .jumpDown.inline:after {
+  content: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* the page, and the page alone, is braced and coloured */
+.inline .lpn {
+  font-size: 0.6em;                /* what a page reads at inside a labelled link */
+  color: LinkText;
+  -webkit-text-fill-color: LinkText;
+}
+.jump.inline .lpn:before,     .jumpDown.inline .lpn:before { content: "\0F3C"; padding-right: 0.22em; }
+.jump.inline .lpn:after,      .jumpDown.inline .lpn:after  { content: "\25B8\0F3D"; padding-left: 0.22em; }
+.jumpDown.inline.out .lpn:after                            { content: "\25B8\25B8\0F3D"; }
+.jumpUp.inline .lpn:before                                 { content: "\0F3C\25C2"; padding-right: 0.22em; }
+.jumpUp.inline.out .lpn:before                             { content: "\0F3C\25C2\25C2"; }
+.jumpUp.inline .lpn:after                                  { content: "\0F3D"; padding-left: 0.22em; }
 /** The link that closes a repeated passage and sends you back to its start.
 
     EVERY repeat in the book now ends in one of these — 62 of them. The span

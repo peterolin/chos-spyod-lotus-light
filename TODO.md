@@ -1419,3 +1419,34 @@ merged (which G7 and the page-break question both point toward). Rename to
 The second half of G7: 449 lines exceed 400 characters. Break after every `</span>` and before every `<span class=`, never inside Tibetan, as one commit with nothing else in it, verified with `extract_text.py`.
 
 **Closed:** Broken only where whitespace already stood (a space between tags, an ASCII space after a shad on a long line); extracted text byte-identical. Longest line 1,957 → 703; the rest is Tibetan whose only breaks are en-space entities.
+
+### H1. Inline jumps — the instruction is the link (experiment, branch `inline-jump-links`)
+
+Watching the lama read (2026-09-18) Peter saw that a fast native reader
+follows the yig chung word by word, and that a blue label arriving before the
+instruction has said what the jump is for reads as unmotivated. The first
+answer was to move every such link below its instruction (39 links, on
+`master`). This branch tries the second answer instead: where the yig chung
+already QUOTES the passage — "recite X … and so on, up to Y" — the quoted
+instruction itself becomes the link, the repeated label goes, and the only
+mark added is the braced page at its end.
+
+    before   ཇི་སྙེད་སུ་དག་ ༼ཡན་ལག་བདུན། བཟང་སྤྱོད། 581▸▸༽ སོགས་ཡན་ལག་བདུན་པ་དང་།
+    after    ཇི་སྙེད་སུ་དག་སོགས་ཡན་ལག་བདུན་པ་དང་། ༼581▸▸༽
+
+The brace does NOT wrap the instruction: those words are the chos spyod's
+own, and the braces exist to mark what is ours. The anchor's own braces are
+suppressed and the pair rides on the page number, arrows and all.
+
+**Done:** 17 citation links converted — p4 ×2, p48 ×3, p92 ×7 (the Drolchog
+cluster the lama was reading), p226, p342 ×2, p395, p557. Class token
+`inline` added beside `jumpDown`/`jumpUp`/`out`; `nav.py` and `jumps.py`
+carry it through, and an inline jump is exempt from the landmark-label check
+since its words are the instruction, not a label. One hidden page marker
+(`pp19`) became a `<span>`, XHTML forbidding an anchor inside an anchor.
+
+**Open:** the ~22 links that are NOT citation formulas — a link at the close
+of a recitation, or an onward link after a colophon — have no instruction to
+ride on and keep their labels; they stay where `master` moved them. Whether
+the two forms should coexist in one book, and whether the page should be set
+in Tibetan numerals here, is Peter's call after reading it on the device.
