@@ -10,3 +10,6 @@ __pycache__/
 
 # Build counter — per-machine, must not dirty the tree
 .buildnum
+
+# the pecha PDF (65 MB) — reference only, converted text lives in resources/pecha-unicode/
+resources/*.pdf
