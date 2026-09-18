@@ -79,6 +79,7 @@
 (function () {
   var KEY = 'chosspyod.landing';
   var TTL = 15000;
+  var lastId = null, lastAt = 0;
 
   function note(s) { /* diagnostics hook, kept quiet */ }
 
@@ -197,6 +198,11 @@
     var id = href.slice(i + 1), file = href.slice(0, i);
     var here = location.pathname.split('/').pop();
     if (!file || file === here) {
+      /* Two triggers see one tap — the document listener and the link's own
+         handler — and a repeat brace takes no .landed class to check, so the
+         guard is the id and the clock. */
+      if (id === lastId && Date.now() - lastAt < 900) return;
+      lastId = id; lastAt = Date.now();
       mark(document.getElementById(id), 'tap');
     } else {
       try { localStorage.setItem(KEY, id + ':' + Date.now()); } catch (e2) {}
@@ -216,7 +222,23 @@
     note('js ready, ' + n + ' jump links wired');
   }
 
+  /* THE TAP, CAUGHT ONCE AT THE TOP. wireLinks() below hangs an onclick on
+     every jump link at load, which served while a jump link was a short label
+     with nothing inside it. An INLINE jump is a run of spans — the tap lands
+     on a .tibnormal or a .mark or a brace drawn by a pseudo-element, and the
+     landing mark then splits and rejoins text nodes INSIDE those same links
+     for 2.5 s at a time. One listener at the document, in the capture phase,
+     walking up from whatever was touched to the link that holds it, does not
+     care about any of that. The per-link handlers stay as well: two triggers
+     for one tap are harmless, since the first consumes the stored id. */
+  function delegate(ev) {
+    var n = ev.target;
+    while (n && n.nodeType === 1 && n.nodeName !== 'A') n = n.parentNode;
+    if (n && n.nodeType === 1 && n.nodeName === 'A' && /(^|\s)jump/.test(n.className || '')) tapped(n);
+  }
+
   function start() {
+    document.addEventListener('click', delegate, true);
     wireLinks();
     fromHash();
     fromStore();
