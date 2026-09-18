@@ -97,9 +97,27 @@
   function isLabelLink(n) {
     return n.nodeName === 'A' && !/(^|\s)inline(\s|$)/.test(n.className || '');
   }
+  function inInlineJump(n) {
+    var p = n;
+    while (p && p.nodeType === 1) {
+      if (p.nodeName === 'A' && /(^|\s)inline(\s|$)/.test(p.className || '')) return true;
+      p = p.parentNode;
+    }
+    return false;
+  }
   function skipSubtree(n) {
-    return isLabelLink(n) ||
-      /(^|\s)(pageno|ipnpx|lpn|tibyigchung|inlineAnchor|repeatAnchor)(\s|$)/.test(n.className || '');
+    if (isLabelLink(n)) return true;
+    /* .mark is the braced page, and any prayer name inside it: a reference,
+       never the text to read from. */
+    if (/(^|\s)(pageno|ipnpx|lpn|mark|inlineAnchor|repeatAnchor)(\s|$)/.test(n.className || '')) return true;
+    /* An instruction standing in the running text is not what the reader
+       recites, so the mark passes over it — UNLESS it is the WORDS OF AN
+       INLINE JUMP, where the instruction is the whole point: it is what the
+       reader must read and what they must tap (Peter, build 30: landing at
+       the third round lit སྐུ་ལས་བདུད་རྩིའི་ far below instead of the
+       ཡང་མཆོད་པ་དང་མཎྜལ་ཕུལ་ལ། standing right there). */
+    if (/(^|\s)tibyigchung(\s|$)/.test(n.className || '')) return !inInlineJump(n);
+    return false;
   }
   /* The next text in document order, leaving out the subtrees above. The walk
      is a plain pre-order one: into this node, else past it, else up and past
