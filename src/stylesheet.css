@@ -346,6 +346,93 @@ dl.legend dd { margin: 0 0 0 1.2em; }
       h3.tocpage2.minor  a quiet sub-heading inside one practice
     nav.py and every rule here key on the class, so the tag is free to say
     what the heading IS. Keep it that way for new headings. **/
+/** THE LANDING MARK (2026-09-18). The jewel — or title — a jump has just
+    brought the reader to wears a thin red ring for two and a half seconds,
+    so the eye finds the landing point on a page of look-alike verses
+    without a label having to say "you are here". toggle.js sets the class
+    .landed on the element and removes it again; the ring is an OUTLINE, a
+    border in effect, so it keeps its colour in Books' Night theme.
+
+    HOW IT GOT HERE. Builds 322–326: Apple Books scrolls to an anchor itself
+    and sets neither :target nor a fragment, so the trigger is the TAP on the
+    jump link (a handler on each link, as the dkar chag switch has), carried
+    to another document through localStorage. And Books paints ONE frame of
+    a CSS animation and then the end state when it is over — a pulse sat
+    faint and frozen for nine seconds — so the mark is static: the class
+    arrives, the ring shows at once, the class goes, the ring goes. No
+    :target rule: it persists until the next navigation, and in a reader
+    that sets it the ring would never leave. **/
+/** Amber, a hue nothing else in the book uses — not the reds of the
+    editor's marks, not the reader's link blue — on a filled ground, so the
+    landing shows across a page of many jewels and much text (Peter, build
+    327: a hairline ring in red was too subtle). **/
+.inlineAnchor.landed, .inlineAnchorReturn.landed, .repeatAnchor.landed,
+.tocpage1.landed > .title, .tocpage2.landed > .title {
+  background: #FFE08A;
+  outline: 2px solid #B8860B;
+  outline-offset: 0.1em;
+  border-radius: 0.3em;
+}
+/** …and the first line of text to recite after it, on the same ground
+    without the ring (toggle.js wraps it for the same 2.5 s). **/
+.landedtext { background: #EDE9E2; border-radius: 0.2em; }   /* warm grey, no hue: the jewel is the only coloured mark (Peter, build 330) */
+@media (prefers-color-scheme: dark) {
+  .inlineAnchor.landed, .inlineAnchorReturn.landed, .repeatAnchor.landed,
+  .tocpage1.landed > .title, .tocpage2.landed > .title {
+    background: #6B5200;
+    outline-color: #FFD24D;
+  }
+  .landedtext { background: #3A3733; }
+}
+
+/** THE RAILS (2026-09-18; tools/rails.py writes the wrappers). Every prayer
+    is wrapped in three nested divs whose RIGHT borders draw a rail down the
+    page edge: a hairline, a band, a hairline. Borders, not text, so the rail
+    survives Books' Night theme and is drawn on every page the section
+    occupies; it sits inside the text column because Books clips anything
+    outside it (build 298).
+
+    HUE = the family the text belongs to (six earth pigments, Night values
+    that stay quiet). BAND = the text's role: solid for a practice text
+    recited through (root), empty for what stands around one — lineage
+    prayers, supplications, zur 'debs (scaffold) — and beads for a text other
+    practices jump into (insert). Three, no more (Peter, build 308).
+
+    START AND END. The rail begins at the TITLE, not at the arrow row above
+    it, and ends with the last line of text; the air between prayers carries
+    no rail. The heading stands OUTSIDE the wrapper (rails.py) and the
+    wrapper's negative top margin pulls it up over the title line: the title
+    is one line box of line-height 1.5, and the heading's 0.15em bottom
+    margin collapses with this one, so -1.65em lands the border at the
+    title's top, and 1.65em of padding puts the text back where it was. Build 309 did it the other way round — heading inside,
+    pulled up by the row's height — and when a prayer began at a page top
+    the arrow row was left on the previous page. All three wrappers carry a
+    0.01em top padding so nothing collapses through them and the three
+    lines start level (build 310). **/
+/** The negative margin pulls the whole block up, text included (build 313
+    drew the first verse over the title). The same amount comes back as
+    padding: the text stands where it did, and the border, which spans the
+    padding, reaches up to the title. **/
+.rail   { border-right: 1px solid var(--rail); padding: 1.65em 2px 0 0; margin: -1.65em 0 0 0; }
+.rail-m { border-right: 3px solid var(--rail); padding: 0.01em 2px 0 0; }
+.rail-i { border-right: 1px solid var(--rail); padding: 0.01em 3px 0 0; }
+/* bands */
+.pat-scaffold > .rail-m { border-right-color: transparent; }
+.pat-insert   > .rail-m { border-right-style: dotted; }
+/* hues — light themes */
+.hue-red       { --rail: var(--accent); }
+.hue-indigo    { --rail: #3B4A7A; }
+.hue-verdigris { --rail: #3F6B5E; }
+.hue-ochre     { --rail: #A8762A; }
+.hue-slate     { --rail: #7A7F87; }
+.hue-plum      { --rail: #6E3F5C; }   /* aspirations and dedications */
+@media (prefers-color-scheme: dark) {
+  .hue-indigo    { --rail: #9AA8D8; }
+  .hue-verdigris { --rail: #8FBFB0; }
+  .hue-ochre     { --rail: #D9B36A; }
+  .hue-slate     { --rail: #9AA0A8; }
+  .hue-plum      { --rail: #C9A0BC; }
+}
 .tocpage1, .tocpage2 {
   color: var(--accent);
   /** The red reaches the White, Sepia and Gray themes. It does NOT reach
@@ -1031,6 +1118,12 @@ a.ipnpx {
     words ARE printed and only the repeat instruction is added, so there the
     marks alone are red. The rule throughout is that red marks what the editor
     supplied. **/
+/** An expansion INSIDE a repeat brace (the ཨ་ཀཱ་རོ mantra on 111: the print
+    gives the opening, the editor the rest, all of it ×3) keeps its own
+    braces. Build 318 dropped them as a doubled pair; that left the red alone
+    to say "these words are the editor's", and red is repainted in Night. The
+    inner pair marks the supplied words, the outer pair the repeat — two
+    statements, two braces (Peter, 2026-09-18). **/
 .repeatNextOcc {
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);

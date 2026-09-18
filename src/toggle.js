@@ -57,3 +57,148 @@
     document.addEventListener('DOMContentLoaded', wire, false);
   } else { wire(); }
 })();
+
+/* THE LANDING MARK. Mark the element a jump has just brought the reader to
+ * with the class .landed, which the stylesheet rings (see THE LANDING
+ * MARK there). Three triggers, because reading systems differ in how they
+ * navigate to a fragment:
+ *   1. :target, set by the engine — pure CSS, nothing here.
+ *   2. location.hash on load and on hashchange, for a system that navigates
+ *      by URL but does not set :target.
+ *   3. the TAP itself: every jump link's click is seen here, the target id
+ *      is marked at once when it is in this document, and written to
+ *      localStorage when it is in another — where the destination document
+ *      picks it up on load, or, if it is already loaded, through the
+ *      'storage' event that fires in every other document of the book.
+ *      Apple Books scrolls to the anchor itself and sets neither :target
+ *      nor a fragment (build 323, macOS), so this is the trigger it needs.
+ * The class is removed after 2.5 s (Books paints no CSS animation, so the
+ * mark is static; see THE LANDING MARK in the stylesheet). Where scripts do
+ * not run, nothing happens.
+ */
+(function () {
+  var KEY = 'chosspyod.landing';
+  var TTL = 15000;
+
+  function note(s) { /* diagnostics hook, kept quiet */ }
+
+  /* The first stretch of text to recite after the landing point — about a
+     line, cut at a tsheg or shad — is wrapped in a span for the same 2.5 s
+     and unwrapped again, so the eye is told not only "here" but "read
+     from here". The next text node in document order that is not inside a
+     link (links follow many jewels) and holds Tibetan letters. */
+  var TIB = /[\u0f40-\u0fbc]/;
+  function nextText(from) {
+    var n = from, hops = 0;
+    while (n && hops++ < 400) {
+      if (n.nextSibling) { n = n.nextSibling; }
+      else { n = n.parentNode; while (n && !n.nextSibling) n = n.parentNode; if (!n) return null; n = n.nextSibling; }
+      if (!n) return null;
+      if (n.nodeType === 1) {
+        if (n.nodeName === 'A' || /(^|\s)(pageno|ipnpx|lpn|tibyigchung|inlineAnchor|repeatAnchor)(\s|$)/.test(n.className || '')) {
+          /* skip this subtree */
+          while (n && !n.nextSibling) n = n.parentNode;
+          if (!n) return null;
+          continue;
+        }
+        if (n.firstChild) { n = n.firstChild; if (n.nodeType === 3 && TIB.test(n.nodeValue)) return n; continue; }
+      } else if (n.nodeType === 3 && TIB.test(n.nodeValue)) {
+        var p = n.parentNode;
+        while (p && p.nodeType === 1 && p.nodeName !== 'A') p = p.parentNode;
+        if (!p || p.nodeType !== 1) return n;
+      }
+    }
+    return null;
+  }
+  function lightText(from) {
+    var tn = nextText(from);
+    if (!tn) return null;
+    var s = tn.nodeValue, i = s.search(TIB), cut = -1;
+    if (i < 0) return null;
+    for (var k = i + 28; k < s.length && k < i + 60; k++) {
+      if (s.charAt(k) === '\u0f0b' || s.charAt(k) === '\u0f0d' || s.charAt(k) === '\u0f14') { cut = k + 1; break; }
+    }
+    if (cut < 0) cut = Math.min(s.length, i + 40);
+    var head = tn.splitText(i), tail = head.splitText(cut - i);
+    var w = document.createElement('span');
+    w.className = 'landedtext';
+    head.parentNode.insertBefore(w, head);
+    w.appendChild(head);
+    return function () {
+      var parent = w.parentNode;
+      if (!parent) return;
+      parent.insertBefore(head, w);
+      parent.removeChild(w);
+      parent.normalize();
+    };
+  }
+
+  function mark(el, how) {
+    if (!el) return;
+    var cls = el.className.replace(/(^|\s)landed(?=\s|$)/g, '').replace(/^\s+/, '');
+    el.className = (cls ? cls + ' ' : '') + 'landed';
+    var undo = null;
+    try { undo = lightText(el); } catch (e) { undo = null; }
+    note('landed ' + how);
+    setTimeout(function () {
+      el.className = el.className.replace(/(^|\s)landed(?=\s|$)/g, '').replace(/^\s+/, '');
+      if (undo) { try { undo(); } catch (e) {} }
+    }, 2500);
+  }
+  function fromHash() {
+    var id = location.hash ? location.hash.slice(1) : '';
+    if (id) mark(document.getElementById(id), 'hash');
+  }
+  function fromStore() {
+    var v;
+    try { v = localStorage.getItem(KEY); } catch (e) { return; }
+    if (!v) return;
+    var i = v.lastIndexOf(':'), id = v.slice(0, i), t = +v.slice(i + 1);
+    if (!(Date.now() - t < TTL)) return;
+    var el = document.getElementById(id);
+    if (el) {
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      mark(el, 'store');
+    }
+  }
+  function tapped(a) {
+    var href = a.getAttribute('href') || '';
+    var i = href.indexOf('#');
+    note('tap ' + href);
+    if (i < 0) return;
+    var id = href.slice(i + 1), file = href.slice(0, i);
+    var here = location.pathname.split('/').pop();
+    if (!file || file === here) {
+      mark(document.getElementById(id), 'tap');
+    } else {
+      try { localStorage.setItem(KEY, id + ':' + Date.now()); } catch (e2) {}
+    }
+  }
+  function wireLinks() {
+    var links = document.getElementsByTagName('a'), n = 0;
+    for (var k = 0; k < links.length; k++) {
+      var a = links[k];
+      if (!/(^|\s)jump/.test(a.className || '')) continue;
+      n++;
+      (function (a) {
+        var prev = a.onclick;
+        a.onclick = function (ev) { tapped(a); if (prev) return prev.call(a, ev); };
+      })(a);
+    }
+    note('js ready, ' + n + ' jump links wired');
+  }
+
+  function start() {
+    wireLinks();
+    fromHash();
+    fromStore();
+    window.addEventListener('hashchange', fromHash, false);
+    window.addEventListener('storage', function (ev) { if (!ev.key || ev.key === KEY) fromStore(); }, false);
+    window.addEventListener('pageshow', fromStore, false);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, false);
+  } else {
+    start();
+  }
+})();
