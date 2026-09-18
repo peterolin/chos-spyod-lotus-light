@@ -1484,9 +1484,4 @@ needed here (which also answers that line in the 2026-09-17 assessment, for
 the jump markers at least).
 
 **Open.** Whether a long blue run invites stray taps in a book held during
-recitation — the thing to watch on the device. And the offering citation in
-the གནས་བརྟན་ཕྱག་མཆོད (printed 57), which lost its return when that return moved
-to the third sloka and page 23; if it should come back, its landing point
-`return_from_bzang_spyod_7branches_metok_p57` is still in place just before
-ན་མོ་རཏྣ་ཏྲ་ཡཱ་ཡ།, and a second marker beside the page 23 one is all it needs —
-at which point both gain their prayer names, two markers standing together.
+recitation — the thing to watch on the device.
