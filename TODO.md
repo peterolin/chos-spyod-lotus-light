@@ -1438,6 +1438,11 @@ The brace does NOT wrap the instruction: those words are the chos spyod's
 own, and the braces exist to mark what is ours. The anchor's own braces are
 suppressed and the pair rides on the page number, arrows and all.
 
+The run itself is BLUE, like every other link. Ink was tried first and
+dropped: a reader could see neither where the link began nor, more to the
+point, where to stop reading. The run is a pointer, not something to recite,
+and the link colour says so and lets the eye skip it (Peter, 2026-09-18).
+
 **Done:** 17 citation links converted — p4 ×2, p48 ×3, p92 ×7 (the Drolchog
 cluster the lama was reading), p226, p342 ×2, p395, p557. Class token
 `inline` added beside `jumpDown`/`jumpUp`/`out`; `nav.py` and `jumps.py`

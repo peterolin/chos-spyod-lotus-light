@@ -1091,20 +1091,21 @@ a.ipnpx, span.ipnpx {
     instead, arrows and all — ༼◂ back, ▸༽ forward, doubled where the jump
     leaves the prayer, exactly as on a labelled link (Peter, 2026-09-18).
 
-    The run keeps the size and the colour of the text it is made of: font-size
-    100%, so the .tibnormal and .tibyigchung spans inside size themselves
-    against the body and not against a 0.8em link; colour inherited, so the
-    words stay ink. Only the page takes the reading system's link colour,
-    through the system keyword LinkText — a <span> cannot `revert` to it the
-    way an <a> can. Where LinkText is not understood the declaration drops
-    and the page is ink like the rest, which the PLATFORM NOTE allows: the
-    signal is the brace SHAPE, and Night cannot touch that. **/
+    THE RUN IS BLUE, like every other link (Peter, 2026-09-18). Ink was the
+    first try, on the reasoning that the words are the chos spyod's own; but
+    a reader cannot see where the link starts, and — the point that settles
+    it — cannot see where to STOP READING. These words are a pointer, not
+    something to recite, and the reading system's link colour says so at a
+    glance and lets the eye skip the whole run. So the base `color: revert`
+    stands and everything inside it, page included, inherits that colour.
+
+    Only the SIZE is overridden: font-size 100%, so the .tibnormal and
+    .tibyigchung spans inside size themselves against the body rather than
+    against a 0.8em label. **/
 .jump.inline, .jumpUp.inline, .jumpDown.inline {
   font-size: 100%;
   line-height: inherit;
   vertical-align: 0;
-  color: inherit;
-  -webkit-text-fill-color: currentColor;
   text-decoration: none;
 }
 .jump.inline:before, .jumpUp.inline:before, .jumpDown.inline:before,
@@ -1113,11 +1114,9 @@ a.ipnpx, span.ipnpx {
   padding-left: 0;
   padding-right: 0;
 }
-/* the page, and the page alone, is braced and coloured */
+/* the page is braced; its colour comes from the link, like the rest of the run */
 .inline .lpn {
   font-size: 0.6em;                /* what a page reads at inside a labelled link */
-  color: LinkText;
-  -webkit-text-fill-color: LinkText;
 }
 .jump.inline .lpn:before,     .jumpDown.inline .lpn:before { content: "\0F3C"; padding-right: 0.22em; }
 .jump.inline .lpn:after,      .jumpDown.inline .lpn:after  { content: "\25B8\0F3D"; padding-left: 0.22em; }
