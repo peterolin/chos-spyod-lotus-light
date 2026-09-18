@@ -297,19 +297,14 @@ The transliteration line beneath it gives the text to set.
 Surveyed 2026-09-18: every yig chung instruction that names an incipit with
 སོགས or ནས ("from X …") was checked for a jump beside it. 46 found; 23 have
 one. Of the rest, five need nothing (syllables, a colophon, "a dedication of
-your choice"). The remaining 18 fall in three groups, each wanting one
-decision:
+your choice"). The remaining 18 fall in three groups; the first is decided, two remain:
 
-1. **The eight offering words, abbreviated ཨརྒྷཾ་ སོགས/ནས … ཤབྡ, nine times:**
-   Khrus chog 226 (twice), Rnam sras 490, Lha chen 487, Jampal Tsenjö 179,
-   Mgon po legs ldan 441, Srung ma spyi'i gtor 445, Gter srung ma'i gtor
-   bsngo 494 — and the Tsog's ཨོཾ་ཨ་ཀ་རོ་ སོགས on 170, whose full form stands
-   in the ཆ་གསུམ on 148. The full offering list stands in the Sang on 142
-   and the Trinley Nyingpo on 356. One treatment for all nine: the red
-   inline completion inside the mantra, as the Tara's ཨ་ཀཱ་རོ on 111 (key
-   page, "Completed mantra"), or a link to the full list with a return.
-   The inline form keeps the reciter in place, which is the stated
-   preference for short mantras.
+1. **The eight offering words, abbreviated ཨརྒྷཾ་ སོགས/ནས … ཤབྡ, nine times** —
+   DECIDED 2026-09-18, Peter: **out.** Not to be completed or linked. Every
+   practitioner knows them by heart and writing them out only makes the
+   text wordy. The same goes for the Tsog's ཨོཾ་ཨ་ཀ་རོ་ སོགས on 170. (The
+   Tara's ཨ་ཀཱ་རོ on 111 stays completed: there the print gives an opening
+   that is not the mantra's common form, and the completion was asked for.)
 2. **Texts that stand elsewhere in the book, link candidates:** the
    Drolchog daily version on 113 (མདུན་གྱི་ནམ་མཁར་ སོགས → the Drolchog's own
    start on 105, whose jewel was removed 2026-09-18; a labelled jewel would
