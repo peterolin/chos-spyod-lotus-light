@@ -1420,7 +1420,7 @@ The second half of G7: 449 lines exceed 400 characters. Break after every `</spa
 
 **Closed:** Broken only where whitespace already stood (a space between tags, an ASCII space after a shad on a long line); extracted text byte-identical. Longest line 1,957 → 703; the rest is Tibetan whose only breaks are en-space entities.
 
-### H1. Inline jumps — the instruction is the link (experiment, branch `inline-jump-links`)
+### H1. Inline jumps — the instruction is the link (branch `inline-jump-links`)
 
 Watching the lama read (2026-09-18) Peter saw that a fast native reader
 follows the yig chung word by word, and that a blue label arriving before the
@@ -1434,53 +1434,50 @@ mark added is the braced page at its end.
     before   ཇི་སྙེད་སུ་དག་ ༼ཡན་ལག་བདུན། བཟང་སྤྱོད། 581▸▸༽ སོགས་ཡན་ལག་བདུན་པ་དང་།
     after    ཇི་སྙེད་སུ་དག་སོགས་ཡན་ལག་བདུན་པ་དང་། ༼581▸▸༽
 
-The brace does NOT wrap the instruction: those words are the chos spyod's
-own, and the braces exist to mark what is ours. The anchor's own braces are
-suppressed and the pair rides on the page number, arrows and all.
+**The rules, as they settled.**
 
-The run itself is BLUE, like every other link. Ink was tried first and
-dropped: a reader could see neither where the link began nor, more to the
-point, where to stop reading. The run is a pointer, not something to recite,
-and the link colour says so and lets the eye skip it (Peter, 2026-09-18).
+- The brace never wraps the instruction: those words are the chos spyod's
+  own, and the braces mark what is OURS. The anchor's own braces are
+  suppressed and the pair rides on the marker at the end, arrows and all.
+- The run is BLUE like any link. Ink was tried and dropped: a reader could
+  see neither where the link began nor where to stop reading. The run is a
+  pointer, not something to recite.
+- Everything braced lives in one `.mark` — the page, and where several
+  markers stand together the prayer's name before it, so the name falls
+  inside the braces. A lone marker shows the page alone: nothing stands
+  beside it to be told apart from.
+- Where several jumps share one spot, the FIRST takes the words and the rest
+  shrink to a marker: །ཐམས་ཅད་བདག་གིས་བྱང་ཆུབ་ཕྱིར་བསྔོའོ། ༼◂◂ སེམས་བསྐྱེད་པའི་ཆོ་ག 27༽
+  ༼◂◂ གནས་བརྟན་ཕྱག་མཆོད། 57༽.
+- Where the instruction offers alternatives IN ITS OWN WORDS, each word takes
+  its own jump and no label is needed at all:
+  སྦྱོར་བ་ཡན་ལག་བདུན་པ་རྒྱས་༼581▸▸༽བསྡུས་༼583▸▸༽གང་རུང་སྔོན་དུ་སོང་བའི་རྗེས་སུ།
+- A return link works the same from the other side: its run is the passage's
+  CLOSING words, the ones the outbound instruction named as the stopping
+  point — །འདྲེན་པའི་དཔལ་དུ་བདག་གྱུར་ཅིག ། ༼◂◂105༽ — and the landing point
+  follows the link rather than sitting inside it.
+- An abbreviation is a citation only when it says where to read from. One
+  that merely says "you know this one" gets no jump, however findable the
+  full text is elsewhere (the ཨོཾ༔ ཁྱེད་ཀྱིས་སེམས་ཅན་ departure verse, withdrawn
+  2026-09-18; same reasoning as F20's offering words).
 
-**Done:** 17 citation links converted — p4 ×2, p48 ×3, p92 ×7 (the Drolchog
-cluster the lama was reading), p226, p342 ×2, p395, p557. Class token
-`inline` added beside `jumpDown`/`jumpUp`/`out`; `nav.py` and `jumps.py`
-carry it through, and an inline jump is exempt from the landmark-label check
-since its words are the instruction, not a label. One hidden page marker
-(`pp19`) became a `<span>`, XHTML forbidding an anchor inside an anchor.
+**Where it stands.** 44 inline jumps against 121 still labelled. Class token
+`inline` sits beside `jumpDown`/`jumpUp`/`out`; `nav.py` and `jumps.py` carry
+it through, and an inline jump is exempt from the landmark-label check, its
+words being the instruction rather than a label. Two hidden page markers,
+`pp19` and `pp28`, became spans, XHTML forbidding an anchor inside one.
 
-**Return links** take the same form from the other side: where a borrowed
-prayer ends, the link is its CLOSING words — the very words the outbound
-instruction named as the stopping point — with the braced page after them.
+**Done alongside, in the Tara sadhana.** The faded offerings→mandala detour on
+109–110 is removed entirely, jewels, links and all, so nothing in the book is
+faded any more; the reader reaches the mandala by reading on from the
+offerings, which is what the lama's note said. The koljang lost its
+སྐྱབས་སེམས། ཟུར་འདེབས། 340 link and its opening jewel's name, and its guru mantra
+and the ten-syllable mantra took the open repeat brace.
 
-    before   །འདྲེན་པའི་དཔལ་དུ་བདག་གྱུར་ཅིག ། ༼མཆོད་པ་བྱིན་རླབས། སྒྲོལ་ཆོག 105◂◂༽
-    after    །འདྲེན་པའི་དཔལ་དུ་བདག་གྱུར་ཅིག ། ༼◂◂105༽
-
-Eight of the sixteen return links in the running text carry the closing
-words: p92 ×3, p115 ×2, p395, p581 ×2.
-
-WHERE SEVERAL RETURNS STAND TOGETHER, only the first takes the words; the
-rest shrink to a braced marker of prayer name and page, which is all that is
-needed to tell them apart, and the label words go (Peter, 2026-09-18):
-
-    །བདེ་བར་གཤེགས་པ་ཐམས་ཅད་བདག་གིས་བསྟོད། ༼◂◂ སྐྱབས་སེམས་རྒྱས་པ། 19༽ ༼◂◂ གནས་བརྟན་ཕྱག་མཆོད། 52༽
-        ༼◂◂ སྒྲོལ་ཆོག 106༽ ༼◂◂ ཁྲུས་ཆོག 240༽
-
-So everything braced at the end of an inline jump now lives in one `.mark`,
-and the braces sit on THAT rather than on the page, so a prayer name falls
-inside them. A single return keeps the page alone, with no name: there is
-nothing to tell it apart from.
-
-Three stacks are done — p581 (four), p583 (two), p115 (two). ONE IS NOT: the
-offerings and mandala pairs on p110 both return to the same page in the same
-prayer, so two markers would read `༼110▸༽ ༼110▸༽` and the reader could not
-tell the second round from the third. Their labels stay until that is
-settled. The p115 pair also sits behind the repeat brace of the 21 praises,
-which must not fall inside a link, so its first marker carries no words.
-
-**Open:** the ~22 links that are NOT citation formulas — a link at the close
-of a recitation, or an onward link after a colophon — have no instruction to
-ride on and keep their labels; they stay where `master` moved them. Whether
-the two forms should coexist in one book, and whether the page should be set
-in Tibetan numerals here, is Peter's call after reading it on the device.
+**Open.** Whether the two forms should coexist in one book at all — the
+argument for it is that an inline jump is the book's OWN instruction made
+tappable, while a label is our addition where the book gives no instruction.
+Whether the page inside the brace should be in Tibetan numerals. Whether a
+long blue run invites stray taps in a book held during recitation. And the
+page 48 offering citation, which lost its return when the return moved to the
+third sloka and page 23.
