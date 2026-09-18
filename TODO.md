@@ -351,6 +351,26 @@ the བསྔོ་སྨོན run to སྣང་གྲགས་རིག་�
 once and let both practices link into it. Walk it with Peter first: order,
 what is optional, where the returns go. Then verify in practice.
 
+### F22. The gap after the gter tsheg ༔ is a third narrower than after a shad — a future release
+
+Measured 2026-09-18 in Monlam at 1em. After ༔ then a space, the white before
+the next letter is 0.048 (the ༔'s right bearing) + 0.274 (the space) =
+0.32em. After ། then a space then །, it is 0.114 + 0.274 + 0.045 = 0.43em
+before the second shad, and another 0.114em after it; the thin second shad
+reads as gap. So terma verses sit tighter on the line than shad-punctuated
+ones, and a Tibetan eye notices (Peter). The pecha gives the gter tsheg a
+gap like the shad's.
+
+The fix wants ~0.11em more after each ༔ — 3,385 places. Options, in order:
+(1) a `gter` class on the 295 text spans that contain ༔, with
+`word-spacing: 0.11em`; nearly exact, since almost every space in a terma
+text follows ༔; the 48 spans that also hold shads get shad gaps of 0.54em
+instead of 0.43, slightly generous. Written and checked by a small tool, as
+rails.py does. (2) A padded span on each of the 3,385 spaces: exact, but
+triples the markup in the terma texts. Not (3) a wider space character:
+Monlam has no glyph for the thin or en spaces, so they fall to another font.
+Decided 2026-09-18: not now.
+
 ### F9. Adjudicate the variants between the 3rd and 4th printing
 
 Added 2026-09-12. The newer source EPUB (`resources/…ཞལ་འདོན།.epub`, a Pages
