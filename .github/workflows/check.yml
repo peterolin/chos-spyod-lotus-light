@@ -12,12 +12,18 @@ jobs:
         with: { python-version: "3.12" }
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: "17" }
+      - name: HarfBuzz and fontTools, so check.py can shape the Tibetan with the book's font
+        run: |
+          sudo apt-get install -y libharfbuzz-bin
+          pip install fonttools
       - name: structural QA
         run: python3 tools/check.py
       - name: source layout (tools/fmt.py)
         run: python3 tools/fmt.py --check
       - name: dkar chag is regenerated (tools/dkarchag.py)
         run: python3 tools/dkarchag.py --check
+      - name: every prayer wears its rail (tools/rails.py)
+        run: python3 tools/rails.py --check
       - name: jump index is regenerated and every link opens with its landmark label (tools/jumps.py)
         run: python3 tools/jumps.py --check
       - name: navigation report (must find nothing to fix)

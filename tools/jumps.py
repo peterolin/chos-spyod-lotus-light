@@ -28,6 +28,23 @@ import re
 import sys
 from pathlib import Path
 
+RAIL_OPEN = re.compile(r'<div class="rail (hue-\w+ pat-\w+)"')
+
+RAIL_CLOSE = re.compile(r"</div>\n</div>\n</div>")
+
+
+def rail_at(text, pos):
+    """The rail classes in force at pos. A heading stands between two rails;
+    it belongs to the one that follows it."""
+    opens = [(m.start(), m.group(1)) for m in RAIL_OPEN.finditer(text)]
+    closes = [m.start() for m in RAIL_CLOSE.finditer(text)]
+    last_open = max((o for o in opens if o[0] < pos), default=None)
+    last_close = max((c for c in closes if c < pos), default=-1)
+    if last_open and last_open[0] > last_close:
+        return last_open[1]
+    nxt = min((o for o in opens if o[0] >= pos), default=None)
+    return nxt[1] if nxt else ""
+
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import nav  # noqa: E402
@@ -78,8 +95,12 @@ def collect():
                 if lm:
                     target_label = lm.group(1).strip()
             mismatch = bool(target_label) and words.split(" ")[0].rstrip("།་") != target_label.rstrip("།་") and cls != "jumpTODO"
+            rail_from = rail_at(text, m.start())
+            rail_to = rail_at(per_file[trel][0], tp[1]) if tp else ""
+            same_rail = bool(rail_to) and rail_from == rail_to and trel != rel and cls != "jumpTODO"
             rows.append(dict(file=rel, cls=cls, out=out, href=href, inner=inner, words=words, page=page,
-                             frm=frm, to=to, frag=frag, todo=(cls == "jumpTODO"), target_label=target_label, mismatch=mismatch))
+                             frm=frm, to=to, frag=frag, todo=(cls == "jumpTODO"), target_label=target_label, mismatch=mismatch,
+                             rail_from=rail_from, rail_to=rail_to, same_rail=same_rail))
     def key(r):
         p = r["page"]
         return (2, 0, r["words"]) if p == "ཟུར་ཡིག" else ((1, 0, r["words"]) if not p.isdigit() else (0, int(p), r["words"]))
@@ -125,6 +146,19 @@ def render(rows):
 '''
 
 
+def report_same_rail(rows):
+    """Jumps whose target sits in a rail identical to the one they leave —
+    a report for the editor; the reader sees no change at the edge there."""
+    bad = []
+    for r in rows:
+        if not r["same_rail"]:
+            continue
+        a, b = str(r["frm"][0] if isinstance(r["frm"], tuple) else r["frm"]).strip(), str(r["to"][0] if isinstance(r["to"], tuple) else r["to"]).strip()
+        print(f"    {r['file'].split('/')[-1]:14} “{r['words']}” {a} → {b}  both {r['rail_from']}")
+        bad.append(r)
+    return len(bad)
+
+
 def report_mismatches(rows):
     mism = [r for r in rows if r["mismatch"]]
     for r in mism:
@@ -140,10 +174,13 @@ def main(argv):
         print("jumps.htm up to date" if new == old else "jumps.htm would change")
         n = report_mismatches(rows)
         print(f"{n} links whose words differ from the target's landmark label")
+        s = report_same_rail(rows)
+        print(f"{s} jumps that land in the same rail they left (reported, not a gate)")
         return 0 if new == old and n == 0 else 1
     OUT.write_text(new, encoding="utf-8")
     print(f"wrote {OUT.name}: {len(rows)} jumps; {sum(1 for r in rows if r['mismatch'])} whose words differ from the target's landmark label")
     report_mismatches(rows)
+    print(f"{report_same_rail(rows)} jumps that land in the same rail they left (reported, not a gate)")
     return 0
 
 
