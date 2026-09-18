@@ -277,6 +277,21 @@ for a thumb. Books' own page-turn zones take the edges, so nothing of ours
 should depend on them. Not for this release; note findings here first,
 then decide what, if anything, the markup or stylesheet should do.
 
+### F19. The Lantsa title line as text — a future release, 2028 or later
+
+Noted 2026-09-18. The top line of the printed title page is the Sanskrit
+title in Lantsa (the Tibetan form of Rañjanā), reproduced today as part of
+the photograph of the first folio. Setting it as text would make it crisp at
+any size and let it take the reader's ink in Night. Two obstacles, one
+moving: Rañjanā is not in Unicode (a block is reserved at U+11500 and the
+proposal was still active in late 2025), so no Unicode text can carry it
+yet; and the one free font, Nithya Ranjana (SIL OFL,
+https://github.com/EkType/Nithya-Ranjana), follows the Newar calligraphic
+form rather than the wider Tibetan Lantsa hand, so a reader who knows Lantsa
+would see the accent. Revisit when Rañjanā is encoded and a Tibetan-style
+Lantsa font exists under a free licence; until then the photograph stands.
+The transliteration line beneath it gives the text to set.
+
 ### F9. Adjudicate the variants between the 3rd and 4th printing
 
 Added 2026-09-12. The newer source EPUB (`resources/…ཞལ་འདོན།.epub`, a Pages
