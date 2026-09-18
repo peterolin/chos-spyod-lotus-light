@@ -1208,15 +1208,20 @@ a.ipnpx, span.ipnpx {
 /** The expansion of a line the printed book abbreviates. The source already
     carries the printed ༴ before it; the brackets mark where the editor's
     expansion begins and ends. **/
+/** SPACING (Peter, build 23 of the inline branch). The opening brace stood
+    hard against the printed ༴ it follows, so it takes 2px of air on its left.
+    And the gap INSIDE the pair came down a quarter, from 0.22em to 0.165em:
+    the expansion is one phrase and the braces should hold it, not frame it. **/
 .repeatNextOcc:before {
   content: "\0F3C";
-  padding-right: 0.22em;
+  margin-left: 2px;
+  padding-right: 0.165em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
 .repeatNextOcc:after {
   content: "\0F3D";
-  padding-left: 0.22em;
+  padding-left: 0.165em;
   color: var(--repeat);
   -webkit-text-fill-color: var(--repeat);
 }
