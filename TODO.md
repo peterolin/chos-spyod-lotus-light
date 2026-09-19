@@ -1485,3 +1485,33 @@ the jump markers at least).
 
 **Open.** Whether a long blue run invites stray taps in a book held during
 recitation — the thing to watch on the device.
+
+### H2. A meditation timer in the Drolchog (branch `inline-jump-links`)
+
+Where the text says ཅེས་གནས་ལུགས་ཀྱི་ལྟ་བ་བསྐྱང་། — rest in the view — three numerals
+now stand in braces: ༼༥༽ ༼༡༠༽ ༼༡༥༽. Tap one and the book goes quiet; the
+numeral keeps the landing mark's amber so the reader can see a sitting is
+running. When the time is up the whole screen inverts, on and off for ten
+seconds or until the reader touches it. Tapping the numeral again before then
+puts the sitting down.
+
+Built to the constraints the book already knows:
+
+- **A link, not a button.** Books hands taps on form controls to its page
+  turner; the dkar chag switch is a link for the same reason.
+- **No CSS animation.** Books paints one frame and then the end state, so the
+  blink is a class going on and off from the script.
+- **The moment lives in localStorage**, not in a timeout, so the signal
+  survives a page turn into another document — every document runs the script
+  — and arrives late rather than never if the system stops the clock while
+  the screen sleeps. A moment more than half an hour past is another day's
+  sitting and is dropped silently.
+- **Hidden where scripts do not run** (`.needsjs`), like the switch, so no
+  reader is shown a control that does nothing.
+- **Tibetan numerals here**, unlike a page number: these count nothing in the
+  printed pecha.
+
+**Open:** whether `filter: invert(1)` on the root reaches the page in Books —
+the ground on the body is a second signal in case it does not. And whether
+ten seconds of blinking is the right length, and this the right place, or
+whether other sitting points want one too.

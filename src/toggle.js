@@ -299,3 +299,100 @@
     start();
   }
 })();
+
+/* THE MEDITATION TIMER.
+ *
+ * Where the Drolchog says ཅེས་གནས་ལུགས་ཀྱི་ལྟ་བ་བསྐྱང་། — rest in the view — the reader
+ * may tap ༥, ༡༠ or ༡༥ and sit for that many minutes. Nothing happens in the
+ * meantime: the numeral takes the landing mark's amber and the book is
+ * silent. When the time is up the whole screen inverts, on and off, for ten
+ * seconds or until the reader touches it. Tapping the numeral again before
+ * then puts the sitting down.
+ *
+ * The end of it is a CLASS GOING ON AND OFF, not a CSS animation: Apple Books
+ * paints one frame of an animation and then its end state (see THE LANDING
+ * MARK in the stylesheet), so nothing that repeats can be left to CSS.
+ *
+ * The moment to wake at lives in localStorage rather than in a timeout, so
+ * the signal survives a page turn into another document — every document runs
+ * this — and arrives late rather than not at all if the reading system stops
+ * the clock while the screen sleeps. A moment more than half an hour past is
+ * a sitting from another day and is dropped without a sound.
+ */
+(function () {
+  var KEY = 'chosspyod.sit';
+  var root = document.documentElement;
+  var blink = null, flips = 0, quietedAt = 0;
+
+  function get() {
+    try { return (localStorage.getItem(KEY) || '').split('|'); } catch (e) { return []; }
+  }
+  function set(at, mins) {
+    try { if (at) { localStorage.setItem(KEY, at + '|' + mins); } else { localStorage.removeItem(KEY); } } catch (e) {}
+  }
+  function flag(on) {
+    var rest = root.className.replace(/(^|\s)timesup(?=\s|$)/g, '').replace(/^\s+/, '');
+    root.className = on ? (rest ? rest + ' ' : '') + 'timesup' : rest;
+  }
+  function marks() {
+    var out = [], a = document.getElementsByTagName('a');
+    for (var i = 0; i < a.length; i++) {
+      if (/(^|\s)mt(\s|$)/.test(a[i].className || '')) out.push(a[i]);
+    }
+    return out;
+  }
+  function showArmed(mins) {
+    var m = marks();
+    for (var i = 0; i < m.length; i++) {
+      var c = m[i].className.replace(/(^|\s)mt-on(?=\s|$)/g, '').replace(/^\s+/, '');
+      m[i].className = (mins && m[i].id === 'mt' + mins) ? c + ' mt-on' : c;
+    }
+  }
+  function quiet() {
+    if (!blink) { return; }
+    clearInterval(blink); blink = null; flips = 0; quietedAt = Date.now();
+    flag(false);
+  }
+  function ring() {
+    if (blink) { return; }
+    flips = 0; flag(true);
+    blink = setInterval(function () {
+      flips++;
+      if (flips > 20) { quiet(); return; }    /* ten seconds, then let the reader be */
+      flag(flips % 2 === 0);
+    }, 500);
+  }
+  function check() {
+    var v = get();
+    if (!v[0]) { return; }
+    var at = +v[0], now = Date.now();
+    if (now < at) { showArmed(v[1]); return; }
+    set(0); showArmed(0);
+    if (now - at < 1800000) { ring(); }       /* older than that: another day's sitting */
+  }
+  function wire() {
+    var m = marks();
+    if (!m.length) { return; }
+    var host = m[0].parentNode;
+    if (host) { host.className = host.className.replace(/(^|\s)needsjs(?=\s|$)/g, ''); }
+    for (var i = 0; i < m.length; i++) {
+      (function (el) {
+        el.onclick = function (ev) {
+          if (ev && ev.preventDefault) { ev.preventDefault(); }
+          if (Date.now() - quietedAt < 600) { return false; }   /* that tap stopped the signal */
+          if (get()[0]) { set(0); showArmed(0); return false; } /* tap again to put it down */
+          var mins = el.id.replace(/\D+/g, '');
+          set(Date.now() + (+mins) * 60000, mins);
+          showArmed(mins);
+          return false;
+        };
+      })(m[i]);
+    }
+    check();
+  }
+  document.addEventListener('click', function () { quiet(); }, true);
+  setInterval(check, 1000);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wire, false);
+  } else { wire(); }
+})();

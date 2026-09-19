@@ -266,6 +266,44 @@
 .prefs.needsjs { display: none; }
 .prefs .switch { color: revert; text-decoration: none; }
 
+/** THE MEDITATION TIMER (Peter, 2026-09-19). Three lengths of silence offered
+    where the text says ཅེས་གནས་ལུགས་ཀྱི་ལྟ་བ་བསྐྱང་། — rest in the view. Tapping one
+    shows nothing but a quiet mark on the numeral: the book then waits, and
+    when the time is up the whole screen inverts, on and off, until the
+    reader touches it.
+
+    The blink is driven from the script, not by a CSS animation. Books paints
+    ONE frame of an animation and then its end state (see THE LANDING MARK),
+    so anything that has to repeat is a class going on and off.
+
+    A LINK, not a button: Books hands taps on form controls to its own page
+    turner, which is why the dkar chag switch is a link too. Where scripts do
+    not run the row stays hidden, and the page reads as it always did.
+
+    The numerals are Tibetan here. Unlike a page number, which matches the
+    Arabic figures of the printed pecha, these count nothing in the book. **/
+.mtimer.needsjs { display: none; }
+.mtimer { white-space: nowrap; }
+.mtimer .mt {
+  color: revert;
+  text-decoration: none;
+  font-size: 0.8em;
+  margin-left: 0.55em;
+}
+.mtimer .mt:before { content: "\0F3C"; padding-right: 0.15em; }
+.mtimer .mt:after  { content: "\0F3D"; padding-left: 0.15em; }
+/** Sitting: the numeral keeps the landing mark's amber, the one colour in
+    the book that already means "this, now". **/
+.mtimer .mt.mt-on { background: #FFE08A; border-radius: 0.3em; }
+/** Time up. The filter inverts everything the reader can see; the ground on
+    the body is a second signal for a system that ignores a filter on the
+    root, and inverts with it where one is applied. **/
+html.timesup { filter: invert(1); }
+html.timesup body { background: #B8860B; }
+@media (prefers-color-scheme: dark) {
+  .mtimer .mt.mt-on { background: #6B5200; }
+}
+
 /** THE ENGLISH PAGES (key, acknowledgements). Two things went wrong on iPad
     (build 198): Books applies its own full justification to text that
     declares no alignment, and on a page of English prose that opened gaps
