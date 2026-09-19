@@ -358,6 +358,30 @@
     /* a sine, so it eases at both ends and leaves the page unmarked at t=0 */
     bright((1 + Math.sin(t / CYCLE * 2 * Math.PI)).toFixed(3));
   }
+  function marks() {
+    var out = [], a = document.getElementsByTagName('a');
+    for (var i = 0; i < a.length; i++) {
+      if (/(^|\s)mt(\s|$)/.test(a[i].className || '')) { out.push(a[i]); }
+    }
+    return out;
+  }
+  function showArmed(key) {
+    var m = marks();
+    for (var i = 0; i < m.length; i++) {
+      var c = m[i].className.replace(/(^|\s)mt-on(?=\s|$)/g, '').replace(/^\s+/, '');
+      m[i].className = (key && m[i].id === 'mt' + key) ? c + ' mt-on' : c;
+    }
+  }
+  function quiet() {
+    if (!blink) { return; }
+    clearInterval(blink); blink = null; quietedAt = Date.now();
+    flag(false);
+  }
+  function ring() {
+    if (blink) { return; }
+    flag(true);
+    blink = setInterval(step, 40);
+  }
   function check() {
     var v = get();
     if (!v[0]) { return; }
