@@ -358,12 +358,18 @@
      the root, which reaches nothing in a book that declares no ground of its
      own; build 38 put a sine wash in custom properties, which had never been
      shown to work here either. */
-  /* Nine seconds a breath, four of them, forty-eight tones. CAP is a whole
+  /* Nine seconds a breath, four of them, ninety-six tones. CAP is a whole
      number of CYCLEs on purpose, so the breath ends where it began, on the
      dark, rather than being cut off part-way up. The store is read four times
-     a second; the tones are painted twenty, from a separate interval that runs
-     only while the breath does. */
-  var CYCLE = 9000, CAP = 4 * CYCLE, TONES = 48, TICK = 250, FRAME = 50, STALE = 1800000;
+     a second; the tones are painted thirty, from a separate interval that runs
+     only while the breath does — fast enough that no frame skips a tone.
+
+     TONES, DARK, LIGHT and SIT must agree with the generated rules in the
+     stylesheet; SITTONE is the pause's own colour expressed as a tone, and it
+     is where the breath begins, so the ground does not jump when the words go. */
+  var CYCLE = 9000, CAP = 4 * CYCLE, TONES = 96, TICK = 250, FRAME = 33, STALE = 1800000;
+  var DARK = 0x0A, LIGHT = 0xFF, SIT = 0x3A, EASE = 2200;
+  var SITTONE = Math.round((SIT - DARK) / (LIGHT - DARK) * (TONES - 1));
   var OURS = /(^|\s)(sitting|br\d+)(?=\s|$)/g;
   var shown = null, quietedAt = 0, ringFrom = 0, blink = null;
 
@@ -406,8 +412,12 @@
     var t = Date.now() - ringFrom;
     if (t < 0 || t > CAP) { done(); return; }
     /* 1 - cos rises from 0, so each breath begins and ends on the dark */
-    var f = (1 - Math.cos(t / CYCLE * 2 * Math.PI)) / 2;
-    paint('br' + Math.round(f * (TONES - 1)));
+    var n = (1 - Math.cos(t / CYCLE * 2 * Math.PI)) / 2 * (TONES - 1);
+    /* The first breath EASES out of the pause's own tone rather than dropping
+       to the dark under the reader. The words go at once — that is the
+       announcement — but the ground travels there over a couple of seconds. */
+    if (t < EASE) { n = SITTONE + (n - SITTONE) * (t / EASE); }
+    paint('br' + Math.round(n));
   }
   function startBreath(from) {
     ringFrom = from;
