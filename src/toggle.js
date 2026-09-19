@@ -485,17 +485,8 @@
       })(m[i]);
     }
   }
-  /* NIGHT PROBE, dev only: patch 3 is the one mechanism that cannot be
-     written in the stylesheet — an inline background with priority
-     'important', which outranks any rule a reading system injects. */
-  function probe() {
-    var e = document.getElementsByClassName('pb3');
-    for (var i = 0; i < e.length; i++) {
-      e[i].style.setProperty('background-color', '#C0392B', 'important');
-    }
-  }
   setInterval(check, TICK);
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { wire(); probe(); check(); }, false);
-  } else { wire(); probe(); check(); }
+    document.addEventListener('DOMContentLoaded', function () { wire(); check(); }, false);
+  } else { wire(); check(); }
 })();
