@@ -298,6 +298,35 @@
     being the ordinary case. **/
 .mtimer .mtunit { font-size: 0.7em; padding-left: 0.2em; }
 .mtimer .mt.mt-on { background: #FFE08A; border-radius: 0.3em; }
+/** NIGHT PROBE — DEV ONLY, comes out before this branch is merged.
+    Nine patches, nine ways of putting the SAME red on the page. The book's
+    platform note says Night repaints element TEXT and nothing stops it, and
+    that it respects opacity; it does not say whether a BACKGROUND survives,
+    and the whole time-up signal now turns on that one fact. Measured with a
+    probe in the book rather than guessed, which is how the rest of that note
+    was arrived at.
+
+      1  background-color, plain          6  border (known to survive — control)
+      2  background-color !important      7  opacity on text (note says survives)
+      3  inline background-color with     8  generated content, colour declared
+         priority 'important' (toggle.js)    ON the pseudo-element
+      4  background-image, a flat         9  plain text colour (known to be
+         linear-gradient                     repainted — the other control)
+      5  box-shadow, inset and huge
+ **/
+.probe { display: block; margin: 0.7em 0; white-space: nowrap; font-family: -apple-system, Helvetica, sans-serif; font-size: 0.75em; }
+.probe i { display: inline-block; width: 2.4em; height: 1.6em; line-height: 1.6em; text-align: center; margin-right: 0.35em; vertical-align: middle; font-style: normal; color: #FFF; }
+.pb1 { background-color: #C0392B; }
+.pb2 { background-color: #C0392B !important; }
+.pb3 { }
+.pb4 { background-image: linear-gradient(#C0392B, #C0392B); }
+.pb5 { box-shadow: inset 0 0 0 99px #C0392B; }
+.pb6 { width: 0.8em; border: 0.4em solid #C0392B; }
+.pb7 { opacity: 0.25; color: #000; }
+.pb8 { width: 2.4em; }
+.pb8:after { content: "\2588\2588"; color: #C0392B; }
+.pb9 { color: #C0392B; }
+
 /** THE PAUSE, THE FADE, AND THE BREATH.
 
     Built on the one thing in this book proved to paint on the device: a class
