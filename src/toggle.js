@@ -340,19 +340,24 @@
 
   /* THE PAUSE, AND THE BREATH ON TOP OF IT.
 
-     While the sitting runs the page is flatly dark and the words recede: the
-     signal is not an alarm at the end, it IS the pause, which is why it cannot
-     be missed. At the mark the dark does not snap off — it breathes, swelling
-     to near-white and subsiding every six seconds, for as long as thirty or
-     until the reader touches it, and then the book is back.
+     The two states say different things, and they say them by LEGIBILITY.
+     While the sitting runs the page dims to a quiet dark but the words stay
+     READABLE — a sitting is running, and the reader can still see where they
+     are. At the mark ink and ground become the SAME COLOUR: the words are
+     simply gone, and the whole page swells to white and subsides as one
+     surface, every nine seconds, four breaths or until the reader touches it,
+     and then the book is back.
+
+     So the mark between them is a real step — legible, then not — and that
+     step IS the announcement. It is why the end of a sitting cannot be missed
+     even at the darkest moment of the breath.
 
      Stepped from here by swapping which class is on, because that — a class
      mapping to a flat opaque colour — is the only thing in this book ever
      proved to paint on the device (build 39). Builds 34 and 37 put a filter on
      the root, which reaches nothing in a book that declares no ground of its
      own; build 38 put a sine wash in custom properties, which had never been
-     shown to work here either. The breath begins at br0, the pause's own dark,
-     so there is no jump into it. */
+     shown to work here either. */
   /* Nine seconds a breath, four of them, forty-eight tones. CAP is a whole
      number of CYCLEs on purpose, so the breath ends where it began, on the
      dark, rather than being cut off part-way up. The store is read four times
@@ -400,7 +405,7 @@
   function breathe() {
     var t = Date.now() - ringFrom;
     if (t < 0 || t > CAP) { done(); return; }
-    /* 1 - cos rises from 0, so the breath starts on the pause's own dark */
+    /* 1 - cos rises from 0, so each breath begins and ends on the dark */
     var f = (1 - Math.cos(t / CYCLE * 2 * Math.PI)) / 2;
     paint('br' + Math.round(f * (TONES - 1)));
   }
