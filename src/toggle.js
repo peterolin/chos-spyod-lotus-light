@@ -367,10 +367,11 @@
      TONES, DARK, LIGHT and SIT must agree with the generated rules in the
      stylesheet; SITTONE is the pause's own colour expressed as a tone, and it
      is where the breath begins, so the ground does not jump when the words go. */
-  var CYCLE = 9000, CAP = 4 * CYCLE, TONES = 96, TICK = 250, FRAME = 33, STALE = 1800000;
+  var CYCLE = 9000, FADE = 2600, FADES = 48, CAP = FADE + 4 * CYCLE;
+  var TONES = 96, TICK = 250, FRAME = 33, STALE = 1800000;
   var DARK = 0x0A, LIGHT = 0xFF, SIT = 0x3A, EASE = 2200;
   var SITTONE = Math.round((SIT - DARK) / (LIGHT - DARK) * (TONES - 1));
-  var OURS = /(^|\s)(sitting|br\d+)(?=\s|$)/g;
+  var OURS = /(^|\s)(sitting|fd\d+|br\d+)(?=\s|$)/g;
   var shown = null, quietedAt = 0, ringFrom = 0, blink = null;
 
   function put(el, cls) {
@@ -411,12 +412,22 @@
   function breathe() {
     var t = Date.now() - ringFrom;
     if (t < 0 || t > CAP) { done(); return; }
-    /* 1 - cos rises from 0, so each breath begins and ends on the dark */
-    var n = (1 - Math.cos(t / CYCLE * 2 * Math.PI)) / 2 * (TONES - 1);
-    /* The first breath EASES out of the pause's own tone rather than dropping
-       to the dark under the reader. The words go at once — that is the
-       announcement — but the ground travels there over a couple of seconds. */
-    if (t < EASE) { n = SITTONE + (n - SITTONE) * (t / EASE); }
+    /* FIRST THE INK WALKS AWAY. The ground holds at the pause's own colour
+       while the words dissolve into it — switching them off was too abrupt
+       (Peter, build 43). Eased at both ends, so it neither starts nor stops
+       with a jerk. Only when the page is one flat surface does it breathe. */
+    if (t < FADE) {
+      var e = (1 - Math.cos(Math.PI * (t / FADE))) / 2;
+      paint('fd' + Math.round(e * (FADES - 1)));
+      return;
+    }
+    /* THEN THE GROUND MOVES. 1 - cos rises from 0, so each breath begins and
+       ends on the dark; and the first one eases out of SITTONE — the pause's
+       colour, where the fade left the page — rather than dropping to the dark
+       under the reader. */
+    var b = t - FADE;
+    var n = (1 - Math.cos(b / CYCLE * 2 * Math.PI)) / 2 * (TONES - 1);
+    if (b < EASE) { n = SITTONE + (n - SITTONE) * (b / EASE); }
     paint('br' + Math.round(n));
   }
   function startBreath(from) {
