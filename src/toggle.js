@@ -341,11 +341,11 @@
     }
     return out;
   }
-  function showArmed(mins) {
+  function showArmed(key) {
     var m = marks();
     for (var i = 0; i < m.length; i++) {
       var c = m[i].className.replace(/(^|\s)mt-on(?=\s|$)/g, '').replace(/^\s+/, '');
-      m[i].className = (mins && m[i].id === 'mt' + mins) ? c + ' mt-on' : c;
+      m[i].className = (key && m[i].id === 'mt' + key) ? c + ' mt-on' : c;
     }
   }
   function quiet() {
@@ -381,9 +381,11 @@
           if (ev && ev.preventDefault) { ev.preventDefault(); }
           if (Date.now() - quietedAt < 600) { return false; }   /* that tap stopped the signal */
           if (get()[0]) { set(0); showArmed(0); return false; } /* tap again to put it down */
-          var mins = el.id.replace(/\D+/g, '');
-          set(Date.now() + (+mins) * 60000, mins);
-          showArmed(mins);
+          /* mt5 is five MINUTES; mts15 is fifteen SECONDS, there to test the
+             end of it without sitting for five minutes first. */
+          var key = el.id.slice(2), num = +key.replace(/\D+/g, '');
+          set(Date.now() + num * (key.charAt(0) === 's' ? 1000 : 60000), key);
+          showArmed(key);
           return false;
         };
       })(m[i]);

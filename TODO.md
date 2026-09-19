@@ -1511,6 +1511,11 @@ Built to the constraints the book already knows:
 - **Tibetan numerals here**, unlike a page number: these count nothing in the
   printed pecha.
 
+A fourth control, ༼༡༥ སྐར་ཆ།༽, counts FIFTEEN SECONDS rather than minutes, so
+the end of it can be seen without sitting first. It is there to test with and
+comes out when the blink is settled. Check the word སྐར་ཆ། — it is mine, not
+the book's, and the three minute controls name no unit at all.
+
 **Open:** whether `filter: invert(1)` on the root reaches the page in Books —
 the ground on the body is a second signal in case it does not. And whether
 ten seconds of blinking is the right length, and this the right place, or

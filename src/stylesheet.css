@@ -294,6 +294,9 @@
 .mtimer .mt:after  { content: "\0F3D"; padding-left: 0.15em; }
 /** Sitting: the numeral keeps the landing mark's amber, the one colour in
     the book that already means "this, now". **/
+/** The seconds control names its unit; the three minute ones do not,
+    being the ordinary case. **/
+.mtimer .mtunit { font-size: 0.7em; padding-left: 0.2em; }
 .mtimer .mt.mt-on { background: #FFE08A; border-radius: 0.3em; }
 /** Time up. The filter inverts everything the reader can see; the ground on
     the body is a second signal for a system that ignores a filter on the
