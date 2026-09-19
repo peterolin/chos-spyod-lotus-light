@@ -298,15 +298,10 @@
     being the ordinary case. **/
 .mtimer .mtunit { font-size: 0.7em; padding-left: 0.2em; }
 .mtimer .mt.mt-on { background: #FFE08A; border-radius: 0.3em; }
-/** Time up. The filter inverts everything the reader can see; the ground on
-    the body is a second signal for a system that ignores a filter on the
-    root, and inverts with it where one is applied. **/
-html.timesup { filter: invert(1); }
-body.timesup, div.text.timesup {
-  background: #B8860B;
-  color: #1A1206;
-  -webkit-text-fill-color: #1A1206;
-}
+/** Time up: no rule here. The signal is a brightness filter on the root,
+    stepped from toggle.js so the page fades to white, to black and back over
+    six seconds — see THE SIGNAL there. A CSS animation cannot do it: Books
+    paints one frame and then the end state. **/
 @media (prefers-color-scheme: dark) {
   .mtimer .mt.mt-on { background: #6B5200; }
 }

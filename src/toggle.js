@@ -322,7 +322,7 @@
 (function () {
   var KEY = 'chosspyod.sit';
   var root = document.documentElement;
-  var blink = null, flips = 0, quietedAt = 0;
+  var blink = null, quietedAt = 0;
 
   function get() {
     try { return (localStorage.getItem(KEY) || '').split('|'); } catch (e) { return []; }
@@ -330,51 +330,33 @@
   function set(at, mins) {
     try { if (at) { localStorage.setItem(KEY, at + '|' + mins); } else { localStorage.removeItem(KEY); } } catch (e) {}
   }
-  /* The signal goes on the <html>, the <body> AND every .text block. A filter
-     on the root is the loudest of the three where a reading system honours
-     it, and where one does not the ground on the block that actually holds
-     the text still paints — that block is the one the reader is looking at
-     (build 34 showed nothing at all with the root alone). */
-  function put(el, on) {
-    if (!el) { return; }
-    var rest = (el.className || '').replace(/(^|\s)timesup(?=\s|$)/g, '').replace(/^\s+/, '');
-    el.className = on ? (rest ? rest + ' ' : '') + 'timesup' : rest;
+  /* THE SIGNAL. The whole book fades away and comes back: a slow breath from
+     its own page to white, to black, and home again, over six seconds, for as
+     long as thirty or until the reader touches it. Soft, and the size of the
+     screen.
+
+     It is one filter on the root, stepped from here. Books paints one frame
+     of a CSS animation and then its end state (see THE LANDING MARK), so
+     nothing that has to move can be left to CSS; and brightness is the one
+     parameter that carries the whole idea — ink and page darken together to
+     black, then wash together to white, so the text fades OUT rather than
+     being covered over. Build 35 proved a filter on the root does reach the
+     page in Books: the amber ground came back blue through an invert. */
+  var CYCLE = 6000, CAP = 30000, startedAt = 0;
+
+  function bright(v) {
+    var f = (v === null) ? '' : 'brightness(' + v + ')';
+    root.style.webkitFilter = f;
+    root.style.filter = f;
   }
   function flag(on) {
-    put(root, on);
-    put(document.body, on);
-    var d = document.getElementsByTagName('div');
-    for (var i = 0; i < d.length; i++) {
-      if (/(^|\s)text(\s|$)/.test(d[i].className || '')) { put(d[i], on); }
-    }
+    if (on) { startedAt = Date.now(); } else { bright(null); }
   }
-  function marks() {
-    var out = [], a = document.getElementsByTagName('a');
-    for (var i = 0; i < a.length; i++) {
-      if (/(^|\s)mt(\s|$)/.test(a[i].className || '')) out.push(a[i]);
-    }
-    return out;
-  }
-  function showArmed(key) {
-    var m = marks();
-    for (var i = 0; i < m.length; i++) {
-      var c = m[i].className.replace(/(^|\s)mt-on(?=\s|$)/g, '').replace(/^\s+/, '');
-      m[i].className = (key && m[i].id === 'mt' + key) ? c + ' mt-on' : c;
-    }
-  }
-  function quiet() {
-    if (!blink) { return; }
-    clearInterval(blink); blink = null; flips = 0; quietedAt = Date.now();
-    flag(false);
-  }
-  function ring() {
-    if (blink) { return; }
-    flips = 0; flag(true);
-    blink = setInterval(function () {
-      flips++;
-      if (flips > 20) { quiet(); return; }    /* ten seconds, then let the reader be */
-      flag(flips % 2 === 0);
-    }, 500);
+  function step() {
+    var t = Date.now() - startedAt;
+    if (t > CAP) { quiet(); return; }
+    /* a sine, so it eases at both ends and leaves the page unmarked at t=0 */
+    bright((1 + Math.sin(t / CYCLE * 2 * Math.PI)).toFixed(3));
   }
   function check() {
     var v = get();

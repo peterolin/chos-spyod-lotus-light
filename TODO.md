@@ -1516,7 +1516,17 @@ the end of it can be seen without sitting first. It is there to test with and
 comes out when the blink is settled. Check the word སྐར་ཆ། — it is mine, not
 the book's, and the three minute controls name no unit at all.
 
-**Open:** whether `filter: invert(1)` on the root reaches the page in Books —
-the ground on the body is a second signal in case it does not. And whether
-ten seconds of blinking is the right length, and this the right place, or
-whether other sitting points want one too.
+**The signal** is a brightness filter on the root, stepped from the script at
+25 frames a second along a sine: the whole book breathes out to white, down
+to black and home again every six seconds, for as long as thirty or until the
+reader touches it. Ink and page move together, so the text fades OUT rather
+than being covered over, and the page is unmarked at the first frame and the
+last. A filter on the root does reach the page in Books — build 35 proved it,
+the amber ground coming back blue through an invert — and a CSS animation
+cannot do it, since Books paints one frame and then the end state.
+
+An amber flash came first (build 35) and was dropped: it read as an alarm
+rather than as the end of a sitting (Peter: soft, but grand).
+
+**Open:** whether six seconds a breath and thirty in all are the right
+lengths, and whether other sitting points in the book want a timer too.
