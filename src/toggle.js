@@ -323,32 +323,44 @@
   var KEY = 'chosspyod.sit';
   var root = document.documentElement;
 
-  function get() {
-    try { return (localStorage.getItem(KEY) || '').split('|'); } catch (e) { return []; }
+  /* The sitting lives in localStorage, not in a timeout, so it survives a page
+     turn into another document — every document runs this — and arrives late
+     rather than not at all if the reading system stops the clock while the
+     screen sleeps. Two forms:
+        "<moment>|<key>"  a sitting running until <moment>
+        "R<moment>"       the breath, begun at <moment>
+     A sitting more than half an hour past is another day's and is dropped
+     without a sound. */
+  function raw() {
+    try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; }
   }
-  function set(at, mins) {
-    try { if (at) { localStorage.setItem(KEY, at + '|' + mins); } else { localStorage.removeItem(KEY); } } catch (e) {}
+  function store(v) {
+    try { if (v) { localStorage.setItem(KEY, v); } else { localStorage.removeItem(KEY); } } catch (e) {}
   }
 
-  /* THE PAUSE. Crude on purpose, and this is the baseline: while the sitting
-     runs, the page goes flatly dark and the words recede; when the time is up
-     the paint comes off and the book is back, ready to go on. The signal is
-     not an alarm at the end — it IS the pause, which is why it cannot be
-     missed: it is there the whole time you are sitting.
+  /* THE PAUSE, AND THE BREATH ON TOP OF IT.
 
-     Everything subtle was tried first and none of it was ever seen: a filter
-     on the root twice (builds 34, 37), then a sine wash carried as an alpha in
-     custom properties (build 38). This book declares no ground and no ink —
-     the reader's theme owns them (.tibnormal) — so there is nothing of ours
-     beneath a filter, and build 38 added var() on top of a paint that had
-     still never been proved. So: one flat opaque colour, no filter, no custom
-     property, no animation. Prove it paints, then add back what is worth it. */
-  var painted = false;
+     While the sitting runs the page is flatly dark and the words recede: the
+     signal is not an alarm at the end, it IS the pause, which is why it cannot
+     be missed. At the mark the dark does not snap off — it breathes, swelling
+     to near-white and subsiding every six seconds, for as long as thirty or
+     until the reader touches it, and then the book is back.
 
-  function put(el, on) {
+     Stepped from here by swapping which class is on, because that — a class
+     mapping to a flat opaque colour — is the only thing in this book ever
+     proved to paint on the device (build 39). Builds 34 and 37 put a filter on
+     the root, which reaches nothing in a book that declares no ground of its
+     own; build 38 put a sine wash in custom properties, which had never been
+     shown to work here either. The breath begins at br0, the pause's own dark,
+     so there is no jump into it. */
+  var CYCLE = 6000, CAP = 30000, TONES = 12, TICK = 250, STALE = 1800000;
+  var OURS = /(^|\s)(sitting|br\d+)(?=\s|$)/g;
+  var shown = null, quietedAt = 0;
+
+  function put(el, cls) {
     if (!el) { return; }
-    var rest = (el.className || '').replace(/(^|\s)timesup(?=\s|$)/g, '').replace(/^\s+/, '');
-    el.className = on ? (rest ? rest + ' ' : '') + 'timesup' : rest;
+    var rest = (el.className || '').replace(OURS, ' ').replace(/\s+/g, ' ').replace(/^ | $/g, '');
+    el.className = cls ? (rest ? rest + ' ' + cls : cls) : rest;
   }
   /* The ground goes on the block that actually holds the text — that is the
      one the reader is looking at — and on the body and root besides. */
@@ -359,12 +371,12 @@
     }
     return out;
   }
-  function paint(on) {
-    if (on === painted) { return; }
-    painted = on;
-    put(root, on);
+  function paint(cls) {
+    if (cls === shown) { return; }
+    shown = cls;
+    put(root, cls);
     var b = blocks();
-    for (var i = 0; i < b.length; i++) { put(b[i], on); }
+    for (var i = 0; i < b.length; i++) { put(b[i], cls); }
   }
   function marks() {
     var out = [], a = document.getElementsByTagName('a');
@@ -380,15 +392,32 @@
       m[i].className = (key && m[i].id === 'mt' + key) ? c + ' mt-on' : c;
     }
   }
-  /* Runs on every document, on load and every second after, so the pause
-     follows the reader through a page turn and lifts wherever they are. */
+  function done() { store(''); showArmed(0); paint(null); }
+  /* Runs on every document, on load and four times a second after, so the
+     pause and the breath follow the reader through a page turn and lift
+     wherever they are. */
   function check() {
-    var v = get();
-    if (!v[0]) { paint(false); showArmed(0); return; }
-    var at = +v[0], now = Date.now();
-    if (now < at) { showArmed(v[1]); paint(true); return; }
-    set(0); showArmed(0); paint(false);
+    var v = raw(), now = Date.now();
+    if (!v) { paint(null); showArmed(0); return; }
+    if (v.charAt(0) === 'R') {
+      var t = now - +v.slice(1);
+      if (t < 0 || t > CAP) { done(); return; }
+      /* 1 - cos rises from 0, so the breath starts on the pause's own dark */
+      var f = (1 - Math.cos(t / CYCLE * 2 * Math.PI)) / 2;
+      showArmed(0);
+      paint('br' + Math.round(f * (TONES - 1)));
+      return;
+    }
+    var p = v.split('|'), at = +p[0];
+    if (now < at) { showArmed(p[1]); paint('sitting'); return; }
+    if (now - at > STALE) { done(); return; }   /* another day's sitting */
+    store('R' + now); showArmed(0); paint('br0');
   }
+  /* A touch anywhere puts the breath down — including the tap that turns a
+     page, which is the reader saying they have seen it. */
+  document.addEventListener('click', function () {
+    if (raw().charAt(0) === 'R') { quietedAt = Date.now(); done(); }
+  }, true);
   function wire() {
     var m = marks();
     if (!m.length) { return; }
@@ -398,20 +427,21 @@
       (function (el) {
         el.onclick = function (ev) {
           if (ev && ev.preventDefault) { ev.preventDefault(); }
-          if (get()[0]) { set(0); check(); return false; }   /* tap again to put it down */
+          if (Date.now() - quietedAt < 600) { return false; }  /* that tap put the breath down */
+          if (raw()) { done(); return false; }                 /* tap again to put it down */
           /* mt5 is five MINUTES; mts11 is eleven SECONDS, there to test the
              thing without sitting for five minutes first. Eleven, because no
              minute control reads a Tibetan eleven and the old one read 15,
              right next to the 15-minute control. */
           var key = el.id.slice(2), num = +key.replace(/\D+/g, '');
-          set(Date.now() + num * (key.charAt(0) === 's' ? 1000 : 60000), key);
+          store((Date.now() + num * (key.charAt(0) === 's' ? 1000 : 60000)) + '|' + key);
           check();
           return false;
         };
       })(m[i]);
     }
   }
-  setInterval(check, 1000);
+  setInterval(check, TICK);
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () { wire(); check(); }, false);
   } else { wire(); check(); }

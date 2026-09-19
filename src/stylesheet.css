@@ -298,21 +298,115 @@
     being the ordinary case. **/
 .mtimer .mtunit { font-size: 0.7em; padding-left: 0.2em; }
 .mtimer .mt.mt-on { background: #FFE08A; border-radius: 0.3em; }
-/** THE PAUSE — the baseline, and deliberately crude. While the sitting runs
-    the page is flatly dark and the words recede; at the mark the paint comes
-    off and the book is back. No filter, no custom property, no animation:
-    a filter on the root paints nothing here because this book declares no
-    ground and no ink of its own (see .tibnormal), and builds 34, 37 and 38
-    each failed by resting on something unproved. One opaque colour, on the
-    block that holds the text. !important reaches the links, marks and jewels
-    that carry their own ink, so the whole page goes quiet together. **/
-html.timesup, body.timesup, .timesup.text {
+/** THE PAUSE AND THE BREATH.
+
+    Built on the one thing in this book proved to paint (build 39): a class
+    name on the block that holds the text, mapping to a flat opaque colour.
+    Nothing else. No filter — a filter on the root reaches nothing here,
+    because this book declares no ground and no ink of its own and the reader's
+    theme owns them (see .tibnormal); that cost builds 34 and 37. No custom
+    property — that was build 38's untested dependency and it has still never
+    been shown to work here. No CSS animation — Books paints one frame and then
+    the end state.
+
+    So the breath is stepped by the SCRIPT swapping which class is on, through
+    twelve flat tones from the pause's dark up to near-white and back down.
+    Twelve, because the only new thing being asked of the reading system is
+    that it repaint a class change at all; once that is known, the tones can be
+    made finer or the stepping smoother.
+
+    .sitting  — the pause. Flat dark, all the while the sitting runs.
+    .br0..brN — the breath. The end of the sitting, swelling and subsiding
+                every six seconds for as long as thirty or until touched.
+                br0 IS the pause's own dark, so the breath begins where the
+                pause left off and there is no jump into it.
+
+    !important throughout, to reach the links, marks and jewels that carry
+    their own ink, so the whole page goes quiet together and the text fades
+    OUT rather than being covered over. **/
+html.sitting, body.sitting, .sitting.text {
   background-color: #2E2E2E !important;
 }
-.timesup.text, .timesup.text * {
+.sitting.text, .sitting.text * {
   color: #6E6E6E !important;
   -webkit-text-fill-color: #6E6E6E !important;
   border-color: #4A4A4A !important;
+}
+
+/** The twelve tones of the breath. Generated, evenly spaced from the pause's
+    dark to near-white; the ink rides just off the ground so the words are a
+    ghost of themselves throughout and never a thing to read. **/
+html.br0, body.br0, .br0.text { background-color: #2E2E2E !important; }
+.br0.text, .br0.text * {
+  color: #4C4C4C !important;
+  -webkit-text-fill-color: #4C4C4C !important;
+  border-color: #404040 !important;
+}
+html.br1, body.br1, .br1.text { background-color: #3F3F3F !important; }
+.br1.text, .br1.text * {
+  color: #5D5D5D !important;
+  -webkit-text-fill-color: #5D5D5D !important;
+  border-color: #515151 !important;
+}
+html.br2, body.br2, .br2.text { background-color: #515151 !important; }
+.br2.text, .br2.text * {
+  color: #6F6F6F !important;
+  -webkit-text-fill-color: #6F6F6F !important;
+  border-color: #636363 !important;
+}
+html.br3, body.br3, .br3.text { background-color: #626262 !important; }
+.br3.text, .br3.text * {
+  color: #808080 !important;
+  -webkit-text-fill-color: #808080 !important;
+  border-color: #747474 !important;
+}
+html.br4, body.br4, .br4.text { background-color: #737373 !important; }
+.br4.text, .br4.text * {
+  color: #919191 !important;
+  -webkit-text-fill-color: #919191 !important;
+  border-color: #858585 !important;
+}
+html.br5, body.br5, .br5.text { background-color: #858585 !important; }
+.br5.text, .br5.text * {
+  color: #A3A3A3 !important;
+  -webkit-text-fill-color: #A3A3A3 !important;
+  border-color: #979797 !important;
+}
+html.br6, body.br6, .br6.text { background-color: #969696 !important; }
+.br6.text, .br6.text * {
+  color: #787878 !important;
+  -webkit-text-fill-color: #787878 !important;
+  border-color: #848484 !important;
+}
+html.br7, body.br7, .br7.text { background-color: #A8A8A8 !important; }
+.br7.text, .br7.text * {
+  color: #8A8A8A !important;
+  -webkit-text-fill-color: #8A8A8A !important;
+  border-color: #969696 !important;
+}
+html.br8, body.br8, .br8.text { background-color: #B9B9B9 !important; }
+.br8.text, .br8.text * {
+  color: #9B9B9B !important;
+  -webkit-text-fill-color: #9B9B9B !important;
+  border-color: #A7A7A7 !important;
+}
+html.br9, body.br9, .br9.text { background-color: #CACACA !important; }
+.br9.text, .br9.text * {
+  color: #ACACAC !important;
+  -webkit-text-fill-color: #ACACAC !important;
+  border-color: #B8B8B8 !important;
+}
+html.br10, body.br10, .br10.text { background-color: #DCDCDC !important; }
+.br10.text, .br10.text * {
+  color: #BEBEBE !important;
+  -webkit-text-fill-color: #BEBEBE !important;
+  border-color: #CACACA !important;
+}
+html.br11, body.br11, .br11.text { background-color: #EDEDED !important; }
+.br11.text, .br11.text * {
+  color: #CFCFCF !important;
+  -webkit-text-fill-color: #CFCFCF !important;
+  border-color: #DBDBDB !important;
 }
 @media (prefers-color-scheme: dark) {
   .mtimer .mt.mt-on { background: #6B5200; }
