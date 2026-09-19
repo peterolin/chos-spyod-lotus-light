@@ -322,7 +322,6 @@
 (function () {
   var KEY = 'chosspyod.sit';
   var root = document.documentElement;
-  var blink = null, quietedAt = 0;
 
   function get() {
     try { return (localStorage.getItem(KEY) || '').split('|'); } catch (e) { return []; }
@@ -330,29 +329,21 @@
   function set(at, mins) {
     try { if (at) { localStorage.setItem(KEY, at + '|' + mins); } else { localStorage.removeItem(KEY); } } catch (e) {}
   }
-  /* THE SIGNAL. The whole book fades away and comes back: a slow breath from
-     its own page to white, to black, and home again, over six seconds, for as
-     long as thirty or until the reader touches it. Soft, and the size of the
-     screen.
 
-     It has to PAINT. A filter on the root was tried twice and showed nothing
-     both times (builds 34 and 37), for a reason that is written into the book:
-     this book declares no ground and no ink — the reader's theme owns them
-     (see .tibnormal in the stylesheet) — so there is nothing of ours under the
-     filter for it to act on, and the page the reader sees is the reading
-     system's own surface. What build 35 really proved is the opposite of what
-     I recorded: the invert had something to flip only because a ground had
-     just been painted on the .text block.
+  /* THE PAUSE. Crude on purpose, and this is the baseline: while the sitting
+     runs, the page goes flatly dark and the words recede; when the time is up
+     the paint comes off and the book is back, ready to go on. The signal is
+     not an alarm at the end — it IS the pause, which is why it cannot be
+     missed: it is there the whole time you are sitting.
 
-     So the tone rides as an ALPHA over whatever the theme paints, in the two
-     custom properties --tsb (ground) and --tsc (ink), stepped from here at
-     25 frames a second. Books paints one frame of a CSS animation and then its
-     end state (see THE LANDING MARK), so nothing that moves can be left to CSS.
-     v runs 0 to 2: 1 is the reader's own page, 2 is white, 0 is black. Ground
-     and ink carry the same tone, so the text fades OUT rather than being
-     covered over, and at v = 1 the paint comes off altogether and the page is
-     the reader's again, unmarked. */
-  var CYCLE = 6000, CAP = 30000, startedAt = 0, painted = false;
+     Everything subtle was tried first and none of it was ever seen: a filter
+     on the root twice (builds 34, 37), then a sine wash carried as an alpha in
+     custom properties (build 38). This book declares no ground and no ink —
+     the reader's theme owns them (.tibnormal) — so there is nothing of ours
+     beneath a filter, and build 38 added var() on top of a paint that had
+     still never been proved. So: one flat opaque colour, no filter, no custom
+     property, no animation. Prove it paints, then add back what is worth it. */
+  var painted = false;
 
   function put(el, on) {
     if (!el) { return; }
@@ -368,33 +359,12 @@
     }
     return out;
   }
-  function setPaint(on) {
+  function paint(on) {
     if (on === painted) { return; }
     painted = on;
     put(root, on);
     var b = blocks();
     for (var i = 0; i < b.length; i++) { put(b[i], on); }
-  }
-  function wash(v) {
-    var a = Math.abs(v - 1);
-    if (a < 0.02) { setPaint(false); return; }   /* home: the reader's own page */
-    var t = (v > 1) ? '255,255,255' : '0,0,0';
-    var c = 'rgba(' + t + ',' + a.toFixed(3) + ')';
-    root.style.setProperty('--tsb', c);
-    root.style.setProperty('--tsc', c);
-    setPaint(true);
-  }
-  function flag(on) {
-    if (on) { startedAt = Date.now(); wash(1); return; }
-    setPaint(false);
-    root.style.removeProperty('--tsb');
-    root.style.removeProperty('--tsc');
-  }
-  function step() {
-    var t = Date.now() - startedAt;
-    if (t > CAP) { quiet(); return; }
-    /* a sine, so it eases at both ends and leaves the page unmarked at t=0 */
-    wash(1 + Math.sin(t / CYCLE * 2 * Math.PI));
   }
   function marks() {
     var out = [], a = document.getElementsByTagName('a');
@@ -410,23 +380,14 @@
       m[i].className = (key && m[i].id === 'mt' + key) ? c + ' mt-on' : c;
     }
   }
-  function quiet() {
-    if (!blink) { return; }
-    clearInterval(blink); blink = null; quietedAt = Date.now();
-    flag(false);
-  }
-  function ring() {
-    if (blink) { return; }
-    flag(true);
-    blink = setInterval(step, 40);
-  }
+  /* Runs on every document, on load and every second after, so the pause
+     follows the reader through a page turn and lifts wherever they are. */
   function check() {
     var v = get();
-    if (!v[0]) { return; }
+    if (!v[0]) { paint(false); showArmed(0); return; }
     var at = +v[0], now = Date.now();
-    if (now < at) { showArmed(v[1]); return; }
-    set(0); showArmed(0);
-    if (now - at < 1800000) { ring(); }       /* older than that: another day's sitting */
+    if (now < at) { showArmed(v[1]); paint(true); return; }
+    set(0); showArmed(0); paint(false);
   }
   function wire() {
     var m = marks();
@@ -437,23 +398,21 @@
       (function (el) {
         el.onclick = function (ev) {
           if (ev && ev.preventDefault) { ev.preventDefault(); }
-          if (Date.now() - quietedAt < 600) { return false; }   /* that tap stopped the signal */
-          if (get()[0]) { set(0); showArmed(0); return false; } /* tap again to put it down */
+          if (get()[0]) { set(0); check(); return false; }   /* tap again to put it down */
           /* mt5 is five MINUTES; mts11 is eleven SECONDS, there to test the
-             end of it without sitting for five minutes first. Eleven, because
-             no minute control reads ༡༡ and the old ༡༥ sat next to ༼༡༥༽. */
+             thing without sitting for five minutes first. Eleven, because no
+             minute control reads a Tibetan eleven and the old one read 15,
+             right next to the 15-minute control. */
           var key = el.id.slice(2), num = +key.replace(/\D+/g, '');
           set(Date.now() + num * (key.charAt(0) === 's' ? 1000 : 60000), key);
-          showArmed(key);
+          check();
           return false;
         };
       })(m[i]);
     }
-    check();
   }
-  document.addEventListener('click', function () { quiet(); }, true);
   setInterval(check, 1000);
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', wire, false);
-  } else { wire(); }
+    document.addEventListener('DOMContentLoaded', function () { wire(); check(); }, false);
+  } else { wire(); check(); }
 })();

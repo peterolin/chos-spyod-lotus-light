@@ -298,23 +298,21 @@
     being the ordinary case. **/
 .mtimer .mtunit { font-size: 0.7em; padding-left: 0.2em; }
 .mtimer .mt.mt-on { background: #FFE08A; border-radius: 0.3em; }
-/** TIME UP. The page washes to white, down to black and home again over six
-    seconds. The tone rides as an ALPHA in --tsb (ground) and --tsc (ink),
-    stepped from toggle.js — see THE SIGNAL there — so it lies OVER whatever
-    ground the reader's theme paints and this book goes on declaring no colour
-    of its own. A filter on the root paints nothing here for exactly that
-    reason: there is nothing of ours beneath it (builds 34 and 37).
-    The ground goes on the block that holds the text, which is the one the
-    reader is looking at. !important reaches the links, marks and jewels that
-    carry their own ink, so the whole page moves together and the text fades
-    OUT rather than being covered over. Both properties come off at the top of
-    the breath, so at rest the page is the reader's, untouched. **/
+/** THE PAUSE — the baseline, and deliberately crude. While the sitting runs
+    the page is flatly dark and the words recede; at the mark the paint comes
+    off and the book is back. No filter, no custom property, no animation:
+    a filter on the root paints nothing here because this book declares no
+    ground and no ink of its own (see .tibnormal), and builds 34, 37 and 38
+    each failed by resting on something unproved. One opaque colour, on the
+    block that holds the text. !important reaches the links, marks and jewels
+    that carry their own ink, so the whole page goes quiet together. **/
 html.timesup, body.timesup, .timesup.text {
-  background-color: var(--tsb) !important;
+  background-color: #2E2E2E !important;
 }
 .timesup.text, .timesup.text * {
-  color: var(--tsc) !important;
-  -webkit-text-fill-color: var(--tsc) !important;
+  color: #6E6E6E !important;
+  -webkit-text-fill-color: #6E6E6E !important;
+  border-color: #4A4A4A !important;
 }
 @media (prefers-color-scheme: dark) {
   .mtimer .mt.mt-on { background: #6B5200; }
