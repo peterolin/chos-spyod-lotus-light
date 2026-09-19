@@ -1511,22 +1511,45 @@ Built to the constraints the book already knows:
 - **Tibetan numerals here**, unlike a page number: these count nothing in the
   printed pecha.
 
-A fourth control, ༼༡༥ སྐར་ཆ།༽, counts FIFTEEN SECONDS rather than minutes, so
+A fourth control, ༼༡༡ སྐར་ཆ།༽, counts ELEVEN SECONDS rather than minutes, so
 the end of it can be seen without sitting first. It is there to test with and
-comes out when the blink is settled. Check the word སྐར་ཆ། — it is mine, not
+comes out when the signal is settled. ELEVEN because it first read ༡༥ and sat
+immediately beside ༼༡༥༽, the fifteen-MINUTE control: that is how a fifteen-minute
+sitting got armed by accident and the amber stayed on through page turns
+(build 37). No minute control reads ༡༡. Check the word སྐར་ཆ། — it is mine, not
 the book's, and the three minute controls name no unit at all.
 
-**The signal** is a brightness filter on the root, stepped from the script at
-25 frames a second along a sine: the whole book breathes out to white, down
-to black and home again every six seconds, for as long as thirty or until the
-reader touches it. Ink and page move together, so the text fades OUT rather
-than being covered over, and the page is unmarked at the first frame and the
-last. A filter on the root does reach the page in Books — build 35 proved it,
-the amber ground coming back blue through an invert — and a CSS animation
-cannot do it, since Books paints one frame and then the end state.
+**THE SIGNAL — BASELINE, build 39, tag `pause-baseline`.** The signal is not an
+alarm at the end. It IS the pause: while the sitting runs the page is flatly
+dark (`#2E2E2E`) and the words recede to a dim grey; at the mark the paint
+comes off and the book is back. It cannot be missed, because it is there the
+whole time you are sitting rather than for a moment at the end. One opaque
+colour on the block that holds the text, plus body and root, with `!important`
+so it reaches the links, marks and jewels that carry their own ink. No filter,
+no custom property, no animation, no stepped frames.
 
-An amber flash came first (build 35) and was dropped: it read as an alarm
-rather than as the end of a sitting (Peter: soft, but grand).
+**Why so crude — three builds were lost to the same mistake.** Builds 34, 37
+and 38 each showed NOTHING, and each rested on something never proved:
 
-**Open:** whether six seconds a breath and thirty in all are the right
-lengths, and whether other sitting points in the book want a timer too.
+- A filter on the root (34, 37). **It cannot work in this book**, and the
+  reason is written into the book: this book declares no ground and no ink —
+  the reader's theme owns them (`.tibnormal`: "No colour: the reader's theme
+  owns body text") — so there is nothing of ours beneath the filter, and the
+  page the reader sees is the reading system's own surface.
+- A sine wash carried as an alpha in custom properties (38) — subtlety piled
+  on a paint that had still never been seen.
+- **Build 35 was misread, and that misreading cost the other two.** It was
+  recorded as proof that a filter on the root reaches the page in Books. It
+  proved no such thing: the invert had something to flip only because a ground
+  had just been painted on the `.text` block. The ground was then taken away
+  and the conclusion kept.
+
+Peter's rule, and the way to work here: **get the crude effect infallibly
+first, then add subtleties on top of a baseline that is known to paint.**
+
+**Open:** the breath — six seconds out to white, down to black and home, for
+as long as thirty — was the intended signal and is still unbuilt. It can now
+be put back ON TOP of this baseline, one step at a time, testing that each
+step still paints. Also open: whether the flat dark wants to be softer or a
+different colour, whether the pause should also dim the ༼༡༡ སྐར་ཆ།༽ row itself,
+and whether other sitting points in the book want a timer too.
