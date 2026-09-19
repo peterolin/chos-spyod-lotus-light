@@ -330,9 +330,23 @@
   function set(at, mins) {
     try { if (at) { localStorage.setItem(KEY, at + '|' + mins); } else { localStorage.removeItem(KEY); } } catch (e) {}
   }
+  /* The signal goes on the <html>, the <body> AND every .text block. A filter
+     on the root is the loudest of the three where a reading system honours
+     it, and where one does not the ground on the block that actually holds
+     the text still paints — that block is the one the reader is looking at
+     (build 34 showed nothing at all with the root alone). */
+  function put(el, on) {
+    if (!el) { return; }
+    var rest = (el.className || '').replace(/(^|\s)timesup(?=\s|$)/g, '').replace(/^\s+/, '');
+    el.className = on ? (rest ? rest + ' ' : '') + 'timesup' : rest;
+  }
   function flag(on) {
-    var rest = root.className.replace(/(^|\s)timesup(?=\s|$)/g, '').replace(/^\s+/, '');
-    root.className = on ? (rest ? rest + ' ' : '') + 'timesup' : rest;
+    put(root, on);
+    put(document.body, on);
+    var d = document.getElementsByTagName('div');
+    for (var i = 0; i < d.length; i++) {
+      if (/(^|\s)text(\s|$)/.test(d[i].className || '')) { put(d[i], on); }
+    }
   }
   function marks() {
     var out = [], a = document.getElementsByTagName('a');
