@@ -353,9 +353,14 @@
      own; build 38 put a sine wash in custom properties, which had never been
      shown to work here either. The breath begins at br0, the pause's own dark,
      so there is no jump into it. */
-  var CYCLE = 6000, CAP = 30000, TONES = 12, TICK = 250, STALE = 1800000;
+  /* Nine seconds a breath, four of them, forty-eight tones. CAP is a whole
+     number of CYCLEs on purpose, so the breath ends where it began, on the
+     dark, rather than being cut off part-way up. The store is read four times
+     a second; the tones are painted twenty, from a separate interval that runs
+     only while the breath does. */
+  var CYCLE = 9000, CAP = 4 * CYCLE, TONES = 48, TICK = 250, FRAME = 50, STALE = 1800000;
   var OURS = /(^|\s)(sitting|br\d+)(?=\s|$)/g;
-  var shown = null, quietedAt = 0;
+  var shown = null, quietedAt = 0, ringFrom = 0, blink = null;
 
   function put(el, cls) {
     if (!el) { return; }
@@ -392,26 +397,39 @@
       m[i].className = (key && m[i].id === 'mt' + key) ? c + ' mt-on' : c;
     }
   }
-  function done() { store(''); showArmed(0); paint(null); }
+  function breathe() {
+    var t = Date.now() - ringFrom;
+    if (t < 0 || t > CAP) { done(); return; }
+    /* 1 - cos rises from 0, so the breath starts on the pause's own dark */
+    var f = (1 - Math.cos(t / CYCLE * 2 * Math.PI)) / 2;
+    paint('br' + Math.round(f * (TONES - 1)));
+  }
+  function startBreath(from) {
+    ringFrom = from;
+    if (!blink) { blink = setInterval(breathe, FRAME); }
+    breathe();
+  }
+  function stopBreath() {
+    if (blink) { clearInterval(blink); blink = null; }
+    ringFrom = 0;
+  }
+  function done() { stopBreath(); store(''); showArmed(0); paint(null); }
   /* Runs on every document, on load and four times a second after, so the
      pause and the breath follow the reader through a page turn and lift
      wherever they are. */
   function check() {
     var v = raw(), now = Date.now();
-    if (!v) { paint(null); showArmed(0); return; }
+    if (!v) { stopBreath(); paint(null); showArmed(0); return; }
     if (v.charAt(0) === 'R') {
-      var t = now - +v.slice(1);
-      if (t < 0 || t > CAP) { done(); return; }
-      /* 1 - cos rises from 0, so the breath starts on the pause's own dark */
-      var f = (1 - Math.cos(t / CYCLE * 2 * Math.PI)) / 2;
-      showArmed(0);
-      paint('br' + Math.round(f * (TONES - 1)));
+      var from = +v.slice(1);
+      if (now - from > CAP) { done(); return; }
+      showArmed(0); startBreath(from);
       return;
     }
     var p = v.split('|'), at = +p[0];
-    if (now < at) { showArmed(p[1]); paint('sitting'); return; }
+    if (now < at) { stopBreath(); showArmed(p[1]); paint('sitting'); return; }
     if (now - at > STALE) { done(); return; }   /* another day's sitting */
-    store('R' + now); showArmed(0); paint('br0');
+    store('R' + now); showArmed(0); startBreath(now);
   }
   /* A touch anywhere puts the breath down — including the tap that turns a
      page, which is the reader saying they have seen it. */
