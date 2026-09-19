@@ -335,28 +335,66 @@
      long as thirty or until the reader touches it. Soft, and the size of the
      screen.
 
-     It is one filter on the root, stepped from here. Books paints one frame
-     of a CSS animation and then its end state (see THE LANDING MARK), so
-     nothing that has to move can be left to CSS; and brightness is the one
-     parameter that carries the whole idea — ink and page darken together to
-     black, then wash together to white, so the text fades OUT rather than
-     being covered over. Build 35 proved a filter on the root does reach the
-     page in Books: the amber ground came back blue through an invert. */
-  var CYCLE = 6000, CAP = 30000, startedAt = 0;
+     It has to PAINT. A filter on the root was tried twice and showed nothing
+     both times (builds 34 and 37), for a reason that is written into the book:
+     this book declares no ground and no ink — the reader's theme owns them
+     (see .tibnormal in the stylesheet) — so there is nothing of ours under the
+     filter for it to act on, and the page the reader sees is the reading
+     system's own surface. What build 35 really proved is the opposite of what
+     I recorded: the invert had something to flip only because a ground had
+     just been painted on the .text block.
 
-  function bright(v) {
-    var f = (v === null) ? '' : 'brightness(' + v + ')';
-    root.style.webkitFilter = f;
-    root.style.filter = f;
+     So the tone rides as an ALPHA over whatever the theme paints, in the two
+     custom properties --tsb (ground) and --tsc (ink), stepped from here at
+     25 frames a second. Books paints one frame of a CSS animation and then its
+     end state (see THE LANDING MARK), so nothing that moves can be left to CSS.
+     v runs 0 to 2: 1 is the reader's own page, 2 is white, 0 is black. Ground
+     and ink carry the same tone, so the text fades OUT rather than being
+     covered over, and at v = 1 the paint comes off altogether and the page is
+     the reader's again, unmarked. */
+  var CYCLE = 6000, CAP = 30000, startedAt = 0, painted = false;
+
+  function put(el, on) {
+    if (!el) { return; }
+    var rest = (el.className || '').replace(/(^|\s)timesup(?=\s|$)/g, '').replace(/^\s+/, '');
+    el.className = on ? (rest ? rest + ' ' : '') + 'timesup' : rest;
+  }
+  /* The ground goes on the block that actually holds the text — that is the
+     one the reader is looking at — and on the body and root besides. */
+  function blocks() {
+    var out = [document.body], d = document.getElementsByTagName('div');
+    for (var i = 0; i < d.length; i++) {
+      if (/(^|\s)text(\s|$)/.test(d[i].className || '')) { out.push(d[i]); }
+    }
+    return out;
+  }
+  function setPaint(on) {
+    if (on === painted) { return; }
+    painted = on;
+    put(root, on);
+    var b = blocks();
+    for (var i = 0; i < b.length; i++) { put(b[i], on); }
+  }
+  function wash(v) {
+    var a = Math.abs(v - 1);
+    if (a < 0.02) { setPaint(false); return; }   /* home: the reader's own page */
+    var t = (v > 1) ? '255,255,255' : '0,0,0';
+    var c = 'rgba(' + t + ',' + a.toFixed(3) + ')';
+    root.style.setProperty('--tsb', c);
+    root.style.setProperty('--tsc', c);
+    setPaint(true);
   }
   function flag(on) {
-    if (on) { startedAt = Date.now(); } else { bright(null); }
+    if (on) { startedAt = Date.now(); wash(1); return; }
+    setPaint(false);
+    root.style.removeProperty('--tsb');
+    root.style.removeProperty('--tsc');
   }
   function step() {
     var t = Date.now() - startedAt;
     if (t > CAP) { quiet(); return; }
     /* a sine, so it eases at both ends and leaves the page unmarked at t=0 */
-    bright((1 + Math.sin(t / CYCLE * 2 * Math.PI)).toFixed(3));
+    wash(1 + Math.sin(t / CYCLE * 2 * Math.PI));
   }
   function marks() {
     var out = [], a = document.getElementsByTagName('a');
@@ -401,8 +439,9 @@
           if (ev && ev.preventDefault) { ev.preventDefault(); }
           if (Date.now() - quietedAt < 600) { return false; }   /* that tap stopped the signal */
           if (get()[0]) { set(0); showArmed(0); return false; } /* tap again to put it down */
-          /* mt5 is five MINUTES; mts15 is fifteen SECONDS, there to test the
-             end of it without sitting for five minutes first. */
+          /* mt5 is five MINUTES; mts11 is eleven SECONDS, there to test the
+             end of it without sitting for five minutes first. Eleven, because
+             no minute control reads ༡༡ and the old ༡༥ sat next to ༼༡༥༽. */
           var key = el.id.slice(2), num = +key.replace(/\D+/g, '');
           set(Date.now() + num * (key.charAt(0) === 's' ? 1000 : 60000), key);
           showArmed(key);
