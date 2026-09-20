@@ -13,3 +13,8 @@ __pycache__/
 
 # the pecha PDF (65 MB) — reference only, converted text lives in resources/pecha-unicode/
 resources/*.pdf
+
+# The Ngondro proof text and everything drawn out of it. The source PDF is
+# marked DO NOT SHARE and this repository has a public remote, so the
+# extracted streams stay out of it too.
+resources/ngondro-proof/
