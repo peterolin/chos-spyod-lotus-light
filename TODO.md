@@ -1553,3 +1553,37 @@ be put back ON TOP of this baseline, one step at a time, testing that each
 step still paints. Also open: whether the flat dark wants to be softer or a
 different colour, whether the pause should also dim the ༼༡༡ སྐར་ཆ།༽ row itself,
 and whether other sitting points in the book want a timer too.
+
+### H3. `namo_manjushriye` — the prostration mantra, for placing in the Tārā sadhana
+
+**It is already in the book.** `src/OPS/p624-744.htm`, printed page **662**,
+in the run of aspirations near the end. It stands immediately after
+`དཀོན་མཆོག་གསུམ་ལ་ཕྱག་འཚལ་ལོ།` and is followed by the yig chung
+`ཞེས་བརྗོད་ནས་ཕྱག་གསུམ་འཚལ…` — "having said this, prostrate three times",
+which is what the mantra is for: it multiplies the merit of prostration.
+
+Verbatim, as the book has it:
+
+    ན་མོ་མཉྫུ་ཤྲི་ཡེ། ན་མོ་སུ་ཤྲི་ཡེ། ན་མོ་ཨུཏྟ་མ་ཤྲི་ཡེ་སྭཱ་ཧཱ།
+
+**When Peter says where in the Tārā sadhana it goes, copy those characters
+exactly.** Do not retype them and do not take them from a photograph; the
+short `ཤྲི` is the point (see below), and it is easy to lose.
+
+**The orthography, settled 2026-09-20.** `ཤྲཱི` with the a-chung is right
+where *śrī* stands on its own — `ཨོཾ་ཤྲཱི་བཛྲ་ཀུ`, `ཨོཾ་ཤྲཱི་མ་ཧཱ་ཀཱ`,
+`ཤྲཱི་སིཾ`, `ཨོཾ་ཤྲཱི་དྷརྨ་པཱ`. It is WRONG in the oblique: *śriye* is the
+dative, and the ī shortens before that ending. The book already keeps the two
+apart without exception — `མཉྫུ་ཤྲི་ཡེ`, `ས་མ་ཡ་ཤྲི་ཡེ`, `ཨུཏྟ་མ་ཤྲི་ཡེ`,
+`ཙིཏྟཾ་ཤྲི་ཡཾ`, all short — and the pecha agrees (`ཙིཏྟཾ་ཤྲི་ཡཾ` 21×,
+`ས་མ་ཡ་ཤྲི་ཡེ` 10×).
+
+**A scan Peter supplied reads differently** — a visarga on each homage
+(`ན་མོཿ`, then `ན་མཿ` twice) and `སྭཱ་ཧཱ` closing all three rather than one
+at the end. The book's own form was preferred, so the book does not
+contradict itself. The scan's reading is recorded here in case it is ever
+wanted.
+
+**A zur yig section was built for this on 2026-09-20 and reverted the same
+day** (commits 720a488 and its revert): the zur yig is for prayers NOT in the
+printed chos spyod, and this one is in it.
