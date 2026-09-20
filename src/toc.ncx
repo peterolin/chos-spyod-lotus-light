@@ -796,44 +796,50 @@
         </navLabel>
         <content src="OPS/zur-yig.htm#TOC_AliKali"/>
       </navPoint>
-      <navPoint id="num_tsogdus" playOrder="131">
+      <navPoint id="num_ngak" playOrder="131">
+        <navLabel>
+          <text>སྔགས།</text>
+        </navLabel>
+        <content src="OPS/zur-yig.htm#TOC_Ngak"/>
+      </navPoint>
+      <navPoint id="num_tsogdus" playOrder="132">
         <navLabel>
           <text>ཚོགས་བསྡུས།</text>
         </navLabel>
         <content src="OPS/zur-yig.htm#TOC_TsogDus"/>
       </navPoint>
-      <navPoint id="num_120c" playOrder="132">
+      <navPoint id="num_120c" playOrder="133">
         <navLabel>
           <text>ཞབས་རྟེན།</text>
         </navLabel>
         <content src="OPS/zur-yig.htm#shabten"/>
       </navPoint>
     </navPoint>
-    <navPoint id="front_3" playOrder="133">
+    <navPoint id="front_3" playOrder="134">
       <navLabel>
         <text>How to read this book</text>
       </navLabel>
       <content src="key.xhtml"/>
     </navPoint>
-    <navPoint id="mchan" playOrder="134">
+    <navPoint id="mchan" playOrder="135">
       <navLabel>
         <text>࿙ Annotations</text>
       </navLabel>
       <content src="mchan.htm"/>
     </navPoint>
-    <navPoint id="jewels" playOrder="135">
+    <navPoint id="jewels" playOrder="136">
       <navLabel>
         <text>༼࿉༽ Jewel Jumps</text>
       </navLabel>
       <content src="jewels.htm"/>
     </navPoint>
-    <navPoint id="jumps" playOrder="136">
+    <navPoint id="jumps" playOrder="137">
       <navLabel>
         <text>༼▸༽ Jump Index</text>
       </navLabel>
       <content src="jumps.htm"/>
     </navPoint>
-    <navPoint id="front_2" playOrder="137">
+    <navPoint id="front_2" playOrder="138">
       <navLabel>
         <text>པར་བྱང་། Colophon</text>
       </navLabel>
